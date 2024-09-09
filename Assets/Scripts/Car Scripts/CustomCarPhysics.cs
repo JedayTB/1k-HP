@@ -63,11 +63,6 @@ public class CustomCarPhysics : MonoBehaviour
 
     }
 
-    void Start()
-    {
-        Init();
-    }
-
     void Update()
     {
         _playerInput.x = Input.GetAxisRaw("Horizontal");
