@@ -52,8 +52,8 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private float _rotationAngleTimeToZero = 0.5f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
-    [SerializeField] private float _frontTiresRotationAngle;
-    [SerializeField] private float _backTiresRotationAngle;
+    public float frontTiresRotationAngle;
+    public float backTiresRotationAngle;
     public void Init()
     {
 
@@ -125,10 +125,10 @@ public class CustomCarPhysics : MonoBehaviour
                 _durationOfAngleTiming += Time.fixedDeltaTime;
                 _elapsedTime = _durationOfAngleTiming / _rotationAngleTimeToZero;
 
-                _frontTiresRotationAngle = Mathf.Lerp(_frontTiresRotationAngle, 0, _elapsedTime);
+                frontTiresRotationAngle = Mathf.Lerp(frontTiresRotationAngle, 0, _elapsedTime);
 
 
-                tireRotation.y = _frontTiresRotationAngle;
+                tireRotation.y = frontTiresRotationAngle;
 
                 Tire.localRotation = Quaternion.Euler(tireRotation);
             }
@@ -136,7 +136,7 @@ public class CustomCarPhysics : MonoBehaviour
             {
                 _durationOfAngleTiming = 0;
 
-                _frontTiresRotationAngle += _playerInput.x * _turnSpeed;
+                frontTiresRotationAngle += _playerInput.x * _turnSpeed;
 
                 /*
                 if (Mathf.Abs(_frontTiresRotationAngle) > 360)
@@ -145,7 +145,7 @@ public class CustomCarPhysics : MonoBehaviour
                 }
                 */
 
-                tireRotation.y = _frontTiresRotationAngle;
+                tireRotation.y = frontTiresRotationAngle;
 
                 Tire.localRotation = Quaternion.Euler(tireRotation);
             }
