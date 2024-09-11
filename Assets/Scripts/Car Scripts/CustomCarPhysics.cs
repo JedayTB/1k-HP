@@ -4,6 +4,7 @@ using UnityEngine;
 public class CustomCarPhysics : MonoBehaviour
 {
     [SerializeField] private Vector2 _playerInput;
+    [SerializeField] private bool aesthetic = false;
     private Transform _transform;
 
     [Header("Basic Setup")]
@@ -58,15 +59,19 @@ public class CustomCarPhysics : MonoBehaviour
     {
 
         _carRigidBody = GetComponent<Rigidbody>();
-        
+
         _transform = transform;
 
     }
 
     void Update()
     {
-        _playerInput.x = Input.GetAxisRaw("Horizontal");
-        _playerInput.y = Input.GetAxisRaw("Vertical");
+        if (!aesthetic)
+        {
+            _playerInput.x = Input.GetAxisRaw("Horizontal");
+            _playerInput.y = Input.GetAxisRaw("Vertical");
+        }
+
     }
 
 
