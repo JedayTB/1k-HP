@@ -1,4 +1,7 @@
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal.Internal;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
@@ -10,9 +13,23 @@ public class CustomCarPhysics : MonoBehaviour
     [Header("Basic Setup")]
     [SerializeField] private Transform[] Tires;
     [SerializeField] private LayerMask _groundLayers;
+    [SerializeField] private bool debugRaycasts = true;
     [SerializeField] private float _tireRaycastDistance = 0.1f;
     [SerializeField] private Rigidbody _carRigidBody;
+    RaycastHit[] _tireGroundHits;
+    RaycastHit[] _antiGravHits;
 
+    //Anti-Gravity 
+    
+    [Header("Anti-gravity setup")]
+    private const float GravityForce = 9.8f;
+    [SerializeField] private bool _useAntiGravity = true;
+    [SerializeField] private bool _debugAntiGravRaycasts = true;
+    [SerializeField] private LayerMask _antiGravityGeometry;
+    [SerializeField] Vector3[] _antiGravityDirections;
+    
+
+    //Accelerations
 
     [Header("Acceleration Setup")]
     [Tooltip("Top speed of the car")]
@@ -23,6 +40,7 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private AnimationCurve torqueCurve;
     [SerializeField] private bool _frontWheelDrive = true;
 
+    //suspension
 
     [Header("Suspension Setup")]
 
@@ -33,8 +51,7 @@ public class CustomCarPhysics : MonoBehaviour
     [Tooltip("Distance in unity units the springs rest below the tire")]
     [SerializeField] private float _springRestDistance;
 
-    //Spring calculations
-    //force = (springOffset * springStrength) - (springVelocity * springDamping)
+    //Steering
 
     [Header("Steering Setup")]
     //Steering
@@ -47,8 +64,6 @@ public class CustomCarPhysics : MonoBehaviour
 
     [Tooltip("Determines If the Back wheels steer the car. If front and back true, all wheels turn. NOTE back wheels are the last two elements of the Tires array.")]
     [SerializeField] private bool _backWheelSteer = false;
-
-    [SerializeField] private float _maxTireRotation = 35f;
     [SerializeField] private float _turnSpeed = 10f;
     [SerializeField] private float _rotationAngleTimeToZero = 0.5f;
     private float _durationOfAngleTiming;
@@ -61,6 +76,12 @@ public class CustomCarPhysics : MonoBehaviour
         _carRigidBody = GetComponent<Rigidbody>();
 
         _transform = transform;
+        _carRigidBody.useGravity = !_useAntiGravity;
+
+        _tireGroundHits = new RaycastHit[Tires.Length];
+        _antiGravHits = new RaycastHit[Tires.Length];
+        _antiGravityDirections = new Vector3[Tires.Length];
+
 
     }
 
@@ -73,52 +94,52 @@ public class CustomCarPhysics : MonoBehaviour
         }
 
     }
-
-
     //Physics
 
 
     void FixedUpdate()
     {
-        RaycastHit[] raycastHits = rayCastFromTires();
+        _tireGroundHits = rayCastFromTires();
+        _antiGravHits = antiGravityRayCasts();
 
-        for (int i = 0; i < raycastHits.Length; i++)
+        for (int i = 0; i < _tireGroundHits.Length; i++)
         {
-            if (raycastHits[i].collider != null)
+            if (_tireGroundHits[i].collider != null)
             {
-                applyTireSuspensionForces(Tires[i], raycastHits[i]);
+                applyTireSuspensionForces(Tires[i], _tireGroundHits[i]);
                 applyTireSlide(Tires[i], i);
                 applyTireRotation(Tires[i], i);
                 applyTireAcceleration(Tires[i], i);
             }
+
+            if(_useAntiGravity){
+                _antiGravityDirections[i] = getGravityDirection(_antiGravHits[i]);
+                applyGravityAtPoint(Tires[i].position, _antiGravityDirections[i]);
+            }
+            
+
+            
         }
-
     }
-
-    RaycastHit[] rayCastFromTires()
+    void applyGravityAtPoint(Vector3 wheelPos, Vector3 gravityDirection)
     {
-        RaycastHit[] raycastHits = new RaycastHit[Tires.Length];
-
-        for (int i = 0; i < Tires.Length; i++)
-        {
-
-            Physics.Raycast(Tires[i].position, -Tires[i].up, out RaycastHit hit, _tireRaycastDistance, _groundLayers);
-            raycastHits[i] = hit;
-
-            bool rayHit = hit.point != Vector3.zero;
-
-            Color rayColour = rayHit ? Color.green : Color.red;
-
-            Debug.DrawRay(Tires[i].position, -Tires[i].up * _tireRaycastDistance, rayColour);
-        }
-
-        return raycastHits;
+        _carRigidBody.AddForceAtPosition(wheelPos, gravityDirection * (GravityForce / Tires.Length));
     }
+    //Anti Gravity car Physics
+    
+    Vector3 getGravityDirection(RaycastHit rcHit)
+    {
+        if (rcHit.collider != null)
+        {
+            return transform.position - rcHit.collider.transform.position;
+        }
+        return Vector3.down;
+    }
+    // Regular Car physics
+
+    
     void applyTireRotation(Transform Tire, int tireCount)
     {
-
-
-
 
         if (tireCount < 2 && _frontWheelSteer && _backWheelSteer != true)
         {
@@ -236,5 +257,49 @@ public class CustomCarPhysics : MonoBehaviour
         _carRigidBody.AddForceAtPosition(springDir * force, Tire.position);
 
 
+    }
+
+    RaycastHit[] antiGravityRayCasts()
+    {
+        RaycastHit[] rayCasthits = new RaycastHit[Tires.Length];
+
+        for (int i = 0; i < Tires.Length; i++)
+        {
+            Physics.Raycast(Tires[i].position, -Tires[i].up, out RaycastHit hit, _tireRaycastDistance, _antiGravityGeometry);
+
+            rayCasthits[i] = hit;
+
+            if (_debugAntiGravRaycasts == true)
+            {
+                bool rayHit = hit.point != Vector3.zero;
+
+                Color rayColour = rayHit ? Color.magenta : Color.yellow;
+
+                Debug.DrawRay(Tires[i].position, -Tires[i].up * _tireRaycastDistance, rayColour);
+            }
+        }
+        return rayCasthits;
+    }
+    RaycastHit[] rayCastFromTires()
+    {
+        RaycastHit[] raycastHits = new RaycastHit[Tires.Length];
+
+        for (int i = 0; i < Tires.Length; i++)
+        {
+
+            Physics.Raycast(Tires[i].position, -Tires[i].up, out RaycastHit hit, _tireRaycastDistance, _groundLayers);
+            raycastHits[i] = hit;
+            if (debugRaycasts)
+            {
+                bool rayHit = hit.point != Vector3.zero;
+
+                Color rayColour = rayHit ? Color.green : Color.red;
+
+                Debug.DrawRay(Tires[i].position, -Tires[i].up * _tireRaycastDistance, rayColour);
+            }
+
+        }
+
+        return raycastHits;
     }
 }

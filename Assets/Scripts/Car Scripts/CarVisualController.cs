@@ -17,8 +17,6 @@ public class CarVisualController : MonoBehaviour
     {
         _carPhysics = GetComponent<CustomCarPhysics>();
         _rb = GetComponent<Rigidbody>();
-
-        
     }
 
     void Update()
@@ -28,15 +26,10 @@ public class CarVisualController : MonoBehaviour
 
             SpinWheels(wheels[i], _rb);
             
-            if (i < WheelContainers.Length / 2)
+            if (i < 2)
             {
                 TurnWheels(WheelContainers[i], _carPhysics.frontTiresRotationAngle);
             }
-            else
-            {
-                TurnWheels(WheelContainers[i], _carPhysics.backTiresRotationAngle);
-            }
-            
         }
     }
     void SpinWheels(Transform wheel, Rigidbody carRb)
@@ -47,12 +40,13 @@ public class CarVisualController : MonoBehaviour
     }
     void TurnWheels(Transform wheel, float rotationAngle)
     {
-        Vector3 currentRotation = wheel.rotation.eulerAngles;
 
-        Vector3 rotation = new(currentRotation.x, currentRotation.y, rotationAngle * Time.deltaTime);
+        Vector3 currentRotation = wheel.localRotation.eulerAngles;
 
-        Quaternion rot = Quaternion.Euler(rotation);
+        Vector3 rotationEul = new(currentRotation.x, currentRotation.y, rotationAngle);
+        
+        Quaternion rotation = Quaternion.Euler(rotationEul);
 
-        wheel.rotation = rot;
+        wheel.localRotation = rotation;
     }
 }
