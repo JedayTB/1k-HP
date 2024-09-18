@@ -11,7 +11,7 @@ public class KillZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var vehicle = other.GetComponentInParent<CarController>();
+        var vehicle = other.GetComponentInParent<CustomCarPhysics>();
 
         if (vehicle != null) vehicle.respawn();
         //Debug.Log($"{other.name}");

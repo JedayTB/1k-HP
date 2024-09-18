@@ -6,7 +6,7 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private float throttleInput;
     [SerializeField] private float turningInput;
     private Transform _transform;
-
+    private Vector3 _respawnPosition;
     [Header("Basic Setup")]
     [SerializeField] private Transform[] Tires;
     [SerializeField] private LayerMask _groundLayers;
@@ -14,7 +14,6 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private float _tireRaycastDistance = 0.1f;
     [SerializeField] private Rigidbody _carRigidBody;
     RaycastHit[] _tireGroundHits;
-    RaycastHit[] _antiGravHits;
     //Public members
 
     
@@ -77,6 +76,13 @@ public class CustomCarPhysics : MonoBehaviour
     }
     public float GetSpeed(){
         return _carRigidBody.velocity.magnitude;
+    }
+    public void setNewRespawnPosition(){
+        _respawnPosition = transform.position;
+    }
+    public void respawn(){
+        transform.position = _respawnPosition;
+        _carRigidBody.velocity = Vector3.zero;
     }
     //Physics
     void FixedUpdate()

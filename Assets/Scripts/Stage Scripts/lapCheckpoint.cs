@@ -16,7 +16,7 @@ public class lapCheckpoint : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        var vehicle = other.GetComponentInParent<CarController>();
+        var vehicle = other.GetComponentInParent<CustomCarPhysics>();
 
         if(other.CompareTag("PLAYER")){
             print($"Player Passes Through Checkpoint {checkPointNumber}");
