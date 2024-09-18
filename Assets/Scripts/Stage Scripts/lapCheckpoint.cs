@@ -6,6 +6,7 @@ public class lapCheckpoint : MonoBehaviour
     public int checkPointNumber;
     public bool passedCheckpoint = false;
     private BoxCollider _BC;
+
     private CheckFinishedLap lapPassed;
     public void Init(int checkPointNumber, CheckFinishedLap lapLogic){
         _BC = GetComponent<BoxCollider>();
@@ -15,10 +16,13 @@ public class lapCheckpoint : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
+        var vehicle = other.GetComponentInParent<CarController>();
+
         if(other.CompareTag("PLAYER")){
             print($"Player Passes Through Checkpoint {checkPointNumber}");
             passedCheckpoint = true;
             lapPassed?.Invoke();
+            vehicle?.setNewRespawnPosition();
         }
     }
 }

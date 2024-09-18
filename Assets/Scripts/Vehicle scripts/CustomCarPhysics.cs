@@ -54,7 +54,7 @@ public class CustomCarPhysics : MonoBehaviour
 
     [Tooltip("Determines If the Back wheels steer the car. If front and back true, all wheels turn. NOTE back wheels are the last two elements of the Tires array.")]
     [SerializeField] private bool _backWheelSteer = false;
-    [SerializeField] private float _turnSpeed = 10f;
+    [SerializeField] private float _turnSpeed = 1f;
     [SerializeField] private float _rotationAngleTimeToZero = 0.5f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;

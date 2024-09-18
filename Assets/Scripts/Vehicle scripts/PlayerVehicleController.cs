@@ -12,6 +12,9 @@ public class PlayerVehicleController : MonoBehaviour
 
         _customCarPhysics.Init();
         _carVisualController.Init();
+
+        _respawnPosition = transform.position;
+
         Debug.Log("Car finished Initialization");
     }
     void Update()

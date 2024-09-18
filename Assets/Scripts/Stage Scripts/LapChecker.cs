@@ -9,9 +9,12 @@ public class LapChecker : MonoBehaviour
 
     public CheckFinishedLap checkFinishedLap;
     public int lapCount = 0;
+    private LapTimer _lapTimer;
+
     public void Init()
     {
         _checkpoints = GetComponentsInChildren<lapCheckpoint>();
+        _lapTimer = FindObjectOfType<LapTimer>();
         checkFinishedLap = checkIfLapsPassed;
 
         for (int i = 0; i < _checkpoints.Length; i++)
@@ -34,6 +37,7 @@ public class LapChecker : MonoBehaviour
         foreach(var chkpnt in _checkpoints){
             chkpnt.passedCheckpoint = false;
         }
+        _lapTimer.endLap();
         print($"{lapCount}");
     }
 
