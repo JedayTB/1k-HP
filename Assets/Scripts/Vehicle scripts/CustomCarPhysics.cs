@@ -1,13 +1,10 @@
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.Universal.Internal;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
-    [SerializeField] private Vector2 _playerInput;
-    [SerializeField] private bool aesthetic = false;
+    [SerializeField] private float throttleInput;
+    [SerializeField] private float turningInput;
     private Transform _transform;
 
     [Header("Basic Setup")]
@@ -18,15 +15,8 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private Rigidbody _carRigidBody;
     RaycastHit[] _tireGroundHits;
     RaycastHit[] _antiGravHits;
+    //Public members
 
-    //Anti-Gravity 
-    
-    [Header("Anti-gravity setup")]
-    private const float GravityForce = 9.8f;
-    [SerializeField] private bool _useAntiGravity = true;
-    [SerializeField] private bool _debugAntiGravRaycasts = true;
-    [SerializeField] private LayerMask _antiGravityGeometry;
-    [SerializeField] Vector3[] _antiGravityDirections;
     
 
     //Accelerations
@@ -68,6 +58,7 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private float _rotationAngleTimeToZero = 0.5f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
+    //Public members
     public float frontTiresRotationAngle;
     public float backTiresRotationAngle;
     public void Init()
@@ -76,31 +67,21 @@ public class CustomCarPhysics : MonoBehaviour
         _carRigidBody = GetComponent<Rigidbody>();
 
         _transform = transform;
-        _carRigidBody.useGravity = !_useAntiGravity;
 
         _tireGroundHits = new RaycastHit[Tires.Length];
-        _antiGravHits = new RaycastHit[Tires.Length];
-        _antiGravityDirections = new Vector3[Tires.Length];
-
-
     }
-
-    void Update()
-    {
-        if (!aesthetic)
-        {
-            _playerInput.x = Input.GetAxisRaw("Horizontal");
-            _playerInput.y = Input.GetAxisRaw("Vertical");
-        }
-
+    
+    public void setInputs(float throttleAmt, float turningAmt){
+        throttleInput = throttleAmt;
+        turningInput = turningAmt;
+    }
+    public float GetSpeed(){
+        return _carRigidBody.velocity.magnitude;
     }
     //Physics
-
-
     void FixedUpdate()
     {
         _tireGroundHits = rayCastFromTires();
-        _antiGravHits = antiGravityRayCasts();
 
         for (int i = 0; i < _tireGroundHits.Length; i++)
         {
@@ -112,40 +93,20 @@ public class CustomCarPhysics : MonoBehaviour
                 applyTireAcceleration(Tires[i], i);
             }
 
-            if(_useAntiGravity){
-                _antiGravityDirections[i] = getGravityDirection(_antiGravHits[i]);
-                applyGravityAtPoint(Tires[i].position, _antiGravityDirections[i]);
-            }
-            
-
-            
         }
     }
-    void applyGravityAtPoint(Vector3 wheelPos, Vector3 gravityDirection)
-    {
-        _carRigidBody.AddForceAtPosition(wheelPos, gravityDirection * (GravityForce / Tires.Length));
-    }
-    //Anti Gravity car Physics
-    
-    Vector3 getGravityDirection(RaycastHit rcHit)
-    {
-        if (rcHit.collider != null)
-        {
-            return transform.position - rcHit.collider.transform.position;
-        }
-        return Vector3.down;
-    }
+   
     // Regular Car physics
 
     
     void applyTireRotation(Transform Tire, int tireCount)
     {
-
+        
         if (tireCount < 2 && _frontWheelSteer && _backWheelSteer != true)
         {
             Vector3 tireRotation = Vector3.zero;
 
-            if ((int)_playerInput.x == 0)
+            if ((int)turningInput == 0)
             {
 
                 _durationOfAngleTiming += Time.fixedDeltaTime;
@@ -162,7 +123,7 @@ public class CustomCarPhysics : MonoBehaviour
             {
                 _durationOfAngleTiming = 0;
 
-                frontTiresRotationAngle += _playerInput.x * _turnSpeed;
+                frontTiresRotationAngle += turningInput * _turnSpeed;
 
                 /*
                 if (Mathf.Abs(_frontTiresRotationAngle) > 360)
@@ -179,7 +140,7 @@ public class CustomCarPhysics : MonoBehaviour
         }
         else if (tireCount > 2 && _backWheelSteer && _frontWheelSteer != true)
         {
-            print("Back wheel turning not implemented yet");
+            Debug.LogError("Back wheel turning not implemented yet");
         }
 
     }
@@ -190,14 +151,14 @@ public class CustomCarPhysics : MonoBehaviour
         {
             Vector3 accelerationDirection = _engineStrength * Tire.forward;
 
-            if (Mathf.Abs(_playerInput.y) > 0.0f)
+            if (Mathf.Abs(throttleInput) > 0.0f)
             {
                 // Forward speed of the car 
                 float carSpeed = Vector3.Dot(_transform.forward, _carRigidBody.velocity);
 
                 float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
 
-                float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _playerInput.y;
+                float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * throttleInput;
 
                 _carRigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
             }
@@ -259,27 +220,6 @@ public class CustomCarPhysics : MonoBehaviour
 
     }
 
-    RaycastHit[] antiGravityRayCasts()
-    {
-        RaycastHit[] rayCasthits = new RaycastHit[Tires.Length];
-
-        for (int i = 0; i < Tires.Length; i++)
-        {
-            Physics.Raycast(Tires[i].position, -Tires[i].up, out RaycastHit hit, _tireRaycastDistance, _antiGravityGeometry);
-
-            rayCasthits[i] = hit;
-
-            if (_debugAntiGravRaycasts == true)
-            {
-                bool rayHit = hit.point != Vector3.zero;
-
-                Color rayColour = rayHit ? Color.magenta : Color.yellow;
-
-                Debug.DrawRay(Tires[i].position, -Tires[i].up * _tireRaycastDistance, rayColour);
-            }
-        }
-        return rayCasthits;
-    }
     RaycastHit[] rayCastFromTires()
     {
         RaycastHit[] raycastHits = new RaycastHit[Tires.Length];

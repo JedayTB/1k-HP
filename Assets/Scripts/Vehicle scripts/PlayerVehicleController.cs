@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class PlayerVehicleController : MonoBehaviour
 {
     private CarVisualController _carVisualController;
     private CustomCarPhysics _customCarPhysics;
 
-    void Start()
+    void Awake()
     {
         _customCarPhysics = GetComponent<CustomCarPhysics>();
         _carVisualController = GetComponent<CarVisualController>();
@@ -16,5 +14,10 @@ public class CarController : MonoBehaviour
         _carVisualController.Init();
         Debug.Log("Car finished Initialization");
     }
-
+    void Update()
+    {
+        float throttleInput = Input.GetAxisRaw("Vertical");
+        float turningInput = Input.GetAxisRaw("Horizontal");
+        _customCarPhysics.setInputs(throttleInput, turningInput);
+    }
 }
