@@ -11,15 +11,6 @@ public class LapTimer : MonoBehaviour
     [SerializeField] private float minute;
     [SerializeField] private float seconds;
 
-    private LapTimer _lapTimer;
-    public void init()
-    {
-        _lapTimer = FindObjectOfType<LapTimer>();
-    }
-    private void Start()
-    {
-        init();
-    }
 
     void Update()
     {

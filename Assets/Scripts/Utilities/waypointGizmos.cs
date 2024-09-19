@@ -20,8 +20,11 @@ public class waypointGizmos : MonoBehaviour
     public bool circuit = true;
 
 
-    public Transform[] Waypoints {get; private set;}
-    
+    public Transform[] Waypoints;
+    public Transform[] getWaypoints()
+    {
+        return Waypoints;
+    }
     private void  Awake()
     {
         RefreshWaypoints();

@@ -6,7 +6,7 @@ public class PlayerVehicleController : MonoBehaviour
     private CustomCarPhysics _customCarPhysics;
 
     private Vector3 _respawnPosition;
-    void Awake()
+    public void Init()
     {
         _customCarPhysics = GetComponent<CustomCarPhysics>();
         _carVisualController = GetComponent<CarVisualController>();

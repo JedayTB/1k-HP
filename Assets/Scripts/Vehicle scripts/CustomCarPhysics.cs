@@ -194,6 +194,7 @@ public class CustomCarPhysics : MonoBehaviour
         // Turn change in velocity into an acceleration (Acceleration =  deltaVel / time)
         // this will produce the accelerationn necessary to change the velocity 
         // by desired in 1 physics tick
+
         float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
 
         // Force = Mass * acceleration. 
