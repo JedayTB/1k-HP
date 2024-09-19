@@ -1,12 +1,17 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
-    [SerializeField] private float throttleInput;
-    [SerializeField] private float turningInput;
+    [SerializeField] private float _throttleInput;
+    [SerializeField] private float _turningInput;
+
+
     private Transform _transform;
     private Vector3 _respawnPosition;
+
+
     [Header("Basic Setup")]
     [SerializeField] private Transform[] Tires;
     [SerializeField] private LayerMask _groundLayers;
@@ -69,20 +74,18 @@ public class CustomCarPhysics : MonoBehaviour
 
         _tireGroundHits = new RaycastHit[Tires.Length];
     }
-    
-    public void setInputs(float throttleAmt, float turningAmt){
-        throttleInput = throttleAmt;
-        turningInput = turningAmt;
+    public void setInputs(float throttleAmt, float turningAmt)
+    {
+        _throttleInput = throttleAmt;
+        _turningInput = turningAmt;
     }
-    public float GetSpeed(){
+    public float getVelocityMagnitude()
+    {
         return _carRigidBody.velocity.magnitude;
     }
-    public void setNewRespawnPosition(){
-        _respawnPosition = transform.position;
-    }
-    public void respawn(){
-        transform.position = _respawnPosition;
-        _carRigidBody.velocity = Vector3.zero;
+    public void setRigidBodyVelocity(Vector3 vel)
+    {
+        _carRigidBody.velocity = vel;   
     }
     //Physics
     void FixedUpdate()
@@ -112,7 +115,7 @@ public class CustomCarPhysics : MonoBehaviour
         {
             Vector3 tireRotation = Vector3.zero;
 
-            if ((int)turningInput == 0)
+            if ((int)_turningInput == 0)
             {
 
                 _durationOfAngleTiming += Time.fixedDeltaTime;
@@ -129,7 +132,7 @@ public class CustomCarPhysics : MonoBehaviour
             {
                 _durationOfAngleTiming = 0;
 
-                frontTiresRotationAngle += turningInput * _turnSpeed;
+                frontTiresRotationAngle += _turningInput * _turnSpeed;
 
                 /*
                 if (Mathf.Abs(_frontTiresRotationAngle) > 360)
@@ -157,14 +160,14 @@ public class CustomCarPhysics : MonoBehaviour
         {
             Vector3 accelerationDirection = _engineStrength * Tire.forward;
 
-            if (Mathf.Abs(throttleInput) > 0.0f)
+            if (Mathf.Abs(_throttleInput) > 0.0f)
             {
                 // Forward speed of the car 
                 float carSpeed = Vector3.Dot(_transform.forward, _carRigidBody.velocity);
 
                 float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
 
-                float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * throttleInput;
+                float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
                 _carRigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
             }

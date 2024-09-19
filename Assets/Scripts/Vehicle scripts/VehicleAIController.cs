@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class VehicleAIController : MonoBehaviour
+public class VehicleAIController : I_VehicleController
 {
     [SerializeField] private Transform _targetTransform;
-    [SerializeField] private bool _usingWaypoints = true;
     [SerializeField] private bool _debugOptions = true;
     [Header("Steering parametres")]
     [SerializeField] private float _reachedTargetDistance = 6f;
@@ -14,10 +14,7 @@ public class VehicleAIController : MonoBehaviour
 
     [SerializeField] private Transform[] _wayPoints;
     [SerializeField] private int _currentWaypointIndex = 0;
-    private CustomCarPhysics _carPhysics;
-
-    float throttleAmt = 0f;
-    float turningAmt = 0f;
+    [SerializeField] private int _respawnWaypointIndex = 0;
 
     float yAngleToTarget;
 
@@ -26,11 +23,21 @@ public class VehicleAIController : MonoBehaviour
     {
         _wayPoints = waypoints.getWaypoints();
 
-        _carPhysics = GetComponent<CustomCarPhysics>();
+        _vehiclePhysics = GetComponent<CustomCarPhysics>();
 
-        _carPhysics.Init();
+        _vehiclePhysics.Init();
 
         _targetTransform = _wayPoints[0].transform;
+    }
+    public override void respawn()
+    {
+        base.respawn();
+        _currentWaypointIndex = _respawnWaypointIndex;
+    }
+    public override void setNewRespawnPosition()
+    {
+        base.setNewRespawnPosition();
+        _respawnWaypointIndex = _currentWaypointIndex;
     }
     void Update()
     {
@@ -42,11 +49,17 @@ public class VehicleAIController : MonoBehaviour
     {
         float distanceToTarget = Vector3.Distance(transform.position,_targetTransform.position );
 
+        //Reached target
         if (distanceToTarget < _reachedTargetDistance)
         {
             _targetTransform = _wayPoints[_currentWaypointIndex].transform;
             _currentWaypointIndex++;
         }
+        else
+        {
+            _targetTransform = _wayPoints[_currentWaypointIndex].transform;
+        }
+
         if (_debugOptions)
         {
             Debug.DrawRay(transform.position, _targetTransform.position - transform.position, Color.green);
@@ -55,8 +68,8 @@ public class VehicleAIController : MonoBehaviour
 
     private void steerVehicleToDestination()
     {
-        throttleAmt = 0f;
-        turningAmt = 0f;
+        _throttleInput = 0f;
+        _turningInput = 0f;
         yAngleToTarget = 0f;
 
         float distanceToTarget = Vector3.Distance(transform.position, _targetTransform.position);
@@ -73,12 +86,12 @@ public class VehicleAIController : MonoBehaviour
 
             if (frontBackCheck > 0)
             {
-                throttleAmt = 1f;
+                _throttleInput = 1f;
             }
             else
             {
                 //Go forward if the distance is further then reverse threshold
-                throttleAmt = distanceToTarget > _reverseThreshold ? 1 : -1;
+                _throttleInput = distanceToTarget > _reverseThreshold ? 1 : -1;
             }
 
 
@@ -86,11 +99,11 @@ public class VehicleAIController : MonoBehaviour
 
             if (Mathf.Abs(yAngleToTarget) > _turningThreshold)
             {
-                turningAmt = yAngleToTarget > 0 ? 1f : -1f;
+                _turningInput = yAngleToTarget > 0 ? 1f : -1f;
             }
             else
             {
-                turningAmt = 0f;
+                _turningInput = 0f;
             }
 
 
@@ -98,9 +111,9 @@ public class VehicleAIController : MonoBehaviour
         else
         {
             //Reached Target
-            throttleAmt = _carPhysics.GetSpeed() > 15f ? -1 : 0;
+            _throttleInput = _vehiclePhysics.getVelocityMagnitude() > 15f ? -1 : 0;
             //_carPhysics.Break(); function doesn't exist yet
         }
-        _carPhysics.setInputs(throttleAmt, turningAmt);
+        _vehiclePhysics.setInputs(_throttleInput, _turningInput);
     }
 }
