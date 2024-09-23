@@ -4,7 +4,7 @@ public class VehicleAIController : I_VehicleController
 {
     [SerializeField] private Transform _targetTransform;
     [SerializeField] private bool _debugOptions = true;
-    [SerializeField] private bool startDriving = true;
+    [SerializeField] private bool _driveVehicle = true;
     [Header("Steering parametres")]
     [SerializeField] private float _reachedTargetDistance = 6f;
     [SerializeField] private float _reverseThreshold = 25f;
@@ -37,11 +37,16 @@ public class VehicleAIController : I_VehicleController
         base.setNewRespawnPosition();
         _respawnWaypointIndex = _currentWaypointIndex;
     }
+    //For use in starting screen animation
+    public void startDriving()
+    {
+        _driveVehicle = true;
+    }
     void Update()
     {
         updateTarget();
 
-        if(startDriving) steerVehicleToDestination();
+        if(_driveVehicle) steerVehicleToDestination();
     }
 
     private void updateTarget()
@@ -52,6 +57,12 @@ public class VehicleAIController : I_VehicleController
         if (distanceToTarget < _reachedTargetDistance)
         {
             _targetTransform = _wayPoints[_currentWaypointIndex].transform;
+
+            if (_wayPoints[_currentWaypointIndex + 1] == null) {
+                Debug.Log("Reached end of guides");
+                _driveVehicle = false; 
+            }
+
             _currentWaypointIndex++;
         }
         else

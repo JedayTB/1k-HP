@@ -11,12 +11,12 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private VehicleAIController[] _aiControllers;
     private void Awake()
     {
-        _lapChecker.Init();
-        _player.Init();
+        _lapChecker?.Init();
+        _player?.Init();
 
         for(int i = 0; i < _aiControllers.Length; i++)
         {
-            _aiControllers[i].Init(_waypointGizmos);
+            _aiControllers[i]?.Init(_waypointGizmos);
         }
 
     }
