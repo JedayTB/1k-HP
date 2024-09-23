@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class VehicleAIController : I_VehicleController
 {
     [SerializeField] private Transform _targetTransform;
     [SerializeField] private bool _debugOptions = true;
+    [SerializeField] private bool startDriving = true;
     [Header("Steering parametres")]
     [SerializeField] private float _reachedTargetDistance = 6f;
     [SerializeField] private float _reverseThreshold = 25f;
@@ -42,7 +40,8 @@ public class VehicleAIController : I_VehicleController
     void Update()
     {
         updateTarget();
-        steerVehicleToDestination();
+
+        if(startDriving) steerVehicleToDestination();
     }
 
     private void updateTarget()
