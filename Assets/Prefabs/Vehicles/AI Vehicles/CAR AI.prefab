@@ -313,11 +313,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a497d04d66a2a06479909636a5710a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetPositionTransform: {fileID: 0}
+  _targetTransform: {fileID: 0}
+  _debugOptions: 1
+  _driveVehicle: 1
   _reachedTargetDistance: 4
   _reverseThreshold: 25
   _turningThreshold: 15
-  yAngleToTarget: 0
+  _wayPoints: []
+  _currentWaypointIndex: 0
+  _respawnWaypointIndex: 0
 --- !u!114 &2118189843144686473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,8 +334,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b1e75b002032e4f92d5f0272a22cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throttleInput: 0
-  turningInput: 0
+  _throttleInput: 0
+  _turningInput: 0
   Tires:
   - {fileID: 1593073999350818054}
   - {fileID: 6973741927497769669}
@@ -343,8 +347,8 @@ MonoBehaviour:
   debugRaycasts: 1
   _tireRaycastDistance: 1.5
   _carRigidBody: {fileID: 0}
-  _carTopSpeed: 10000
-  _engineStrength: 2000
+  _carTopSpeed: 100
+  _engineStrength: 1500
   torqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -391,12 +395,35 @@ MonoBehaviour:
   _springStrength: 1000
   _springDamping: 70
   _springRestDistance: 0.8
-  _tireGripFactor: 0.7
-  _tireMass: 5
   _frontWheelSteer: 1
   _backWheelSteer: 0
   _turnSpeed: 1
   _rotationAngleTimeToZero: 1.5
+  _tireGripCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0025138855
+      value: 1.0003052
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.99121094
+      value: 0.1570816
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _tireGripHackFix: 100
   frontTiresRotationAngle: 0
   backTiresRotationAngle: 0
 --- !u!114 &2643251588687572955

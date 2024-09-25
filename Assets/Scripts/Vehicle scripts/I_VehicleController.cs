@@ -27,14 +27,15 @@ public class I_VehicleController : MonoBehaviour
 
         Debug.Log("Car finished Initialization");
     }
-    
-    public virtual void setNewRespawnPosition()
+
+    public virtual void setAsAutoDriveAI()
     {
-        _respawnPosition = transform.position;
+        Debug.LogError("Not implemented yet");
     }
-    public virtual void setNewRespawnPosition(Vector3 newPos)
+
+    public virtual void unflipSelf()
     {
-        _respawnPosition = newPos;
+        Debug.LogError("Not Implemented yet");
     }
     public virtual void respawn()
     {
@@ -43,5 +44,18 @@ public class I_VehicleController : MonoBehaviour
 
         _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
     }
-    
+    public virtual void setNewRespawnPosition()
+    {
+        _respawnPosition = transform.position;
+        _respawnRotation = transform.rotation;
+    }
+    public virtual void setNewRespawnPosition(Vector3 newPos)
+    {
+        _respawnPosition = newPos;
+    }
+    public virtual void setNewRespawnPosition(Transform newRespawn)
+    {
+        _respawnPosition = newRespawn.position;
+        _respawnRotation = newRespawn.rotation;
+    }
 }

@@ -32,9 +32,20 @@ public class VehicleAIController : I_VehicleController
         base.respawn();
         _currentWaypointIndex = _respawnWaypointIndex;
     }
+
     public override void setNewRespawnPosition()
     {
         base.setNewRespawnPosition();
+        _respawnWaypointIndex = _currentWaypointIndex;
+    }
+    public override void setNewRespawnPosition(Vector3 newpos)
+    {
+        base.setNewRespawnPosition(newpos);
+        _respawnWaypointIndex = _currentWaypointIndex;
+    }
+    public override void setNewRespawnPosition(Transform newTransform)
+    {
+        base.setNewRespawnPosition(newTransform);
         _respawnWaypointIndex = _currentWaypointIndex;
     }
     //For use in starting screen animation
@@ -121,7 +132,7 @@ public class VehicleAIController : I_VehicleController
         else
         {
             //Reached Target
-            _throttleInput = _vehiclePhysics.getVelocityMagnitude() > 15f ? -1 : 0;
+            _throttleInput = _vehiclePhysics.getVelocity() > 15f ? -1 : 0;
             //_carPhysics.Break(); function doesn't exist yet
         }
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);

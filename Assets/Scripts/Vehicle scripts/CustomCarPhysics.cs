@@ -49,17 +49,14 @@ public class CustomCarPhysics : MonoBehaviour
 
     [Header("Steering Setup")]
     //Steering
-    [Tooltip("The amount the tire grips. Affects how much 'slide' occures when turning")]
-    [SerializeField] private float _tireGripFactor;
-    [SerializeField] private float _tireMass;
-
-    [Tooltip("Determines If the Front wheels steer the car. If front and back true, all wheels turn. NOTE front wheels are the first two elements of Tires array.")]
     [SerializeField] private bool _frontWheelSteer = true;
 
     [Tooltip("Determines If the Back wheels steer the car. If front and back true, all wheels turn. NOTE back wheels are the last two elements of the Tires array.")]
     [SerializeField] private bool _backWheelSteer = false;
     [SerializeField] private float _turnSpeed = 1f;
     [SerializeField] private float _rotationAngleTimeToZero = 0.5f;
+    [SerializeField] private AnimationCurve _tireGripCurve;
+    [SerializeField] private float _tireGripHackFix = 100f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
     //Public members
@@ -68,7 +65,7 @@ public class CustomCarPhysics : MonoBehaviour
     public void Init()
     {
 
-        _carRigidBody = GetComponent<Rigidbody>();
+        _carRigidBody = GetComponentInChildren<Rigidbody>();
 
         _transform = transform;
 
@@ -79,7 +76,7 @@ public class CustomCarPhysics : MonoBehaviour
         _throttleInput = throttleAmt;
         _turningInput = turningAmt;
     }
-    public float getVelocityMagnitude()
+    public float getVelocity()
     {
         return _carRigidBody.velocity.magnitude;
     }
@@ -105,8 +102,6 @@ public class CustomCarPhysics : MonoBehaviour
         }
     }
    
-    // Regular Car physics
-
     
     void applyTireRotation(Transform Tire, int tireCount)
     {
@@ -117,7 +112,7 @@ public class CustomCarPhysics : MonoBehaviour
 
             if ((int)_turningInput == 0)
             {
-
+                //When Player let's go of X input
                 _durationOfAngleTiming += Time.fixedDeltaTime;
                 _elapsedTime = _durationOfAngleTiming / _rotationAngleTimeToZero;
 
@@ -132,14 +127,19 @@ public class CustomCarPhysics : MonoBehaviour
             {
                 _durationOfAngleTiming = 0;
 
-                frontTiresRotationAngle += _turningInput * _turnSpeed;
+                float carSpeed = Vector3.Dot(_transform.forward, _carRigidBody.velocity);
 
-                /*
-                if (Mathf.Abs(_frontTiresRotationAngle) > 360)
-                {
-                    _frontTiresRotationAngle = 0;
-                }
-                */
+
+                //float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
+                //Lazy fix
+                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _tireGripHackFix);
+                
+
+                float tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
+                
+                //Debug.Log($"Car spd {carSpeed} Norm Spd: {normalizedSpeed}, tireGrip { tireGrip}");
+
+                frontTiresRotationAngle += _turningInput * _turnSpeed * tireGrip;
 
                 tireRotation.y = frontTiresRotationAngle;
 
@@ -192,7 +192,7 @@ public class CustomCarPhysics : MonoBehaviour
         // The change in velocity that we're looking for is -steeringVel * gripFactor
         // gripfactor is withing the range of 0 - 1. 0 no grip, 1 full grip
 
-        float desiredVelocityChange = -steeringVelocity * _tireGripFactor;
+        float desiredVelocityChange = -steeringVelocity * 1;
 
         // Turn change in velocity into an acceleration (Acceleration =  deltaVel / time)
         // this will produce the accelerationn necessary to change the velocity 
@@ -201,7 +201,7 @@ public class CustomCarPhysics : MonoBehaviour
         float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
 
         // Force = Mass * acceleration. 
-        Vector3 steerForce = _tireMass * desiredAcceleration * steeringDir;
+        Vector3 steerForce = 5 * desiredAcceleration * steeringDir;
 
         _carRigidBody.AddForceAtPosition(steerForce, Tire.position);
 
