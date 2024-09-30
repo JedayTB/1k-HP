@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-    [SerializeField] private PlayerVehicleController _player;
+    [SerializeField] public PlayerVehicleController _player;
     [SerializeField] private LapChecker _lapChecker;
     [SerializeField] private waypointGizmos _waypointGizmos;
 

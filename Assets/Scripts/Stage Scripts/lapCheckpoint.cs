@@ -45,6 +45,8 @@ public class lapCheckpoint : MonoBehaviour
                 _vehiclesPassedThroughCheckpoint.Add(vehicle);
 
                 passedCheckpoint = true;
+
+
                 lapPassed?.Invoke();
                 setVehicleRespawn(vehicle);
 

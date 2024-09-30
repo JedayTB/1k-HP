@@ -17,6 +17,7 @@ public class I_VehicleController : MonoBehaviour
     public virtual void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
+       
         _vehicleVisualController = GetComponent<CarVisualController>();
 
         _vehiclePhysics.Init();
@@ -41,7 +42,7 @@ public class I_VehicleController : MonoBehaviour
     {
         transform.position = _respawnPosition;
         transform.rotation = _respawnRotation;
-
+        _vehiclePhysicsRB.freezeRotation = true;
         _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
     }
     public virtual void setNewRespawnPosition()
