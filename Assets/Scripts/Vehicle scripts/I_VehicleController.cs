@@ -14,6 +14,11 @@ public class I_VehicleController : MonoBehaviour
 
     protected Rigidbody _vehiclePhysicsRB;
 
+    public float _maxNitroAmount = 100f;
+    public float _nitroAmount = 50f;
+
+    public float _nitroSpeedBoost = 2f;
+
     public virtual void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
