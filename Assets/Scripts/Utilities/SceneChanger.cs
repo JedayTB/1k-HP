@@ -11,6 +11,7 @@ public class SceneChanger : MonoBehaviour
 
 
     public static void ChangeSceneTo(string sceneName){
+        Debug.Log("we be clicking!!");
         SceneManager.LoadScene(sceneName);
     }
     public static void QuiteGame(){

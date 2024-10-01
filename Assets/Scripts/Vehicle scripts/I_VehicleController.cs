@@ -14,9 +14,15 @@ public class I_VehicleController : MonoBehaviour
 
     protected Rigidbody _vehiclePhysicsRB;
 
+    public float _maxNitroAmount = 100f;
+    public float _nitroAmount = 50f;
+
+    public float _nitroSpeedBoost = 2f;
+
     public virtual void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
+       
         _vehicleVisualController = GetComponent<CarVisualController>();
 
         _vehiclePhysics.Init();
@@ -41,7 +47,7 @@ public class I_VehicleController : MonoBehaviour
     {
         transform.position = _respawnPosition;
         transform.rotation = _respawnRotation;
-
+        _vehiclePhysicsRB.freezeRotation = true;
         _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
     }
     public virtual void setNewRespawnPosition()

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
+
 public class KillZone : MonoBehaviour
 {
     private Collider _killZone;

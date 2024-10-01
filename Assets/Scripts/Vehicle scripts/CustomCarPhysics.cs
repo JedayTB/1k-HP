@@ -1,12 +1,10 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
-    [SerializeField] private float _throttleInput;
-    [SerializeField] private float _turningInput;
-
+    private float _throttleInput;
+    private float _turningInput;
 
     private Transform _transform;
     private Vector3 _respawnPosition;
@@ -21,15 +19,13 @@ public class CustomCarPhysics : MonoBehaviour
     RaycastHit[] _tireGroundHits;
     //Public members
 
-    
-
     //Accelerations
 
     [Header("Acceleration Setup")]
     [Tooltip("Top speed of the car")]
-    [SerializeField] private float _carTopSpeed = 700f;
+    [SerializeField] private float _vehicleTopSpeed = 500f;
     [Tooltip("How fast the car accelerates")]
-    [SerializeField] private float _engineStrength = 400f;
+    [SerializeField] private float _accelerationAmount = 3500f;
     [Tooltip("How much force is available at certain speeds.")]
     [SerializeField] private AnimationCurve torqueCurve;
     [SerializeField] private bool _frontWheelDrive = true;
@@ -53,7 +49,6 @@ public class CustomCarPhysics : MonoBehaviour
 
     [Tooltip("Determines If the Back wheels steer the car. If front and back true, all wheels turn. NOTE back wheels are the last two elements of the Tires array.")]
     [SerializeField] private bool _backWheelSteer = false;
-    [SerializeField] private float _turnSpeed = 1f;
     [SerializeField] private float _rotationAngleTimeToZero = 0.5f;
     [SerializeField] private AnimationCurve _tireGripCurve;
     [SerializeField] private float _tireGripHackFix = 100f;
@@ -62,6 +57,8 @@ public class CustomCarPhysics : MonoBehaviour
     //Public members
     public float frontTiresRotationAngle;
     public float backTiresRotationAngle;
+
+    //Public Functions
     public void Init()
     {
 
@@ -84,6 +81,14 @@ public class CustomCarPhysics : MonoBehaviour
     {
         _carRigidBody.velocity = vel;   
     }
+
+    public void useNitro(bool isUsingNitro, float _nitroMultiplier)
+    {
+        _accelerationAmount = isUsingNitro ? _accelerationAmount * _nitroMultiplier : _accelerationAmount;
+    }
+
+    //End of public functions
+
     //Physics
     void FixedUpdate()
     {
@@ -139,7 +144,7 @@ public class CustomCarPhysics : MonoBehaviour
                 
                 //Debug.Log($"Car spd {carSpeed} Norm Spd: {normalizedSpeed}, tireGrip { tireGrip}");
 
-                frontTiresRotationAngle += _turningInput * _turnSpeed * tireGrip;
+                frontTiresRotationAngle += _turningInput * tireGrip;
 
                 tireRotation.y = frontTiresRotationAngle;
 
@@ -158,14 +163,14 @@ public class CustomCarPhysics : MonoBehaviour
 
         if (tireCount < 2)
         {
-            Vector3 accelerationDirection = _engineStrength * Tire.forward;
+            Vector3 accelerationDirection = _accelerationAmount * Tire.forward;
 
             if (Mathf.Abs(_throttleInput) > 0.0f)
             {
                 // Forward speed of the car 
                 float carSpeed = Vector3.Dot(_transform.forward, _carRigidBody.velocity);
 
-                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
+                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _vehicleTopSpeed);
 
                 float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
