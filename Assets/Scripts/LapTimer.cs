@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class LapTimer : MonoBehaviour
 {
+    public List<float> lapTimes;
+
     [SerializeField] private float _lapElapsedTime;
-    [SerializeField] private List<float> _lapTimes;
     [SerializeField] private TextMeshProUGUI _timerText;
 
     [SerializeField] private float minute;
@@ -28,7 +29,7 @@ public class LapTimer : MonoBehaviour
     public void endLap()
     {
         float temp = _lapElapsedTime;
-        _lapTimes.Add(temp);
+        lapTimes.Add(temp);
         _lapElapsedTime = 0;
     }
 }
