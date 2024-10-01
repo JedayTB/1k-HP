@@ -15,7 +15,7 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private bool debugRaycasts = true;
     [SerializeField] private float _tireRaycastDistance = 0.1f;
-    [SerializeField] private Rigidbody _carRigidBody;
+    public Rigidbody _rigidBody;
     RaycastHit[] _tireGroundHits;
     //Public members
 
@@ -62,7 +62,7 @@ public class CustomCarPhysics : MonoBehaviour
     public void Init()
     {
 
-        _carRigidBody = GetComponentInChildren<Rigidbody>();
+        _rigidBody = GetComponentInChildren<Rigidbody>();
 
         _transform = transform;
 
@@ -75,11 +75,11 @@ public class CustomCarPhysics : MonoBehaviour
     }
     public float getVelocity()
     {
-        return _carRigidBody.velocity.magnitude;
+        return _rigidBody.velocity.magnitude;
     }
     public void setRigidBodyVelocity(Vector3 vel)
     {
-        _carRigidBody.velocity = vel;   
+        _rigidBody.velocity = vel;   
     }
 
     public void useNitro(bool isUsingNitro, float _nitroMultiplier)
@@ -132,7 +132,7 @@ public class CustomCarPhysics : MonoBehaviour
             {
                 _durationOfAngleTiming = 0;
 
-                float carSpeed = Vector3.Dot(_transform.forward, _carRigidBody.velocity);
+                float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
 
 
                 //float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
@@ -168,13 +168,13 @@ public class CustomCarPhysics : MonoBehaviour
             if (Mathf.Abs(_throttleInput) > 0.0f)
             {
                 // Forward speed of the car 
-                float carSpeed = Vector3.Dot(_transform.forward, _carRigidBody.velocity);
+                float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
 
                 float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _vehicleTopSpeed);
 
                 float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
-                _carRigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
+                _rigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
             }
         }
     }
@@ -186,7 +186,7 @@ public class CustomCarPhysics : MonoBehaviour
         Vector3 steeringDir = Tire.right;
 
         //world space velocity of the suspension 
-        Vector3 tireWorldVelocity = _carRigidBody.GetPointVelocity(Tire.position);
+        Vector3 tireWorldVelocity = _rigidBody.GetPointVelocity(Tire.position);
 
         // What's the velocity in the steering direction?
         // steerinDir is a unit vector, this returns the magnitude of tireWorldVel
@@ -208,7 +208,7 @@ public class CustomCarPhysics : MonoBehaviour
         // Force = Mass * acceleration. 
         Vector3 steerForce = 5 * desiredAcceleration * steeringDir;
 
-        _carRigidBody.AddForceAtPosition(steerForce, Tire.position);
+        _rigidBody.AddForceAtPosition(steerForce, Tire.position);
 
     }
     void applyTireSuspensionForces(Transform Tire, RaycastHit rayHit)
@@ -218,7 +218,7 @@ public class CustomCarPhysics : MonoBehaviour
         Vector3 springDir = Tire.up;
 
         //World space velocity of this tire
-        Vector3 tireWorldVelocity = _carRigidBody.GetPointVelocity(Tire.position);
+        Vector3 tireWorldVelocity = _rigidBody.GetPointVelocity(Tire.position);
 
 
         float offset = _springRestDistance - rayHit.distance;
@@ -230,7 +230,7 @@ public class CustomCarPhysics : MonoBehaviour
 
         float force = (offset * _springStrength) - (vel * _springDamping);
 
-        _carRigidBody.AddForceAtPosition(springDir * force, Tire.position);
+        _rigidBody.AddForceAtPosition(springDir * force, Tire.position);
 
 
     }

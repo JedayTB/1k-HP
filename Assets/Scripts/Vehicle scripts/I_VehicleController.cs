@@ -12,8 +12,6 @@ public class I_VehicleController : MonoBehaviour
     protected float _throttleInput;
     protected float _turningInput;
 
-    protected Rigidbody _vehiclePhysicsRB;
-
     public float _maxNitroAmount = 100f;
     public float _nitroAmount = 50f;
 
@@ -47,7 +45,7 @@ public class I_VehicleController : MonoBehaviour
     {
         transform.position = _respawnPosition;
         transform.rotation = _respawnRotation;
-        _vehiclePhysicsRB.freezeRotation = true;
+        _vehiclePhysics._rigidBody.freezeRotation = true;
         _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
     }
     public virtual void setNewRespawnPosition()
@@ -63,5 +61,15 @@ public class I_VehicleController : MonoBehaviour
     {
         _respawnPosition = newRespawn.position;
         _respawnRotation = newRespawn.rotation;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        var collectable = other.GetComponent<Collectables>();
+        // Unity object's should not use propogation
+        // Well your mother soon to be full of lacerations
+        // Sure, it's uncool to me the emancipation of a life 
+        // Gunned - hope it not be in this nasty nation
+        // - Ethan arrazola
+        collectable?.onPickup(this);
     }
 }
