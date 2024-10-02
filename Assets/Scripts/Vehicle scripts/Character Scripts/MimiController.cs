@@ -31,8 +31,10 @@ public class MimiController : PlayerVehicleController
         }
     }
     //Should be from the capsule
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
+        base.OnTriggerEnter(other); //Just does checking for collectables
+
         I_VehicleController vehicle = other.GetComponentInParent<I_VehicleController>();
 
 

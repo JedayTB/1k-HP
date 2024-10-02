@@ -7,8 +7,6 @@ public class CustomCarPhysics : MonoBehaviour
     private float _turningInput;
 
     private Transform _transform;
-    private Vector3 _respawnPosition;
-
 
     [Header("Basic Setup")]
     [SerializeField] private Transform[] Tires;
@@ -81,7 +79,7 @@ public class CustomCarPhysics : MonoBehaviour
     }
     public void setRigidBodyVelocity(Vector3 vel)
     {
-        _rigidBody.velocity = vel;   
+        _rigidBody.velocity = vel;
     }
 
     public void useNitro(bool isUsingNitro, float _nitroMultiplier)
@@ -108,7 +106,6 @@ public class CustomCarPhysics : MonoBehaviour
 
         }
     }
-   
     
     void applyTireRotation(Transform Tire, int tireCount)
     {
@@ -135,7 +132,6 @@ public class CustomCarPhysics : MonoBehaviour
                 _durationOfAngleTiming = 0;
 
                 float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-
 
                 //float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
                 //Lazy fix

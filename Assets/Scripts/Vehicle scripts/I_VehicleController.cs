@@ -21,7 +21,7 @@ public class I_VehicleController : MonoBehaviour
     protected bool isGrounded = true;
     [Header("I_VehicleController member's")]
     [SerializeField] protected bool _isDebuging = true;
-    [SerializeField] protected bool _useGroundCheck = true;
+    [SerializeField] protected bool _useGroundCheck = false;
     [SerializeField] protected float _raycastDistance = 5f;
     [SerializeField] protected LayerMask _worldGeometryLayers;
 
@@ -77,9 +77,11 @@ public class I_VehicleController : MonoBehaviour
         transform.position = _respawnPosition;
         transform.rotation = _respawnRotation;
 
-        _vehiclePhysics._rigidBody.freezeRotation = true;
+        //_vehiclePhysics._rigidBody.freezeRotation = true;
 
         _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
+        _vehiclePhysics._rigidBody.angularVelocity = Vector3.zero;
+        Debug.Log(_vehiclePhysics._rigidBody.velocity);
     }
     public virtual void setNewRespawnPosition()
     {
@@ -120,7 +122,7 @@ public class I_VehicleController : MonoBehaviour
 
 
 
-    void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         var collectable = other.GetComponent<Collectables>();
         // Unity object's should not use propogation
