@@ -23,8 +23,8 @@ public class PlayerVehicleController : I_VehicleController
         float throttleInput = Input.GetAxisRaw("Vertical");
         float turningInput = Input.GetAxisRaw("Horizontal");
 
-        isUsingNitro = Input.GetKey(_nitroKey);
-
+        isUsingNitro = Input.GetKey(_nitroKey) && _nitroAmount > 0;
+        if (isUsingNitro) _nitroAmount -= 10 * Time.deltaTime;
         if (Input.GetKeyDown(_abilityKey)) useCharacterAbility();
 
         //if (isUsingNitro) Debug.Log("USING NITRO");

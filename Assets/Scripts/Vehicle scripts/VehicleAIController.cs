@@ -59,7 +59,7 @@ public class VehicleAIController : I_VehicleController
     {
         groundCheck();
 
-        //(_singleTarget == true) updateTarget();
+        if(_singleTarget == false) updateTarget();
 
         if(_driveVehicle) steerVehicleToDestination();
     }

@@ -35,7 +35,6 @@ public class MimiController : PlayerVehicleController
     {
         I_VehicleController vehicle = other.GetComponentInParent<I_VehicleController>();
 
-        Debug.Log(other.name);
 
         if (vehicle != null) {
             Debug.Log("got vehicle");
