@@ -4,7 +4,9 @@ public class VehicleAIController : I_VehicleController
 {
     [SerializeField] private Transform _targetTransform;
     [SerializeField] private bool _debugOptions = true;
+    [SerializeField] private bool _singleTarget = false;
     [SerializeField] private bool _driveVehicle = true;
+
     [Header("Steering parametres")]
     [SerializeField] private float _reachedTargetDistance = 6f;
     [SerializeField] private float _reverseThreshold = 25f;
@@ -55,7 +57,9 @@ public class VehicleAIController : I_VehicleController
     }
     void Update()
     {
-        updateTarget();
+        groundCheck();
+
+        //(_singleTarget == true) updateTarget();
 
         if(_driveVehicle) steerVehicleToDestination();
     }

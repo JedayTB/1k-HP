@@ -26,6 +26,7 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private float _vehicleTopSpeed = 500f;
     [Tooltip("How fast the car accelerates")]
     [SerializeField] private float _accelerationAmount = 3500f;
+    private float _baseAccelerationAmount;
     [Tooltip("How much force is available at certain speeds.")]
     [SerializeField] private AnimationCurve torqueCurve;
     [SerializeField] private bool _frontWheelDrive = true;
@@ -67,6 +68,7 @@ public class CustomCarPhysics : MonoBehaviour
         _transform = transform;
 
         _tireGroundHits = new RaycastHit[Tires.Length];
+        _baseAccelerationAmount = _accelerationAmount;
     }
     public void setInputs(float throttleAmt, float turningAmt)
     {
@@ -84,7 +86,7 @@ public class CustomCarPhysics : MonoBehaviour
 
     public void useNitro(bool isUsingNitro, float _nitroMultiplier)
     {
-        _accelerationAmount = isUsingNitro ? _accelerationAmount * _nitroMultiplier : _accelerationAmount;
+        _accelerationAmount = isUsingNitro ? _baseAccelerationAmount * _nitroMultiplier : _baseAccelerationAmount;
     }
 
     //End of public functions

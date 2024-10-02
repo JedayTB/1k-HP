@@ -5,7 +5,7 @@ using UnityEngine;
 public enum LapSetType
 {
     useVehicleTransform,
-    useRespawnPos,
+    useRespawnCubePos,
     useRespawnCubeTransform
 }
 [RequireComponent(typeof(BoxCollider))]
@@ -19,7 +19,7 @@ public class lapCheckpoint : MonoBehaviour
     [SerializeField] private Transform respawnPoint;
     HashSet<I_VehicleController> _vehiclesPassedThroughCheckpoint;
 
-    [SerializeField] private LapSetType _respawnPointSetType = LapSetType.useRespawnPos;
+    [SerializeField] private LapSetType _respawnPointSetType = LapSetType.useRespawnCubePos;
     
     public void Init(int checkPointNumber, CheckFinishedLap lapLogic)
     {
@@ -62,7 +62,7 @@ public class lapCheckpoint : MonoBehaviour
                 vehicle?.setNewRespawnPosition();
                 break;
 
-            case LapSetType.useRespawnPos:
+            case LapSetType.useRespawnCubePos:
                 vehicle?.setNewRespawnPosition(respawnPoint.position);
                 break;
 

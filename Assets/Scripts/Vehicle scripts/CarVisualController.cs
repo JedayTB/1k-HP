@@ -4,11 +4,15 @@ public class CarVisualController : MonoBehaviour
 {
     //Wheel containers and wheels are separate
     //This is so we can have wheel yaw (left, right), and pitch(spin)
-    [SerializeField] private Transform[] WheelContainers;
+    // Ask Ethan Arr for further clarification
+    [SerializeField] private Transform[] _wheelContainers;
     
-    [SerializeField] private Transform[] wheels;
-    [SerializeField] private Material carTailLightBreaking;
-    [SerializeField] private Material carTailLight;
+    [SerializeField] private Transform[] _wheels;
+
+    [SerializeField] private MeshRenderer _vehicleMesh;
+
+    [SerializeField] private Material _vehicleTailLightBreaking;
+    [SerializeField] private Material _vehicleTailLight;
 
     private CustomCarPhysics _carPhysics;
     private Rigidbody _rb;
@@ -21,20 +25,24 @@ public class CarVisualController : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < WheelContainers.Length; i++)
+        for (int i = 0; i < _wheelContainers.Length; i++)
         {
-
-            SpinWheels(wheels[i], _rb);
+            //Rotates the model
+            SpinWheels(_wheels[i], _rb);
             
             if (i < 2)
             {
-                TurnWheels(WheelContainers[i], _carPhysics.frontTiresRotationAngle);
+                //Rotates the container
+                TurnWheels(_wheelContainers[i], _carPhysics.frontTiresRotationAngle);
             }
         }
     }
     void SpinWheels(Transform wheel, Rigidbody carRb)
     {
+        Vector3 currentRotation = wheel.localRotation.eulerAngles;
+
         float velocityAtWheelPoint = carRb.GetPointVelocity(wheel.position).z;
+
         Vector3 rotation = new(0, velocityAtWheelPoint, 0);
         wheel.Rotate(rotation);
     }
@@ -43,7 +51,7 @@ public class CarVisualController : MonoBehaviour
 
         Vector3 currentRotation = wheel.localRotation.eulerAngles;
 
-        Vector3 rotationEul = new(currentRotation.x, currentRotation.y, rotationAngle);
+        Vector3 rotationEul = new(currentRotation.x, rotationAngle, currentRotation.z);
         
         Quaternion rotation = Quaternion.Euler(rotationEul);
 
