@@ -611,6 +611,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 49220854}
+  - component: {fileID: 49220855}
   - component: {fileID: 49220853}
   m_Layer: 0
   m_Name: Global Volume
@@ -651,6 +652,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &49220855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49220852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c05ba1cc21669443889a0d3ecc5ba28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 49220853}
+  intensityChange: 0
+  _physicsRef: {fileID: 8516979618195429301}
+  maxDistortion: -0.4
 --- !u!1 &51282179
 GameObject:
   m_ObjectHideFlags: 0
@@ -38137,6 +38154,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4521062506620734454}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8516979618195429301 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
+    type: 3}
+  m_PrefabInstance: {fileID: 4521062506620734454}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b1e75b002032e4f92d5f0272a22cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
