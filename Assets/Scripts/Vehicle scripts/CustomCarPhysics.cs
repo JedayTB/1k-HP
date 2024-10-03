@@ -17,6 +17,8 @@ public class CustomCarPhysics : MonoBehaviour
     RaycastHit[] _tireGroundHits;
     //Public members
 
+    
+
     //Accelerations
 
     [Header("Acceleration Setup")]
@@ -34,28 +36,35 @@ public class CustomCarPhysics : MonoBehaviour
     [Header("Suspension Setup")]
 
     [Tooltip("The force at which the spring tries to return to rest distanc with")]
-    [SerializeField] private float _springStrength;
+    [SerializeField] private float _springStrength = 1000f;
     [Tooltip("Dampens speed at which spring returns to rest. Lower is bouncy, higher is stiff")]
-    [SerializeField] private float _springDamping;
+    [SerializeField] private float _springDamping = 70f;
     [Tooltip("Distance in unity units the springs rest below the tire")]
-    [SerializeField] private float _springRestDistance;
+    [SerializeField] private float _springRestDistance = 0.8f;
+
+    //Breaking
+
+    [Header("Breaking Setup")]
+    [SerializeField] private bool _frontWheelBreaking = false;
+    [SerializeField] private bool _backWheelBreaking = true;
+    [SerializeField] private float _tireMass = 5f;
+    private bool isDrifting = false;
 
     //Steering
 
     [Header("Steering Setup")]
     //Steering
     [SerializeField] private bool _frontWheelSteer = true;
-
     [Tooltip("Determines If the Back wheels steer the car. If front and back true, all wheels turn. NOTE back wheels are the last two elements of the Tires array.")]
     [SerializeField] private bool _backWheelSteer = false;
-    [SerializeField] private float _rotationAngleTimeToZero = 0.5f;
+    [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
     [SerializeField] private AnimationCurve _tireGripCurve;
     [SerializeField] private float _tireGripHackFix = 100f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
     //Public members
-    public float frontTiresRotationAngle;
-    public float backTiresRotationAngle;
+    [HideInInspector] public float frontTiresRotationAngle;
+    [HideInInspector] public float backTiresRotationAngle;
 
     //Public Functions
     public void Init()
@@ -86,6 +95,11 @@ public class CustomCarPhysics : MonoBehaviour
     {
         _accelerationAmount = isUsingNitro ? _baseAccelerationAmount * _nitroMultiplier : _baseAccelerationAmount;
     }
+    
+    public void driftVehicle(bool isUsingDrift)
+    {
+        isDrifting = isUsingDrift;
+    }
 
     //End of public functions
 
@@ -96,20 +110,43 @@ public class CustomCarPhysics : MonoBehaviour
 
         for (int i = 0; i < _tireGroundHits.Length; i++)
         {
+
             if (_tireGroundHits[i].collider != null)
             {
                 applyTireSuspensionForces(Tires[i], _tireGroundHits[i]);
-                applyTireSlide(Tires[i], i);
-                applyTireRotation(Tires[i], i);
+                float currentTireGrip = 5;
+                if (i >= 2) {
+                    
+                    if (isDrifting)
+                    {
+                        currentTireGrip = applyTireRotation(Tires[i], i);
+
+                        Debug.Log(currentTireGrip);
+                    }
+                    else
+                    {
+                        currentTireGrip = 5;
+                        applyTireRotation(Tires[i], i);
+                    }
+                }
+                else
+                {
+                    applyTireRotation(Tires[i], i);
+                }
+                
+                
                 applyTireAcceleration(Tires[i], i);
+                applyTireSlide(Tires[i], i, currentTireGrip);
+                
             }
 
         }
     }
     
-    void applyTireRotation(Transform Tire, int tireCount)
+    float applyTireRotation(Transform Tire, int tireCount)
     {
-        
+        float tireGrip = 5f;        
+
         if (tireCount < 2 && _frontWheelSteer && _backWheelSteer != true)
         {
             Vector3 tireRotation = Vector3.zero;
@@ -137,8 +174,7 @@ public class CustomCarPhysics : MonoBehaviour
                 //Lazy fix
                 float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _tireGripHackFix);
                 
-
-                float tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
+                tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
                 
                 //Debug.Log($"Car spd {carSpeed} Norm Spd: {normalizedSpeed}, tireGrip { tireGrip}");
 
@@ -148,13 +184,21 @@ public class CustomCarPhysics : MonoBehaviour
 
                 Tire.localRotation = Quaternion.Euler(tireRotation);
             }
-
+            
         }
-        else if (tireCount > 2 && _backWheelSteer && _frontWheelSteer != true)
+        else if (tireCount >= 2)
         {
-            Debug.LogError("Back wheel turning not implemented yet");
-        }
+            float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
 
+            //float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
+            //Lazy fix
+            float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _tireGripHackFix);
+
+
+            tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
+            
+        }
+        return tireGrip;
     }
     void applyTireAcceleration(Transform Tire, int tireCount)
     {
@@ -176,14 +220,12 @@ public class CustomCarPhysics : MonoBehaviour
             }
         }
     }
-    void applyTireSlide(Transform Tire, int tireCount)
+    void applyTireSlide(Transform Tire, int tireCount, float tireGrip)
     {
-
-
-        // world space direction of the spring force
+        // world space direction of the steering force
         Vector3 steeringDir = Tire.right;
 
-        //world space velocity of the suspension 
+        //world space velocity of the tire
         Vector3 tireWorldVelocity = _rigidBody.GetPointVelocity(Tire.position);
 
         // What's the velocity in the steering direction?
@@ -204,7 +246,7 @@ public class CustomCarPhysics : MonoBehaviour
         float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
 
         // Force = Mass * acceleration. 
-        Vector3 steerForce = 5 * desiredAcceleration * steeringDir;
+        Vector3 steerForce = tireGrip * desiredAcceleration * steeringDir;
 
         _rigidBody.AddForceAtPosition(steerForce, Tire.position);
 

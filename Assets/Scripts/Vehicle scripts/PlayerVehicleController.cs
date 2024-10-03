@@ -8,6 +8,7 @@ public class PlayerVehicleController : I_VehicleController
     protected KeyCode _abilityKey = KeyCode.F;
 
     private bool isUsingNitro;
+    private bool isUsingDrift;
 
     void Update()
     {
@@ -15,6 +16,7 @@ public class PlayerVehicleController : I_VehicleController
     }
     /// <summary>
     /// Use in Update for child classes.
+    /// Does all the frame by frame input
     /// </summary>
     protected virtual void playerControlsLogic()
     {
@@ -24,13 +26,16 @@ public class PlayerVehicleController : I_VehicleController
         float turningInput = Input.GetAxisRaw("Horizontal");
 
         isUsingNitro = Input.GetKey(_nitroKey) && _nitroAmount > 0;
+
+        isUsingDrift = Input.GetKey(_breakKey);
+
         if (isUsingNitro) _nitroAmount -= 10 * Time.deltaTime;
+
         if (Input.GetKeyDown(_abilityKey)) useCharacterAbility();
 
-        //if (isUsingNitro) Debug.Log("USING NITRO");
 
         _vehiclePhysics.useNitro(isUsingNitro, _nitroSpeedBoost);
-
+        _vehiclePhysics.driftVehicle(isUsingDrift);
         _vehiclePhysics.setInputs(throttleInput, turningInput);
     }
 }
