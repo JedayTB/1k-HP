@@ -1083,6 +1083,7 @@ MonoBehaviour:
     m_Bits: 8
   _abilityGauge: 100
   _abilityUseTimer: 5
+  _initInStart: 0
   _bounceStrength: 40
   _bubble: {fileID: 1406113427568025263}
 --- !u!114 &153339807512611077
@@ -1156,6 +1157,9 @@ MonoBehaviour:
   _springStrength: 1000
   _springDamping: 70
   _springRestDistance: 0.8
+  _frontWheelBreaking: 0
+  _backWheelBreaking: 1
+  _tireMass: 5
   _frontWheelSteer: 1
   _backWheelSteer: 0
   _rotationAngleTimeToZero: 1.5
@@ -1198,8 +1202,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb3b23902ef5640bf46ebabe68851b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wheelContainers: []
-  _wheels: []
+  _wheelContainers:
+  - {fileID: 2321797666404070612}
+  - {fileID: 5535819322048649419}
+  - {fileID: 6093995842230626021}
+  - {fileID: 6729660393092900847}
+  _wheels:
+  - {fileID: 3143347491034436945}
+  - {fileID: 7181786874189000556}
+  - {fileID: 8916387844110859656}
+  - {fileID: 5892206081317176990}
   _vehicleMesh: {fileID: 0}
   _vehicleTailLightBreaking: {fileID: 0}
   _vehicleTailLight: {fileID: 0}

@@ -48,7 +48,12 @@ public class I_VehicleController : MonoBehaviour
         _respawnPosition = transform.position;
         _respawnRotation = transform.rotation;
 
-        Debug.Log("Car finished Initialization");
+    }
+    //For inherited script's that take input
+    //Fuck OOP sometimes. this ugly as shit
+    public virtual void Init(InputManager playerInput)
+    {
+        Init();
     }
     //Public Methods
     public virtual void useCharacterAbility()

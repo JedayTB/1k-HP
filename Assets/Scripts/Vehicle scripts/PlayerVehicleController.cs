@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerVehicleController : I_VehicleController
 {
+    protected InputManager inputManager;
 
     protected KeyCode _nitroKey = KeyCode.LeftShift;
     protected KeyCode _breakKey = KeyCode.Space;
@@ -14,25 +15,31 @@ public class PlayerVehicleController : I_VehicleController
     {
         playerControlsLogic();
     }
+    public override void Init(InputManager playerInput)
+    {
+        base.Init();
+        this.inputManager = playerInput;
+    }
     /// <summary>
     /// Use in Update for child classes.
     /// Does all the frame by frame input
     /// </summary>
     protected virtual void playerControlsLogic()
     {
-        groundCheck();
+        //groundCheck();
 
-        float throttleInput = Input.GetAxisRaw("Vertical");
-        float turningInput = Input.GetAxisRaw("Horizontal");
+        float throttleInput = inputManager.PlayerThrottleInput;
+        float turningInput = inputManager.PlayerTurningInput;
 
-        isUsingNitro = Input.GetKey(_nitroKey) && _nitroAmount > 0;
+        
+        isUsingNitro = inputManager.isUsingNitro && _nitroAmount > 0;
 
-        isUsingDrift = Input.GetKey(_breakKey);
+        isUsingDrift = inputManager.isDrifting;
 
         if (isUsingNitro) _nitroAmount -= 10 * Time.deltaTime;
 
-        if (Input.GetKeyDown(_abilityKey)) useCharacterAbility();
-
+        if (inputManager.usedAbility) useCharacterAbility();
+        
 
         _vehiclePhysics.useNitro(isUsingNitro, _nitroSpeedBoost);
         _vehiclePhysics.driftVehicle(isUsingDrift);

@@ -21,7 +21,7 @@ public class VehicleAIController : I_VehicleController
 
     public void Init(waypointGizmos waypoints)
     {
-        _wayPoints = waypoints.getWaypoints();
+        if(_singleTarget == false) _wayPoints = waypoints.getWaypoints();
 
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
 

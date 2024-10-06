@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 
 
 public class GameStateManager : MonoBehaviour
 {
+    private InputManager inputManager;
     [SerializeField] public PlayerVehicleController _player;
     [SerializeField] private LapChecker _lapChecker;
     [SerializeField] private LapTimer _lapTimer;
@@ -21,8 +20,12 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private CanvasGroup _playingHud;
     private void Awake()
     {
+        inputManager = this.gameObject.AddComponent<InputManager>();
+        inputManager.Init();
+        
         _lapChecker?.Init(this);
-        _player?.Init();
+
+        _player?.Init(inputManager);
 
         for (int i = 0; i < _aiControllers.Length; i++)
         {
@@ -30,7 +33,7 @@ public class GameStateManager : MonoBehaviour
         }
 
     }
-
+    
     public void onPlayerWin()
     {
         Debug.Log("Player won!");
