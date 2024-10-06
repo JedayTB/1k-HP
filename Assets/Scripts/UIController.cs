@@ -25,10 +25,12 @@ public class UIController : MonoBehaviour
         if (_menuIsOpen)
         {
             _pauseMenu.SetActive(false);
+            Time.timeScale = 1f;
         }
         else if (!_menuIsOpen)
         {
             _pauseMenu.SetActive(true);
+            Time.timeScale = 0f;
         }
 
         _menuIsOpen = !_menuIsOpen;
@@ -38,5 +40,10 @@ public class UIController : MonoBehaviour
     {
         _gameStateManager._player.respawn();
         menuOpenClose();
+    }
+
+    public void continueButton()
+    {
+        menuOpenClose(); // pretty sure this will always close and never cause problems
     }
 }
