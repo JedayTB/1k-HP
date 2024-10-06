@@ -6,6 +6,7 @@ public class VehicleAIController : I_VehicleController
     [SerializeField] private bool _debugOptions = true;
     [SerializeField] private bool _singleTarget = false;
     [SerializeField] private bool _driveVehicle = true;
+    [SerializeField] private bool _circuitedpath = true;
 
     [Header("Steering parametres")]
     [SerializeField] private float _reachedTargetDistance = 6f;
@@ -74,11 +75,12 @@ public class VehicleAIController : I_VehicleController
         if (distanceToTarget < _reachedTargetDistance)
         {
             _targetTransform = _wayPoints[_currentWaypointIndex].transform;
+            
+            if ((_currentWaypointIndex + 1) == _wayPoints.Length && _circuitedpath == false) {
 
-            if (_currentWaypointIndex + 1 == _wayPoints.Length) {
-                Debug.Log("Reached end of guides");
                 _driveVehicle = false;
                 return;
+                
             }
 
             _currentWaypointIndex++;
@@ -87,6 +89,9 @@ public class VehicleAIController : I_VehicleController
         {
             _targetTransform = _wayPoints[_currentWaypointIndex].transform;
         }
+
+
+
 
         if (_debugOptions)
         {

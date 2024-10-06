@@ -122,9 +122,7 @@ public class I_VehicleController : MonoBehaviour
     }
 
     
-
     //End of protected virtual methods
-
 
 
     protected virtual void OnTriggerEnter(Collider other)

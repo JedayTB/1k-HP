@@ -121,7 +121,6 @@ public class CustomCarPhysics : MonoBehaviour
                     {
                         currentTireGrip = applyTireRotation(Tires[i], i);
 
-                        Debug.Log(currentTireGrip);
                     }
                     else
                     {
