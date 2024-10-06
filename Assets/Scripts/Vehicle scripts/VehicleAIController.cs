@@ -24,8 +24,10 @@ public class VehicleAIController : I_VehicleController
         if(_singleTarget == false) _wayPoints = waypoints.getWaypoints();
 
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
+        _vehicleVisualController = GetComponent<CarVisualController>();
 
         _vehiclePhysics.Init();
+        _vehicleVisualController.Init();
 
         _targetTransform = _wayPoints[0].transform;
     }
@@ -73,9 +75,10 @@ public class VehicleAIController : I_VehicleController
         {
             _targetTransform = _wayPoints[_currentWaypointIndex].transform;
 
-            if (_wayPoints[_currentWaypointIndex + 1] == null) {
+            if (_currentWaypointIndex + 1 == _wayPoints.Length) {
                 Debug.Log("Reached end of guides");
-                _driveVehicle = false; 
+                _driveVehicle = false;
+                return;
             }
 
             _currentWaypointIndex++;

@@ -313,16 +313,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a497d04d66a2a06479909636a5710a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vehiclePhysics: {fileID: 0}
   _maxNitroAmount: 100
   _nitroAmount: 50
   _nitroSpeedBoost: 2
   _isDebuging: 1
+  _useGroundCheck: 0
   _raycastDistance: 5
   _worldGeometryLayers:
     serializedVersion: 2
     m_Bits: 8
+  _abilityGauge: 100
+  _abilityUseTimer: 5
+  _initInStart: 0
   _targetTransform: {fileID: 0}
   _debugOptions: 1
+  _singleTarget: 0
   _driveVehicle: 1
   _reachedTargetDistance: 4
   _reverseThreshold: 25
@@ -401,6 +407,9 @@ MonoBehaviour:
   _springStrength: 1000
   _springDamping: 70
   _springRestDistance: 0.8
+  _frontWheelBreaking: 0
+  _backWheelBreaking: 1
+  _tireMass: 5
   _frontWheelSteer: 1
   _backWheelSteer: 0
   _rotationAngleTimeToZero: 1.5
@@ -443,10 +452,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb3b23902ef5640bf46ebabe68851b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WheelContainers: []
-  wheels: []
-  carTailLightBreaking: {fileID: 0}
-  carTailLight: {fileID: 0}
+  _wheelContainers:
+  - {fileID: 228988914783191891}
+  - {fileID: 5531046382758315826}
+  - {fileID: 7091466020342101084}
+  - {fileID: 7258383255824788479}
+  _wheels:
+  - {fileID: 3466464651214360597}
+  - {fileID: 5276002595839049110}
+  - {fileID: 1047918847260637932}
+  - {fileID: 1693272113341390851}
+  _vehicleMesh: {fileID: 0}
+  _vehicleTailLightBreaking: {fileID: 0}
+  _vehicleTailLight: {fileID: 0}
 --- !u!54 &897513817591306491
 Rigidbody:
   m_ObjectHideFlags: 0
