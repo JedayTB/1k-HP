@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class VehicleAIController : I_VehicleController
 {
+    [Header("AI Basic setup")]
     [SerializeField] private Transform _targetTransform;
     [SerializeField] private bool _debugOptions = true;
     [SerializeField] private bool _singleTarget = false;
@@ -74,23 +75,27 @@ public class VehicleAIController : I_VehicleController
         //Reached target
         if (distanceToTarget < _reachedTargetDistance)
         {
-            _targetTransform = _wayPoints[_currentWaypointIndex].transform;
-            
-            if ((_currentWaypointIndex + 1) == _wayPoints.Length && _circuitedpath == false) {
 
+            //  If got to the end of a path
+            //  Without a circuit
+            if ((_currentWaypointIndex + 1) == _wayPoints.Length && _circuitedpath == false)
+            {
                 _driveVehicle = false;
-                return;
-                
             }
-
-            _currentWaypointIndex++;
+            //  If got to the end of a circuited path
+            else if((_currentWaypointIndex + 1) == _wayPoints.Length && _circuitedpath == true)
+            {
+                _currentWaypointIndex = 0;
+            }
+            //  No condition. Just go to the next waypoint
+            else
+            {
+                _currentWaypointIndex++;
+            }
         }
-        else
-        {
-            _targetTransform = _wayPoints[_currentWaypointIndex].transform;
-        }
-
-
+        //  Just to make sure we're always steering
+        //  to the correct waypoint
+        _targetTransform = _wayPoints[_currentWaypointIndex].transform;
 
 
         if (_debugOptions)
