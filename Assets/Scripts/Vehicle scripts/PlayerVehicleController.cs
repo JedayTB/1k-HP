@@ -28,8 +28,8 @@ public class PlayerVehicleController : I_VehicleController
     {
         //groundCheck();
 
-        float throttleInput = inputManager.PlayerThrottleInput;
-        float turningInput = inputManager.PlayerTurningInput;
+        _throttleInput = inputManager.PlayerThrottleInput;
+        _turningInput = inputManager.PlayerTurningInput;
 
         
         isUsingNitro = inputManager.isUsingNitro && _nitroAmount > 0;
@@ -43,6 +43,6 @@ public class PlayerVehicleController : I_VehicleController
 
         _vehiclePhysics.useNitro(isUsingNitro, _nitroSpeedBoost);
         _vehiclePhysics.driftVehicle(isUsingDrift);
-        _vehiclePhysics.setInputs(throttleInput, turningInput);
+        _vehiclePhysics.setInputs(_throttleInput, _turningInput);
     }
 }

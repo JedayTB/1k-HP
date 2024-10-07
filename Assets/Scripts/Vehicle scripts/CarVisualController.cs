@@ -33,7 +33,7 @@ public class CarVisualController : MonoBehaviour
             if (i < 2)
             {
                 //Rotates the container
-                TurnWheels(_wheelContainers[i], _carPhysics.frontTiresRotationAngle);
+                TurnWheels(_wheelContainers[i], _carPhysics.FrontTiresRotationAngle);
             }
         }
     }

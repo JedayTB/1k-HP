@@ -1108,9 +1108,8 @@ MonoBehaviour:
     m_Bits: 8
   debugRaycasts: 1
   _tireRaycastDistance: 1.5
-  _rigidBody: {fileID: 0}
   _vehicleTopSpeed: 500
-  _accelerationAmount: 3500
+  _accelerationAmount: 1250
   torqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -1188,8 +1187,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _tireGripHackFix: 90
-  frontTiresRotationAngle: 0
-  backTiresRotationAngle: 0
 --- !u!114 &7965075100738459212
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1062,15 +1062,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6994f96f971daf948904c3b90fabd985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vehiclePhysics: {fileID: 0}
   _maxNitroAmount: 100
   _nitroAmount: 50
   _nitroSpeedBoost: 2
   _isDebuging: 1
+  _useGroundCheck: 0
   _raycastDistance: 5
   _worldGeometryLayers:
     serializedVersion: 2
     m_Bits: 8
-  isUsingNitro: 0
+  _abilityGauge: 100
+  _abilityUseTimer: 5
+  _initInStart: 0
 --- !u!114 &266032120304080216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1093,9 +1097,8 @@ MonoBehaviour:
     m_Bits: 8
   debugRaycasts: 1
   _tireRaycastDistance: 1.5
-  _rigidBody: {fileID: 0}
   _vehicleTopSpeed: 500
-  _accelerationAmount: 3500
+  _accelerationAmount: 1250
   torqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -1142,6 +1145,9 @@ MonoBehaviour:
   _springStrength: 1000
   _springDamping: 70
   _springRestDistance: 0.8
+  _frontWheelBreaking: 0
+  _backWheelBreaking: 1
+  _tireMass: 5
   _frontWheelSteer: 1
   _backWheelSteer: 0
   _rotationAngleTimeToZero: 1.5
@@ -1170,8 +1176,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _tireGripHackFix: 90
-  frontTiresRotationAngle: 0
-  backTiresRotationAngle: 0
 --- !u!114 &6398176246842935318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1184,18 +1188,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb3b23902ef5640bf46ebabe68851b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WheelContainers:
-  - {fileID: 7801917106627647114}
-  - {fileID: 5413847966341240169}
-  - {fileID: 263107063550920768}
-  - {fileID: 8403906977518469270}
-  wheels:
-  - {fileID: 3668154268598850411}
-  - {fileID: 903292118425889703}
-  - {fileID: 7765450905825130631}
-  - {fileID: 1055506759854936762}
-  carTailLightBreaking: {fileID: 0}
-  carTailLight: {fileID: 0}
+  _wheelContainers: []
+  _wheels: []
+  _vehicleMesh: {fileID: 0}
+  _vehicleTailLightBreaking: {fileID: 0}
+  _vehicleTailLight: {fileID: 0}
 --- !u!54 &2907201029969780788
 Rigidbody:
   m_ObjectHideFlags: 0

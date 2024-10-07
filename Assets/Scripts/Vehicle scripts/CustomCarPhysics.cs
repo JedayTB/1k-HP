@@ -13,11 +13,11 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private bool debugRaycasts = true;
     [SerializeField] private float _tireRaycastDistance = 0.1f;
-    public Rigidbody _rigidBody;
     RaycastHit[] _tireGroundHits;
-    //Public members
+    private Rigidbody _rigidBody;
 
-    
+
+    public Rigidbody RigidBody { get => _rigidBody; }
 
     //Accelerations
 
@@ -37,8 +37,10 @@ public class CustomCarPhysics : MonoBehaviour
 
     [Tooltip("The force at which the spring tries to return to rest distanc with")]
     [SerializeField] private float _springStrength = 1000f;
+
     [Tooltip("Dampens speed at which spring returns to rest. Lower is bouncy, higher is stiff")]
     [SerializeField] private float _springDamping = 70f;
+
     [Tooltip("Distance in unity units the springs rest below the tire")]
     [SerializeField] private float _springRestDistance = 0.8f;
 
@@ -55,16 +57,22 @@ public class CustomCarPhysics : MonoBehaviour
     [Header("Steering Setup")]
     //Steering
     [SerializeField] private bool _frontWheelSteer = true;
+
     [Tooltip("Determines If the Back wheels steer the car. If front and back true, all wheels turn. NOTE back wheels are the last two elements of the Tires array.")]
     [SerializeField] private bool _backWheelSteer = false;
+
     [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
     [SerializeField] private AnimationCurve _tireGripCurve;
     [SerializeField] private float _tireGripHackFix = 100f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
     //Public members
-    [HideInInspector] public float frontTiresRotationAngle;
-    [HideInInspector] public float backTiresRotationAngle;
+    [HideInInspector] private float frontTiresRotationAngle;
+    [HideInInspector] private float backTiresRotationAngle;
+
+    public float FrontTiresRotationAngle { get => frontTiresRotationAngle; }
+    public float BackTiresRotationAngle { get => backTiresRotationAngle; }
+    
 
     //Public Functions
     public void Init()
@@ -110,47 +118,45 @@ public class CustomCarPhysics : MonoBehaviour
 
         for (int i = 0; i < _tireGroundHits.Length; i++)
         {
-
             if (_tireGroundHits[i].collider != null)
             {
-                applyTireSuspensionForces(Tires[i], _tireGroundHits[i]);
-                float currentTireGrip = 5;
-                if (i >= 2) {
-                    
-                    if (isDrifting)
-                    {
-                        currentTireGrip = applyTireRotation(Tires[i], i);
 
-                    }
-                    else
-                    {
-                        currentTireGrip = 5;
-                        applyTireRotation(Tires[i], i);
-                    }
-                }
-                else
+                applyTireSuspensionForces(Tires[i], _tireGroundHits[i]);
+
+                float currentTireGrip = 1f;
+                float currentTireMass = 5f;
+
+                currentTireGrip = applyTireRotation(Tires[i], i);
+
+                if (i >= _tireGroundHits.Length / 2&& isDrifting) 
                 {
-                    applyTireRotation(Tires[i], i);
+                    currentTireMass = 0.25f;
+                    currentTireGrip = 0.25f;
                 }
-                
                 
                 applyTireAcceleration(Tires[i], i);
-                applyTireSlide(Tires[i], i, currentTireGrip);
+
+                applyTireSlide(Tires[i], i, 1, currentTireMass);
                 
             }
-
         }
     }
-    
+    /// <summary>
+    /// Rotates the tire for use in tire accelleration. Changes Z axis
+    /// lerps tire rotation back to 0 if no input detected
+    /// </summary>
+    /// <param name="Tire"></param>
+    /// <param name="tireCount"></param>
+    /// <returns> Returns current tire grip based off of _tireGripCurve. Still has side effect on tires if returns.</returns>
     float applyTireRotation(Transform Tire, int tireCount)
     {
         float tireGrip = 5f;        
 
-        if (tireCount < 2 && _frontWheelSteer && _backWheelSteer != true)
+        if (tireCount < _tireGroundHits.Length / 2 && _frontWheelSteer && _backWheelSteer != true)
         {
             Vector3 tireRotation = Vector3.zero;
 
-            if ((int)_turningInput == 0)
+            if (Mathf.Abs(_turningInput) < 0.1f)
             {
                 //When Player let's go of X input
                 _durationOfAngleTiming += Time.fixedDeltaTime;
@@ -179,13 +185,15 @@ public class CustomCarPhysics : MonoBehaviour
 
                 frontTiresRotationAngle += _turningInput * tireGrip;
 
-                tireRotation.y = frontTiresRotationAngle;
+                frontTiresRotationAngle = Mathf.Clamp(frontTiresRotationAngle, -110, 110);
 
+                tireRotation.y = frontTiresRotationAngle;
+                
                 Tire.localRotation = Quaternion.Euler(tireRotation);
             }
             
         }
-        else if (tireCount >= 2)
+        else if (tireCount >= _tireGroundHits.Length / 2)
         {
             float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
 
@@ -199,30 +207,19 @@ public class CustomCarPhysics : MonoBehaviour
         }
         return tireGrip;
     }
-    void applyTireAcceleration(Transform Tire, int tireCount)
-    {
 
-        if (tireCount < 2)
-        {
-            Vector3 accelerationDirection = _accelerationAmount * Tire.forward;
-
-            if (Mathf.Abs(_throttleInput) > 0.0f)
-            {
-                // Forward speed of the car 
-                float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-
-                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _vehicleTopSpeed);
-
-                float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
-
-                _rigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
-            }
-        }
-    }
-    void applyTireSlide(Transform Tire, int tireCount, float tireGrip)
+    /// <summary>
+    /// tire slide attempts to make the car stay in the Z direction of it's tires.
+    /// </summary>
+    /// <param name="Tire"> The transform of the tire </param>
+    /// <param name="tireCount"> Which tire it is. </param>
+    /// <param name="tireGrip"> The amount of grip the tire has</param>
+    /// <param name="tireMass"> mass of the tire. Change for drifting </param>
+    void applyTireSlide(Transform Tire, int tireCount, float tireGrip, float tireMass)
     {
         // world space direction of the steering force
         Vector3 steeringDir = Tire.right;
+        
 
         //world space velocity of the tire
         Vector3 tireWorldVelocity = _rigidBody.GetPointVelocity(Tire.position);
@@ -231,13 +228,14 @@ public class CustomCarPhysics : MonoBehaviour
         // steerinDir is a unit vector, this returns the magnitude of tireWorldVel
         // As projected onto steeringDir
 
+        // basically. How fast the tire is moving in the X axis.
         float steeringVelocity = Vector3.Dot(steeringDir, tireWorldVelocity);
 
         // The change in velocity that we're looking for is -steeringVel * gripFactor
         // gripfactor is withing the range of 0 - 1. 0 no grip, 1 full grip
 
-        float desiredVelocityChange = -steeringVelocity * 1;
-
+        float desiredVelocityChange = -steeringVelocity * tireGrip;
+        
         // Turn change in velocity into an acceleration (Acceleration =  deltaVel / time)
         // this will produce the accelerationn necessary to change the velocity 
         // by desired in 1 physics tick
@@ -245,11 +243,39 @@ public class CustomCarPhysics : MonoBehaviour
         float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
 
         // Force = Mass * acceleration. 
-        Vector3 steerForce = tireGrip * desiredAcceleration * steeringDir;
+        Vector3 steerForce = tireMass * desiredAcceleration * steeringDir;
 
         _rigidBody.AddForceAtPosition(steerForce, Tire.position);
 
+        Debug.DrawRay(Tire.position, steerForce * 0.1f, Color.blue);
     }
+    /// <summary>
+    /// Apply forward force in the Z direction of tires
+    /// </summary>
+    /// <param name="Tire"></param>
+    /// <param name="tireCount"></param>
+    void applyTireAcceleration(Transform Tire, int tireCount)
+    {
+        Vector3 accelerationDirection = _accelerationAmount * Tire.forward;
+
+        if (Mathf.Abs(_throttleInput) > 0.0f)
+        {
+            // Forward speed of the car 
+            float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
+
+            float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _vehicleTopSpeed);
+
+            float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
+
+            _rigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
+        }
+        
+    }
+    /// <summary>
+    /// Add spring force for the Car
+    /// </summary>
+    /// <param name="Tire"></param>
+    /// <param name="rayHit"></param>
     void applyTireSuspensionForces(Transform Tire, RaycastHit rayHit)
     {
 
@@ -270,8 +296,6 @@ public class CustomCarPhysics : MonoBehaviour
         float force = (offset * _springStrength) - (vel * _springDamping);
 
         _rigidBody.AddForceAtPosition(springDir * force, Tire.position);
-
-
     }
 
     RaycastHit[] rayCastFromTires()

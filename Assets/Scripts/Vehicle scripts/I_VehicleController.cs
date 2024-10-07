@@ -43,7 +43,7 @@ public class I_VehicleController : MonoBehaviour
         _vehicleVisualController = GetComponent<CarVisualController>();
 
         _vehiclePhysics.Init();
-        _vehicleVisualController.Init();
+        _vehicleVisualController?.Init();
 
         _respawnPosition = transform.position;
         _respawnRotation = transform.rotation;
@@ -85,8 +85,8 @@ public class I_VehicleController : MonoBehaviour
         //_vehiclePhysics._rigidBody.freezeRotation = true;
 
         _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
-        _vehiclePhysics._rigidBody.angularVelocity = Vector3.zero;
-        Debug.Log(_vehiclePhysics._rigidBody.velocity);
+        _vehiclePhysics.RigidBody.angularVelocity = Vector3.zero;
+        Debug.Log(_vehiclePhysics.RigidBody.velocity);
     }
     public virtual void setNewRespawnPosition()
     {
@@ -116,7 +116,7 @@ public class I_VehicleController : MonoBehaviour
 
             //if it's grounded, let rb rotate freely.
 
-            _vehiclePhysics._rigidBody.freezeRotation = !isGrounded;
+            _vehiclePhysics.RigidBody.freezeRotation = !isGrounded;
         }
         
     }
