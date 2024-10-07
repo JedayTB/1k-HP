@@ -64,6 +64,7 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
     [SerializeField] private AnimationCurve _tireGripCurve;
     [SerializeField] private float _tireGripHackFix = 100f;
+    private float _tireTurnSpeed = 1f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
     //Public members
@@ -126,17 +127,31 @@ public class CustomCarPhysics : MonoBehaviour
                 float currentTireGrip = 1f;
                 float currentTireMass = 5f;
 
-                currentTireGrip = applyTireRotation(Tires[i], i);
 
-                if (i >= _tireGroundHits.Length / 2&& isDrifting) 
+                /// how drifting works (right dir)
+                ///   / /   front wheels
+                ///   | |
+                ///   \ \   back wheels
+                
+                // Drifting. Code below only works on back tires
+                if (i >= _tireGroundHits.Length / 2 && isDrifting) 
                 {
-                    currentTireMass = 0.25f;
+                    //currentTireMass = 0.25f;
+                    Vector3 backTireRot = Tires[i].rotation.eulerAngles;
+                    backTireRot.y = 35 * Mathf.CeilToInt(_turningInput);
+
                     currentTireGrip = 0.25f;
                 }
-                
+                else
+                {   
+                    
+                }
+
+                applyTireRotation(Tires[i], i);
+
                 applyTireAcceleration(Tires[i], i);
 
-                applyTireSlide(Tires[i], i, 1, currentTireMass);
+                applyTireSlide(Tires[i], i, currentTireGrip, currentTireMass);
                 
             }
         }
@@ -158,12 +173,12 @@ public class CustomCarPhysics : MonoBehaviour
 
             if (Mathf.Abs(_turningInput) < 0.1f)
             {
-                //When Player let's go of X input
+                //When Player let's go of X input, lerp to 0
+
                 _durationOfAngleTiming += Time.fixedDeltaTime;
                 _elapsedTime = _durationOfAngleTiming / _rotationAngleTimeToZero;
 
                 frontTiresRotationAngle = Mathf.Lerp(frontTiresRotationAngle, 0, _elapsedTime);
-
 
                 tireRotation.y = frontTiresRotationAngle;
 
@@ -183,7 +198,7 @@ public class CustomCarPhysics : MonoBehaviour
                 
                 //Debug.Log($"Car spd {carSpeed} Norm Spd: {normalizedSpeed}, tireGrip { tireGrip}");
 
-                frontTiresRotationAngle += _turningInput * tireGrip;
+                frontTiresRotationAngle += (_turningInput * tireGrip) * _tireTurnSpeed;
 
                 frontTiresRotationAngle = Mathf.Clamp(frontTiresRotationAngle, -110, 110);
 
@@ -203,7 +218,6 @@ public class CustomCarPhysics : MonoBehaviour
 
 
             tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
-            
         }
         return tireGrip;
     }
@@ -243,7 +257,7 @@ public class CustomCarPhysics : MonoBehaviour
         float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
 
         // Force = Mass * acceleration. 
-        Vector3 steerForce = tireMass * desiredAcceleration * steeringDir;
+        Vector3 steerForce = desiredAcceleration * steeringDir;
 
         _rigidBody.AddForceAtPosition(steerForce, Tire.position);
 
