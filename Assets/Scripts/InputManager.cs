@@ -16,6 +16,7 @@ public class InputManager: MonoBehaviour
     public float PlayerTurningInput;
     //Booleans
     public bool isDrifting;
+    public bool endedDrifting;
     public bool usedAbility;
     public bool isUsingNitro;
 
@@ -40,6 +41,9 @@ public class InputManager: MonoBehaviour
         PlayerTurningInput = _Turn.ReadValue<float>();
 
         isDrifting = _Drift.IsPressed();
+
+        endedDrifting = _Drift.WasReleasedThisFrame();
+
         usedAbility = _Ability.IsPressed();
         isUsingNitro = _Nitro.IsPressed();
 

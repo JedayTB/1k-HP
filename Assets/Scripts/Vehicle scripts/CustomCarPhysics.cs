@@ -108,6 +108,14 @@ public class CustomCarPhysics : MonoBehaviour
     public void driftVehicle(bool isUsingDrift)
     {
         isDrifting = isUsingDrift;
+        if(isDrifting == false)
+        {
+
+        }
+    }
+    public void endedDrifting(bool endedDrifting)
+    {
+
     }
 
     //End of public functions
@@ -127,28 +135,40 @@ public class CustomCarPhysics : MonoBehaviour
                 float currentTireGrip = 1f;
                 float currentTireMass = 5f;
 
-
+                float lowerClamp = -110;
+                float higherClamp = 110;
                 /// how drifting works (right dir)
                 ///   / /   front wheels
                 ///   | |
                 ///   \ \   back wheels
-                
+
                 // Drifting. Code below only works on back tires
-                if (i >= _tireGroundHits.Length / 2 && isDrifting) 
+                if (i >= _tireGroundHits.Length / 2 && isDrifting)
                 {
                     //currentTireMass = 0.25f;
-                    Vector3 backTireRot = Tires[i].rotation.eulerAngles;
-                    backTireRot.y = 35 * Mathf.CeilToInt(_turningInput);
 
-                    currentTireGrip = 0.25f;
+                    Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
+
+                    backTireRot.y = 35 * -Mathf.CeilToInt(_turningInput);
+
+                    Tires[i].localRotation = Quaternion.Euler(backTireRot);
+
+                    float invertedTurningInput = -Mathf.CeilToInt(_turningInput);
+
+                    lowerClamp = 25f * invertedTurningInput;
+                    higherClamp = 45f * invertedTurningInput;
                 }
                 else
-                {   
-                    
+                {
+                    //Reset back tires
+                     Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
+
+                    backTireRot.y = 0f;
+
+                    Tires[i].localRotation = Quaternion.Euler(backTireRot);
                 }
 
-                applyTireRotation(Tires[i], i);
-
+                applyTireRotation(Tires[i], i, lowerClamp, higherClamp);
                 applyTireAcceleration(Tires[i], i);
 
                 applyTireSlide(Tires[i], i, currentTireGrip, currentTireMass);
@@ -156,6 +176,7 @@ public class CustomCarPhysics : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Rotates the tire for use in tire accelleration. Changes Z axis
     /// lerps tire rotation back to 0 if no input detected
@@ -163,7 +184,7 @@ public class CustomCarPhysics : MonoBehaviour
     /// <param name="Tire"></param>
     /// <param name="tireCount"></param>
     /// <returns> Returns current tire grip based off of _tireGripCurve. Still has side effect on tires if returns.</returns>
-    float applyTireRotation(Transform Tire, int tireCount)
+    float applyTireRotation(Transform Tire, int tireCount, float lowerClamp, float higherClamp)
     {
         float tireGrip = 5f;        
 
@@ -200,11 +221,13 @@ public class CustomCarPhysics : MonoBehaviour
 
                 frontTiresRotationAngle += (_turningInput * tireGrip) * _tireTurnSpeed;
 
-                frontTiresRotationAngle = Mathf.Clamp(frontTiresRotationAngle, -110, 110);
+                frontTiresRotationAngle = Mathf.Clamp(frontTiresRotationAngle, lowerClamp, higherClamp);
 
                 tireRotation.y = frontTiresRotationAngle;
                 
                 Tire.localRotation = Quaternion.Euler(tireRotation);
+
+
             }
             
         }
@@ -233,7 +256,6 @@ public class CustomCarPhysics : MonoBehaviour
     {
         // world space direction of the steering force
         Vector3 steeringDir = Tire.right;
-        
 
         //world space velocity of the tire
         Vector3 tireWorldVelocity = _rigidBody.GetPointVelocity(Tire.position);
@@ -260,8 +282,6 @@ public class CustomCarPhysics : MonoBehaviour
         Vector3 steerForce = desiredAcceleration * steeringDir;
 
         _rigidBody.AddForceAtPosition(steerForce, Tire.position);
-
-        Debug.DrawRay(Tire.position, steerForce * 0.1f, Color.blue);
     }
     /// <summary>
     /// Apply forward force in the Z direction of tires
@@ -282,8 +302,10 @@ public class CustomCarPhysics : MonoBehaviour
             float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
             _rigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
+
+            Debug.DrawRay(Tire.position, availableTorque * accelerationDirection * 0.1f, Color.blue);
         }
-        
+
     }
     /// <summary>
     /// Add spring force for the Car
@@ -298,7 +320,6 @@ public class CustomCarPhysics : MonoBehaviour
 
         //World space velocity of this tire
         Vector3 tireWorldVelocity = _rigidBody.GetPointVelocity(Tire.position);
-
 
         float offset = _springRestDistance - rayHit.distance;
 
