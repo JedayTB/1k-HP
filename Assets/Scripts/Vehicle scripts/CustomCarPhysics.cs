@@ -151,22 +151,25 @@ public class CustomCarPhysics : MonoBehaviour
     }
     public void endedDrifting(bool endedDrifting)
     {
-        isDrifting = endedDrifting;
-        int TiresLenHalf = halfTireLength;
-
-        _lowerClamp = -110;
-        _higherClamp = 110;
-
-        // Reset back tires
-        for (int i = TiresLenHalf; i < Tires.Length; i++)
+        if (isDrifting == true && endedDrifting == true)
         {
+            isDrifting = false;
 
-            Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
+            _lowerClamp = -110;
+            _higherClamp = 110;
+            print("end of drift");
+            // Reset back tires
+            for (int i = halfTireLength; i < Tires.Length; i++)
+            {
 
-            backTireRot.y = 0f;
+                Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
 
-            Tires[i].localRotation = Quaternion.Euler(backTireRot);
+                backTireRot.y = 0f;
+
+                Tires[i].localRotation = Quaternion.Euler(backTireRot);
+            }
         }
+       
     }
 
     //End of public functions
