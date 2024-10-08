@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -13,6 +14,8 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private bool debugRaycasts = true;
     [SerializeField] private float _tireRaycastDistance = 0.1f;
+
+    private int halfTireLength;
     RaycastHit[] _tireGroundHits;
     private Rigidbody _rigidBody;
 
@@ -67,13 +70,15 @@ public class CustomCarPhysics : MonoBehaviour
     private float _tireTurnSpeed = 1f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
+    private float _lowerClamp;
+    private float _higherClamp;
     //Public members
     [HideInInspector] private float frontTiresRotationAngle;
     [HideInInspector] private float backTiresRotationAngle;
 
     public float FrontTiresRotationAngle { get => frontTiresRotationAngle; }
     public float BackTiresRotationAngle { get => backTiresRotationAngle; }
-    
+
 
     //Public Functions
     public void Init()
@@ -84,6 +89,7 @@ public class CustomCarPhysics : MonoBehaviour
         _transform = transform;
 
         _tireGroundHits = new RaycastHit[Tires.Length];
+        halfTireLength = (Tires.Length / 2);
         _baseAccelerationAmount = _accelerationAmount;
     }
     public void setInputs(float throttleAmt, float turningAmt)
@@ -104,18 +110,63 @@ public class CustomCarPhysics : MonoBehaviour
     {
         _accelerationAmount = isUsingNitro ? _baseAccelerationAmount * _nitroMultiplier : _baseAccelerationAmount;
     }
-    
+
     public void driftVehicle(bool isUsingDrift)
     {
-        isDrifting = isUsingDrift;
-        if(isDrifting == false)
+        /// how drifting works (right dir)
+        ///   / /   front wheels
+        ///   | |
+        ///   \ \   back wheels
+        // If they weren't drifting before. 
+        // i.e Only run this logic at the beginning of the drift.
+        if (isDrifting == false && isUsingDrift == true)
         {
+            print("start drift!");
+            isDrifting = true;
+
+            float invertedTurningInput = -Mathf.CeilToInt(_turningInput);
+
+            _lowerClamp = 25f * invertedTurningInput;
+            _higherClamp = 45f * invertedTurningInput;
+
+
+            /// Makes back tires pivot 35 degree's opposite of player input
+            /// player input -> (right)
+            /// | | current back tires
+            /// after
+            /// \ \ 
+
+            for (int i = halfTireLength; i < Tires.Length; i++)
+            {
+
+                Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
+
+                backTireRot.y = 35 * -Mathf.CeilToInt(_turningInput);
+
+                Tires[i].localRotation = Quaternion.Euler(backTireRot);
+
+            }
 
         }
     }
     public void endedDrifting(bool endedDrifting)
     {
+        isDrifting = endedDrifting;
+        int TiresLenHalf = halfTireLength;
 
+        _lowerClamp = -110;
+        _higherClamp = 110;
+
+        // Reset back tires
+        for (int i = TiresLenHalf; i < Tires.Length; i++)
+        {
+
+            Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
+
+            backTireRot.y = 0f;
+
+            Tires[i].localRotation = Quaternion.Euler(backTireRot);
+        }
     }
 
     //End of public functions
@@ -135,44 +186,20 @@ public class CustomCarPhysics : MonoBehaviour
                 float currentTireGrip = 1f;
                 float currentTireMass = 5f;
 
-                float lowerClamp = -110;
-                float higherClamp = 110;
-                /// how drifting works (right dir)
-                ///   / /   front wheels
-                ///   | |
-                ///   \ \   back wheels
 
-                // Drifting. Code below only works on back tires
-                if (i >= _tireGroundHits.Length / 2 && isDrifting)
+                //   to use calculated tire grip withing applyTireSlide.
+                if (isDrifting)
                 {
-                    //currentTireMass = 0.25f;
-
-                    Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
-
-                    backTireRot.y = 35 * -Mathf.CeilToInt(_turningInput);
-
-                    Tires[i].localRotation = Quaternion.Euler(backTireRot);
-
-                    float invertedTurningInput = -Mathf.CeilToInt(_turningInput);
-
-                    lowerClamp = 25f * invertedTurningInput;
-                    higherClamp = 45f * invertedTurningInput;
+                    currentTireGrip = applyTireRotation(Tires[i], i, _lowerClamp, _higherClamp);
                 }
                 else
                 {
-                    //Reset back tires
-                     Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
-
-                    backTireRot.y = 0f;
-
-                    Tires[i].localRotation = Quaternion.Euler(backTireRot);
+                    applyTireRotation(Tires[i], i, _lowerClamp, _higherClamp);
                 }
-
-                applyTireRotation(Tires[i], i, lowerClamp, higherClamp);
                 applyTireAcceleration(Tires[i], i);
 
                 applyTireSlide(Tires[i], i, currentTireGrip, currentTireMass);
-                
+
             }
         }
     }
@@ -183,12 +210,12 @@ public class CustomCarPhysics : MonoBehaviour
     /// </summary>
     /// <param name="Tire"></param>
     /// <param name="tireCount"></param>
-    /// <returns> Returns current tire grip based off of _tireGripCurve. Still has side effect on tires if returns.</returns>
+    /// <returns> Returns current tire grip calculated using _tireGripCurve. Still has side effect on tires if returns.</returns>
     float applyTireRotation(Transform Tire, int tireCount, float lowerClamp, float higherClamp)
     {
-        float tireGrip = 5f;        
+        float tireGrip = 5f;
 
-        if (tireCount < _tireGroundHits.Length / 2 && _frontWheelSteer && _backWheelSteer != true)
+        if (tireCount < halfTireLength && _frontWheelSteer)
         {
             Vector3 tireRotation = Vector3.zero;
 
@@ -214,9 +241,9 @@ public class CustomCarPhysics : MonoBehaviour
                 //float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
                 //Lazy fix
                 float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _tireGripHackFix);
-                
+
                 tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
-                
+
                 //Debug.Log($"Car spd {carSpeed} Norm Spd: {normalizedSpeed}, tireGrip { tireGrip}");
 
                 frontTiresRotationAngle += (_turningInput * tireGrip) * _tireTurnSpeed;
@@ -224,14 +251,14 @@ public class CustomCarPhysics : MonoBehaviour
                 frontTiresRotationAngle = Mathf.Clamp(frontTiresRotationAngle, lowerClamp, higherClamp);
 
                 tireRotation.y = frontTiresRotationAngle;
-                
+
                 Tire.localRotation = Quaternion.Euler(tireRotation);
 
 
             }
-            
+
         }
-        else if (tireCount >= _tireGroundHits.Length / 2)
+        else if (tireCount >= halfTireLength)
         {
             float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
 
@@ -271,7 +298,7 @@ public class CustomCarPhysics : MonoBehaviour
         // gripfactor is withing the range of 0 - 1. 0 no grip, 1 full grip
 
         float desiredVelocityChange = -steeringVelocity * tireGrip;
-        
+
         // Turn change in velocity into an acceleration (Acceleration =  deltaVel / time)
         // this will produce the accelerationn necessary to change the velocity 
         // by desired in 1 physics tick
@@ -279,7 +306,7 @@ public class CustomCarPhysics : MonoBehaviour
         float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
 
         // Force = Mass * acceleration. 
-        Vector3 steerForce = desiredAcceleration * steeringDir;
+        Vector3 steerForce = tireMass * desiredAcceleration * steeringDir;
 
         _rigidBody.AddForceAtPosition(steerForce, Tire.position);
     }
@@ -303,7 +330,8 @@ public class CustomCarPhysics : MonoBehaviour
 
             _rigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
 
-            Debug.DrawRay(Tire.position, availableTorque * accelerationDirection * 0.1f, Color.blue);
+            Debug.DrawRay(Tire.position, availableTorque * accelerationDirection * 0.1f,
+             tireCount > halfTireLength ? Color.blue : Color.green);
         }
 
     }

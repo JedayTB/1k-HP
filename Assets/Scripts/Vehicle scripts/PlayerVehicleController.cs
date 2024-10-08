@@ -35,7 +35,7 @@ public class PlayerVehicleController : I_VehicleController
         isUsingNitro = inputManager.isUsingNitro && _nitroAmount > 0;
 
         isUsingDrift = inputManager.isDrifting;
-
+        bool endedDrift = inputManager.endedDrifting;
         if (isUsingNitro) _nitroAmount -= 10 * Time.deltaTime;
 
         if (inputManager.usedAbility) useCharacterAbility();
@@ -43,6 +43,7 @@ public class PlayerVehicleController : I_VehicleController
 
         _vehiclePhysics.useNitro(isUsingNitro, _nitroSpeedBoost);
         _vehiclePhysics.driftVehicle(isUsingDrift);
+        _vehiclePhysics.endedDrifting(endedDrift);
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);
     }
 }
