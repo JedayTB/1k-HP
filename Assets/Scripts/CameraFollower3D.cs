@@ -9,7 +9,6 @@ public class CameraFollower3D : MonoBehaviour
     [SerializeField] private KeyCode _rearViewKey = KeyCode.Tab;
     
     private Vector3 _currentVelocity = Vector3.zero;
-    //private bool _isRearing = false;
 
     void Awake()
     {
@@ -49,5 +48,10 @@ public class CameraFollower3D : MonoBehaviour
         _transform.position = Vector3.SmoothDamp(_transform.position, targetPosition, ref _currentVelocity, smoothSpeed);
 
         _transform.LookAt(_target);
+
+        // We need to change the rotation of the Z to the car's Z after the LookAt, or else it gets overridden
+        Quaternion newRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, _target.rotation.eulerAngles.z);
+        _transform.rotation = newRotation;
+
     }
 }
