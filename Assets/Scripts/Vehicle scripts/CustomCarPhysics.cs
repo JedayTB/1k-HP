@@ -70,8 +70,8 @@ public class CustomCarPhysics : MonoBehaviour
     private float _tireTurnSpeed = 1f;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
-    private float _lowerClamp;
-    private float _higherClamp;
+    private float _lowerClamp = -110;
+    private float _higherClamp = 110;
     //Public members
     [HideInInspector] private float frontTiresRotationAngle;
     [HideInInspector] private float backTiresRotationAngle;
