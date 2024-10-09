@@ -5,7 +5,7 @@ public class CameraFollower3D : MonoBehaviour
     private Transform _transform;
     [SerializeField] private Transform _target;
     [SerializeField] private Transform _desiredLocation;
-    [SerializeField] private float smoothSpeed;
+    [SerializeField] private float smoothSpeed = 0.25f;
     [SerializeField] private KeyCode _rearViewKey = KeyCode.Tab;
     
     private Vector3 _currentVelocity = Vector3.zero;
