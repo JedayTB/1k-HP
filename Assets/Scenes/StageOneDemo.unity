@@ -6515,8 +6515,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 8516979618195429298}
   _desiredLocation: {fileID: 2955740461295962732}
+  _pivot: {fileID: 570041252}
   smoothSpeed: 0.2
+  _sensitivity: 5
   _rearViewKey: 9
+  rotated: 0
 --- !u!1 &403695897
 GameObject:
   m_ObjectHideFlags: 0
@@ -9536,6 +9539,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1262876873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &570041252 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1597069756277293796, guid: cd576dac49fdbb049ac9b501a652d828,
+    type: 3}
+  m_PrefabInstance: {fileID: 4521062506620734454}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &570542844
 GameObject:
   m_ObjectHideFlags: 0
