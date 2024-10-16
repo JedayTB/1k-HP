@@ -4,10 +4,6 @@ public class PlayerVehicleController : I_VehicleController
 {
     protected InputManager inputManager;
 
-    protected KeyCode _nitroKey = KeyCode.LeftShift;
-    protected KeyCode _breakKey = KeyCode.Space;
-    protected KeyCode _abilityKey = KeyCode.F;
-
     private bool isUsingNitro;
     private bool isUsingDrift;
 
@@ -36,12 +32,11 @@ public class PlayerVehicleController : I_VehicleController
 
         isUsingDrift = inputManager.isDrifting;
         bool endedDrift = inputManager.endedDrifting;
-        if (isUsingNitro) _nitroAmount -= 10 * Time.deltaTime;
+        if (isUsingNitro) startTurboBoost();
 
         if (inputManager.usedAbility) useCharacterAbility();
         
 
-        _vehiclePhysics.useNitro(isUsingNitro, _nitroSpeedBoost);
         _vehiclePhysics.driftVehicle(isUsingDrift);
         _vehiclePhysics.endedDrifting(endedDrift);
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);

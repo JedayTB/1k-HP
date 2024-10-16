@@ -290,6 +290,10 @@ MonoBehaviour:
   _worldGeometryLayers:
     serializedVersion: 2
     m_Bits: 0
+  _nitroChargeAmounts: 2
+  _nitroIncrementThresholdValue: 0
+  _nitroIncreaseScaler: 1
+  _nitroTimeLength: 2.5
   _abilityGauge: 100
   _abilityUseTimer: 5
   _initInStart: 0
@@ -482,8 +486,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 1257752873}
   _desiredLocation: {fileID: 264486862}
+  _pivot: {fileID: 898092465}
   smoothSpeed: 0.2
+  _sensitivity: 1
   _rearViewKey: 9
+  rotated: 0
 --- !u!1 &362178889
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,6 +887,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &898092465 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1597069756277293796, guid: cd576dac49fdbb049ac9b501a652d828,
+    type: 3}
+  m_PrefabInstance: {fileID: 1257752868}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1045401667
 GameObject:
   m_ObjectHideFlags: 0

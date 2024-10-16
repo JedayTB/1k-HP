@@ -1,4 +1,6 @@
 using Unity.Mathematics;
+using System.Collections;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -105,10 +107,27 @@ public class CustomCarPhysics : MonoBehaviour
     {
         _rigidBody.velocity = vel;
     }
-
-    public void useNitro(bool isUsingNitro, float _nitroMultiplier)
+    /// <summary>
+    /// 
+    /// Coroutine for more simple nitro. Just start coroutine and forget
+    /// More simple then adding multiple values and counting in update
+    /// 
+    /// </summary>
+    /// <param name="_nitroMultiplier">The amount that accelleration is multiplied by. EG 2f</param>
+    /// <param name="nitroTiming">How long the nitro should last</param>
+    /// <returns></returns>
+    public IEnumerator useNitro(float _nitroMultiplier, float nitroTiming)
     {
-        _accelerationAmount = isUsingNitro ? _baseAccelerationAmount * _nitroMultiplier : _baseAccelerationAmount;
+        //_accelerationAmount = isUsingNitro ? _baseAccelerationAmount * _nitroMultiplier : _baseAccelerationAmount;
+        float count = 0f;
+        _accelerationAmount = _baseAccelerationAmount * _nitroMultiplier;
+        //Set invunerable to offroad / physicsMaterials below when implemented
+        while (count <= nitroTiming)
+        {
+            count += Time.deltaTime;
+            yield return null; // Might set to small timings between checks. maybe waitForSeconds(0.25f) or so
+        }
+        _accelerationAmount = _baseAccelerationAmount;
     }
 
     public void driftVehicle(bool isUsingDrift)
@@ -174,7 +193,9 @@ public class CustomCarPhysics : MonoBehaviour
 
     //End of public functions
 
-    //Physics
+    //Physics Based functions.
+
+
     void FixedUpdate()
     {
         _tireGroundHits = rayCastFromTires();

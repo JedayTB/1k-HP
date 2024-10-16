@@ -1,7 +1,11 @@
 using UnityEngine;
 
-//Used as an interface. Not going to bother with using MonoBehaviour with interfaces.
-public class I_VehicleController : MonoBehaviour
+/// <summary>
+/// Vehicle class for all vehicle controller classes to inherit
+/// Includes basic functionality for AI and PlayerVehicles.
+/// Cannot be used as a standalone class
+/// </summary>
+public abstract class I_VehicleController : MonoBehaviour
 {
     //Cache transform to avoid extern calls
     protected CarVisualController _vehicleVisualController;
@@ -24,6 +28,17 @@ public class I_VehicleController : MonoBehaviour
     [SerializeField] protected bool _useGroundCheck = false;
     [SerializeField] protected float _raycastDistance = 5f;
     [SerializeField] protected LayerMask _worldGeometryLayers;
+
+    [Header("Nitro Setup")]
+    [Tooltip("The amount of nitro boosts the player can use")]
+    [SerializeField] protected int _nitroChargeAmounts = 2;
+    [SerializeField] protected int _maxNitroChargeAmounts = 4;
+    [Tooltip("Value that keep tracks of when to increment _driftChargeAmounts. counts from 0 - 1, once reached 1 increment.")]
+    [SerializeField] protected float _nitroIncrementThresholdValue = 0f;
+    [Tooltip("Scale value for _nitroIncrementThresholdValue. Change based off of tightness of drift and character stats.")]
+    [SerializeField] protected float _nitroIncreaseScaler = 1f;
+    [SerializeField] protected float _nitroTimeLength = 1f;
+    [SerializeField] protected float _nitroSpeedMultiplier = 2.5f;
 
     [Header("Character Abilities Basic setup")]
 
@@ -120,7 +135,17 @@ public class I_VehicleController : MonoBehaviour
         }
         
     }
-
+    protected virtual void startTurboBoost()
+    {
+        if (_nitroChargeAmounts != 0)
+        {
+            _nitroChargeAmounts--;
+            Debug.LogWarning("Using nitro depletes all nitroCharges. I believe this is because the input manager checks when it is down, not pressd");
+            StartCoroutine(_vehiclePhysics.useNitro(_nitroSpeedMultiplier, _nitroTimeLength));
+            
+        }
+        
+    }
     
     //End of protected virtual methods
 
