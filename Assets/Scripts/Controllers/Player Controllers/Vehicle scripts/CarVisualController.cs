@@ -14,12 +14,12 @@ public class CarVisualController : MonoBehaviour
     [SerializeField] private Material _vehicleTailLightBreaking;
     [SerializeField] private Material _vehicleTailLight;
 
-    private CustomCarPhysics _carPhysics;
+    private CustomCarPhysics _vehiclePhysics;
     private Rigidbody _rb;
 
     public void Init()
     {
-        _carPhysics = GetComponent<CustomCarPhysics>();
+        _vehiclePhysics = GetComponent<CustomCarPhysics>();
         _rb = GetComponent<Rigidbody>();
     }
 
@@ -31,8 +31,8 @@ public class CarVisualController : MonoBehaviour
             SpinWheels(_wheels[i], _rb);
             
             //Rotates the container
-
-            TurnWheels(_wheelContainers[i], _carPhysics.FrontTiresRotationAngle);
+            float rotAngle = i < _wheelContainers.Length /2 ?  _vehiclePhysics.FrontTiresRotationAngle: _vehiclePhysics.BackTiresRotationAngle;
+            TurnWheels(_wheelContainers[i], rotAngle);
             
         }
     }

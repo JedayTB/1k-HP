@@ -291,9 +291,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _nitroChargeAmounts: 2
+  _maxNitroChargeAmounts: 4
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 1
   _nitroTimeLength: 2.5
+  _nitroSpeedMultiplier: 2.5
   _abilityGauge: 100
   _abilityUseTimer: 5
   _initInStart: 0
@@ -932,6 +934,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _tireMass
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1338233459606981986, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -987,6 +994,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 2198447554883300229, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2635368579874017976, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_IsActive
@@ -1026,6 +1038,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095818865533755442, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: m_Mass
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 9019970185672546183, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}

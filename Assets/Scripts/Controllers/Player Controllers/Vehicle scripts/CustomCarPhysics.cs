@@ -14,7 +14,7 @@ public class CustomCarPhysics : MonoBehaviour
     private Transform _transform;
 
     [Header("Basic Setup")]
-    [SerializeField] public Transform[] Tires;
+    [SerializeField] private Transform[] Tires;
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private bool debugRaycasts = true;
     [SerializeField] private float _tireRaycastDistance = 0.1f;
@@ -128,6 +128,7 @@ public class CustomCarPhysics : MonoBehaviour
         {
             count += Time.deltaTime;
             yield return null; // Might set to small timings between checks. maybe waitForSeconds(0.25f) or so
+                                // this would make nitro timing 4x longer. don't do!
         }
         _accelerationAmount = _baseAccelerationAmount;
     }
@@ -141,8 +142,8 @@ public class CustomCarPhysics : MonoBehaviour
 
             float invertedTurningInput = -Mathf.CeilToInt(_turningInput);
 
-            _lowerClamp = 25f * Mathf.Abs(_turningInput);
-            _higherClamp = 45f * Mathf.Abs(_turningInput);
+            //_lowerClamp = 25f * Mathf.Abs(_turningInput);
+            //_higherClamp = 45f * Mathf.Abs(_turningInput);
 
             
             for (int i = halfTireLength; i < Tires.Length; i++)
@@ -151,7 +152,7 @@ public class CustomCarPhysics : MonoBehaviour
                 Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
 
                 backTireRot.y = 35 * -Mathf.CeilToInt(_turningInput);
-
+                backTiresRotationAngle = backTireRot.y;
                 Tires[i].localRotation = Quaternion.Euler(backTireRot);
 
             }
@@ -173,7 +174,7 @@ public class CustomCarPhysics : MonoBehaviour
             {
 
                 Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
-
+                backTiresRotationAngle = 0;
                 backTireRot.y = 0f;
 
                 Tires[i].localRotation = Quaternion.Euler(backTireRot);
@@ -333,7 +334,7 @@ public class CustomCarPhysics : MonoBehaviour
     void applyTireAcceleration(Transform Tire, int tireCount)
     {
         //only makes it so back tires accelerate while drifting
-        if(isDrifting && tireCount <= halfTireLength) return;
+        if(isDrifting && tireCount < halfTireLength) return;
 
         Vector3 accelerationDirection = _accelerationAmount * Tire.forward;
 
@@ -348,7 +349,7 @@ public class CustomCarPhysics : MonoBehaviour
 
             _rigidBody.AddForceAtPosition(availableTorque * accelerationDirection, Tire.position);
 
-            Debug.DrawRay(Tire.position, availableTorque * accelerationDirection * 0.1f,
+            Debug.DrawRay(Tire.position, 0.1f * availableTorque * accelerationDirection,
              tireCount > halfTireLength ? Color.blue : Color.green);
         }
 
