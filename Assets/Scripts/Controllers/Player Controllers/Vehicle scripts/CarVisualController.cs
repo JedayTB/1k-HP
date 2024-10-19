@@ -30,11 +30,10 @@ public class CarVisualController : MonoBehaviour
             //Rotates the model
             SpinWheels(_wheels[i], _rb);
             
-            if (i < 2)
-            {
-                //Rotates the container
-                TurnWheels(_wheelContainers[i], _carPhysics.FrontTiresRotationAngle);
-            }
+            //Rotates the container
+
+            TurnWheels(_wheelContainers[i], _carPhysics.FrontTiresRotationAngle);
+            
         }
     }
     void SpinWheels(Transform wheel, Rigidbody carRb)

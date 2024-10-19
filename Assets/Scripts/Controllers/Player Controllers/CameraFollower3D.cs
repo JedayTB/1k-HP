@@ -58,7 +58,7 @@ public class CameraFollower3D : MonoBehaviour
         ///
 
         Vector3 currentEulerRotation = _pivot.transform.localRotation.eulerAngles;
-        print(currentEulerRotation);
+//        print(currentEulerRotation);
 
         currentEulerRotation.y += -_horizontalInput * _sensitivity;
 

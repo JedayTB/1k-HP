@@ -2,17 +2,19 @@ using Unity.Mathematics;
 using System.Collections;
 using System;
 using UnityEngine;
+using System.Threading;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
+    #region Variables
     private float _throttleInput;
     private float _turningInput;
 
     private Transform _transform;
 
     [Header("Basic Setup")]
-    [SerializeField] private Transform[] Tires;
+    [SerializeField] public Transform[] Tires;
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private bool debugRaycasts = true;
     [SerializeField] private float _tireRaycastDistance = 0.1f;
@@ -81,7 +83,7 @@ public class CustomCarPhysics : MonoBehaviour
     public float FrontTiresRotationAngle { get => frontTiresRotationAngle; }
     public float BackTiresRotationAngle { get => backTiresRotationAngle; }
 
-
+    #endregion
     //Public Functions
     public void Init()
     {
@@ -132,12 +134,6 @@ public class CustomCarPhysics : MonoBehaviour
 
     public void driftVehicle(bool isUsingDrift)
     {
-        /// how drifting works (right dir)
-        ///   / /   front wheels
-        ///   | |
-        ///   \ \   back wheels
-        // If they weren't drifting before. 
-        // i.e Only run this logic at the beginning of the drift.
         if (isDrifting == false && isUsingDrift == true)
         {
             print("start drift!");
@@ -145,16 +141,10 @@ public class CustomCarPhysics : MonoBehaviour
 
             float invertedTurningInput = -Mathf.CeilToInt(_turningInput);
 
-            _lowerClamp = 25f * invertedTurningInput;
-            _higherClamp = 45f * invertedTurningInput;
+            _lowerClamp = 25f * Mathf.Abs(_turningInput);
+            _higherClamp = 45f * Mathf.Abs(_turningInput);
 
-
-            /// Makes back tires pivot 35 degree's opposite of player input
-            /// player input -> (right)
-            /// | | current back tires
-            /// after
-            /// \ \ 
-
+            
             for (int i = halfTireLength; i < Tires.Length; i++)
             {
 
@@ -165,6 +155,7 @@ public class CustomCarPhysics : MonoBehaviour
                 Tires[i].localRotation = Quaternion.Euler(backTireRot);
 
             }
+            
 
         }
     }
@@ -341,6 +332,9 @@ public class CustomCarPhysics : MonoBehaviour
     /// <param name="tireCount"></param>
     void applyTireAcceleration(Transform Tire, int tireCount)
     {
+        //only makes it so back tires accelerate while drifting
+        if(isDrifting && tireCount <= halfTireLength) return;
+
         Vector3 accelerationDirection = _accelerationAmount * Tire.forward;
 
         if (Mathf.Abs(_throttleInput) > 0.0f)
