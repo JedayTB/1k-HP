@@ -52,8 +52,8 @@ public class CustomCarPhysics : MonoBehaviour
     //Breaking
 
     [Header("Breaking Setup")]
-    [SerializeField] private bool _frontWheelBreaking = false;
-    [SerializeField] private bool _backWheelBreaking = true;
+    //[SerializeField] private bool _frontWheelBreaking = false;
+    //[SerializeField] private bool _backWheelBreaking = true;
     [SerializeField] private float _tireMass = 5f;
     private bool isDrifting = false;
 
@@ -226,7 +226,7 @@ public class CustomCarPhysics : MonoBehaviour
         
         float steeringVelocity = Vector3.Dot(steeringDir, tireWorldVelocity);
 
-        Debug.Log(steeringVelocity);
+        //Debug.Log(steeringVelocity);
 
         // The change in velocity that we're looking for is -steeringVel * gripFactor
         // a negative steering vel is turning left (in terms of world 0, 0)

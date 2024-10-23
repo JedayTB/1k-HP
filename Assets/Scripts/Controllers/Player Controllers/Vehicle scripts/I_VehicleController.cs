@@ -135,7 +135,7 @@ public abstract class I_VehicleController : MonoBehaviour
         }
         
     }
-    protected virtual void startTurboBoost()
+    protected virtual void startNitroBoost()
     {
         if (_nitroChargeAmounts != 0)
         {

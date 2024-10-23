@@ -5962,6 +5962,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _backWheelBreaking
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _frontWheelBreaking
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1338233459606981986, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_LocalPosition.x
