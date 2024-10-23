@@ -212,7 +212,7 @@ MonoBehaviour:
   _springRestDistance: 0.8
   _frontWheelBreaking: 0
   _backWheelBreaking: 1
-  _tireMass: 5
+  _tireMass: 1
   _frontWheelSteer: 1
   _backWheelSteer: 0
   _rotationAngleTimeToZero: 1.5
@@ -491,8 +491,10 @@ MonoBehaviour:
   _pivot: {fileID: 898092465}
   smoothSpeed: 0.2
   _sensitivity: 1
+  _maximumRotationX: 35
+  _timeUntilReset: 1
   _rearViewKey: 9
-  rotated: 0
+  _reverseCameraX: 0
 --- !u!1 &362178889
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,7 +939,7 @@ PrefabInstance:
     - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: _tireMass
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1338233459606981986, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
@@ -947,7 +949,7 @@ PrefabInstance:
     - target: {fileID: 1338233459606981986, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1338233459606981986, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}

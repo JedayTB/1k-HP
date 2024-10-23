@@ -770,7 +770,7 @@ Transform:
   m_GameObject: {fileID: 200574927}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -126.614105, y: 148.71, z: -41.25}
+  m_LocalPosition: {x: -72.3, y: 148.71, z: 191.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -834,8 +834,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 1673128374}
   _desiredLocation: {fileID: 1673128375}
+  _pivot: {fileID: 1014513553}
   smoothSpeed: 0.25
+  _sensitivity: 1
+  _maximumRotationX: 35
+  _timeUntilReset: 1
   _rearViewKey: 9
+  _reverseCameraX: 0
 --- !u!1 &222881278 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9141816029861474070, guid: d18e78d1a763bae41af50af675bc9dbb,
@@ -4358,6 +4363,12 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6416302070336371891, guid: d18e78d1a763bae41af50af675bc9dbb, type: 3}
+--- !u!4 &1014513553 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1597069756277293796, guid: cd576dac49fdbb049ac9b501a652d828,
+    type: 3}
+  m_PrefabInstance: {fileID: 1673128372}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1029788151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8248145810381221189, guid: d18e78d1a763bae41af50af675bc9dbb,
