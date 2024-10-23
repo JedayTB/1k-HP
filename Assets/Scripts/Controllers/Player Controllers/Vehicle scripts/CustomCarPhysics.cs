@@ -55,7 +55,7 @@ public class CustomCarPhysics : MonoBehaviour
     //[SerializeField] private bool _frontWheelBreaking = false;
     //[SerializeField] private bool _backWheelBreaking = true;
     [SerializeField] private float _tireMass = 5f;
-    private bool isDrifting = false;
+    public bool isDrifting = false;
 
     //Steering
 
@@ -64,7 +64,6 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private bool _frontWheelSteer = true;
 
     [Tooltip("Determines If the Back wheels steer the car. If front and back true, all wheels turn. NOTE back wheels are the last two elements of the Tires array.")]
-    [SerializeField] private bool _backWheelSteer = false;
 
     [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
     [SerializeField] private AnimationCurve _tireGripCurve;
@@ -75,8 +74,8 @@ public class CustomCarPhysics : MonoBehaviour
     private float _lowerClamp = -45;
     private float _higherClamp = 45;
     //Public members
-    [HideInInspector] private float frontTiresRotationAngle;
-    [HideInInspector] private float backTiresRotationAngle;
+    private float frontTiresRotationAngle;
+    private float backTiresRotationAngle = 0f;
 
     public float FrontTiresRotationAngle { get => frontTiresRotationAngle; }
     public float BackTiresRotationAngle { get => backTiresRotationAngle; }
@@ -91,7 +90,7 @@ public class CustomCarPhysics : MonoBehaviour
         _transform = transform;
 
         _tireGroundHits = new RaycastHit[Tires.Length];
-        halfTireLength = (Tires.Length / 2);
+        halfTireLength = Tires.Length / 2;
         _baseAccelerationAmount = _accelerationAmount;
     }
     public void setInputs(float throttleAmt, float turningAmt)
@@ -125,7 +124,7 @@ public class CustomCarPhysics : MonoBehaviour
         while (count <= nitroTiming)
         {
             count += Time.deltaTime;
-            yield return null; // Might set to small timings between checks. maybe waitForSeconds(0.25f) or so
+            yield return null;  // Might set to small timings between checks. maybe waitForSeconds(0.25f) or so
                                 // this would make nitro timing 4x longer. don't do!
         }
         _accelerationAmount = _baseAccelerationAmount;
@@ -137,26 +136,6 @@ public class CustomCarPhysics : MonoBehaviour
         {
             Debug.Log("start drift!");
             isDrifting = true;
-            /*
-            float invertedTurningInput = -Mathf.CeilToInt(_turningInput);
-
-            //_lowerClamp = 25f * Mathf.Abs(_turningInput);
-            //_higherClamp = 45f * Mathf.Abs(_turningInput);
-
-            
-            for (int i = halfTireLength; i < Tires.Length; i++)
-            {
-
-                Vector3 backTireRot = Tires[i].localRotation.eulerAngles;
-
-                backTireRot.y = 35 * -Mathf.CeilToInt(_turningInput);
-                backTiresRotationAngle = backTireRot.y;
-                Tires[i].localRotation = Quaternion.Euler(backTireRot);
-
-            }
-            */
-            
-
         }
     }
     public void endedDrifting(bool endedDrifting)

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CustomWheels : MonoBehaviour
 {
+    /*
     #region Variables
     
     [Header("Basic Setup")]
@@ -74,7 +75,7 @@ public class CustomWheels : MonoBehaviour
 
     
     #endregion
-
+    
     public void init(Rigidbody rb){
         _vehicleRB = rb;
     }
@@ -145,7 +146,7 @@ public class CustomWheels : MonoBehaviour
             Debug.DrawRay(Tire.position, 0.1f * availableTorque * accelerationDirection,
              tireCount > halfTireLength ? Color.blue : Color.green);
         }
-        */
+        
     }
     /// <summary>
     /// Add spring force for the Car
@@ -172,5 +173,6 @@ public class CustomWheels : MonoBehaviour
 
         _vehicleRB.AddForceAtPosition(springDir * force, Tire.position);
     }
-
+    */    
 }
+

@@ -7,7 +7,7 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     private InputManager inputManager;
-    [SerializeField] public PlayerVehicleController _player;
+    [SerializeField] public PlayerVehicleController player;
     [SerializeField] private LapChecker _lapChecker;
     [SerializeField] private LapTimer _lapTimer;
     [SerializeField] private waypointGizmos _waypointGizmos;
@@ -25,7 +25,7 @@ public class GameStateManager : MonoBehaviour
         
         _lapChecker?.Init(this);
 
-        _player?.Init(inputManager);
+        player?.Init(inputManager);
 
         for (int i = 0; i < _aiControllers.Length; i++)
         {

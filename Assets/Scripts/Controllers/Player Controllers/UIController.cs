@@ -10,14 +10,20 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider _playerNitroSlider;
     private bool _menuIsOpen = false;
 
+    void Start()
+    {
+        init();
+    }
+    public void init(){
+        _playerNitroSlider.maxValue = _gameStateManager.player.MaxNitroChargeAmounts;
+    }
     void Update()
     {
         if (Input.GetKeyUp(_pauseMenuKey))
         {
             menuOpenClose();
         }
-        
-        _playerNitroSlider.value = _gameStateManager._player._nitroAmount;
+        _playerNitroSlider.value = _gameStateManager.player._builtUpNitroAmount;
     }
 
     private void menuOpenClose()
@@ -38,7 +44,7 @@ public class UIController : MonoBehaviour
 
     public void resetPlayer()
     {
-        _gameStateManager._player.respawn();
+        _gameStateManager.player.respawn();
         menuOpenClose();
     }
 

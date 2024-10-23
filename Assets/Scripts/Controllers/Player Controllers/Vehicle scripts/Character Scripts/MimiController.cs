@@ -1,3 +1,4 @@
+using UnityEditor.Build;
 using UnityEngine;
 
 public class MimiController : PlayerVehicleController
@@ -13,10 +14,10 @@ public class MimiController : PlayerVehicleController
         }
         
     }
-    private void Update()
+    protected override void Update()
     {
-        playerControlsLogic();
-
+        //playerControlsLogic();
+        base.Update();
 
         if (_bubble.gameObject.activeSelf) {
             _abilityElapsedTime += Time.deltaTime;

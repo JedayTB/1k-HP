@@ -16,11 +16,7 @@ public abstract class I_VehicleController : MonoBehaviour
 
     protected float _throttleInput;
     protected float _turningInput;
-
-    public float _maxNitroAmount = 100f;
-    public float _nitroAmount = 50f;
-
-    public float _nitroSpeedBoost = 2f;
+    
     
     protected bool isGrounded = true;
     [Header("I_VehicleController member's")]
@@ -31,10 +27,13 @@ public abstract class I_VehicleController : MonoBehaviour
 
     [Header("Nitro Setup")]
     [Tooltip("The amount of nitro boosts the player can use")]
+    public float MaxNitroChargeAmounts;
+    public float _builtUpNitroAmount;
     [SerializeField] protected int _nitroChargeAmounts = 2;
+    
     [SerializeField] protected int _maxNitroChargeAmounts = 4;
     [Tooltip("Value that keep tracks of when to increment _driftChargeAmounts. counts from 0 - 1, once reached 1 increment.")]
-    [SerializeField] protected float _nitroIncrementThresholdValue = 0f;
+    protected float _nitroIncrementThresholdValue = 0f;
     [Tooltip("Scale value for _nitroIncrementThresholdValue. Change based off of tightness of drift and character stats.")]
     [SerializeField] protected float _nitroIncreaseScaler = 1f;
     [SerializeField] protected float _nitroTimeLength = 1f;
@@ -54,7 +53,6 @@ public abstract class I_VehicleController : MonoBehaviour
     public virtual void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
-        
         _vehicleVisualController = GetComponent<CarVisualController>();
 
         _vehiclePhysics.Init();
@@ -64,25 +62,18 @@ public abstract class I_VehicleController : MonoBehaviour
         _respawnRotation = transform.rotation;
 
     }
-    //For inherited script's that take input
-    //Fuck OOP sometimes. this ugly as shit
+    //  For inherited script's that take input
+    //  Since you can't inherit a method with new params
+    //  Fuck OOP sometimes. this ugly as shit
     public virtual void Init(InputManager playerInput)
     {
         Init();
     }
-    //Public Methods
-    public virtual void useCharacterAbility()
-    {
-        if(_abilityGauge >= 100)
-        {
-            Debug.Log($"{this.name} used their ability!");
-        }
-        else
-        {
-            Debug.Log($"ability gauge must be at 100 to use ability.");
-        }
-        
+    
+    protected virtual void Update(){
+        if(_vehiclePhysics.isDrifting) buildNitro();
     }
+    #region Public use Methods
     public virtual void setAsAutoDriveAI()
     {
         Debug.LogError("Not implemented yet");
@@ -118,9 +109,31 @@ public abstract class I_VehicleController : MonoBehaviour
         _respawnRotation = newRespawn.rotation;
     }
     //End of public methods
+    public virtual void addNitro(){
+        _nitroChargeAmounts++;
+        Mathf.Clamp(_nitroChargeAmounts, 0 , _maxNitroChargeAmounts);
+    }
+    public virtual void addNitro(int nitroDelta){
+        _nitroChargeAmounts += nitroDelta;
+        Mathf.Clamp(_nitroChargeAmounts, 0 , _maxNitroChargeAmounts);
+    }
 
-
+    
+    #endregion
     //Protected virtual methods
+    public virtual void useCharacterAbility()
+    {
+        if(_abilityGauge >= 100)
+        {
+            Debug.Log($"{this.name} used their ability!");
+        }
+        else
+        {
+            Debug.Log($"ability gauge must be at 100 to use ability.");
+        }
+        
+    }
+    #region protected virtual methods
     protected virtual void groundCheck()
     {
         if (_useGroundCheck)
@@ -133,31 +146,43 @@ public abstract class I_VehicleController : MonoBehaviour
 
             _vehiclePhysics.RigidBody.freezeRotation = !isGrounded;
         }
-        
     }
     protected virtual void startNitroBoost()
     {
         if (_nitroChargeAmounts != 0)
         {
             _nitroChargeAmounts--;
-            Debug.LogWarning("Using nitro depletes all nitroCharges. I believe this is because the input manager checks when it is down, not pressd");
+            _builtUpNitroAmount -= 1;
             StartCoroutine(_vehiclePhysics.useNitro(_nitroSpeedMultiplier, _nitroTimeLength));
-            
         }
-        
     }
-    
-    //End of protected virtual methods
+    protected void buildNitro(){
+        _nitroIncrementThresholdValue += _nitroIncreaseScaler * Time.deltaTime;
 
+        _builtUpNitroAmount += _nitroIncrementThresholdValue;
+        Mathf.Clamp(_builtUpNitroAmount, 0, _maxNitroChargeAmounts);
+        
+        if(_nitroIncrementThresholdValue > 1f){
+            addNitro();
+            _nitroIncrementThresholdValue = 0;
+        }
+    }
+    //End of protected virtual methods
 
     protected virtual void OnTriggerEnter(Collider other)
     {
         var collectable = other.GetComponent<Collectables>();
+        /*
         // Unity object's should not use propogation
         // Well your mother soon to be full of lacerations
         // Sure, it's uncool to me the emancipation of a life 
         // Gunned - hope it not be in this nasty nation
         // - Ethan arrazola
+        // Real reason is because Unity doesn't set objects to actual null
+        // instead, It set's it as unity null or "due for destruction" before actually deleting.
+        // Regardless. This is a useless paragraph. fuck it, though
+        */
         collectable?.onPickup(this);
     }
+    #endregion
 }

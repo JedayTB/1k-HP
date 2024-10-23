@@ -9,8 +9,9 @@ public class PlayerVehicleController : I_VehicleController
     private bool canNitroAgain = true;
     private bool isUsingDrift;
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         playerControlsLogic();
     }
     public override void Init(InputManager playerInput)
@@ -24,13 +25,10 @@ public class PlayerVehicleController : I_VehicleController
     /// </summary>
     protected virtual void playerControlsLogic()
     {
-        //groundCheck();
-
         _throttleInput = inputManager.PlayerThrottleInput;
         _turningInput = inputManager.PlayerTurningInput;
 
-        
-        isUsingNitro = inputManager.isUsingNitro && _nitroAmount > 0;
+        isUsingNitro = inputManager.isUsingNitro && _nitroChargeAmounts > 0;
 
         isUsingDrift = inputManager.isDrifting;
         bool endedDrift = inputManager.endedDrifting;
@@ -39,13 +37,12 @@ public class PlayerVehicleController : I_VehicleController
             startNitroBoost();
             StartCoroutine(driftPressCoolDown(0.25f));
         }
-            
-        
+
         if (inputManager.usedAbility) useCharacterAbility();
-        
 
         _vehiclePhysics.driftVehicle(isUsingDrift);
         _vehiclePhysics.endedDrifting(endedDrift);
+
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);
     }
     protected IEnumerator driftPressCoolDown(float time){

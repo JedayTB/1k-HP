@@ -3,7 +3,7 @@ using UnityEngine;
 public class NitroCell : Collectables
 {
 
-    [SerializeField] private float _nitroCellAmount = 20f;
+    [SerializeField] private int _nitroCellAmount = 1;
     [SerializeField] private BoxCollider _boxCollider;
 
     private void Awake()
@@ -13,7 +13,7 @@ public class NitroCell : Collectables
     }
     public override void onPickup(I_VehicleController vehicle)
     {
-        vehicle._nitroAmount += _nitroCellAmount;
+        vehicle.addNitro(_nitroCellAmount);
         base.onPickup(vehicle);
     }
 }

@@ -59,7 +59,7 @@ public class VehicleAIController : I_VehicleController
     {
         _driveVehicle = true;
     }
-    void Update()
+    protected override void Update()
     {
         groundCheck();
 
