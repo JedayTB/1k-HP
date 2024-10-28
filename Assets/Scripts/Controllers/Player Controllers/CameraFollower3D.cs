@@ -9,9 +9,11 @@ public class CameraFollower3D : MonoBehaviour
     [SerializeField] private float smoothSpeed = 0.25f;
     [SerializeField] private float _sensitivity = 1f;
     [SerializeField] private float _maximumRotationX = 35f;
+    [SerializeField] private float _maximumRotationY = 15f;
     [SerializeField] private float _timeUntilReset = 1f;
     [SerializeField] private KeyCode _rearViewKey = KeyCode.Tab;
-    [SerializeField] private bool _reverseCameraX = false;
+    [SerializeField] private bool _inverseCameraX = false;
+    [SerializeField] private bool _inverseCameraY = false;
 
     private Vector3 _currentVelocity = Vector3.zero;
     private float _horizontalInput;
@@ -56,7 +58,7 @@ public class CameraFollower3D : MonoBehaviour
         }
     }
 
-    private float lerpRotation(Vector3 currentEulerRotation)
+    private Vector3 lerpRotation(Vector3 currentEulerRotation)
     {
         if (!_lerping) // i feel like this should be out but it broke when i did that sooo
         {
@@ -67,13 +69,14 @@ public class CameraFollower3D : MonoBehaviour
 
         float progress = 1 - Mathf.Pow(1 - ((Time.time - _startTime) - 0.5f), 0.5f);
         currentEulerRotation.y = Mathf.Lerp(currentEulerRotation.y, 0, progress);
+        currentEulerRotation.x = Mathf.Lerp(currentEulerRotation.x, 0, progress);
 
         if (progress == 1f)
         {
             _lerping = false;
         }
 
-        return currentEulerRotation.y;
+        return currentEulerRotation;
     }
 
     void FixedUpdate(){
@@ -94,8 +97,9 @@ public class CameraFollower3D : MonoBehaviour
         }
 
         Vector3 currentEulerRotation = _pivot.transform.localRotation.eulerAngles;
-        _horizontalInput *= _reverseCameraX ? -1 : 1; // oooh my i feel so cool.....
+        _horizontalInput *= _inverseCameraX ? -1 : 1; // oooh my i feel so cool.....
         currentEulerRotation.y += -_horizontalInput * _sensitivity;
+        currentEulerRotation.x += _verticalInput * _sensitivity;
 
         // Stupid work around because rotation resets to 359 degrees instead of -1 when going below 0
         if (currentEulerRotation.y > 180f)
@@ -103,13 +107,19 @@ public class CameraFollower3D : MonoBehaviour
             currentEulerRotation.y -= 360f; // i am SUCH a smart cookie
         }
 
-        // Lerps as long as there hasn't been enough input and the rotation isn't already 0
-        if (_timeSinceInput > _timeUntilReset && currentEulerRotation.y != 0)
+        if (currentEulerRotation.x > 180f)
         {
-            currentEulerRotation.y = lerpRotation(currentEulerRotation);
+            currentEulerRotation.x -= 360f;
+        }
+
+        // Lerps as long as there hasn't been enough input and the rotation isn't already 0
+        if (_timeSinceInput > _timeUntilReset && currentEulerRotation.y != 0 || currentEulerRotation.x != 0)
+        {
+            currentEulerRotation = lerpRotation(currentEulerRotation);
         }
 
         currentEulerRotation.y = Mathf.Clamp(currentEulerRotation.y, -_maximumRotationX, _maximumRotationX);
+        currentEulerRotation.x = Mathf.Clamp(currentEulerRotation.x, -_maximumRotationY, _maximumRotationY);
 
         // Sometimes we get a NaN error here, I did my best to get rid of it but it still shows up sometimes
         // I did manage to make it never (I think) affect gameplay, though

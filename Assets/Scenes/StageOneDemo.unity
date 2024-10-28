@@ -6099,9 +6099,11 @@ MonoBehaviour:
   smoothSpeed: 0.2
   _sensitivity: 5
   _maximumRotationX: 35
+  _maximumRotationY: 15
   _timeUntilReset: 1
   _rearViewKey: 9
-  _reverseCameraX: 0
+  _inverseCameraX: 0
+  _inverseCameraY: 0
 --- !u!1 &403695897
 GameObject:
   m_ObjectHideFlags: 0
@@ -7676,6 +7678,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1262876873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &507136815 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8493630832370461267, guid: cd576dac49fdbb049ac9b501a652d828,
+    type: 3}
+  m_PrefabInstance: {fileID: 4521062506620734454}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &509017336
 GameObject:
   m_ObjectHideFlags: 0
@@ -8000,7 +8008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625de75fe6388b4478b447a7ad0f6e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 1321568052}
+  player: {fileID: 1321568052}
   _lapChecker: {fileID: 1624596632}
   _lapTimer: {fileID: 1095892485}
   _waypointGizmos: {fileID: 1262876872}
@@ -35551,6 +35559,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
+      propertyPath: _tireMass
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
       propertyPath: torqueCurve.m_Curve.Array.data[3].time
       value: 1.0009825
       objectReference: {fileID: 0}
@@ -35619,11 +35632,36 @@ PrefabInstance:
       propertyPath: _useGroundCheck
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5941679640192156269, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _vehiclePhysics
+      value: 
+      objectReference: {fileID: 8516979618195429301}
     - target: {fileID: 7633368292810393836, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_Name
       value: 'Mimi '
       objectReference: {fileID: 0}
+    - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _vehicleMesh
+      value: 
+      objectReference: {fileID: 507136815}
+    - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _tailLightColors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _tailLightColors.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 95c16ac15f89a7e4e80f9a6999bd04b1, type: 2}
+    - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _tailLightColors.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: b991442bcaf8a2e4a96e48cb8ec122e1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

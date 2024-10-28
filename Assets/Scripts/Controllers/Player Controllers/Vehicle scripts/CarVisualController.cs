@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CarVisualController : MonoBehaviour
@@ -14,6 +15,9 @@ public class CarVisualController : MonoBehaviour
     [SerializeField] private Material _vehicleTailLightBreaking;
     [SerializeField] private Material _vehicleTailLight;
 
+    [SerializeField] private List<Material> _tailLightColors = new List<Material>();
+    [SerializeField] private List<Material> _carMats = new List<Material>();
+
     private CustomCarPhysics _vehiclePhysics;
     private Rigidbody _rb;
 
@@ -21,6 +25,7 @@ public class CarVisualController : MonoBehaviour
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
         _rb = GetComponent<Rigidbody>();
+        _vehicleMesh.GetMaterials(_carMats);
     }
 
     void Update()
@@ -34,6 +39,18 @@ public class CarVisualController : MonoBehaviour
             float rotAngle = i < _wheelContainers.Length /2 ?  _vehiclePhysics.FrontTiresRotationAngle: _vehiclePhysics.BackTiresRotationAngle;
             TurnWheels(_wheelContainers[i], rotAngle);
             
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _carMats[6] = _tailLightColors[1];
+            _vehicleMesh.SetMaterials(_carMats);
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            _carMats[6] = _tailLightColors[0];
+            _vehicleMesh.SetMaterials(_carMats);
         }
     }
     void SpinWheels(Transform wheel, Rigidbody carRb)
