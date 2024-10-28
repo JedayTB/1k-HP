@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -14,8 +13,10 @@ public class CustomCarPhysics : MonoBehaviour
     [Header("Basic Setup")]
     [SerializeField] private Transform[] Tires;
     [SerializeField] private LayerMask _groundLayers;
-    [SerializeField] private bool debugRaycasts = true;
-    [SerializeField] private float _tireRaycastDistance = 0.1f;
+    [SerializeField] private CustomWheels[] wheels; 
+    private bool debugRaycasts = true;
+
+    private float _tireRaycastDistance = 0.1f;
 
     private int halfTireLength;
     RaycastHit[] _tireGroundHits;
@@ -155,10 +156,29 @@ public class CustomCarPhysics : MonoBehaviour
 
     void FixedUpdate()
     {
-        _tireGroundHits = rayCastFromTires();
+        //_tireGroundHits = rayCastFromTires();
 
         for (int i = 0; i < _tireGroundHits.Length; i++)
         {
+            wheels[i].raycastDown(_groundLayers);
+            wheels[i].applyTireSuspensionForces();
+            float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
+            float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _vehicleTopSpeed);
+            float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
+
+            wheels[i].applyTireAcceleration(_throttleInput, _vehicleTopSpeed, availableTorque);
+            //Janky but fuck it
+            if (isDrifting)
+            {
+                //print("during drift?");
+                wheels[i].applyTireSlide(0.1f, 1f, isDrifting);
+            }
+            else
+            {
+                wheels[i].applyTireSlide(0.1f, 1f, isDrifting);
+            }
+            
+            /*
             if (_tireGroundHits[i].collider != null)
             {
 
@@ -179,9 +199,12 @@ public class CustomCarPhysics : MonoBehaviour
                     applyTireSlide(Tires[i],  1f, _tireMass);
                 }
             }
+            */
         }
+
     }
 
+    /*
     
     /// <summary>
     /// tire slide attempts to make the car stay in the Z direction of it's tires.
@@ -312,13 +335,13 @@ public class CustomCarPhysics : MonoBehaviour
         else if (tireCount > halfTireLength)
         {
             tireGrip = 1f;
-            /*
+            
             float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
 
             //float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
             //Lazy fix
             float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _tireGripHackFix);
-            tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);*/
+            tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
         }
         return tireGrip;
     }
@@ -348,7 +371,7 @@ public class CustomCarPhysics : MonoBehaviour
 
         _rigidBody.AddForceAtPosition(springDir * force, Tire.position);
     }
-
+    
     RaycastHit[] rayCastFromTires()
     {
         RaycastHit[] raycastHits = new RaycastHit[Tires.Length];
@@ -371,4 +394,6 @@ public class CustomCarPhysics : MonoBehaviour
 
         return raycastHits;
     }
+    */
+    
 }

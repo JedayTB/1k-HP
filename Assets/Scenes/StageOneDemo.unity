@@ -8000,7 +8000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625de75fe6388b4478b447a7ad0f6e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 1321568052}
+  player: {fileID: 1321568052}
   _lapChecker: {fileID: 1624596632}
   _lapTimer: {fileID: 1095892485}
   _waypointGizmos: {fileID: 1262876872}
@@ -35549,6 +35549,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _tireMass
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: torqueCurve.m_Curve.Array.data[3].time
