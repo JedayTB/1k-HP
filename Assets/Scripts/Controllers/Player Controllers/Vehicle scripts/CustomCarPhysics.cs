@@ -15,7 +15,6 @@ public class CustomCarPhysics : MonoBehaviour
 
     private int halfTireLength;
     private Rigidbody _rigidBody;
-
     public Rigidbody RigidBody { get => _rigidBody; }
 
     //Accelerations

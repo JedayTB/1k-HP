@@ -838,9 +838,11 @@ MonoBehaviour:
   smoothSpeed: 0.25
   _sensitivity: 1
   _maximumRotationX: 35
+  _maximumRotationY: 15
   _timeUntilReset: 1
   _rearViewKey: 9
-  _reverseCameraX: 0
+  _inverseCameraX: 0
+  _inverseCameraY: 0
 --- !u!1 &222881278 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9141816029861474070, guid: d18e78d1a763bae41af50af675bc9dbb,
@@ -6190,46 +6192,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: wheels.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: _backWheelBreaking
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: _frontWheelBreaking
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: wheels.Array.data[0]
-      value: 
-      objectReference: {fileID: 1673128383}
-    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: wheels.Array.data[1]
-      value: 
-      objectReference: {fileID: 1673128382}
-    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: wheels.Array.data[2]
-      value: 
-      objectReference: {fileID: 1673128381}
-    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: wheels.Array.data[3]
-      value: 
-      objectReference: {fileID: 1673128380}
-    - target: {fileID: 153339807512611077, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: _tireGripCurve.m_Curve.Array.data[0].time
-      value: -0.0010910034
-      objectReference: {fileID: 0}
     - target: {fileID: 1338233459606981986, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6280,67 +6242,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2194656654004073561, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2635368579874017976, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3731338961131936856, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5033676955752234772, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5941679640192156269, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: _isDebuging
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5941679640192156269, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: _initInStart
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7633368292810393836, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_Name
       value: 'Mimi '
       objectReference: {fileID: 0}
-    - target: {fileID: 7633368292810393836, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 3731338961131936856, guid: cd576dac49fdbb049ac9b501a652d828, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 928991204676158883, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1673128383}
-    - targetCorrespondingSourceObject: {fileID: 4905456153738650258, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1673128382}
-    - targetCorrespondingSourceObject: {fileID: 2487777391567453323, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1673128381}
-    - targetCorrespondingSourceObject: {fileID: 3832574709785171208, guid: cd576dac49fdbb049ac9b501a652d828,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1673128380}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd576dac49fdbb049ac9b501a652d828, type: 3}
 --- !u!114 &1673128373 stripped
 MonoBehaviour:
@@ -6366,90 +6276,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1673128372}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1673128376 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3832574709785171208, guid: cd576dac49fdbb049ac9b501a652d828,
-    type: 3}
-  m_PrefabInstance: {fileID: 1673128372}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1673128377 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2487777391567453323, guid: cd576dac49fdbb049ac9b501a652d828,
-    type: 3}
-  m_PrefabInstance: {fileID: 1673128372}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1673128378 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4905456153738650258, guid: cd576dac49fdbb049ac9b501a652d828,
-    type: 3}
-  m_PrefabInstance: {fileID: 1673128372}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1673128379 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 928991204676158883, guid: cd576dac49fdbb049ac9b501a652d828,
-    type: 3}
-  m_PrefabInstance: {fileID: 1673128372}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1673128380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673128376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tireType: 2
-  isDebugging: 1
-  _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
---- !u!114 &1673128381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673128377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tireType: 2
-  isDebugging: 1
-  _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
---- !u!114 &1673128382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673128378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tireType: 1
-  isDebugging: 1
-  _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
---- !u!114 &1673128383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673128379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tireType: 0
-  isDebugging: 1
-  _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
 --- !u!1 &1690664897 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4565915269901266623, guid: d18e78d1a763bae41af50af675bc9dbb,
