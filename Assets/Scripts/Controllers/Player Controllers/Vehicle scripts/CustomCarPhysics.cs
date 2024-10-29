@@ -12,6 +12,7 @@ public class CustomCarPhysics : MonoBehaviour
     [Header("Basic Setup")]
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private CustomWheels[] wheels;
+    public CustomWheels[] WheelArray { get => wheels; }
 
     private int halfTireLength;
     private Rigidbody _rigidBody;
@@ -30,22 +31,20 @@ public class CustomCarPhysics : MonoBehaviour
     //Steering
 
     [Header("Steering Setup")]
-    //Steering
-    [SerializeField] private bool _frontWheelSteer = true;
+    [Tooltip("The Distance between the Front and Back tires")]
+    private float wheelbase = 5f;
+    [Tooltip("Minimum Space rquired to turn Vehicle 180 degree's in metres")]
+    private float turnRadius = 10f;
+    [Tooltip("Distance between back Wheels")]
+    private float rearTrack = 2f;
     [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
-    [SerializeField] private AnimationCurve _tireGripCurve;
     [SerializeField] private float _tireGripHackFix = 100f;
-
     public bool isDrifting = false;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
     private float _lowerClamp = -45;
     private float _higherClamp = 45;
-    //Public members
-    private float frontTiresRotationAngle;
-    private float backTiresRotationAngle = 0f;
-    public float FrontTiresRotationAngle { get => frontTiresRotationAngle; }
-    public float BackTiresRotationAngle { get => backTiresRotationAngle; }
+    
 
     #endregion
     //Public Functions
@@ -158,65 +157,47 @@ public class CustomCarPhysics : MonoBehaviour
     /// <param name="Tire"></param>
     /// <param name="tireCount"></param>
     /// <returns> Returns current tire grip calculated using _tireGripCurve. Still has side effect on tires if returns.</returns>
-    float applyTireRotation(CustomWheels Tire, int tireCount, float lowerClamp, float higherClamp)
+    void applyTireRotation(CustomWheels Tire, int tireCount, float lowerClamp, float higherClamp)
     {
-        float tireGrip = 5f;
-
+        float tireYAngle = 0f;
+        //Only Steer front tires
         if (tireCount < halfTireLength)
         {
-            Vector3 tireRotation = Vector3.zero;
-
+    
             if (Mathf.Abs(_turningInput) < 0.1f)
             {
                 //When Player let's go of X input, lerp to 0
-
                 _durationOfAngleTiming += Time.fixedDeltaTime;
+
                 _elapsedTime = _durationOfAngleTiming / _rotationAngleTimeToZero;
 
-                frontTiresRotationAngle = Mathf.Lerp(frontTiresRotationAngle, 0, _elapsedTime);
+                tireYAngle = Mathf.Lerp(tireYAngle, 0, _elapsedTime);
 
-                tireRotation.y = frontTiresRotationAngle;
-
-                
-                Tire.setTireRotation(Quaternion.Euler(tireRotation));
+                Tire.setTireRotation(tireYAngle);
             }
             else
             {
+                /*
+                Left
+                Rad2Deg Atan(wheelbase / turnRadius + rearTrack /2)) * steerInput
+                                                    - for right wheel
+                */
                 _durationOfAngleTiming = 0;
 
-                float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
+                switch(Tire.tireType){
 
-                //float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
-                //Lazy fix
-                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _tireGripHackFix);
+                    case TireType.frontTireLeft:
+                        tireYAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius + (rearTrack / 2))) * _turningInput;
+                        break;
+                    case TireType.frontTireRight:
+                        tireYAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius - (rearTrack / 2))) * _turningInput;
+                        break;
+                }
 
-                tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
-
-                //Debug.Log($"Car spd {carSpeed} Norm Spd: {normalizedSpeed}, tireGrip { tireGrip}");
-
-                frontTiresRotationAngle += _turningInput * tireGrip;
-
-                frontTiresRotationAngle = Mathf.Clamp(frontTiresRotationAngle, lowerClamp, higherClamp);
-
-                tireRotation.y = frontTiresRotationAngle;
-
-                Tire.setTireRotation(Quaternion.Euler(tireRotation));
+                Tire.setTireRotation(tireYAngle);
             }
 
         }
 
-            //Back tires
-        else if (tireCount > halfTireLength)
-        {
-            tireGrip = 1f;
-            
-            float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-
-            //float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _carTopSpeed);
-            //Lazy fix
-            float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _tireGripHackFix);
-            tireGrip = _tireGripCurve.Evaluate(normalizedSpeed);
-        }
-        return tireGrip;
     }
 }

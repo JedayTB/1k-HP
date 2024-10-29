@@ -9,8 +9,8 @@ public enum TireType
 public class CustomWheels : MonoBehaviour
 {
     public TireType tireType;
-
     public bool isDebugging;
+    public float steeringAngle;
     [Tooltip("Set in inspector with Wheel Specs scriptable object")]
     [SerializeField] private WheelSpecs _wheelSpecs;
 
@@ -24,10 +24,12 @@ public class CustomWheels : MonoBehaviour
         _tireTransform = transform;
     }
 
-    public void setTireRotation(Quaternion rotation)
+    public void setTireRotation(float yAngle)
     {
-
-        _tireTransform.localRotation = rotation;
+        Vector3 rotation = transform.localRotation.eulerAngles;
+        rotation.y = yAngle;
+        steeringAngle = yAngle;
+        _tireTransform.localRotation = Quaternion.Euler(rotation);
     }
 
 

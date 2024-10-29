@@ -5,7 +5,6 @@ public class BoostPannels : MonoBehaviour
 {
     [SerializeField] private float boostStrength = 750;
     [SerializeField] private float pannelBoostTime = 1f;
-    private BoxCollider bc;
 
     void OnTriggerEnter(Collider other)
     {

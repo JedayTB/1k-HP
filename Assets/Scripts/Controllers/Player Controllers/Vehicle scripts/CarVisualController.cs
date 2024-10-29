@@ -19,13 +19,16 @@ public class CarVisualController : MonoBehaviour
     [SerializeField] private List<Material> _carMats = new List<Material>();
 
     private CustomCarPhysics _vehiclePhysics;
+    private CustomWheels[] PhysicsWheels;
     private Rigidbody _rb;
+
 
     public void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
+        PhysicsWheels = _vehiclePhysics.WheelArray;
         _rb = GetComponent<Rigidbody>();
-        _vehicleMesh?.GetMaterials(_carMats);
+        //_vehicleMesh?.GetMaterials(_carMats);
     }
 
     void Update()
@@ -36,9 +39,8 @@ public class CarVisualController : MonoBehaviour
             SpinWheels(_wheels[i], _rb);
             
             //Rotates the container
-            float rotAngle = i < _wheelContainers.Length /2 ?  _vehiclePhysics.FrontTiresRotationAngle: _vehiclePhysics.BackTiresRotationAngle;
+            float rotAngle = PhysicsWheels[i].steeringAngle;
             TurnWheels(_wheelContainers[i], rotAngle);
-            
         }
 
 
