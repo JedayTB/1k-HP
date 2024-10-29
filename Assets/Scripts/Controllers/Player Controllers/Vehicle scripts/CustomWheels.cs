@@ -18,17 +18,16 @@ public class CustomWheels : MonoBehaviour
     private Transform _tireTransform;
     private RaycastHit rayCastHit;
 
-    public void init(Rigidbody rb){
+    public void init(Rigidbody rb)
+    {
         _vehicleRB = rb;
         _tireTransform = transform;
     }
 
-    public void setTireRotation(float yAngle){
-        Vector3 tireRotation = _tireTransform.localRotation.eulerAngles;
+    public void setTireRotation(Quaternion rotation)
+    {
 
-        tireRotation.y = yAngle;
-
-        _tireTransform.localRotation = Quaternion.Euler(tireRotation);
+        _tireTransform.localRotation = rotation;
     }
 
 
@@ -81,22 +80,19 @@ public class CustomWheels : MonoBehaviour
         _vehicleRB.AddForceAtPosition(steerForce, _tireTransform.position);
     }
     /// <summary>
-    /// Apply forward force in the Z direction of tires
+    /// Apply force in  the local Z axis of the tire.
+    /// 
     /// </summary>
-    public void applyTireAcceleration(float throttleInput, float vehicleTopSpeed, float availableTorque)
-    {   
+    /// <param name="throttleInput">"Forward" Input by the controller class</param>
+    /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
+    /// <param name="availableTorque">Available torque the engine has. Calculated in  VehiclePhysics</param>
+    public void applyTireAcceleration(float throttleInput, float accelerationAmount, float availableTorque)
+    {
         //only makes it so back tires accelerate while drifting
-        
-
-        Vector3 accelerationDirection = _wheelSpecs.accelerationAmount * _tireTransform.forward;
+        Vector3 accelerationDirection = accelerationAmount * _tireTransform.forward;
 
         if (Mathf.Abs(throttleInput) > 0.0f)
         {
-            // Forward speed of the car 
-            float carSpeed = Vector3.Dot(_tireTransform.forward, _vehicleRB.velocity);
-
-            float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / vehicleTopSpeed);
-
             _vehicleRB.AddForceAtPosition(availableTorque * accelerationDirection, _tireTransform.position);
 
             if (isDebugging)
@@ -104,7 +100,7 @@ public class CustomWheels : MonoBehaviour
                 Debug.DrawRay(_tireTransform.position, 0.1f * availableTorque * accelerationDirection);
             }
         }
-        
+
     }
     /// <summary>
     /// Add spring force for the Car
@@ -129,6 +125,5 @@ public class CustomWheels : MonoBehaviour
 
         _vehicleRB.AddForceAtPosition(springDir * force, _tireTransform.position);
     }
-   
 }
 
