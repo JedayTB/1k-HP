@@ -57,8 +57,6 @@ public class CarVisualController : MonoBehaviour
     }
     void SpinWheels(Transform wheel, Rigidbody carRb)
     {
-        Vector3 currentRotation = wheel.localRotation.eulerAngles;
-
         float velocityAtWheelPoint = carRb.GetPointVelocity(wheel.position).z;
 
         Vector3 rotation = new(0, velocityAtWheelPoint, 0);

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Android;
 
 public enum TireType
 {
@@ -18,6 +19,8 @@ public class CustomWheels : MonoBehaviour
     private Transform _tireTransform;
     private RaycastHit rayCastHit;
 
+    private bool tireIsGrounded = false;
+    public bool TireIsGrounded {get => tireIsGrounded;}
     public void init(Rigidbody rb)
     {
         _vehicleRB = rb;
@@ -35,7 +38,7 @@ public class CustomWheels : MonoBehaviour
 
     public void raycastDown(LayerMask groundLayers)
     {
-        Physics.Raycast(_tireTransform.position, -_tireTransform.up, out rayCastHit, _wheelSpecs.tireRaycastDistance, groundLayers);
+        tireIsGrounded = Physics.Raycast(_tireTransform.position, -_tireTransform.up, out rayCastHit, _wheelSpecs.tireRaycastDistance, groundLayers);
         if (isDebugging)
         {
             bool rayHit = rayCastHit.point != Vector3.zero;
@@ -76,11 +79,14 @@ public class CustomWheels : MonoBehaviour
         float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
 
         // Force = Mass * acceleration. 
+        // Quick ternary for tire driting
         float usingTireMass = isDrifting ? tireMass : _wheelSpecs.tireMass;
+
         Vector3 steerForce = usingTireMass * desiredAcceleration * steeringDir;
 
         _vehicleRB.AddForceAtPosition(steerForce, _tireTransform.position);
     }
+    
     /// <summary>
     /// Apply force in  the local Z axis of the tire.
     /// 

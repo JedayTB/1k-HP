@@ -42,9 +42,6 @@ public class CustomCarPhysics : MonoBehaviour
     public bool isDrifting = false;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
-    private float _lowerClamp = -45;
-    private float _higherClamp = 45;
-
 
     #endregion
     //Public Functions
@@ -56,6 +53,7 @@ public class CustomCarPhysics : MonoBehaviour
         _transform = transform;
         _baseAccelerationAmount = _accelerationAmount;
         halfTireLength = wheels.Length / 2;
+
         foreach (var tire in wheels)
         {
             tire.init(_rigidBody);
@@ -130,22 +128,26 @@ public class CustomCarPhysics : MonoBehaviour
 
             wheels[i].raycastDown(_groundLayers);
 
-            wheels[i].applyTireSuspensionForces();
-
-            float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-            float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _vehicleTopSpeed);
-            float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
-
-            wheels[i].applyTireAcceleration(_throttleInput, _accelerationAmount, availableTorque);
-            //Janky but fuck it
-            if (isDrifting)
+            if (wheels[i].TireIsGrounded)
             {
-                //print("during drift?");
-                wheels[i].applyTireSlide(0.1f, 1f, isDrifting);
-            }
-            else
-            {
-                wheels[i].applyTireSlide(0.1f, 1f, isDrifting);
+                wheels[i].applyTireSuspensionForces();
+
+                float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
+                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _vehicleTopSpeed);
+                float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
+
+                wheels[i].applyTireAcceleration(_throttleInput, _accelerationAmount, availableTorque);
+                //Janky but fuck it
+                if (isDrifting)
+                {
+                    //print("during drift?");
+                    wheels[i].applyTireSlide(0.1f, 1f, isDrifting);
+                }
+                else
+                {
+                    //Only uses inputed tireGrip and tiremass if isDrifting = true
+                    wheels[i].applyTireSlide(0.1f, 1f, isDrifting);
+                }
             }
 
         }
