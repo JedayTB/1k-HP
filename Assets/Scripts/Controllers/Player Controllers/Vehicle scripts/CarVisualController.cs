@@ -68,9 +68,11 @@ public class CarVisualController : MonoBehaviour
     {
 
         Vector3 currentRotation = wheel.localRotation.eulerAngles;
-
-        Vector3 rotationEul = new(currentRotation.x, rotationAngle, currentRotation.z);
         
+        Vector3 rotationEul = new(currentRotation.x, rotationAngle, currentRotation.z);
+
+
+
         Quaternion rotation = Quaternion.Euler(rotationEul);
 
         wheel.localRotation = rotation;
