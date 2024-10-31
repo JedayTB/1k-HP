@@ -71,8 +71,8 @@ public abstract class I_VehicleController : MonoBehaviour
     }
     
     protected virtual void Update(){
-        if(_vehiclePhysics.isDrifting){
-            isDrifting = _vehiclePhysics.isDrifting;
+        isDrifting = _vehiclePhysics.isDrifting;
+        if(isDrifting){
             foreach(var ps in driftParticles){
                 ps.Emit(3);
             }

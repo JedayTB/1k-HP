@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-
 public class GameStateManager : MonoBehaviour
 {
     private InputManager inputManager;
