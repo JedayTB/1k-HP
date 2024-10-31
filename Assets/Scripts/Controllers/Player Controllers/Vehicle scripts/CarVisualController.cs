@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CarVisualController : MonoBehaviour
@@ -11,24 +12,25 @@ public class CarVisualController : MonoBehaviour
     [SerializeField] private Transform[] _wheels;
 
     [SerializeField] private MeshRenderer _vehicleMesh;
+    [SerializeField] private PlayerVehicleController _playerVehicleController;
 
     [SerializeField] private Material _vehicleTailLightBreaking;
     [SerializeField] private Material _vehicleTailLight;
 
-    [SerializeField] private List<Material> _tailLightColors = new List<Material>();
     [SerializeField] private List<Material> _carMats = new List<Material>();
 
     private CustomCarPhysics _vehiclePhysics;
     private CustomWheels[] PhysicsWheels;
     private Rigidbody _rb;
 
+    private int lastChange = 0;
 
     public void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
         PhysicsWheels = _vehiclePhysics.WheelArray;
         _rb = GetComponent<Rigidbody>();
-        //_vehicleMesh?.GetMaterials(_carMats);
+        _vehicleMesh.GetMaterials(_carMats);
     }
 
     void Update()
@@ -43,16 +45,19 @@ public class CarVisualController : MonoBehaviour
             TurnWheels(_wheelContainers[i], rotAngle);
         }
 
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        // I have last change so it's not setting the materials every frame, not sure if it's really necassary tho
+        // 0 - doing nothing, 1 - breaking, 2 - nitro, 3 - drift
+        if (_playerVehicleController.isBreaking && lastChange != 0)
         {
-            _carMats[6] = _tailLightColors[1];
+            _carMats[6] = _vehicleTailLightBreaking;
             _vehicleMesh.SetMaterials(_carMats);
+            lastChange = 0;
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        else if (!_playerVehicleController.isBreaking && lastChange != 1)
         {
-            _carMats[6] = _tailLightColors[0];
+            _carMats[6] = _vehicleTailLight;
             _vehicleMesh.SetMaterials(_carMats);
+            lastChange = 1;
         }
     }
     void SpinWheels(Transform wheel, Rigidbody carRb)

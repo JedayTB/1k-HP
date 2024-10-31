@@ -8,6 +8,7 @@ public class PlayerVehicleController : I_VehicleController
     private bool isUsingNitro;
     private bool canNitroAgain = true;
     private bool isUsingDrift;
+    public bool isBreaking = false;
 
     protected override void Update()
     {
@@ -44,6 +45,8 @@ public class PlayerVehicleController : I_VehicleController
         _vehiclePhysics.endedDrifting(endedDrift);
 
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);
+
+        isBreaking = _throttleInput < 0 ? true : false; 
     }
     protected IEnumerator driftPressCoolDown(float time){
         float count = 0f;

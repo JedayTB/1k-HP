@@ -8008,15 +8008,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625de75fe6388b4478b447a7ad0f6e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1321568052}
+  _player: {fileID: 1321568052}
   _lapChecker: {fileID: 1624596632}
   _lapTimer: {fileID: 1095892485}
   _waypointGizmos: {fileID: 1262876872}
+  _uiController: {fileID: 0}
   _aiControllers:
   - {fileID: 2064374202}
   _lapTimesText: {fileID: 490146078}
-  _winScreenUI: {fileID: 1072319626}
-  _playingHud: {fileID: 1351314951}
 --- !u!4 &523297868
 Transform:
   m_ObjectHideFlags: 0
@@ -18369,12 +18368,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1262876873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!225 &1072319626 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 5877615586879921984, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-    type: 3}
-  m_PrefabInstance: {fileID: 8231846765749776922}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1074053633
 GameObject:
   m_ObjectHideFlags: 0
@@ -22708,12 +22701,6 @@ Transform:
   - {fileID: 1705158777}
   m_Father: {fileID: 1146583741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!225 &1351314951 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 8865350814167200775, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-    type: 3}
-  m_PrefabInstance: {fileID: 8231846765749776922}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1356255915
 GameObject:
   m_ObjectHideFlags: 0
@@ -35647,6 +35634,21 @@ PrefabInstance:
       propertyPath: _vehicleMesh
       value: 
       objectReference: {fileID: 507136815}
+    - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _vehicleTailLight
+      value: 
+      objectReference: {fileID: 2100000, guid: 95c16ac15f89a7e4e80f9a6999bd04b1, type: 2}
+    - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _playerVehicleController
+      value: 
+      objectReference: {fileID: 1321568052}
+    - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _vehicleTailLightBreaking
+      value: 
+      objectReference: {fileID: 2100000, guid: b991442bcaf8a2e4a96e48cb8ec122e1, type: 2}
     - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: _tailLightColors.Array.size
