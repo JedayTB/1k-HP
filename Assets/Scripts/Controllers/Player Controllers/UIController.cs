@@ -3,19 +3,21 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private GameStateManager _gameStateManager;
+    private PlayerVehicleController _player;
     [SerializeField] private GameObject _pauseMenu;
+
+    [SerializeField] private CanvasGroup _playMenu;
+    [SerializeField] private CanvasGroup _winMenu;
 
     [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
     [SerializeField] private Slider _playerNitroSlider;
+    [SerializeField] private Slider _builtUpNitroSlider;
     private bool _menuIsOpen = false;
 
-    void Start()
-    {
-        init();
-    }
-    public void init(){
-        _playerNitroSlider.maxValue = _gameStateManager.player.MaxNitroChargeAmounts;
+    public void init(PlayerVehicleController PLAYER){
+        _player = PLAYER; 
+        _playerNitroSlider.maxValue = _player.MaxNitroChargeAmounts;
+        _builtUpNitroSlider.maxValue = 1f;
     }
     void Update()
     {
@@ -23,7 +25,18 @@ public class UIController : MonoBehaviour
         {
             menuOpenClose();
         }
-        _playerNitroSlider.value = _gameStateManager.player._builtUpNitroAmount;
+        _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
+        if(_player.isDrifting){
+            _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
+        }
+        _playerNitroSlider.value = _player._nitroChargeAmounts;
+    }
+
+    public void setPlayScreen(bool val){
+        _playMenu.gameObject.SetActive(val);
+    }
+    public void setWinScreen(bool val){
+        _winMenu.gameObject.SetActive(val);
     }
 
     private void menuOpenClose()
@@ -49,7 +62,7 @@ public class UIController : MonoBehaviour
 
     public void resetPlayer()
     {
-        _gameStateManager.player.respawn();
+        GameStateManager.Player.respawn();
         menuOpenClose();
     }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,25 +6,28 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     private InputManager inputManager;
-    [SerializeField] public PlayerVehicleController player;
+    [SerializeField] private PlayerVehicleController _player;
+    public static PlayerVehicleController Player; // Singleton var
     [SerializeField] private LapChecker _lapChecker;
     [SerializeField] private LapTimer _lapTimer;
     [SerializeField] private waypointGizmos _waypointGizmos;
-
+    [SerializeField] private UIController _uiController;
     [SerializeField] private VehicleAIController[] _aiControllers;
 
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
-    [SerializeField] private CanvasGroup _winScreenUI;
-    [SerializeField] private CanvasGroup _playingHud;
+    
     private void Awake()
     {
+        Player = _player;
         inputManager = this.gameObject.AddComponent<InputManager>();
         inputManager.Init();
         
         _lapChecker?.Init(this);
 
-        player?.Init(inputManager);
+        _player?.Init(inputManager);
+
+        _uiController.init(_player);
 
         for (int i = 0; i < _aiControllers.Length; i++)
         {
@@ -38,7 +40,7 @@ public class GameStateManager : MonoBehaviour
     {
         Debug.Log("Player won!");
 
-        _playingHud.gameObject.SetActive(false);
+        _uiController.setPlayScreen(false);
 
         List<float> lapTimes = _lapTimer.lapTimes;
         string lapTimesStr = "";
@@ -54,7 +56,7 @@ public class GameStateManager : MonoBehaviour
 
         _lapTimesText.text = lapTimesStr;
 
-        _winScreenUI.gameObject.SetActive(true);
+        _uiController.setWinScreen(true);
 
     }
 }

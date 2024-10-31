@@ -17,25 +17,25 @@ public abstract class I_VehicleController : MonoBehaviour
     protected float _throttleInput;
     protected float _turningInput;
     
-    
+    public bool isDrifting;
     protected bool isGrounded = true;
     [Header("I_VehicleController member's")]
     [SerializeField] protected bool _isDebuging = true;
     [SerializeField] protected bool _useGroundCheck = false;
     [SerializeField] protected float _raycastDistance = 5f;
     [SerializeField] protected LayerMask _worldGeometryLayers;
-
+    [SerializeField] protected ParticleSystem[] driftParticles;
     [Header("Nitro Setup")]
     [Tooltip("The amount of nitro boosts the player can use")]
-    public float MaxNitroChargeAmounts;
+    public int MaxNitroChargeAmounts = 4;
     public float _builtUpNitroAmount;
-    [SerializeField] protected int _nitroChargeAmounts = 2;
+    public int _nitroChargeAmounts = 2;
     
     [SerializeField] protected int _maxNitroChargeAmounts = 4;
     [Tooltip("Value that keep tracks of when to increment _driftChargeAmounts. counts from 0 - 1, once reached 1 increment.")]
-    protected float _nitroIncrementThresholdValue = 0f;
+    public float _nitroIncrementThresholdValue = 0f;
     [Tooltip("Scale value for _nitroIncrementThresholdValue. Change based off of tightness of drift and character stats.")]
-    [SerializeField] protected float _nitroIncreaseScaler = 1f;
+    [SerializeField] protected float _nitroIncreaseScaler = 0.75f;
     [SerializeField] protected float _nitroTimeLength = 1f;
     [SerializeField] protected float _nitroSpeedMultiplier = 2.5f;
 
@@ -71,7 +71,13 @@ public abstract class I_VehicleController : MonoBehaviour
     }
     
     protected virtual void Update(){
-        if(_vehiclePhysics.isDrifting) buildNitro();
+        if(_vehiclePhysics.isDrifting){
+            isDrifting = _vehiclePhysics.isDrifting;
+            foreach(var ps in driftParticles){
+                ps.Emit(3);
+            }
+            buildNitro();
+        }
     }
     #region Public use Methods
     public virtual void setAsAutoDriveAI()
@@ -148,7 +154,8 @@ public abstract class I_VehicleController : MonoBehaviour
         }
     }
     protected virtual void startNitroBoost()
-    {
+    {   
+        
         if (_nitroChargeAmounts != 0)
         {
             _nitroChargeAmounts--;
