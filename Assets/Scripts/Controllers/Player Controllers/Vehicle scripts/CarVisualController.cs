@@ -17,6 +17,8 @@ public class CarVisualController : MonoBehaviour
     [SerializeField] private Material _vehicleTailLightBreaking;
     [SerializeField] private Material _vehicleTailLight;
 
+    [SerializeField] private List<GameObject> _trails;
+
     [SerializeField] private List<Material> _carMats = new List<Material>();
 
     private CustomCarPhysics _vehiclePhysics;
@@ -58,6 +60,21 @@ public class CarVisualController : MonoBehaviour
             _carMats[6] = _vehicleTailLight;
             _vehicleMesh.SetMaterials(_carMats);
             lastChange = 1;
+        }
+
+        if (_playerVehicleController.isUsingNitro)
+        {
+            foreach (GameObject trail in _trails)
+            {
+                trail.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (GameObject trail in _trails)
+            {
+                trail.gameObject.SetActive(false);
+            }
         }
     }
     void SpinWheels(Transform wheel, Rigidbody carRb)

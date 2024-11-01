@@ -5,7 +5,7 @@ public class PlayerVehicleController : I_VehicleController
 {
     protected InputManager inputManager;
 
-    private bool isUsingNitro;
+    public bool isUsingNitro = false;
     private bool canNitroAgain = true;
     private bool isUsingDrift;
     public bool isBreaking = false;

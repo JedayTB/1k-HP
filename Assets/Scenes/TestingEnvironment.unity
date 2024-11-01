@@ -384,6 +384,8 @@ MonoBehaviour:
   _abilityGauge: 100
   _abilityUseTimer: 5
   _initInStart: 0
+  isUsingNitro: 0
+  isBreaking: 0
 --- !u!1 &262020050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,6 +1240,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f84a3736e37bdb544ba095b6eaa822f2, type: 2}
+    - target: {fileID: 7965075100738459212, guid: cd576dac49fdbb049ac9b501a652d828,
+        type: 3}
+      propertyPath: _playerVehicleController
+      value: 
+      objectReference: {fileID: 1257752869}
     - target: {fileID: 8364088908539182486, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_LocalScale.x
