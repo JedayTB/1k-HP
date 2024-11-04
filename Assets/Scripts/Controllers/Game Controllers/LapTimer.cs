@@ -5,25 +5,28 @@ using UnityEngine;
 public class LapTimer : MonoBehaviour
 {
     public List<float> lapTimes;
-
-    [SerializeField] private float _lapElapsedTime;
     [SerializeField] private TextMeshProUGUI _timerText;
+    private float _lapElapsedTime;
+    private float _lapStartTime;
 
-    [SerializeField] private float minute;
-    [SerializeField] private float seconds;
+    private float minute;
+    private float seconds;
 
+    void Awake(){
+        _lapStartTime = Time.time;
+    }
 
     void Update()
     {
-        _lapElapsedTime += Time.deltaTime;
+        _lapElapsedTime = _lapStartTime - Time.time;
         setText();
     }
     private void setText()
     {
-        minute = (_lapElapsedTime / 60);
+        minute = _lapElapsedTime / 60;
         seconds = _lapElapsedTime % 60;
-
-        _timerText.text = $"Time:{Mathf.FloorToInt(minute).ToString("00")}:{seconds.ToString("00.00")}";
+    
+        _timerText.text = $"Time:{Mathf.FloorToInt(minute):00}:{seconds:00.00}";
 
     }
     public void endLap()
@@ -31,5 +34,6 @@ public class LapTimer : MonoBehaviour
         float temp = _lapElapsedTime;
         lapTimes.Add(temp);
         _lapElapsedTime = 0;
+        _lapStartTime = Time.time;
     }
 }

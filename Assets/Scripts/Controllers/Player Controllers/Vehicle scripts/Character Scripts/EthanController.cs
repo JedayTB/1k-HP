@@ -44,9 +44,9 @@ public class EthanController : PlayerVehicleController
             
             if (hitInfo.collider != null && hitInfo.collider.GetInstanceID() != selfColliderID) {
                 //beautiful code
-                print($"{hitInfo.collider.gameObject.transform.parent.parent.name} id {hitInfo.collider.GetInstanceID()}");
+                //print($"{hitInfo.collider.gameObject.transform.parent.parent.name} id {hitInfo.collider.GetInstanceID()}");
                 vehicleTarget = hitInfo.collider.gameObject.transform.parent.parent.gameObject.GetComponent<I_VehicleController>();
-                print(vehicleTarget.name);
+                
 
             } 
 

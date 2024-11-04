@@ -569,6 +569,8 @@ MonoBehaviour:
   _target: {fileID: 1338233458538974627}
   _desiredLocation: {fileID: 3520061352703457790}
   _pivot: {fileID: 1597069755209286181}
+  _rb: {fileID: 8095818864469942519}
+  _vehicleController: {fileID: 8095818864469942516}
   smoothSpeed: 0.2
   _sensitivity: 1
   _maximumRotationX: 35
@@ -577,6 +579,7 @@ MonoBehaviour:
   _rearViewKey: 9
   _inverseCameraX: 0
   _inverseCameraY: 0
+  rbVelocity: 0
 --- !u!1 &362178889
 GameObject:
   m_ObjectHideFlags: 0
@@ -2476,6 +2479,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95a4eaa5c789004d88788c16f419de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &8095818864469942519 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 6928586186077690643, guid: 927046883a284024692337c63f770fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 8098300049630524492}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8098300049630524492
 PrefabInstance:
   m_ObjectHideFlags: 0

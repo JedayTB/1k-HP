@@ -186,7 +186,7 @@ void FixedUpdate(){
         Quaternion newRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, _target.rotation.eulerAngles.z);
         _transform.rotation = newRotation;
 
-        rbVelocity = _rb.velocity.x + _rb.velocity.z;
-
+        //rbVelocity = _rb.velocity.x + _rb.velocity.z;
+        
     }
 }
