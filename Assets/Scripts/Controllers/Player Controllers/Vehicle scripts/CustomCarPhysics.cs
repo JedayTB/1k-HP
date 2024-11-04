@@ -8,7 +8,7 @@ public class CustomCarPhysics : MonoBehaviour
     private float _throttleInput;
     private float _turningInput;
     private Transform _transform;
-
+    [HideInInspector] public bool isUsingNitro = false;
     [Header("Basic Setup")]
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private CustomWheels[] wheels;
@@ -86,6 +86,7 @@ public class CustomCarPhysics : MonoBehaviour
         //_accelerationAmount = isUsingNitro ? _baseAccelerationAmount * _nitroMultiplier : _baseAccelerationAmount;
         float count = 0f;
         _accelerationAmount = _baseAccelerationAmount * _nitroMultiplier;
+        isUsingNitro = true;
         //Set invunerable to offroad / physicsMaterials below when implemented
         while (count <= nitroTiming)
         {
@@ -93,6 +94,7 @@ public class CustomCarPhysics : MonoBehaviour
             yield return null;  // Might set to small timings between checks. maybe waitForSeconds(0.25f) or so
                                 // this would make nitro timing 4x longer. don't do!
         }
+        isUsingNitro = false;
         _accelerationAmount = _baseAccelerationAmount;
     }
 

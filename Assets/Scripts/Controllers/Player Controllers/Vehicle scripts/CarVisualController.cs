@@ -62,7 +62,7 @@ public class CarVisualController : MonoBehaviour
             lastChange = 1;
         }
 
-        if (_playerVehicleController.isUsingNitro)
+        if (_vehiclePhysics.isUsingNitro)
         {
             foreach (GameObject trail in _trails)
             {
