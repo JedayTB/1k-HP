@@ -1,11 +1,16 @@
+using TMPro.EditorUtilities;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class CameraFollower3D : MonoBehaviour
 {
     private Transform _transform;
+    private Camera _camera;
     [SerializeField] private Transform _target;
     [SerializeField] private Transform _desiredLocation;
     [SerializeField] private Transform _pivot;
+    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private PlayerVehicleController _vehicleController;
     [SerializeField] private float smoothSpeed = 0.25f;
     [SerializeField] private float _sensitivity = 1f;
     [SerializeField] private float _maximumRotationX = 35f;
@@ -20,12 +25,18 @@ public class CameraFollower3D : MonoBehaviour
     private float _verticalInput;
     private float _timeSinceInput;
     private bool _lerping = false;
+    private bool _lerpingFloat = false;
     private float _startTime;
+    private float _startTimeFloat;
     private Vector3 _startRotation;
+    private float _startFloat;
+
+    public float rbVelocity;
 
     void Awake()
     {
         _transform = transform;
+        _camera = GetComponent<Camera>();
         _pivot.transform.localRotation = Quaternion.identity;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -34,6 +45,7 @@ public class CameraFollower3D : MonoBehaviour
     private void Update()
     {
         checkForInput();
+        ChangeFOV();
     }
 
     private void checkForInput()
@@ -58,6 +70,42 @@ public class CameraFollower3D : MonoBehaviour
         }
     }
 
+    private void ChangeFOV()
+    {
+        if (_vehicleController._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 80)
+        {
+            _camera.fieldOfView = lerpFloat(_camera.fieldOfView, 80f);
+        }
+        else if (!_vehicleController._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 60)
+        {
+            _camera.fieldOfView = lerpFloat(_camera.fieldOfView, 60f);
+        }
+    }
+
+    private float lerpFloat(float currentNum, float targetFOV)
+    {
+        if (!_lerpingFloat)
+        {
+            _startTime = Time.time;
+            _lerpingFloat = true;
+            _startFloat = currentNum;
+        }
+
+        //float progress = 1 - Mathf.Pow(1 - ((Time.time - _startTimeFloat) - 0.5f), 0.5f);
+        float progress = _startTime / Time.time;
+        progress = easeInOutQuad(progress);
+
+        currentNum = Mathf.Lerp(_startFloat, targetFOV, progress);
+
+        if (progress >= 0.99f)
+        {
+            currentNum = targetFOV;
+            _lerpingFloat = false;
+        }
+        print(currentNum);
+        return currentNum;
+    }
+
     private Vector3 lerpRotation(Vector3 currentEulerRotation)
     {
         if (!_lerping) // i feel like this should be out but it broke when i did that sooo
@@ -79,7 +127,11 @@ public class CameraFollower3D : MonoBehaviour
         return currentEulerRotation;
     }
 
-    void FixedUpdate(){
+    float easeInOutQuad(float x){
+        return x< 0.5 ? 2 * x* x : 1 - Mathf.Pow(-2 * x + 2, 2) / 2;
+    }
+
+void FixedUpdate(){
         ///
         /// vector3 currentEulerrotation = camera.rot
         /// rottate code here 
@@ -133,6 +185,8 @@ public class CameraFollower3D : MonoBehaviour
         // We need to change the rotation of the Z to the car's Z after the LookAt, or else it gets overridden
         Quaternion newRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, _target.rotation.eulerAngles.z);
         _transform.rotation = newRotation;
+
+        rbVelocity = _rb.velocity.x + _rb.velocity.z;
 
     }
 }
