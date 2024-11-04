@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7980842739019487614}
   - component: {fileID: 4384540517518736727}
   - component: {fileID: 3753230268447649944}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Back left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 3482265014950475110}
   - component: {fileID: 492592041517794131}
   - component: {fileID: 8365469144513983565}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4155749131546228511}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: camera target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 228988914783191891}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front left container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5531046382758315826}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front right container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 2118189843144686473}
   - component: {fileID: 2643251588687572955}
   - component: {fileID: 897513817591306491}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CAR AI
   m_TagString: PLAYER
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -356,17 +356,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   driftParticles: []
+  isUsingNitro: 0
+  isBreaking: 0
   MaxNitroChargeAmounts: 4
   _builtUpNitroAmount: 0
   _nitroChargeAmounts: 2
-  _maxNitroChargeAmounts: 4
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
   _nitroSpeedMultiplier: 2.5
   _abilityGauge: 100
   _abilityUseTimer: 5
-  _initInStart: 0
   _targetTransform: {fileID: 0}
   _debugOptions: 1
   _singleTarget: 0
@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 1797295324730401084}
   - component: {fileID: 753462695506151200}
   - component: {fileID: 5760130076293288010}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spot Light (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 8381739879634597036}
   - component: {fileID: 8706928722507958136}
   - component: {fileID: 1709498449036955898}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Back right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -724,7 +724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7091466020342101084}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Back Right Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -759,7 +759,7 @@ GameObject:
   - component: {fileID: 7556141562105231505}
   - component: {fileID: 3235984639879077680}
   - component: {fileID: 5921485350325466169}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -856,7 +856,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 737955352540412844}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CarModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +894,7 @@ GameObject:
   - component: {fileID: 3902228041117947843}
   - component: {fileID: 8013471097992002114}
   - component: {fileID: 2917026213864659041}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spot Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1013,7 +1013,7 @@ GameObject:
   - component: {fileID: 7811449615774019983}
   - component: {fileID: 9127298793050758619}
   - component: {fileID: 2040539198128519066}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: '"Car" body'
   m_TagString: PLAYER
   m_Icon: {fileID: 0}
@@ -1115,7 +1115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7258383255824788479}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: back right container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1147,7 +1147,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 419033507858008528}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Car Physics body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1267,6 +1267,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: back right
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 029a433a8f18d4e4ea9910089e95ac01,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1366,6 +1371,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: back left
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 029a433a8f18d4e4ea9910089e95ac01,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1445,10 +1455,20 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[6]
       value: 
       objectReference: {fileID: 2100000, guid: 95c16ac15f89a7e4e80f9a6999bd04b1, type: 2}
+    - target: {fileID: 331944086592189432, guid: d3cf402effb249e47a72878f44158bfc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d3cf402effb249e47a72878f44158bfc,
         type: 3}
       propertyPath: m_Name
       value: car with a tire
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d3cf402effb249e47a72878f44158bfc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -1550,6 +1570,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Front leftr
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 029a433a8f18d4e4ea9910089e95ac01,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1648,6 +1673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: front right
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 029a433a8f18d4e4ea9910089e95ac01,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

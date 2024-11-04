@@ -5,11 +5,6 @@ public class PlayerVehicleController : I_VehicleController
 {
     protected InputManager inputManager;
 
-    public bool isUsingNitro = false;
-    private bool canNitroAgain = true;
-    private bool isUsingDrift;
-    public bool isBreaking = false;
-
     protected override void Update()
     {
         base.Update();

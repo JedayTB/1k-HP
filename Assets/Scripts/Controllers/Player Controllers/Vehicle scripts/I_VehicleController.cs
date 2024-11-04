@@ -17,7 +17,8 @@ public abstract class I_VehicleController : MonoBehaviour
     protected float _throttleInput;
     protected float _turningInput;
     
-    public bool isDrifting;
+    [HideInInspector] public bool isDrifting;
+
     protected bool isGrounded = true;
     [Header("I_VehicleController member's")]
     [SerializeField] protected bool _isDebuging = true;
@@ -25,13 +26,19 @@ public abstract class I_VehicleController : MonoBehaviour
     [SerializeField] protected float _raycastDistance = 5f;
     [SerializeField] protected LayerMask _worldGeometryLayers;
     [SerializeField] protected ParticleSystem[] driftParticles;
+
+
+    [HideInInspector] public bool isUsingNitro = false;
+    protected bool canNitroAgain = true;
+    protected bool isUsingDrift;
+    [HideInInspector] public bool isBreaking = false;
+
     [Header("Nitro Setup")]
     [Tooltip("The amount of nitro boosts the player can use")]
     public int MaxNitroChargeAmounts = 4;
-    public float _builtUpNitroAmount;
-    public int _nitroChargeAmounts = 2;
+    [HideInInspector] public float _builtUpNitroAmount;
+    [HideInInspector] public int _nitroChargeAmounts = 2;
     
-    [SerializeField] protected int _maxNitroChargeAmounts = 4;
     [Tooltip("Value that keep tracks of when to increment _driftChargeAmounts. counts from 0 - 1, once reached 1 increment.")]
     public float _nitroIncrementThresholdValue = 0f;
     [Tooltip("Scale value for _nitroIncrementThresholdValue. Change based off of tightness of drift and character stats.")]
@@ -45,11 +52,8 @@ public abstract class I_VehicleController : MonoBehaviour
     [SerializeField] protected int _abilityGauge = 100;
     [SerializeField] protected float _abilityUseTimer = 5f;
     protected float _abilityElapsedTime = 0f;
-    [SerializeField] protected bool _initInStart = false;
-    protected virtual void Start()
-    {
-        if (_initInStart) Init();
-    }
+
+
     public virtual void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
@@ -117,11 +121,11 @@ public abstract class I_VehicleController : MonoBehaviour
     //End of public methods
     public virtual void addNitro(){
         _nitroChargeAmounts++;
-        Mathf.Clamp(_nitroChargeAmounts, 0 , _maxNitroChargeAmounts);
+        Mathf.Clamp(_nitroChargeAmounts, 0 , MaxNitroChargeAmounts);
     }
     public virtual void addNitro(int nitroDelta){
         _nitroChargeAmounts += nitroDelta;
-        Mathf.Clamp(_nitroChargeAmounts, 0 , _maxNitroChargeAmounts);
+        Mathf.Clamp(_nitroChargeAmounts, 0 , MaxNitroChargeAmounts);
     }
 
     
@@ -167,7 +171,7 @@ public abstract class I_VehicleController : MonoBehaviour
         _nitroIncrementThresholdValue += _nitroIncreaseScaler * Time.deltaTime;
 
         _builtUpNitroAmount += _nitroIncrementThresholdValue;
-        Mathf.Clamp(_builtUpNitroAmount, 0, _maxNitroChargeAmounts);
+        Mathf.Clamp(_builtUpNitroAmount, 0, MaxNitroChargeAmounts);
         
         if(_nitroIncrementThresholdValue > 1f){
             addNitro();

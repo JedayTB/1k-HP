@@ -39,7 +39,7 @@ public class CustomCarPhysics : MonoBehaviour
     private float rearTrack = 2f;
     [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
     [SerializeField] private float _tireGripHackFix = 100f;
-    public bool isDrifting = false;
+    [HideInInspector] public bool isDrifting = false;
     private float _durationOfAngleTiming;
     private float _elapsedTime;
 

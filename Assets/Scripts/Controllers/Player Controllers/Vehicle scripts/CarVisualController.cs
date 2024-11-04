@@ -49,19 +49,21 @@ public class CarVisualController : MonoBehaviour
 
         // I have last change so it's not setting the materials every frame, not sure if it's really necassary tho
         // 0 - doing nothing, 1 - breaking, 2 - nitro, 3 - drift
+        /*
         if (_playerVehicleController.isBreaking && lastChange != 0)
         {
             _carMats[6] = _vehicleTailLightBreaking;
             _vehicleMesh.SetMaterials(_carMats);
             lastChange = 0;
         }
+        
         else if (!_playerVehicleController.isBreaking && lastChange != 1)
         {
             _carMats[6] = _vehicleTailLight;
             _vehicleMesh.SetMaterials(_carMats);
             lastChange = 1;
         }
-
+        */
         if (_vehiclePhysics.isUsingNitro)
         {
             foreach (GameObject trail in _trails)
