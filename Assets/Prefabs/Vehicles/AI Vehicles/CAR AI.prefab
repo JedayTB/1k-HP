@@ -375,7 +375,11 @@ MonoBehaviour:
   _reachedTargetDistance: 4
   _reverseThreshold: 25
   _turningThreshold: 15
-  _wayPoints: []
+  _wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _currentWaypointIndex: 0
   _respawnWaypointIndex: 0
 --- !u!114 &2118189843144686473
@@ -394,7 +398,11 @@ MonoBehaviour:
   _groundLayers:
     serializedVersion: 2
     m_Bits: 8
-  wheels: []
+  wheels:
+  - {fileID: 8365469144513983565}
+  - {fileID: 5921485350325466169}
+  - {fileID: 3753230268447649944}
+  - {fileID: 1709498449036955898}
   _vehicleTopSpeed: 500
   _accelerationAmount: 3500
   torqueCurve:
