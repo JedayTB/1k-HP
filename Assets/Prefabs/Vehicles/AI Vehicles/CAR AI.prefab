@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6784147693891163081}
   - component: {fileID: 7980842739019487614}
   - component: {fileID: 4384540517518736727}
+  - component: {fileID: 3753230268447649944}
   m_Layer: 0
   m_Name: Back left
   m_TagString: Untagged
@@ -83,6 +84,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3753230268447649944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16625862267989444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tireType: 2
+  isDebugging: 0
+  steeringAngle: 0
+  _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
 --- !u!1 &194598049365718252
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +111,7 @@ GameObject:
   - component: {fileID: 1593073999350818054}
   - component: {fileID: 3482265014950475110}
   - component: {fileID: 492592041517794131}
+  - component: {fileID: 8365469144513983565}
   m_Layer: 0
   m_Name: Front left
   m_TagString: Untagged
@@ -166,6 +184,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8365469144513983565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194598049365718252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tireType: 0
+  isDebugging: 0
+  steeringAngle: 0
+  _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
 --- !u!1 &562353251753676056
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,15 +348,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _vehiclePhysics: {fileID: 0}
-  _maxNitroAmount: 100
-  _nitroAmount: 50
-  _nitroSpeedBoost: 2
+  isDrifting: 0
   _isDebuging: 1
   _useGroundCheck: 0
   _raycastDistance: 5
   _worldGeometryLayers:
     serializedVersion: 2
     m_Bits: 8
+  driftParticles: []
+  MaxNitroChargeAmounts: 4
+  _builtUpNitroAmount: 0
+  _nitroChargeAmounts: 2
+  _maxNitroChargeAmounts: 4
+  _nitroIncrementThresholdValue: 0
+  _nitroIncreaseScaler: 0.75
+  _nitroTimeLength: 1
+  _nitroSpeedMultiplier: 2.5
   _abilityGauge: 100
   _abilityUseTimer: 5
   _initInStart: 0
@@ -330,6 +371,7 @@ MonoBehaviour:
   _debugOptions: 1
   _singleTarget: 0
   _driveVehicle: 1
+  _circuitedpath: 1
   _reachedTargetDistance: 4
   _reverseThreshold: 25
   _turningThreshold: 15
@@ -348,17 +390,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b1e75b002032e4f92d5f0272a22cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tires:
-  - {fileID: 1593073999350818054}
-  - {fileID: 6973741927497769669}
-  - {fileID: 6784147693891163081}
-  - {fileID: 1053137164196434538}
+  isUsingNitro: 0
   _groundLayers:
     serializedVersion: 2
     m_Bits: 8
-  debugRaycasts: 1
-  _tireRaycastDistance: 1.5
-  _rigidBody: {fileID: 0}
+  wheels: []
   _vehicleTopSpeed: 500
   _accelerationAmount: 3500
   torqueCurve:
@@ -403,43 +439,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _frontWheelDrive: 1
-  _springStrength: 1000
-  _springDamping: 70
-  _springRestDistance: 0.8
-  _frontWheelBreaking: 0
-  _backWheelBreaking: 1
-  _tireMass: 5
-  _frontWheelSteer: 1
-  _backWheelSteer: 0
   _rotationAngleTimeToZero: 1.5
-  _tireGripCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0025138855
-      value: 1.0003052
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.99121094
-      value: 0.1570816
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   _tireGripHackFix: 100
-  frontTiresRotationAngle: 0
-  backTiresRotationAngle: 0
+  isDrifting: 0
 --- !u!114 &2643251588687572955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,8 +465,11 @@ MonoBehaviour:
   - {fileID: 1047918847260637932}
   - {fileID: 1693272113341390851}
   _vehicleMesh: {fileID: 0}
+  _playerVehicleController: {fileID: 0}
   _vehicleTailLightBreaking: {fileID: 0}
   _vehicleTailLight: {fileID: 0}
+  _trails: []
+  _carMats: []
 --- !u!54 &897513817591306491
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -621,6 +626,7 @@ GameObject:
   - component: {fileID: 1053137164196434538}
   - component: {fileID: 8381739879634597036}
   - component: {fileID: 8706928722507958136}
+  - component: {fileID: 1709498449036955898}
   m_Layer: 0
   m_Name: Back right
   m_TagString: Untagged
@@ -693,6 +699,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1709498449036955898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3571857971209207363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tireType: 2
+  isDebugging: 0
+  steeringAngle: 0
+  _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
 --- !u!1 &3599157978605375151
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +758,7 @@ GameObject:
   - component: {fileID: 6973741927497769669}
   - component: {fileID: 7556141562105231505}
   - component: {fileID: 3235984639879077680}
+  - component: {fileID: 5921485350325466169}
   m_Layer: 0
   m_Name: Front right
   m_TagString: Untagged
@@ -808,6 +831,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5921485350325466169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4489565056537325195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tireType: 1
+  isDebugging: 0
+  steeringAngle: 0
+  _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
 --- !u!1 &4709706336814223691
 GameObject:
   m_ObjectHideFlags: 0

@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 8364088908539182486}
   - component: {fileID: 2912329207971869816}
   - component: {fileID: 7737893790793579024}
-  - component: {fileID: 2899154985943426258}
+  - component: {fileID: 5945207858048030083}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Untagged
@@ -304,13 +304,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406113427568025263}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.808238, y: 5.808238, z: 5.808238}
+  m_LocalScale: {x: 8.5483, y: 8.5483, z: 8.5483}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1338233459606981986}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2912329207971869816
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406113427568025263}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &7737893790793579024
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -339,7 +339,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9f75d786ef241a34fab2d410d374e5d4, type: 2}
+  - {fileID: 2100000, guid: f84a3736e37bdb544ba095b6eaa822f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -361,8 +361,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2899154985943426258
-CapsuleCollider:
+--- !u!135 &5945207858048030083
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -379,10 +379,8 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
+  serializedVersion: 3
+  m_Radius: 0.5000001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2194656654004073561
 GameObject:
@@ -1378,7 +1376,7 @@ MonoBehaviour:
   _maxNitroChargeAmounts: 4
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 1
-  _nitroTimeLength: 1
+  _nitroTimeLength: 2.5
   _nitroSpeedMultiplier: 2.5
   _abilityGauge: 1000
   _abilityUseTimer: 5
@@ -1399,6 +1397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b1e75b002032e4f92d5f0272a22cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isUsingNitro: 0
   _groundLayers:
     serializedVersion: 2
     m_Bits: 8
@@ -1976,6 +1975,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Particle System (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8724825145483676988, guid: dfa06d31acf7cd14490907c3730c423b,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8724825145483676988, guid: dfa06d31acf7cd14490907c3730c423b,
+        type: 3}
+      propertyPath: ShapeModule.arc.value
+      value: 360
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2055,6 +2064,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Particle System
+      objectReference: {fileID: 0}
+    - target: {fileID: 8724825145483676988, guid: dfa06d31acf7cd14490907c3730c423b,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8724825145483676988, guid: dfa06d31acf7cd14490907c3730c423b,
+        type: 3}
+      propertyPath: ShapeModule.arc.value
+      value: 360
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
