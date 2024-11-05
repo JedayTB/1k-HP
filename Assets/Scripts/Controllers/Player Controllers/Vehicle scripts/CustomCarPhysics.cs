@@ -102,7 +102,6 @@ public class CustomCarPhysics : MonoBehaviour
     {
         if (isDrifting == false && isUsingDrift == true)
         {
-            Debug.Log("start drift!");
             isDrifting = true;
         }
     }
@@ -110,8 +109,7 @@ public class CustomCarPhysics : MonoBehaviour
     {
         if (isDrifting == true && endedDrifting == true)
         {
-            isDrifting = false;
-            Debug.Log("end drift");
+            isDrifting = false;   
         }
 
     }

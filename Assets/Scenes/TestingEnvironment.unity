@@ -425,10 +425,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 330585546}
-  - component: {fileID: 330585545}
+  - component: {fileID: 330585548}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
-  - component: {fileID: 330585548}
+  - component: {fileID: 330585545}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -503,13 +503,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.19424875, y: -0.38003024, z: 0.081895895, w: -0.90063167}
-  m_LocalPosition: {x: -3.4723418, y: 23.289364, z: 5.883125}
+  m_LocalRotation: {x: 0.14546798, y: 0.5211433, z: -0.0906729, w: 0.83607846}
+  m_LocalPosition: {x: 44.027565, y: 4.9079986, z: 115.70451}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 26.76, y: 13.648, z: 6.239}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,12 +566,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abaa96a3cb51d8945a5793f328e30dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDebugging: 1
   _target: {fileID: 1338233458538974627}
   _desiredLocation: {fileID: 3520061352703457790}
   _pivot: {fileID: 1597069755209286181}
   _rb: {fileID: 8095818864469942519}
   _vehicleController: {fileID: 8095818864469942516}
   smoothSpeed: 0.2
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  _targetZPosition: 0
+  cameraCollisionOffset: 0.2
+  minimumCollisionOffset: 0.2
   _sensitivity: 1
   _maximumRotationX: 35
   _maximumRotationY: 15
@@ -580,6 +587,7 @@ MonoBehaviour:
   _inverseCameraX: 0
   _inverseCameraY: 0
   rbVelocity: 0
+  DebugInfo: 
 --- !u!1 &362178889
 GameObject:
   m_ObjectHideFlags: 0
@@ -2351,11 +2359,6 @@ PrefabInstance:
       propertyPath: crosshair
       value: 
       objectReference: {fileID: 1169008963}
-    - target: {fileID: 5180931264958449873, guid: 927046883a284024692337c63f770fb4,
-        type: 3}
-      propertyPath: lightningVisualizer
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5628243253250619376, guid: 927046883a284024692337c63f770fb4,
         type: 3}
       propertyPath: m_LocalPosition.x
