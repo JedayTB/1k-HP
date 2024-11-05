@@ -19,7 +19,7 @@ public class CameraFollower3D : MonoBehaviour
     float defaultZPosition;
     [SerializeField] float _targetZPosition;
     [SerializeField] float cameraCollisionOffset = 0.2f;
-    [SerializeField] float minimumDistanceUntilDither = 1.25f;
+    [SerializeField] float minimumDistanceUntilDither = 5f;
     float cameraCollisionRadius = 0.2f;
     Vector3 _cameraVecPos;
 
@@ -124,11 +124,9 @@ public class CameraFollower3D : MonoBehaviour
     {
         _targetZPosition = defaultZPosition;
 
-        
-
         RaycastHit hit;
         Vector3 direction = _target.position - _desiredLocation.position;
-
+        direction.Normalize();
         bool hitCollider = Physics.SphereCast
         (_desiredLocation.transform.position, cameraCollisionRadius, direction, out hit, Mathf.Abs(_targetZPosition), collisionLayers);
 
@@ -136,13 +134,13 @@ public class CameraFollower3D : MonoBehaviour
 
         if(hitCollider){
             _cameraVecPos = hit.point;
-            float zOffset = _cameraVecPos.z - _target.position.z;
+            float zOffset = Mathf.Abs(_cameraVecPos.z - _target.position.z);
 
-            if(zOffset > minimumDistanceUntilDither){
-                _cameraVecPos.z =_cameraVecPos.z + zOffset;
-                
+            if(zOffset < minimumDistanceUntilDither){
+                _cameraVecPos = Vector3.Lerp(hit.point, _desiredLocation.position, 0.4f);
             }
-            _transform.position = hit.point;
+            DebugInfo = $"Z distance {zOffset}\nGo Beyond? {zOffset < minimumDistanceUntilDither}";
+            _transform.position = _cameraVecPos;
         }        
 
     }

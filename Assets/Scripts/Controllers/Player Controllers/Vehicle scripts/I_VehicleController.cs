@@ -8,6 +8,7 @@ using UnityEngine;
 public abstract class I_VehicleController : MonoBehaviour
 {
     //Cache transform to avoid extern calls
+    #region Variables
     protected CarVisualController _vehicleVisualController;
     public CustomCarPhysics _vehiclePhysics;
 
@@ -49,11 +50,11 @@ public abstract class I_VehicleController : MonoBehaviour
     [Header("Character Abilities Basic setup")]
 
     [Tooltip("Ability Gauge counts to 100. Once at 100, can use ability")]
-    [SerializeField] protected int _abilityGauge = 100;
+    [SerializeField] protected int _abilityGauge = 0;
     [SerializeField] protected float _abilityUseTimer = 5f;
     protected float _abilityElapsedTime = 0f;
 
-
+    #endregion
     public virtual void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();

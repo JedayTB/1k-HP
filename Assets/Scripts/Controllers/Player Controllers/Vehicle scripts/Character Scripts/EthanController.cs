@@ -30,8 +30,8 @@ public class EthanController : PlayerVehicleController
     {
         if (_abilityGauge >= 100)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.None;
+            //Cursor.visible = true;
             Ray aimray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if(_isDebuging) Debug.DrawRay(aimray.origin, aimray.direction * _maxLightningDistance);

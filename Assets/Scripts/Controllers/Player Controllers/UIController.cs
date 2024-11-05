@@ -12,7 +12,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
     [SerializeField] private Slider _playerNitroSlider;
     [SerializeField] private Slider _builtUpNitroSlider;
-    private bool _menuIsOpen = false;
+    [SerializeField] private bool _menuIsOpen = false;
 
     public void init(PlayerVehicleController PLAYER){
         _player = PLAYER; 
@@ -41,20 +41,20 @@ public class UIController : MonoBehaviour
 
     private void menuOpenClose()
     {
-        if (_menuIsOpen)
+        if (_menuIsOpen == true)
         {
             _pauseMenu.SetActive(false);
             Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = false;
         }
-        else if (!_menuIsOpen)
+        else if (_menuIsOpen == false)
         {
             _pauseMenu.SetActive(true);
             Time.timeScale = 0f;
             
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         _menuIsOpen = !_menuIsOpen;
