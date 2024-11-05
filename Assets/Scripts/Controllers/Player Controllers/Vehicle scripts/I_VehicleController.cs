@@ -128,8 +128,14 @@ public abstract class I_VehicleController : MonoBehaviour
         _nitroChargeAmounts += nitroDelta;
         Mathf.Clamp(_nitroChargeAmounts, 0 , MaxNitroChargeAmounts);
     }
+    public virtual void addAbilityGauge(int abilityDelta){
+        _abilityGauge += abilityDelta;
+        if(_abilityGauge >= 100) onAbilityFull();
+    }
+    protected virtual void onAbilityFull(){
+        Debug.Log($"{name} Got full ability");
+    }
 
-    
     #endregion
     //Protected virtual methods
     public virtual void useCharacterAbility()
