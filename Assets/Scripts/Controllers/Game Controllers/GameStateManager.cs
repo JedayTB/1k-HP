@@ -32,7 +32,7 @@ public class GameStateManager : MonoBehaviour
         {
             _aiControllers[i]?.Init(_waypointGizmos);
         }
-
+        Debug.Log("Finished Intializing!");
     }
     
     public void onPlayerWin()

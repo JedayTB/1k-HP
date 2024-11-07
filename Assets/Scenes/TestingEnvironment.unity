@@ -572,7 +572,7 @@ MonoBehaviour:
   _desiredLocation: {fileID: 623619653}
   _pivot: {fileID: 623619652}
   _rb: {fileID: 623619654}
-  _vehicleController: {fileID: 0}
+  _vehicleController: {fileID: 1822818413}
   smoothSpeed: 0.2
   collisionLayers:
     serializedVersion: 2
@@ -586,7 +586,7 @@ MonoBehaviour:
   _timeUntilReset: 1
   _rearViewKey: 9
   _inverseCameraX: 0
-  _inverseCameraY: 0
+  _inverseCameraY: 1
   rbVelocity: 0
 --- !u!1 &358973306
 GameObject:
@@ -1337,6 +1337,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 752168719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1058739845 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 4261529624673848683, guid: 927046883a284024692337c63f770fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 623619650}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1169008962
 GameObject:
   m_ObjectHideFlags: 0
@@ -1645,6 +1651,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6257373978762454745, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
     type: 3}
   m_PrefabInstance: {fileID: 1294188660}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1365141237 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6305048334615268662, guid: 927046883a284024692337c63f770fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 623619650}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1415739714
 GameObject:
@@ -2532,6 +2544,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d9f3793f777e2c43ad617849c5eb629, type: 3}
+--- !u!198 &1748612131 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7800612584760760934, guid: 927046883a284024692337c63f770fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 623619650}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1822818408 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4446781413359444397, guid: 927046883a284024692337c63f770fb4,
@@ -2557,8 +2575,10 @@ MonoBehaviour:
   _raycastDistance: 5
   _worldGeometryLayers:
     serializedVersion: 2
-    m_Bits: 0
-  driftParticles: []
+    m_Bits: 8
+  driftParticles:
+  - {fileID: 1748612131}
+  - {fileID: 1365141237}
   isUsingNitro: 0
   isBreaking: 0
   MaxNitroChargeAmounts: 4
@@ -2570,6 +2590,12 @@ MonoBehaviour:
   _nitroSpeedMultiplier: 2.5
   _abilityGauge: 0
   _abilityUseTimer: 5
+  _maxHookDistance: 50
+  _hookCrossHair: {fileID: 1169008963}
+  _HookShottableLayers:
+    serializedVersion: 2
+    m_Bits: 136
+  _selfCollider: {fileID: 1058739845}
 --- !u!1 &1832051106
 GameObject:
   m_ObjectHideFlags: 0
@@ -3050,6 +3076,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 96b7f4f6f9c6c54c798154a50b6b727e, type: 2}
+    - target: {fileID: 8730992638451669231, guid: 64955309c1275f913bfbd7ae90ddcd00,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730992638451669231, guid: 64955309c1275f913bfbd7ae90ddcd00,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

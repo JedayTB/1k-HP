@@ -32,7 +32,7 @@ public class CarVisualController : MonoBehaviour
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
         PhysicsWheels = _vehiclePhysics.WheelArray;
         _rb = GetComponent<Rigidbody>();
-        _vehicleMesh.GetMaterials(_carMats);
+        //_vehicleMesh.GetMaterials(_carMats);
     }
 
     void Update()

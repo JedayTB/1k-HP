@@ -106,6 +106,7 @@ public class CameraFollower3D : MonoBehaviour
 
         // Sometimes we get a NaN error here, I did my best to get rid of it but it still shows up sometimes
         // I did manage to make it never (I think) affect gameplay, though
+        
         _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
 
         Vector3 targetPosition = _desiredLocation.position;
@@ -211,7 +212,7 @@ public class CameraFollower3D : MonoBehaviour
             _lerping = true;
         }
 
-        float progress = 1 - Mathf.Pow(1 - ((Time.time - _startTime) - 0.5f), 0.5f);
+        float progress = 1 - Mathf.Pow(1 - (Time.time - _startTime - 0.5f), 0.5f);
         currentEulerRotation.y = Mathf.Lerp(currentEulerRotation.y, 0, progress);
         currentEulerRotation.x = Mathf.Lerp(currentEulerRotation.x, 0, progress);
 
