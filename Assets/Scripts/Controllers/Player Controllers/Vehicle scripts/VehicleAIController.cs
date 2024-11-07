@@ -10,10 +10,8 @@ public class VehicleAIController : I_VehicleController
     [SerializeField] private bool _circuitedpath = true;
 
     [Header("Steering parametres")]
-    private waypointGizmos[] waypoints;
-    [SerializeField] private Transform[] _wayPointsMiddle;
-    [SerializeField] private Transform[] _wayPointsOptimal;
-    [SerializeField] private Transform[] _wayPointsWide;
+    [SerializeField] private waypointGizmos[] waypoints;
+    private int waypointsArrayLength;
     [SerializeField] private float _reachedTargetDistance = 6f;
     [SerializeField] private float _reverseThreshold = 25f;
     [SerializeField] private float _turningThreshold = 15;
@@ -29,11 +27,7 @@ public class VehicleAIController : I_VehicleController
 
     #region public I_Vehicle Methods
     public void Init(waypointGizmos waypointsMiddle, waypointGizmos waypointOptimal, waypointGizmos waypointWide)
-    {
-        _wayPointsMiddle = waypointsMiddle.getWaypoints();
-        _wayPointsOptimal = waypointOptimal.getWaypoints();
-        _wayPointsWide = waypointWide.getWaypoints();
-
+    { 
         waypoints = new waypointGizmos[3];
 
         waypoints[0] = waypointsMiddle;
@@ -46,7 +40,7 @@ public class VehicleAIController : I_VehicleController
         _vehiclePhysics.Init();
         _vehicleVisualController.Init();
 
-        _steeringPosition = _wayPointsMiddle[0].transform.position;
+        _steeringPosition = waypoints[0].transform.position;
     }
     
     public override void respawn()
@@ -100,7 +94,7 @@ public class VehicleAIController : I_VehicleController
     {
         //  If got to the end of a path
         //  Without a circuit
-        if ((_currentWaypointIndex + 1) == _wayPointsMiddle.Length && _circuitedpath == false)
+        if ((_currentWaypointIndex + 1) == waypointsArrayLength && _circuitedpath == false)
         {
             _driveVehicle = false;
             _steeringPosition = transform.position;
@@ -109,7 +103,7 @@ public class VehicleAIController : I_VehicleController
         //
 
         //  If got to the end of a circuited path
-        if ((_currentWaypointIndex + 1) == _wayPointsMiddle.Length && _circuitedpath == true)
+        if ((_currentWaypointIndex + 1) == waypointsArrayLength && _circuitedpath == true)
         {
             _currentWaypointIndex = 0;
         }
@@ -129,11 +123,10 @@ public class VehicleAIController : I_VehicleController
 
         //float circleRadius = waypoints[rndOption].circleRadius;
 
-        Debug.Log($"Index {index}");
-        Vector3 waypointPos = waypoints[rndOption].getWaypoints()[index].position;
+        //Vector3 waypointPos = waypoints[rndOption].getWaypoints()[index].position;
 
-        steerPos = waypointPos;
-        // Random.insideUnitSphere(waypointPos, circleRadius);
+        //steerPos = (circleRadius * (Vector3) Random.insideUnitCircle) + waypointPos;
+        steerPos = waypoints[rndOption].getWaypoints()[index].position;
         return steerPos;
 
     }
@@ -192,5 +185,12 @@ public class VehicleAIController : I_VehicleController
             //_carPhysics.Break(); function doesn't exist yet
         }
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);
+    }
+    private void OnDrawGizmos()
+    {
+        if (_debugOptions)
+        {
+            Gizmos.DrawSphere(_steeringPosition, 0.2f);
+        }
     }
 }
