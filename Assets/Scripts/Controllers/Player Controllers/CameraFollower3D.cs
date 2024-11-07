@@ -34,6 +34,7 @@ public class CameraFollower3D : MonoBehaviour
 
     private Vector3 _currentVelocity = Vector3.zero;
     private float _horizontalInput;
+    private float _horizontalChangeSinceLast;
     private float _verticalInput;
     private float _timeSinceInput;
     private bool _lerping = false;
@@ -44,6 +45,7 @@ public class CameraFollower3D : MonoBehaviour
     private float _startFloat;
 
     public float rbVelocity;
+    public int NaNDodges = 0;
     
     void Awake()
     {
@@ -103,11 +105,15 @@ public class CameraFollower3D : MonoBehaviour
 
         currentEulerRotation.y = Mathf.Clamp(currentEulerRotation.y, -_maximumRotationX, _maximumRotationX);
         currentEulerRotation.x = Mathf.Clamp(currentEulerRotation.x, -_maximumRotationY, _maximumRotationY);
-
-        // Sometimes we get a NaN error here, I did my best to get rid of it but it still shows up sometimes
-        // I did manage to make it never (I think) affect gameplay, though
         
-        _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
+        if (currentEulerRotation.x <= 360 && currentEulerRotation.x >= -360)
+        {
+            _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
+        }
+        else
+        {
+            //Debug.Log("It woulda done a NaN here lol");
+        }
 
         Vector3 targetPosition = _desiredLocation.position;
 
