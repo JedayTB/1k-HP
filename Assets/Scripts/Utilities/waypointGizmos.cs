@@ -3,33 +3,33 @@ using UnityEngine;
 public class waypointGizmos : MonoBehaviour
 {
     // Start is called before the first frame update
-    [Header("Waypouint Settings")]
-    public float waypointRadius = 0.25f;
-    public Color waypointColour = Color.yellow;
-    public float waypointHeight = 1f;
-    public bool showWaypoint = true;
+    [Header("Waypoint Settings")]
+    [SerializeField] private float waypointGizmoRadius = 0.25f;
+    [SerializeField] private Color waypointColour = Color.yellow;
+    [SerializeField] private bool showWaypoint = true;
+    [SerializeField] public float circleRadius = 0.5f;
 
-    [Header("Label Settings")]
-    public Color labelColor = Color.blue;
-    public int fontSize = 18;
-    public float labelHeight = 1f;
-    public bool showLabels = true;
 
     [Space(15)]
-    public bool autoRefreshWaypoints  = true;
-    public bool circuit = true;
+    [SerializeField] private bool autoRefreshWaypoints  = true;
+    [SerializeField] private bool circuit = true;
 
 
-    public Transform[] Waypoints;
+    [SerializeField] private Transform[] Waypoints;
+
+
     public Transform[] getWaypoints()
     {
         return Waypoints;
     }
+
+
+
     private void  Awake()
     {
         RefreshWaypoints();
     }
-    public void RefreshWaypoints(){
+    private void RefreshWaypoints(){
         Transform[] potentialWaypoints = GetComponentsInChildren<Transform>();
         Waypoints = new Transform[potentialWaypoints.Length -1];
 
@@ -54,7 +54,7 @@ public class waypointGizmos : MonoBehaviour
         for(int i = 0; i < Waypoints.Length; i++){
             Transform temp = Waypoints[i];
             
-            Gizmos.DrawSphere(temp.position, waypointRadius);
+            Gizmos.DrawSphere(temp.position, waypointGizmoRadius);
             temp.name = $"Waypoint {i + 1}";
             if(circuit){
                 Gizmos.DrawLine(lastWaypointposition, temp.position);

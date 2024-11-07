@@ -9,7 +9,9 @@ public class GameStateManager : MonoBehaviour
     public static PlayerVehicleController Player; // Singleton var
     [SerializeField] private LapChecker _lapChecker;
     [SerializeField] private LapTimer _lapTimer;
-    [SerializeField] private waypointGizmos _waypointGizmos;
+    [SerializeField] private waypointGizmos _waypointGizmosMiddle;
+    [SerializeField] private waypointGizmos _waypointGizmosOptimal;
+    [SerializeField] private waypointGizmos _waypointGizmosWide;
     [SerializeField] private UIController _uiController;
     [SerializeField] private VehicleAIController[] _aiControllers;
 
@@ -30,7 +32,7 @@ public class GameStateManager : MonoBehaviour
 
         for (int i = 0; i < _aiControllers.Length; i++)
         {
-            _aiControllers[i]?.Init(_waypointGizmos);
+            _aiControllers[i]?.Init(_waypointGizmosMiddle, _waypointGizmosOptimal, _waypointGizmosWide);
         }
         Debug.Log("Finished Intializing!");
     }

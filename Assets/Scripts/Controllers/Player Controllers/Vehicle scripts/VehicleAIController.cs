@@ -3,27 +3,37 @@ using UnityEngine;
 public class VehicleAIController : I_VehicleController
 {
     [Header("AI Basic setup")]
-    [SerializeField] private Transform _targetTransform;
+    [SerializeField] private Vector3 _steeringPosition;
     [SerializeField] private bool _debugOptions = true;
     [SerializeField] private bool _singleTarget = false;
     [SerializeField] private bool _driveVehicle = true;
     [SerializeField] private bool _circuitedpath = true;
 
     [Header("Steering parametres")]
+    private waypointGizmos[] waypoints;
+    [SerializeField] private Transform[] _wayPointsMiddle;
+    [SerializeField] private Transform[] _wayPointsOptimal;
+    [SerializeField] private Transform[] _wayPointsWide;
     [SerializeField] private float _reachedTargetDistance = 6f;
     [SerializeField] private float _reverseThreshold = 25f;
     [SerializeField] private float _turningThreshold = 15;
-
-    [SerializeField] private Transform[] _wayPoints;
     [SerializeField] private int _currentWaypointIndex = 0;
     [SerializeField] private int _respawnWaypointIndex = 0;
 
-    float yAngleToTarget;
+    private float yAngleToTarget;
+    
+    [Header("Steering Weights")]
+    [SerializeField] private float _currentPathingWeight;
 
 
-    public void Init(waypointGizmos waypoints)
+
+    #region public I_Vehicle Methods
+    public void Init(waypointGizmos waypointsMiddle, waypointGizmos waypointOptimal, waypointGizmos waypointWide)
     {
-        if(_singleTarget == false) _wayPoints = waypoints.getWaypoints();
+        _wayPointsMiddle = waypointsMiddle.getWaypoints();
+        _wayPointsOptimal = waypointOptimal.getWaypoints();
+        _wayPointsWide = waypointWide.getWaypoints();
+
 
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
         _vehicleVisualController = GetComponent<CarVisualController>();
@@ -31,8 +41,9 @@ public class VehicleAIController : I_VehicleController
         _vehiclePhysics.Init();
         _vehicleVisualController.Init();
 
-        _targetTransform = _wayPoints[0].transform;
+        _steeringPosition = _wayPointsMiddle[0].transform.position;
     }
+    
     public override void respawn()
     {
         base.respawn();
@@ -54,14 +65,11 @@ public class VehicleAIController : I_VehicleController
         base.setNewRespawnPosition(newTransform);
         _respawnWaypointIndex = _currentWaypointIndex;
     }
-    //For use in starting screen animation
-    public void startDriving()
-    {
-        _driveVehicle = true;
-    }
+    #endregion
+    
     protected override void Update()
     {
-        groundCheck();
+        //groundCheck();
 
         if(_singleTarget == false) updateTarget();
 
@@ -70,38 +78,63 @@ public class VehicleAIController : I_VehicleController
 
     private void updateTarget()
     {
-        float distanceToTarget = Vector3.Distance(transform.position,_targetTransform.position );
+        float distanceToTarget = Vector3.Distance(transform.position, _steeringPosition);
 
         //Reached target
         if (distanceToTarget < _reachedTargetDistance)
         {
-
-            //  If got to the end of a path
-            //  Without a circuit
-            if ((_currentWaypointIndex + 1) == _wayPoints.Length && _circuitedpath == false)
-            {
-                _driveVehicle = false;
-            }
-            //  If got to the end of a circuited path
-            else if((_currentWaypointIndex + 1) == _wayPoints.Length && _circuitedpath == true)
-            {
-                _currentWaypointIndex = 0;
-            }
-            //  No condition. Just go to the next waypoint
-            else
-            {
-                _currentWaypointIndex++;
-            }
+            getNextSteeringPosition(); 
         }
-        //  Just to make sure we're always steering
-        //  to the correct waypoint
-        _targetTransform = _wayPoints[_currentWaypointIndex].transform;
-
-
+        
         if (_debugOptions)
         {
-            Debug.DrawRay(transform.position, _targetTransform.position - transform.position, Color.green);
+            Debug.DrawRay(transform.position, _steeringPosition - transform.position, Color.green);
         }
+    }
+    private void getNextSteeringPosition()
+    {
+        //  If got to the end of a path
+        //  Without a circuit
+        if ((_currentWaypointIndex + 1) == _wayPointsMiddle.Length && _circuitedpath == false)
+        {
+            _driveVehicle = false;
+            _steeringPosition = transform.position;
+            return;
+        }
+        //
+
+        //  If got to the end of a circuited path
+        if ((_currentWaypointIndex + 1) == _wayPointsMiddle.Length && _circuitedpath == true)
+        {
+            _currentWaypointIndex = 0;
+        }
+        //  No condition. Just go to the next waypoint
+        else
+        {
+            _currentWaypointIndex++;
+            
+        }
+        _steeringPosition = getNextWaypointType(_currentWaypointIndex);
+    }
+    private Vector3 getNextWaypointType(int index)
+    {
+        Vector3 steerPos;
+
+        int rndOption = Random.Range(0, 4);
+
+        //float circleRadius = waypoints[rndOption].circleRadius;
+
+        Vector3 waypointPos = waypoints[rndOption].getWaypoints()[index].position;
+
+        steerPos = waypointPos;
+        // Random.insideUnitSphere(waypointPos, circleRadius);
+        return steerPos;
+
+    }
+    //For use in starting screen animation
+    public void startDriving()
+    {
+        _driveVehicle = true;
     }
 
     private void steerVehicleToDestination()
@@ -110,13 +143,13 @@ public class VehicleAIController : I_VehicleController
         _turningInput = 0f;
         yAngleToTarget = 0f;
 
-        float distanceToTarget = Vector3.Distance(transform.position, _targetTransform.position);
+        float distanceToTarget = Vector3.Distance(transform.position, _steeringPosition);
 
         if (distanceToTarget > _reachedTargetDistance)
         {
             //Keep driving
 
-            Vector3 dirToTarget = (_targetTransform.position - transform.position).normalized;
+            Vector3 dirToTarget = (_steeringPosition - transform.position).normalized;
 
             //Calculates wether target is positive on local Z axis or negative
             //Negative value is behind, pos is infront
