@@ -34,7 +34,6 @@ public class CameraFollower3D : MonoBehaviour
 
     private Vector3 _currentVelocity = Vector3.zero;
     private float _horizontalInput;
-    private float _horizontalChangeSinceLast;
     private float _verticalInput;
     private float _timeSinceInput;
     private bool _lerping = false;
@@ -45,7 +44,6 @@ public class CameraFollower3D : MonoBehaviour
     private float _startFloat;
 
     public float rbVelocity;
-    public int NaNDodges = 0;
     
     void Awake()
     {
@@ -84,7 +82,9 @@ public class CameraFollower3D : MonoBehaviour
         Vector3 currentEulerRotation = _pivot.transform.localRotation.eulerAngles;
         _horizontalInput *= _inverseCameraX ? -1 : 1; // oooh my i feel so cool.....
         currentEulerRotation.y += -_horizontalInput * _sensitivity;
+        _horizontalInput = 0;
         currentEulerRotation.x += _verticalInput * _sensitivity;
+        _verticalInput = 0;
 
         // Stupid work around because rotation resets to 359 degrees instead of -1 when going below 0
         if (currentEulerRotation.y > 180f)
@@ -106,6 +106,7 @@ public class CameraFollower3D : MonoBehaviour
         currentEulerRotation.y = Mathf.Clamp(currentEulerRotation.y, -_maximumRotationX, _maximumRotationX);
         currentEulerRotation.x = Mathf.Clamp(currentEulerRotation.x, -_maximumRotationY, _maximumRotationY);
         
+        // This is needed so we don't get NaN errors when setting the rotation if it happens to be a yucky number
         if (currentEulerRotation.x <= 360 && currentEulerRotation.x >= -360)
         {
             _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
@@ -153,8 +154,8 @@ public class CameraFollower3D : MonoBehaviour
     }
     private void checkForInput()
     {
-        _horizontalInput = Input.GetAxisRaw("Mouse X");
-        _verticalInput = Input.GetAxisRaw("Mouse Y");
+        _horizontalInput += Input.GetAxis("Mouse X");
+        _verticalInput += Input.GetAxisRaw("Mouse Y");
 
         if (Input.GetKeyDown(_rearViewKey))
         {
