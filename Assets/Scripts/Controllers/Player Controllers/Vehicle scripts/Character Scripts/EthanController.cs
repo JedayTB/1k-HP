@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,29 +10,37 @@ public class EthanController : PlayerVehicleController
 
     [SerializeField] private float cubeSize = 0.5f;
     [SerializeField] private LayerMask VehicleLayer;
-
-    private I_VehicleController lightningTarget;
     [SerializeField] private Image crosshair;
 
+    
+    private I_VehicleController lightningTarget;
     // Update is called once per frame
     public override void Init(InputManager inputManager)
     {
         base.Init(inputManager);
         selfColliderID = selfCollider.GetInstanceID();
+        crosshair.enabled = false;
     }
     protected override void Update()
     {
         base.Update();
 
-        getAbiliyTarget();
+        if(_canUseAbility)
+        {
+            getAbiliyTarget();
+        }
+    }
+    protected override void onAbilityFull()
+    {
+        _canUseAbility = true;
+        crosshair.enabled = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void getAbiliyTarget()
     {
-        if (_abilityGauge >= 100)
-        {
-            //Cursor.lockState = CursorLockMode.None;
-            //Cursor.visible = true;
+
             Ray aimray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if(_isDebuging) Debug.DrawRay(aimray.origin, aimray.direction * _maxLightningDistance);
@@ -68,12 +77,7 @@ public class EthanController : PlayerVehicleController
             {
                 crosshair.gameObject.SetActive(false);
             }
-        }
-        else
-        {
-            crosshair.gameObject.SetActive(false);
-        }
-
+        
     }
 
     public override void useCharacterAbility()

@@ -53,7 +53,7 @@ public abstract class I_VehicleController : MonoBehaviour
     [SerializeField] protected int _abilityGauge = 0;
     [SerializeField] protected float _abilityUseTimer = 5f;
     protected float _abilityElapsedTime = 0f;
-
+    protected bool _canUseAbility = false;
     #endregion
     public virtual void Init()
     {
