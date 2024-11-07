@@ -7331,12 +7331,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abaa96a3cb51d8945a5793f328e30dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugInfo: 
+  isDebugging: 1
   _target: {fileID: 8516979618195429298}
   _desiredLocation: {fileID: 2955740461295962732}
   _pivot: {fileID: 570041252}
   _rb: {fileID: 8516979618195429304}
   _vehicleController: {fileID: 1321568052}
   smoothSpeed: 0.2
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  _targetZPosition: 0
+  cameraCollisionOffset: 0.2
+  minimumDistanceUntilDither: 5
   _sensitivity: 5
   _maximumRotationX: 35
   _maximumRotationY: 15
@@ -29041,10 +29049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lapTimes: []
-  _lapElapsedTime: 0
   _timerText: {fileID: 972042290}
-  minute: 0
-  seconds: 0
 --- !u!4 &1095892486
 Transform:
   m_ObjectHideFlags: 0
