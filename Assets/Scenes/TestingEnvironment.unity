@@ -588,6 +588,7 @@ MonoBehaviour:
   _inverseCameraX: 0
   _inverseCameraY: 1
   rbVelocity: 0
+  NaNDodges: 0
 --- !u!1 &358973306
 GameObject:
   m_ObjectHideFlags: 0
@@ -3023,6 +3024,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AbilityCell
+      objectReference: {fileID: 0}
+    - target: {fileID: 300163374162616891, guid: 64955309c1275f913bfbd7ae90ddcd00,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1944844403218256068, guid: 64955309c1275f913bfbd7ae90ddcd00,
         type: 3}
