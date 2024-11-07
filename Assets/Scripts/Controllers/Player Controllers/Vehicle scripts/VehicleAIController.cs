@@ -34,6 +34,11 @@ public class VehicleAIController : I_VehicleController
         _wayPointsOptimal = waypointOptimal.getWaypoints();
         _wayPointsWide = waypointWide.getWaypoints();
 
+        waypoints = new waypointGizmos[3];
+
+        waypoints[0] = waypointsMiddle;
+        waypoints[1] = waypointOptimal;
+        waypoints[2] = waypointWide;
 
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
         _vehicleVisualController = GetComponent<CarVisualController>();
@@ -124,6 +129,7 @@ public class VehicleAIController : I_VehicleController
 
         //float circleRadius = waypoints[rndOption].circleRadius;
 
+        Debug.Log($"Index {index}");
         Vector3 waypointPos = waypoints[rndOption].getWaypoints()[index].position;
 
         steerPos = waypointPos;
