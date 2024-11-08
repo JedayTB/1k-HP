@@ -9356,7 +9356,9 @@ MonoBehaviour:
   _player: {fileID: 1321568052}
   _lapChecker: {fileID: 0}
   _lapTimer: {fileID: 1095892485}
-  _waypointGizmos: {fileID: 1262876872}
+  _waypointGizmosMiddle: {fileID: 0}
+  _waypointGizmosOptimal: {fileID: 0}
+  _waypointGizmosWide: {fileID: 0}
   _uiController: {fileID: 2106065038}
   _aiControllers:
   - {fileID: 0}
@@ -31505,14 +31507,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3043be293f1591742ac228667d45febb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypointRadius: 0.25
+  waypointGizmoRadius: 0.25
   waypointColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  waypointHeight: 1
   showWaypoint: 1
-  labelColor: {r: 0, g: 0, b: 1, a: 1}
-  fontSize: 18
-  labelHeight: 1
-  showLabels: 1
+  circleRadius: 0.5
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints:
@@ -41718,6 +41716,74 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8564320973791493563, guid: dc97a74d4b160ff4593f99b08241e54c, type: 3}
+--- !u!1001 &1868749200
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 394.99
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 149.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 524.35
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.97900987
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000000021396943
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.203813
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0000000044544706
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -23.52
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e055d7c4aa87214499f0bbc86dcfd451,
+        type: 3}
+      propertyPath: m_Name
+      value: TireMotoWheel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e055d7c4aa87214499f0bbc86dcfd451, type: 3}
 --- !u!1 &1869459724 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9203324390398772745, guid: dc97a74d4b160ff4593f99b08241e54c,
@@ -46316,3 +46382,4 @@ SceneRoots:
   - {fileID: 6121259423300746746}
   - {fileID: 2064374201}
   - {fileID: 954030251}
+  - {fileID: 1868749200}
