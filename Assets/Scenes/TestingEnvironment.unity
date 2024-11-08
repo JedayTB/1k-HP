@@ -1457,6 +1457,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hoku
       objectReference: {fileID: 0}
+    - target: {fileID: 4446781413359444397, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5180931264958449873, guid: 927046883a284024692337c63f770fb4,
         type: 3}
       propertyPath: crosshair
@@ -2127,7 +2132,7 @@ PrefabInstance:
     - target: {fileID: 7633368292810393836, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3949,7 +3954,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _player
       value: 
-      objectReference: {fileID: 1822818413}
+      objectReference: {fileID: 1257752869}
     - target: {fileID: 2806727714142052530, guid: 3189b709b3f32c54ca20b8140fb32380,
         type: 3}
       propertyPath: _playingHud
@@ -4132,7 +4137,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0f510dd0580fd0c4d88ec4b2b0fe7c74, type: 2}
+      objectReference: {fileID: 2100000, guid: 4c4efa1ca5fa5cc4a91d4b8b35ab2015, type: 2}
     - target: {fileID: 7072697228302554928, guid: 64955309c1275f913bfbd7ae90ddcd00,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
