@@ -34,6 +34,8 @@ public class VehicleAIController : I_VehicleController
         waypoints[1] = waypointOptimal;
         waypoints[2] = waypointWide;
 
+        waypointsArrayLength = waypointsMiddle.getWaypoints().Length - 1;
+
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
         _vehicleVisualController = GetComponent<CarVisualController>();
 
@@ -103,7 +105,7 @@ public class VehicleAIController : I_VehicleController
         //
 
         //  If got to the end of a circuited path
-        if ((_currentWaypointIndex + 1) == waypointsArrayLength && _circuitedpath == true)
+        if (_currentWaypointIndex == waypointsArrayLength && _circuitedpath == true)
         {
             _currentWaypointIndex = 0;
         }
@@ -111,7 +113,9 @@ public class VehicleAIController : I_VehicleController
         else
         {
             _currentWaypointIndex++;
-            
+            _currentWaypointIndex = Mathf.Clamp(_currentWaypointIndex,0, waypointsArrayLength);
+
+            Debug.Log($"Waypoint index updated {_currentWaypointIndex}, Time {Time.time}");
         }
         _steeringPosition = getNextWaypointType(_currentWaypointIndex);
     }
@@ -119,13 +123,14 @@ public class VehicleAIController : I_VehicleController
     {
         Vector3 steerPos;
 
-        int rndOption = Random.Range(0, 4);
+        int rndOption = Random.Range(0, 3);
 
         //float circleRadius = waypoints[rndOption].circleRadius;
 
         //Vector3 waypointPos = waypoints[rndOption].getWaypoints()[index].position;
 
         //steerPos = (circleRadius * (Vector3) Random.insideUnitCircle) + waypointPos;
+        Debug.Log($"Rnd track{rndOption}, waypoint index {index}");
         steerPos = waypoints[rndOption].getWaypoints()[index].position;
         return steerPos;
 

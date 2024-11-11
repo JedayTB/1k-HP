@@ -18,7 +18,7 @@ public class CarVisualController : MonoBehaviour
     [SerializeField] private Material _vehicleTailLight;
 
     [SerializeField] private List<GameObject> _trails;
-
+    [SerializeField] protected ParticleSystem[] driftParticles;
     [SerializeField] private List<Material> _carMats = new List<Material>();
 
     private CustomCarPhysics _vehiclePhysics;
@@ -64,6 +64,15 @@ public class CarVisualController : MonoBehaviour
             lastChange = 1;
         }
         */
+        if (_vehiclePhysics.isDrifting)
+        {
+            for(int i = 0; i < driftParticles.Length; i++)
+            {
+                driftParticles[i].Emit(3);
+            }
+        }
+        
+
         if (_vehiclePhysics.isUsingNitro)
         {
             foreach (GameObject trail in _trails)

@@ -26,7 +26,7 @@ public abstract class I_VehicleController : MonoBehaviour
     [SerializeField] protected bool _useGroundCheck = false;
     [SerializeField] protected float _raycastDistance = 5f;
     [SerializeField] protected LayerMask _worldGeometryLayers;
-    [SerializeField] protected ParticleSystem[] driftParticles;
+    
 
 
     [HideInInspector] public bool isUsingNitro = false;
@@ -78,9 +78,6 @@ public abstract class I_VehicleController : MonoBehaviour
     protected virtual void Update(){
         isDrifting = _vehiclePhysics.isDrifting;
         if(isDrifting){
-            foreach(var ps in driftParticles){
-                ps.Emit(3);
-            }
             buildNitro();
         }
     }

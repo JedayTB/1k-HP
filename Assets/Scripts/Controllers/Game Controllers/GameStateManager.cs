@@ -17,13 +17,13 @@ public class GameStateManager : MonoBehaviour
 
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
-    
+
     private void Awake()
     {
         Player = _player;
         inputManager = this.gameObject.AddComponent<InputManager>();
         inputManager.Init();
-        
+
         _lapChecker?.Init(this);
 
         _player?.Init(inputManager);
@@ -36,7 +36,7 @@ public class GameStateManager : MonoBehaviour
         }
         Debug.Log("Finished Intializing!");
     }
-    
+
     public void onPlayerWin()
     {
         Debug.Log("Player won!");

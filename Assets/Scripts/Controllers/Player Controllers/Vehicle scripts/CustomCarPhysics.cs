@@ -10,6 +10,7 @@ public class CustomCarPhysics : MonoBehaviour
     private Transform _transform;
     [HideInInspector] public bool isUsingNitro = false;
     [Header("Basic Setup")]
+    [SerializeField] private float _raycastDistance = 1.5f;
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private CustomWheels[] wheels;
     public CustomWheels[] WheelArray { get => wheels; }
@@ -22,7 +23,7 @@ public class CustomCarPhysics : MonoBehaviour
 
     [Header("Acceleration Setup")]
     [Tooltip("Top speed of the car")]
-    [SerializeField] private float _vehicleTopSpeed = 500f;
+    [SerializeField] private float _terminalVelocity = 500f;
     [Tooltip("How fast the car accelerates")]
     [SerializeField] private float _accelerationAmount = 3500f;
     private float _baseAccelerationAmount;
@@ -126,27 +127,28 @@ public class CustomCarPhysics : MonoBehaviour
         {
             applyTireRotation(wheels[i], i);
 
-            wheels[i].raycastDown(_groundLayers);
+            wheels[i].raycastDown(_groundLayers, _raycastDistance);
 
             if (wheels[i].TireIsGrounded)
             {
                 wheels[i].applyTireSuspensionForces();
 
                 float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _vehicleTopSpeed);
+                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
+
                 float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
+
                 wheels[i].applyTireAcceleration(_throttleInput, _accelerationAmount, availableTorque);
-                //Janky but fuck it
+                
                 if (isDrifting)
                 {
-                    //print("during drift?");
-                    wheels[i].applyTireSlide(0.1f, 1f, isDrifting);
+                    
+                    wheels[i].applyTireSlideOnDrift(0.1f, 1f);
                 }
                 else
                 {
-                    //Only uses inputed tireGrip and tiremass if isDrifting = true
-                    wheels[i].applyTireSlide(0.1f, 1f, isDrifting);
+                    wheels[i].applyTireSlide(1f);
                 }
             }
 
