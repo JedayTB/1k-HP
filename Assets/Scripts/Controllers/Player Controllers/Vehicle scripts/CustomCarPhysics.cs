@@ -57,7 +57,22 @@ public class CustomCarPhysics : MonoBehaviour
 
         foreach (var tire in wheels)
         {
-            tire.init(_rigidBody);
+            float leftAckAngle = 0f;
+            float rightAckAngle = 0f;
+
+            switch (tire.tireType)
+            {
+                case TireType.frontTireLeft:
+                    leftAckAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius + (rearTrack / 2)));
+                    rightAckAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius - (rearTrack / 2)));
+                    break;
+                case TireType.frontTireRight:
+                    leftAckAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius - (rearTrack / 2)));
+                    rightAckAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius + (rearTrack / 2)));
+                    break;
+            }
+
+            tire.init(_rigidBody, leftAckAngle, rightAckAngle);
         }
     }
     public void setInputs(float throttleAmt, float turningAmt)
@@ -181,53 +196,10 @@ public class CustomCarPhysics : MonoBehaviour
                 Tire.setTireRotation(tireYAngle);
             }
             else
-            {
-                /*
-                Left
-                Rad2Deg Atan(wheelbase / turnRadius + rearTrack /2)) * steerInput
-                                                    - for right wheel
-                */
+            { 
                 _durationOfAngleTiming = 0;
 
-                switch (Tire.tireType)
-                {
-
-                    case TireType.frontTireLeft:
-                        //negative
-                        if (_turningInput < 0)
-                        {
-                            tireYAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius + (rearTrack / 2))) * _turningInput;
-                            //positive
-                        }
-                        else if (_turningInput > 0)
-                        {
-                            tireYAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius - (rearTrack / 2))) * _turningInput;
-                        }
-                        else
-                        {
-                            tireYAngle = 0;
-                        }
-
-                        break;
-                    case TireType.frontTireRight:
-                        //negative
-                        if (_turningInput < 0)
-                        {
-                            tireYAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius - (rearTrack / 2))) * _turningInput;
-                            //positive
-                        }
-                        else if (_turningInput > 0)
-                        {
-                            tireYAngle = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius + (rearTrack / 2))) * _turningInput;
-                        }
-                        else
-                        {
-                            tireYAngle = 0;
-                        }
-                        break;
-                }
-
-                Tire.setTireRotation(tireYAngle);
+                Tire.setTireRotation(_turningInput);
             }
 
         }

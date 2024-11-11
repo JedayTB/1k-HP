@@ -3,11 +3,12 @@ using UnityEngine;
 public class waypointGizmos : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField] private bool DrawDebug = true;
     [Header("Waypoint Settings")]
     [SerializeField] private float waypointGizmoRadius = 0.25f;
     [SerializeField] private Color waypointColour = Color.yellow;
     [SerializeField] private bool showWaypoint = true;
-    [SerializeField] public float circleRadius = 0.5f;
+    [SerializeField] public float circleRadius = 6f;
 
 
     [Space(15)]
@@ -46,15 +47,16 @@ public class waypointGizmos : MonoBehaviour
 
         Gizmos.color = waypointColour;
 
-        drawWaypPoints();
+        if(DrawDebug) drawWayPoints();
     }
-    private void drawWaypPoints(){
+    private void drawWayPoints(){
         Vector3 lastWaypointposition = Waypoints[^1].position;
 
         for(int i = 0; i < Waypoints.Length; i++){
             Transform temp = Waypoints[i];
             
             Gizmos.DrawSphere(temp.position, waypointGizmoRadius);
+            Gizmos.DrawWireSphere(temp.position, circleRadius);
             temp.name = $"Waypoint {i + 1}";
             if(circuit){
                 Gizmos.DrawLine(lastWaypointposition, temp.position);

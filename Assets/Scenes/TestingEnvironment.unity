@@ -707,10 +707,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3043be293f1591742ac228667d45febb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DrawDebug: 1
   waypointGizmoRadius: 0.25
   waypointColour: {r: 1, g: 0, b: 0.7389393, a: 1}
   showWaypoint: 1
-  circleRadius: 0.5
+  circleRadius: 8.22
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints:
@@ -1088,7 +1089,7 @@ Transform:
   m_GameObject: {fileID: 338934305}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.9, y: 0, z: 31.4}
+  m_LocalPosition: {x: 31.59, y: 0, z: 31.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1596,7 +1597,7 @@ Transform:
   m_GameObject: {fileID: 729022538}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.4, y: 0, z: 31.7}
+  m_LocalPosition: {x: -28.1, y: 0, z: 31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1733,10 +1734,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3043be293f1591742ac228667d45febb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DrawDebug: 1
   waypointGizmoRadius: 0.25
   waypointColour: {r: 0.015686274, g: 0.16487315, b: 1, a: 1}
   showWaypoint: 1
-  circleRadius: 0.5
+  circleRadius: 15
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints:
@@ -1759,7 +1761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &786947370
 Transform:
   m_ObjectHideFlags: 0
@@ -2907,7 +2909,7 @@ PrefabInstance:
     - target: {fileID: 7633368292810393836, guid: cd576dac49fdbb049ac9b501a652d828,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4431,7 +4433,7 @@ Transform:
   m_GameObject: {fileID: 1766771638}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.09, y: 0, z: -28.64}
+  m_LocalPosition: {x: 30.01, y: 0, z: -28.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4462,7 +4464,7 @@ Transform:
   m_GameObject: {fileID: 1779506368}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.48, y: 0, z: -28.71}
+  m_LocalPosition: {x: -28, y: 0, z: -27.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4613,10 +4615,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3043be293f1591742ac228667d45febb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DrawDebug: 1
   waypointGizmoRadius: 0.25
   waypointColour: {r: 1, g: 0.16212589, b: 0.015686274, a: 1}
   showWaypoint: 1
-  circleRadius: 0.5
+  circleRadius: 10
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints:
@@ -4831,7 +4834,7 @@ Transform:
   m_GameObject: {fileID: 2005175316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.84, y: 0, z: -31}
+  m_LocalPosition: {x: -28.41, y: 0, z: -27.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4862,7 +4865,7 @@ Transform:
   m_GameObject: {fileID: 2069693083}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.12, y: 0, z: -29.53}
+  m_LocalPosition: {x: 30.73, y: 0, z: -27.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5241,7 +5244,7 @@ PrefabInstance:
     - target: {fileID: 4446781413359444397, guid: 927046883a284024692337c63f770fb4,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5180931264958449873, guid: 927046883a284024692337c63f770fb4,
         type: 3}

@@ -1,16 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
 public class VehicleAIController : I_VehicleController
 {
+    #region AI Variables
     [Header("AI Basic setup")]
     [SerializeField] private Vector3 _steeringPosition;
+    [SerializeField] protected float SteerPathingClock = 0.15f; 
     [SerializeField] private bool _debugOptions = true;
     [SerializeField] private bool _singleTarget = false;
     [SerializeField] private bool _driveVehicle = true;
     [SerializeField] private bool _circuitedpath = true;
 
     [Header("Steering parametres")]
-    [SerializeField] private waypointGizmos[] waypoints;
+    [SerializeField] private waypointGizmos[] _NavigationTracks;
     private int waypointsArrayLength;
     [SerializeField] private float _reachedTargetDistance = 6f;
     [SerializeField] private float _reverseThreshold = 25f;
@@ -21,18 +24,18 @@ public class VehicleAIController : I_VehicleController
     private float yAngleToTarget;
     
     [Header("Steering Weights")]
-    [SerializeField] private float _currentPathingWeight;
+    [SerializeField] private int _currentTrackOption;
 
-
+    #endregion
 
     #region public I_Vehicle Methods
     public void Init(waypointGizmos waypointsMiddle, waypointGizmos waypointOptimal, waypointGizmos waypointWide)
     { 
-        waypoints = new waypointGizmos[3];
+        _NavigationTracks = new waypointGizmos[3];
 
-        waypoints[0] = waypointsMiddle;
-        waypoints[1] = waypointOptimal;
-        waypoints[2] = waypointWide;
+        _NavigationTracks[0] = waypointsMiddle;
+        _NavigationTracks[1] = waypointOptimal;
+        _NavigationTracks[2] = waypointWide;
 
         waypointsArrayLength = waypointsMiddle.getWaypoints().Length - 1;
 
@@ -42,7 +45,9 @@ public class VehicleAIController : I_VehicleController
         _vehiclePhysics.Init();
         _vehicleVisualController.Init();
 
-        _steeringPosition = waypoints[0].transform.position;
+        _steeringPosition = _NavigationTracks[0].getWaypoints()[0].position;
+
+        StartCoroutine(SteerPathing(SteerPathingClock));
     }
     
     public override void respawn()
@@ -67,14 +72,28 @@ public class VehicleAIController : I_VehicleController
         _respawnWaypointIndex = _currentWaypointIndex;
     }
     #endregion
-    
-    protected override void Update()
+
+    #region Helper Methods
+    //For use in starting screen animation
+    public void startDriving()
     {
-        //groundCheck();
+        _driveVehicle = true;
+    }
+    #endregion
 
-        if(_singleTarget == false) updateTarget();
 
-        if(_driveVehicle) steerVehicleToDestination();
+    IEnumerator SteerPathing(float waitTime)
+    {
+        while (true)
+        {
+            if (_singleTarget == false) updateTarget();
+
+            if (_driveVehicle) steerVehicleToDestination();
+
+            yield return new WaitForSeconds(waitTime);
+        }
+
+
     }
 
     private void updateTarget()
@@ -84,7 +103,10 @@ public class VehicleAIController : I_VehicleController
         //Reached target
         if (distanceToTarget < _reachedTargetDistance)
         {
-            getNextSteeringPosition(); 
+
+            updateWaypointIndex();
+            updateTrackOption();
+            _steeringPosition = getPosInsideWaypoint(_currentTrackOption);
         }
         
         if (_debugOptions)
@@ -92,7 +114,7 @@ public class VehicleAIController : I_VehicleController
             Debug.DrawRay(transform.position, _steeringPosition - transform.position, Color.green);
         }
     }
-    private void getNextSteeringPosition()
+    private void updateWaypointIndex()
     {
         //  If got to the end of a path
         //  Without a circuit
@@ -115,32 +137,39 @@ public class VehicleAIController : I_VehicleController
             _currentWaypointIndex++;
             _currentWaypointIndex = Mathf.Clamp(_currentWaypointIndex,0, waypointsArrayLength);
 
-            Debug.Log($"Waypoint index updated {_currentWaypointIndex}, Time {Time.time}");
+            //Debug.Log($"Waypoint index updated {_currentWaypointIndex}, Time {Time.time}");
         }
-        _steeringPosition = getNextWaypointType(_currentWaypointIndex);
     }
-    private Vector3 getNextWaypointType(int index)
+    private void updateTrackOption()
+    {
+        switch (_currentTrackOption)
+        {
+            case 0: // Middle track
+                _currentTrackOption++;
+                break;
+            case 1: // Optimal          -1, 0, 1
+                _currentTrackOption += Random.Range(-1, 2);
+                break;
+            case 2: // Wide track       // 1, 2
+                _currentTrackOption -= Random.Range(1, 3);
+                break;
+        }
+    }
+    private Vector3 getPosInsideWaypoint(int trackOption)
     {
         Vector3 steerPos;
 
-        int rndOption = Random.Range(0, 3);
+        float circleRadius = _NavigationTracks[trackOption].circleRadius;
 
-        //float circleRadius = waypoints[rndOption].circleRadius;
+        Vector3 waypointPos = _NavigationTracks[trackOption].getWaypoints()[_currentWaypointIndex].position;
+        Vector3 rndCircleOffset = Random.insideUnitCircle * circleRadius;
 
-        //Vector3 waypointPos = waypoints[rndOption].getWaypoints()[index].position;
+        steerPos = new Vector3(rndCircleOffset.x + waypointPos.x, waypointPos.y, rndCircleOffset.z + waypointPos.z);
 
-        //steerPos = (circleRadius * (Vector3) Random.insideUnitCircle) + waypointPos;
-        Debug.Log($"Rnd track{rndOption}, waypoint index {index}");
-        steerPos = waypoints[rndOption].getWaypoints()[index].position;
+        //Debug.Log($"Rnd track{rndOption}, waypoint index {index}");
+
         return steerPos;
-
     }
-    //For use in starting screen animation
-    public void startDriving()
-    {
-        _driveVehicle = true;
-    }
-
     private void steerVehicleToDestination()
     {
         _throttleInput = 0f;
@@ -193,9 +222,10 @@ public class VehicleAIController : I_VehicleController
     }
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
         if (_debugOptions)
         {
-            Gizmos.DrawSphere(_steeringPosition, 0.2f);
+            Gizmos.DrawSphere(_steeringPosition, 1f);
         }
     }
 }
