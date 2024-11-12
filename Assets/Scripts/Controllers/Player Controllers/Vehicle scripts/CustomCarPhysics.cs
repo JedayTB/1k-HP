@@ -199,7 +199,7 @@ public class CustomCarPhysics : MonoBehaviour
             { 
                 _durationOfAngleTiming = 0;
 
-                Tire.setTireRotation(_turningInput);
+                Tire.TurnTire(_turningInput);
             }
 
         }

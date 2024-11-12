@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
-
 public enum TireType
 {
     frontTireLeft,
@@ -31,10 +29,13 @@ public class CustomWheels : MonoBehaviour
         _vehicleRB = rb;
         _tireTransform = transform;
 
-        _leftAckermanAngle = leftTurnAngle * -1;
+        _leftAckermanAngle = leftTurnAngle;
         _rightAckermanAngle = rightTurnAngle;
     }
-
+    /// <summary>
+    /// Manual Setting of tire Y angle
+    /// </summary>
+    /// <param name="turningInput"> Value from 0-1 inside Custom Car physics</param>
     public void setTireRotation(float turningInput)
     {
         Vector3 rotation = transform.localRotation.eulerAngles;
@@ -54,25 +55,34 @@ public class CustomWheels : MonoBehaviour
         steeringAngle = rotation.y;
         _tireTransform.localRotation = Quaternion.Euler(rotation);
     }
-    
+    /// <summary>
+    /// Lerp smoothed setting of tire Y angle. Uses ExponentialDecay smoothing, which is frame independent.
+    /// </summary>
+    /// <param name="turningInput">value from 0-1 inside Custom Car physics</param>
     public void TurnTire(float turningInput)
     { 
         Vector3 rotation = transform.localRotation.eulerAngles;
-        float yAngle = 0;
-        float decaySpd = _decaySpeed;
+        float desiredAngle = 0;
+        float currentRotY = Mathf.Abs(rotation.y);
 
         if (turningInput > 0) // Turning right
         {
-            yAngle = _rightAckermanAngle * Mathf.Abs(turningInput);
+            desiredAngle = _rightAckermanAngle * Mathf.Abs(turningInput);
+
+            currentRotY = LerpAndEasings.ExponentialDecay(rotation.y, desiredAngle, _decaySpeed, Time.deltaTime);
+
+            rotation.y = currentRotY;
         }
         else if(turningInput < 0) // Turning Left
         {
-            yAngle = _leftAckermanAngle * Mathf.Abs(turningInput);
-            decaySpd *= -1;
-            print(yAngle);
+            desiredAngle = _leftAckermanAngle * Mathf.Abs(turningInput);
+            currentRotY = LerpAndEasings.ExponentialDecay(rotation.y , desiredAngle, _decaySpeed, Time.deltaTime);
+
+            rotation.y = currentRotY * -1;
+
+            rotation.y = Mathf.Clamp(rotation.y, _leftAckermanAngle * -1, 0);
         }
 
-        rotation.y = LerpAndEasings.ExponentialDecay(rotation.y, yAngle, decaySpd, Time.deltaTime);
         steeringAngle = rotation.y;
         _tireTransform.localRotation = Quaternion.Euler(rotation);
     }

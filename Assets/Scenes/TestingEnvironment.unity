@@ -786,7 +786,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!33 &203682305
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1756,7 +1756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 786947370}
   m_Layer: 0
-  m_Name: All proto type vehicles
+  m_Name: All prototype vehicles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2606,6 +2606,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce3ef1021e773be2b84a0e41baca18de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WaveMagnitude: 0
+  Speed: 0
+  Scale: 0
+  Offset: 0
+  LengthScale: 0
+  AttenutationPower: 0
+  NoiseScale: 0
+  NoiseSpeed: 0
+  NoiseMagnitude: 0
 --- !u!65 &1171033467
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5318,6 +5327,7 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
+  - {fileID: 786947370}
   - {fileID: 1489443244}
   - {fileID: 6099951654317005359}
   - {fileID: 1680580125}
@@ -5333,4 +5343,3 @@ SceneRoots:
   - {fileID: 639329123}
   - {fileID: 1442702444}
   - {fileID: 203682307}
-  - {fileID: 786947370}
