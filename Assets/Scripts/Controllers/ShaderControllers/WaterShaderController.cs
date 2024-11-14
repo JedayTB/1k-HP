@@ -49,13 +49,13 @@ public class WaterShaderController : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        Vector3 newOffsetPos = other.gameObject.transform.position - transform.position;
-        Debug.Log($"New Offset {newOffsetPos}, Obj world pos {other.gameObject.transform.position}");
+        Vector3 newOffsetPos = other.gameObject.transform.position;
+        
+        newOffsetPos *= -1;
+        Vector2 projectedOffset = new Vector2(newOffsetPos.x, newOffsetPos.z);
         // _Offset is 2D - but we don't care about height.
         // Use the Z value of newOffsetPos in a 2D vec
 
-        // I won't pretend like I know why you have to inverse the vector.
-        Vector2 projectedOffset = new Vector2(newOffsetPos.x, newOffsetPos.z) * -1;
         WaterShaderMat.SetVector(_Offset, projectedOffset);
     }
 

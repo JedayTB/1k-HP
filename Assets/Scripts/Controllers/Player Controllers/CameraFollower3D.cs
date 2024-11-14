@@ -1,4 +1,3 @@
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class CameraFollower3D : MonoBehaviour
@@ -54,6 +53,14 @@ public class CameraFollower3D : MonoBehaviour
         Cursor.visible = false;
         defaultZPosition = _desiredLocation.localPosition.z;
     }
+    public void Init(){
+        _transform = transform;
+        _camera = GetComponent<Camera>();
+        _pivot.transform.localRotation = Quaternion.identity;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        defaultZPosition = _desiredLocation.localPosition.z;
+    }
 
     private void Update()
     {
@@ -82,9 +89,7 @@ public class CameraFollower3D : MonoBehaviour
         Vector3 currentEulerRotation = _pivot.transform.localRotation.eulerAngles;
         _horizontalInput *= _inverseCameraX ? -1 : 1; // oooh my i feel so cool.....
         currentEulerRotation.y += -_horizontalInput * _sensitivity;
-        _horizontalInput = 0;
         currentEulerRotation.x += _verticalInput * _sensitivity;
-        _verticalInput = 0;
 
         // Stupid work around because rotation resets to 359 degrees instead of -1 when going below 0
         if (currentEulerRotation.y > 180f)
@@ -105,16 +110,10 @@ public class CameraFollower3D : MonoBehaviour
 
         currentEulerRotation.y = Mathf.Clamp(currentEulerRotation.y, -_maximumRotationX, _maximumRotationX);
         currentEulerRotation.x = Mathf.Clamp(currentEulerRotation.x, -_maximumRotationY, _maximumRotationY);
-        
-        // This is needed so we don't get NaN errors when setting the rotation if it happens to be a yucky number
-        if (currentEulerRotation.x <= 360 && currentEulerRotation.x >= -360)
-        {
-            _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
-        }
-        else
-        {
-            //Debug.Log("It woulda done a NaN here lol");
-        }
+
+        // Sometimes we get a NaN error here, I did my best to get rid of it but it still shows up sometimes
+        // I did manage to make it never (I think) affect gameplay, though        
+        _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
 
         Vector3 targetPosition = _desiredLocation.position;
 
@@ -154,8 +153,8 @@ public class CameraFollower3D : MonoBehaviour
     }
     private void checkForInput()
     {
-        _horizontalInput += Input.GetAxis("Mouse X");
-        _verticalInput += Input.GetAxisRaw("Mouse Y");
+        _horizontalInput = Input.GetAxisRaw("Mouse X");
+        _verticalInput = Input.GetAxisRaw("Mouse Y");
 
         if (Input.GetKeyDown(_rearViewKey))
         {

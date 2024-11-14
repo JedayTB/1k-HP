@@ -7,6 +7,7 @@ public class GameStateManager : MonoBehaviour
     private InputManager inputManager;
     [SerializeField] private PlayerVehicleController _player;
     public static PlayerVehicleController Player; // Singleton var
+    [SerializeField] private CameraFollower3D cam;
     [SerializeField] private LapChecker _lapChecker;
     [SerializeField] private LapTimer _lapTimer;
     [SerializeField] private waypointGizmos _waypointGizmosMiddle;
@@ -29,6 +30,8 @@ public class GameStateManager : MonoBehaviour
         _player?.Init(inputManager);
 
         _uiController.init(_player);
+        cam = Camera.main.GetComponent<CameraFollower3D>();
+        cam?.Init();
 
         for (int i = 0; i < _aiControllers.Length; i++)
         {
