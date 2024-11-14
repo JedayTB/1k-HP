@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class CarVisualController : MonoBehaviour
@@ -25,9 +24,7 @@ public class CarVisualController : MonoBehaviour
     private CustomWheels[] PhysicsWheels;
     private Rigidbody _rb;
 
-    private int lastChange = 0;
-
-    public void Init()
+    public virtual void Init()
     {
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
         PhysicsWheels = _vehiclePhysics.WheelArray;
@@ -108,4 +105,5 @@ public class CarVisualController : MonoBehaviour
 
         wheel.localRotation = rotation;
     }
+    
 }

@@ -7420,8 +7420,6 @@ MonoBehaviour:
   _target: {fileID: 8516979618195429298}
   _desiredLocation: {fileID: 2955740461295962732}
   _pivot: {fileID: 570041252}
-  _rb: {fileID: 8516979618195429304}
-  _vehicleController: {fileID: 1321568052}
   smoothSpeed: 0.2
   collisionLayers:
     serializedVersion: 2
@@ -7436,7 +7434,6 @@ MonoBehaviour:
   _rearViewKey: 9
   _inverseCameraX: 0
   _inverseCameraY: 0
-  rbVelocity: 0
 --- !u!1 &401438619 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7015957883039812838, guid: c06e6b95cc0404a42b9e282634c14b2d,
@@ -9942,6 +9939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 1321568052}
+  cam: {fileID: 0}
   _lapChecker: {fileID: 0}
   _lapTimer: {fileID: 1095892485}
   _waypointGizmosMiddle: {fileID: 0}
@@ -32890,6 +32888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3043be293f1591742ac228667d45febb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DrawDebug: 1
   waypointGizmoRadius: 0.25
   waypointColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   showWaypoint: 1
@@ -47437,12 +47436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b1e75b002032e4f92d5f0272a22cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &8516979618195429304 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8095818865533755442, guid: cd576dac49fdbb049ac9b501a652d828,
-    type: 3}
-  m_PrefabInstance: {fileID: 4521062506620734454}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

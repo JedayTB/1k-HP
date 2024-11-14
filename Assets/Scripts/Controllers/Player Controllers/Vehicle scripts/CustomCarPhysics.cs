@@ -36,11 +36,12 @@ public class CustomCarPhysics : MonoBehaviour
 
     [Header("Steering Setup")]
     [Tooltip("The Distance between the Front and Back tires")]
-    private float wheelbase = 5f;
+    [SerializeField] public float wheelbase = 5f;
     [Tooltip("Minimum Space rquired to turn Vehicle 180 degree's in metres")]
-    private float turnRadius = 10f;
+    [SerializeField] public float turnRadius = 10f;
     [Tooltip("Distance between back Wheels")]
-    private float rearTrack = 2f;
+    [SerializeField] private float rearTrack = 2f;
+
     [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
     [SerializeField] private float _tireGripHackFix = 100f;
     [HideInInspector] public bool isDrifting = false;

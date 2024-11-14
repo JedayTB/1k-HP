@@ -10,8 +10,6 @@ public class CameraFollower3D : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private Transform _desiredLocation;
     [SerializeField] private Transform _pivot;
-    [SerializeField] private Rigidbody _rb;
-    [SerializeField] private PlayerVehicleController _vehicleController;
     [SerializeField] private float smoothSpeed = 0.25f;
     [Header("Camera Collision")]
     [SerializeField] private LayerMask collisionLayers;
@@ -42,7 +40,7 @@ public class CameraFollower3D : MonoBehaviour
     private Vector3 _startRotation;
     private float _startFloat;
 
-    public float rbVelocity;
+    
     
     void Awake()
     {
@@ -125,7 +123,7 @@ public class CameraFollower3D : MonoBehaviour
         _transform.rotation = newRotation;
         // Make sure camera doesn't go inside walls
         cameraCollision();
-        //rbVelocity = _rb.velocity.x + _rb.velocity.z;       
+        
     }
     void cameraCollision()
     {
@@ -175,11 +173,11 @@ public class CameraFollower3D : MonoBehaviour
 
     private void ChangeFOV()
     {
-        if (_vehicleController._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 80)
+        if (GameStateManager.Player._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 80)
         {
             _camera.fieldOfView = lerpFloat(_camera.fieldOfView, 80f);
         }
-        else if (!_vehicleController._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 60)
+        else if (!GameStateManager.Player._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 60)
         {
             _camera.fieldOfView = lerpFloat(_camera.fieldOfView, 60f);
         }
