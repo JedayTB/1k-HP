@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEditor;
 using UnityEngine;
 
 public class CameraFollower3D : MonoBehaviour
@@ -28,17 +30,15 @@ public class CameraFollower3D : MonoBehaviour
     [SerializeField] private KeyCode _rearViewKey = KeyCode.Tab;
     [SerializeField] private bool _inverseCameraX = false;
     [SerializeField] private bool _inverseCameraY = false;
+    [SerializeField] private float _boostFOV = 90f;
 
     private Vector3 _currentVelocity = Vector3.zero;
     private float _horizontalInput;
     private float _verticalInput;
     private float _timeSinceInput;
     private bool _lerping = false;
-    private bool _lerpingFloat = false;
     private float _startTime;
-    private float _startTimeFloat;
     private Vector3 _startRotation;
-    private float _startFloat;
 
     
     
@@ -68,12 +68,6 @@ public class CameraFollower3D : MonoBehaviour
 
     void FixedUpdate()
     {
-        ///
-        /// vector3 currentEulerrotation = camera.rot
-        /// rottate code here 
-        /// currentEulerrotation.y = Mathf.clamp(y, -35, 35);
-        /// camer.rot = currentEul
-        ///
 
         // If there has been input, make the time since 0, otherwise add to it
         _timeSinceInput = _horizontalInput != 0 ? 0 : _timeSinceInput += Time.deltaTime;
@@ -111,7 +105,10 @@ public class CameraFollower3D : MonoBehaviour
 
         // Sometimes we get a NaN error here, I did my best to get rid of it but it still shows up sometimes
         // I did manage to make it never (I think) affect gameplay, though        
-        _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
+        if (currentEulerRotation.x <= 360f && currentEulerRotation.x >= -360f)
+        {
+            _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
+        }
 
         Vector3 targetPosition = _desiredLocation.position;
 
@@ -175,7 +172,7 @@ public class CameraFollower3D : MonoBehaviour
     {
         if (GameStateManager.Player._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 80)
         {
-            _camera.fieldOfView = lerpFloat(_camera.fieldOfView, 80f);
+            _camera.fieldOfView = lerpFloat(_camera.fieldOfView, _boostFOV);
         }
         else if (!GameStateManager.Player._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 60)
         {
@@ -185,26 +182,7 @@ public class CameraFollower3D : MonoBehaviour
 
     private float lerpFloat(float currentNum, float targetFOV)
     {
-        if (!_lerpingFloat)
-        {
-            _startTime = Time.time;
-            _lerpingFloat = true;
-            _startFloat = currentNum;
-        }
-
-        //float progress = 1 - Mathf.Pow(1 - ((Time.time - _startTimeFloat) - 0.5f), 0.5f);
-        float progress = _startTime / Time.time;
-        progress = easeInOutQuad(progress);
-
-        currentNum = Mathf.Lerp(_startFloat, targetFOV, progress);
-
-        if (progress >= 0.99f)
-        {
-            currentNum = targetFOV;
-            _lerpingFloat = false;
-        }
-        print(currentNum);
-        return currentNum;
+        return LerpAndEasings.ExponentialDecay(currentNum, targetFOV, 10f, Time.deltaTime);
     }
 
     private Vector3 lerpRotation(Vector3 currentEulerRotation)
@@ -230,7 +208,7 @@ public class CameraFollower3D : MonoBehaviour
 
     float easeInOutQuad(float x)
     {
-        return x < 0.5 ? 2 * x * x : 1 - Mathf.Pow(-2 * x + 2, 2) / 2;
+        return x < 0.5 ? 1 * x * x : 1 - Mathf.Pow(-1 * x + 1, 1) / 1;
     }
 
 

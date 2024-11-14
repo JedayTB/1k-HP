@@ -1,3 +1,4 @@
+using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider _playerNitroSlider;
     [SerializeField] private Slider _builtUpNitroSlider;
     [SerializeField] private bool _menuIsOpen = false;
+    [SerializeField] private RectTransform _miniPlayerPosition;
+    [SerializeField] private float _miniScaleDivide = 100f;
 
     public void init(PlayerVehicleController PLAYER){
         _player = PLAYER; 
@@ -30,6 +33,8 @@ public class UIController : MonoBehaviour
             _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
         }
         _playerNitroSlider.value = _player._nitroChargeAmounts;
+
+        //miniMap();
     }
 
     public void setPlayScreen(bool val){
@@ -69,5 +74,18 @@ public class UIController : MonoBehaviour
     public void continueButton()
     {
         menuOpenClose(); // pretty sure this will always close and never cause problems
+    }
+
+    private void FixedUpdate()
+    {
+        miniMap();
+    }
+
+    private void miniMap()
+    {
+        Vector3 playerVelocity = _player._vehiclePhysics.RigidBody.velocity;
+
+        Vector3 minimapUpdate = new Vector3(_miniPlayerPosition.position.x + (playerVelocity.x / _miniScaleDivide * 1.7f), _miniPlayerPosition.position.y + (playerVelocity.z / _miniScaleDivide), _miniPlayerPosition.position.z);
+        _miniPlayerPosition.position = minimapUpdate;
     }
 }
