@@ -5,6 +5,17 @@ public enum TireType
     frontTireRight,
     backTire
 }
+
+/// <summary>
+/// 
+/// To do 
+/// 
+/// Implement forces at rayhit point 
+/// - fix oversteer by clamping the Z and X rotation of RB
+/// 
+/// Waypoint resolution
+/// </summary>
+
 public class CustomWheels : MonoBehaviour
 {
     public TireType tireType;
