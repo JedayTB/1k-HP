@@ -19,12 +19,14 @@ public enum TireType
 public class CustomWheels : MonoBehaviour
 {
     public TireType tireType;
+    private Vector3 forceApplicationPoint;
+    [SerializeField] private bool applyForcesAtWheelPoint = false;
     [Tooltip("Set in inspector with Wheel Specs scriptable object")]
     [SerializeField] private WheelSpecs _wheelSpecs;
     [SerializeField] private float _decaySpeed = 15f;
-    public bool isDebugging;
-    public float steeringAngle;
-
+    [SerializeField] private bool isDebugging;
+    private float steeringAngle;
+    public float SteeringAngle {get => steeringAngle;}
     private bool tireIsGrounded = false;
     public bool TireIsGrounded { get => tireIsGrounded; }
 
@@ -34,7 +36,7 @@ public class CustomWheels : MonoBehaviour
     private RaycastHit rayCastHit;
     [SerializeField]private float _leftAckermanAngle, _rightAckermanAngle;
 
-    
+    #region Public Physic's unrelated
     public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
     {
         _vehicleRB = rb;
@@ -73,6 +75,7 @@ public class CustomWheels : MonoBehaviour
     public void TurnTire(float turningInput)
     { 
         Vector3 rotation = transform.localRotation.eulerAngles;
+        
         float desiredAngle = 0;
         float currentRotY = Mathf.Abs(rotation.y);
 
@@ -98,10 +101,15 @@ public class CustomWheels : MonoBehaviour
         _tireTransform.localRotation = Quaternion.Euler(rotation);
     }
 
+    #endregion
 
+    #region Physics Simulations
     public void raycastDown(LayerMask groundLayers, float raycastDistance)
     {
         tireIsGrounded = Physics.Raycast(_tireTransform.position, -_tireTransform.up, out rayCastHit, raycastDistance, groundLayers);
+        if(tireIsGrounded){
+            forceApplicationPoint = applyForcesAtWheelPoint ? rayCastHit.point: transform.position;
+        }
         if (isDebugging)
         {
             bool rayHit = transform.position != Vector3.zero;
@@ -146,7 +154,7 @@ public class CustomWheels : MonoBehaviour
         
         Vector3 steerForce = _wheelSpecs.tireMass * desiredAcceleration * steeringDir;
 
-        _vehicleRB.AddForceAtPosition(steerForce, transform.position);
+        _vehicleRB.AddForceAtPosition(steerForce, forceApplicationPoint);
     }
     /// <summary>
     /// tire slide attempts to make the car stay in the Z direction of it's tires.
@@ -184,7 +192,7 @@ public class CustomWheels : MonoBehaviour
 
         Vector3 steerForce = tireMass * desiredAcceleration * steeringDir;
 
-        _vehicleRB.AddForceAtPosition(steerForce, transform.position);
+        _vehicleRB.AddForceAtPosition(steerForce, forceApplicationPoint);
     }
     /// <summary>
     /// Apply force in  the local Z axis of the tire.
@@ -199,7 +207,7 @@ public class CustomWheels : MonoBehaviour
         //only makes it so back tires accelerate while drifting
         Vector3 accelerationDirection = accelerationAmount * _tireTransform.forward;
         //Shouldn't do anything if throttle is 0?
-        _vehicleRB.AddForceAtPosition(availableTorque * accelerationDirection, transform.position);
+        _vehicleRB.AddForceAtPosition(availableTorque * accelerationDirection, forceApplicationPoint);
 
     }
     /// <summary>
@@ -223,7 +231,8 @@ public class CustomWheels : MonoBehaviour
 
         float force = (offset * _wheelSpecs.springStrength) - (vel * _wheelSpecs.springDamping);
 
-        _vehicleRB.AddForceAtPosition(springDir * force, transform.position);
+        _vehicleRB.AddForceAtPosition(springDir * force, forceApplicationPoint);
     }
+    #endregion
 }
 

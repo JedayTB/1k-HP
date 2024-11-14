@@ -539,29 +539,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   wheels: []
+  _max_RB_ZRotationAngle: 15
+  _max_RB_XRotationAngle: 20
   _terminalVelocity: 500
   _accelerationAmount: 3500
   torqueCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -5975,6 +5959,31 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1254645282695075200, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1897339307590397757, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: applyForcesAtWheelPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3057615885401108682, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: applyForcesAtWheelPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6674074322653853156, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: applyForcesAtWheelPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7199422364950319069, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: m_Mass
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 7644591288660474156, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: _hookCrossHair
@@ -5983,42 +5992,42 @@ PrefabInstance:
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.963177
+      value: 9.909622
       objectReference: {fileID: 0}
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -56.577427
+      value: -54.69572
       objectReference: {fileID: 0}
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -72.069695
+      value: -71.93389
       objectReference: {fileID: 0}
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.99424934
       objectReference: {fileID: 0}
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.09971368
       objectReference: {fileID: 0}
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.0038975936
       objectReference: {fileID: 0}
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.038863078
       objectReference: {fileID: 0}
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 11.454
       objectReference: {fileID: 0}
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
@@ -6028,6 +6037,11 @@ PrefabInstance:
     - target: {fileID: 8317410215298301749, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 4.477
+      objectReference: {fileID: 0}
+    - target: {fileID: 8474824526611576442, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: applyForcesAtWheelPoint
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -14,9 +14,12 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private CustomWheels[] wheels;
     public CustomWheels[] WheelArray { get => wheels; }
-
     private int halfTireLength;
     private Rigidbody _rigidBody;
+
+    [SerializeField] private float _max_RB_ZRotationAngle = 15f;
+    [SerializeField] private float _max_RB_XRotationAngle = 20f;
+    Vector3 cachedRbRotation;
     public Rigidbody RigidBody { get => _rigidBody; }
 
     //Accelerations
@@ -45,7 +48,8 @@ public class CustomCarPhysics : MonoBehaviour
     private float _elapsedTime;
 
     #endregion
-    //Public Functions
+
+    #region Public use Methods
     public void Init()
     {
 
@@ -75,6 +79,7 @@ public class CustomCarPhysics : MonoBehaviour
             tire.init(_rigidBody, leftAckAngle, rightAckAngle);
         }
     }
+
     public void setInputs(float throttleAmt, float turningAmt)
     {
         _throttleInput = throttleAmt;
@@ -125,15 +130,13 @@ public class CustomCarPhysics : MonoBehaviour
     {
         if (isDrifting == true && endedDrifting == true)
         {
-            isDrifting = false;   
+            isDrifting = false;
         }
 
     }
+    #endregion
 
-    //End of public functions
-
-    //Physics Based functions.
-
+    #region Physics Simulations
 
     void FixedUpdate()
     {
@@ -154,11 +157,12 @@ public class CustomCarPhysics : MonoBehaviour
                 float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
 
+
                 wheels[i].applyTireAcceleration(_throttleInput, _accelerationAmount, availableTorque);
-                
+
                 if (isDrifting)
                 {
-                    
+
                     wheels[i].applyTireSlideOnDrift(0.1f, 1f);
                 }
                 else
@@ -166,8 +170,10 @@ public class CustomCarPhysics : MonoBehaviour
                     wheels[i].applyTireSlide(1f);
                 }
             }
-
+            
         }
+
+
 
     }
     /// <summary>
@@ -196,7 +202,7 @@ public class CustomCarPhysics : MonoBehaviour
                 Tire.setTireRotation(tireYAngle);
             }
             else
-            { 
+            {
                 _durationOfAngleTiming = 0;
 
                 Tire.TurnTire(_turningInput);
@@ -205,4 +211,5 @@ public class CustomCarPhysics : MonoBehaviour
         }
 
     }
+    #endregion
 }

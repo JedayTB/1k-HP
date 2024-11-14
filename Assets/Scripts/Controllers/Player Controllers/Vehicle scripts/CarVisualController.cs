@@ -43,7 +43,7 @@ public class CarVisualController : MonoBehaviour
             SpinWheels(_wheels[i], _rb);
             
             //Rotates the container
-            float rotAngle = PhysicsWheels[i].steeringAngle;
+            float rotAngle = PhysicsWheels[i].SteeringAngle;
             TurnWheels(_wheelContainers[i], rotAngle);
         }
 
