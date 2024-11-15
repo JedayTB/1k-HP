@@ -7,7 +7,8 @@ public class MotorcycleVisualController : CarVisualController
     [SerializeField] private Transform ModelParentTransform;
     Vector3 cachedModelLocalRotation;
     [SerializeField] Transform[] _modelWheels;
-    
+    [SerializeField] private float _maxVisualizeLean;
+    [SerializeField] private float _minVisualizeLean;
     private CustomCarPhysics _vehiclePhysics;
     private CustomWheels[] PhysicsWheels;
     public Rigidbody _rb;
@@ -42,11 +43,12 @@ public class MotorcycleVisualController : CarVisualController
     }
     void applyModelRoll(CustomWheels wheel)
     {
-        
-        float zRoll = Mathf.Rad2Deg * Mathf.Atan(wheelBase / turnRadius) * wheel.SteeringAngle;
-        print(zRoll);
         cachedModelLocalRotation = ModelParentTransform.localRotation.eulerAngles;
-        ModelParentTransform.localRotation = Quaternion.Euler(cachedModelLocalRotation.x, cachedModelLocalRotation.z, zRoll);
+        float zRoll = wheel.SteeringAngle * (Mathf.Rad2Deg * Mathf.Atan(wheelBase / turnRadius));
+        print(zRoll);
+        
+        zRoll = Mathf.Clamp(zRoll, _minVisualizeLean, _maxVisualizeLean);
+        ModelParentTransform.localRotation = Quaternion.Euler(cachedModelLocalRotation.x, cachedModelLocalRotation.y, zRoll);
     }
 
 }

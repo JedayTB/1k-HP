@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private CanvasGroup _playMenu;
     [SerializeField] private CanvasGroup _winMenu;
-
+    [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
     [SerializeField] private Slider _playerNitroSlider;
     [SerializeField] private Slider _builtUpNitroSlider;
@@ -33,6 +34,8 @@ public class UIController : MonoBehaviour
             _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
         }
         _playerNitroSlider.value = _player._nitroChargeAmounts;
+
+        speedText.text = $"{GameStateManager.Player._vehiclePhysics.getVelocity()} km/h" ;
 
         //miniMap();
     }

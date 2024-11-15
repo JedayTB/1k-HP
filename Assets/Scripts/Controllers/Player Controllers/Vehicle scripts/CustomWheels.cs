@@ -23,7 +23,7 @@ public class CustomWheels : MonoBehaviour
     [SerializeField] private bool applyForcesAtWheelPoint = false;
     [Tooltip("Set in inspector with Wheel Specs scriptable object")]
     [SerializeField] private WheelSpecs _wheelSpecs;
-    [SerializeField] private float _decaySpeed = 15f;
+    [SerializeField] private float _decaySpeed = 7.5f;
     [SerializeField] private bool isDebugging;
     private float steeringAngle;
     public float SteeringAngle {get => steeringAngle;}
