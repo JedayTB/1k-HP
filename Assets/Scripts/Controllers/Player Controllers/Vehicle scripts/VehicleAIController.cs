@@ -49,7 +49,17 @@ public class VehicleAIController : I_VehicleController
 
         StartCoroutine(SteerPathing(SteerPathingClock));
     }
-    
+    public override void Init()
+    {
+        _vehiclePhysics = GetComponent<CustomCarPhysics>();
+        _vehicleVisualController = GetComponent<CarVisualController>();
+
+        _vehiclePhysics.Init();
+        _vehicleVisualController.Init();
+
+        StartCoroutine(SteerPathing(SteerPathingClock));
+    }
+
     public override void respawn()
     {
         base.respawn();
