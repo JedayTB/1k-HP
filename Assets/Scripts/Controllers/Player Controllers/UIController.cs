@@ -44,7 +44,7 @@ public class UIController : MonoBehaviour
         }
         _playerNitroSlider.value = _player._nitroChargeAmounts;
 
-        speedText.text = $"{GameStateManager.Player._vehiclePhysics.getVelocity().ToString("00.00")} km/h" ;
+        speedText.text = $"{GameStateManager.Player.VehiclePhysics.getVelocity().ToString("00.00")} km/h" ;
 
         //miniMap();
     }
@@ -79,7 +79,7 @@ public class UIController : MonoBehaviour
 
     public void resetPlayer()
     {
-        _player._vehiclePhysics.RigidBody.velocity = Vector3.zero;
+        _player.VehiclePhysics.RigidBody.velocity = Vector3.zero;
 
         Vector3 newPosition = new Vector3(_player.transform.position.x, _player.transform.position.y + 10f, _player.transform.position.z);
         _player.transform.position = newPosition;
@@ -122,12 +122,12 @@ public class UIController : MonoBehaviour
     public IEnumerator FreezeRotation(float time) // my first coroutine omg are you proud of me :3
     {
         float count = 0;
-        _player._vehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+        _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezeRotation;
         while (count < time)
         {
             count += Time.deltaTime;
             yield return null;
         }
-        _player._vehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
-    }
+        _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
+    }   
 }

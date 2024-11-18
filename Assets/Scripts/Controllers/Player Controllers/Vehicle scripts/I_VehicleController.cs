@@ -10,8 +10,9 @@ public abstract class I_VehicleController : MonoBehaviour
     //Cache transform to avoid extern calls
     #region Variables
     protected CarVisualController _vehicleVisualController;
-    public CustomCarPhysics _vehiclePhysics;
+    protected CustomCarPhysics _vehiclePhysics;
 
+    public CustomCarPhysics VehiclePhysics { get => _vehiclePhysics; }
     protected Vector3 _respawnPosition;
     protected Quaternion _respawnRotation;
 

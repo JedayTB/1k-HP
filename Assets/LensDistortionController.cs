@@ -19,7 +19,7 @@ public class LensDistortionController : MonoBehaviour
 
     private void Update()
     {
-        if(GameStateManager.Player._vehiclePhysics.getVelocity() > _threshold)
+        if(GameStateManager.Player.VehiclePhysics.getVelocity() > _threshold)
         { 
             lensDistortionMat.SetFloat(_distortionIntensity, -0.15f);
         }

@@ -170,11 +170,11 @@ public class CameraFollower3D : MonoBehaviour
 
     private void ChangeFOV()
     {
-        if (GameStateManager.Player._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 80)
+        if (GameStateManager.Player.VehiclePhysics.isUsingNitro && _camera.fieldOfView != 80)
         {
             _camera.fieldOfView = lerpFloat(_camera.fieldOfView, _boostFOV);
         }
-        else if (!GameStateManager.Player._vehiclePhysics.isUsingNitro && _camera.fieldOfView != 60)
+        else if (!GameStateManager.Player.VehiclePhysics.isUsingNitro && _camera.fieldOfView != 60)
         {
             _camera.fieldOfView = lerpFloat(_camera.fieldOfView, 60f);
         }

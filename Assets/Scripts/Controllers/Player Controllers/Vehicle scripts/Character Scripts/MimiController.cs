@@ -45,7 +45,7 @@ public class MimiController : PlayerVehicleController
     private void bounceOff(I_VehicleController vehicle)
     {
         Vector3 dirToBounce = vehicle.transform.position - transform.position;
-        float vehicleWeight = vehicle._vehiclePhysics.RigidBody.mass;
-        vehicle._vehiclePhysics.RigidBody.AddForce(_bounceStrength * vehicleWeight * dirToBounce);
+        float vehicleWeight = vehicle.VehiclePhysics.RigidBody.mass;
+        vehicle.VehiclePhysics.RigidBody.AddForce(_bounceStrength * vehicleWeight * dirToBounce);
     }
 }

@@ -28,7 +28,7 @@ public class CustomCarPhysics : MonoBehaviour
     [Tooltip("Top speed of the car")]
     [SerializeField] private float _terminalVelocity = 500f;
     [Tooltip("How fast the car accelerates")]
-    [SerializeField] private float _accelerationAmount = 3500f;
+    [SerializeField] public float Acceleration = 3500f;
     private float _baseAccelerationAmount;
     [Tooltip("How much force is available at certain speeds.")]
     [SerializeField] private AnimationCurve torqueCurve;
@@ -57,7 +57,7 @@ public class CustomCarPhysics : MonoBehaviour
         _rigidBody = GetComponentInChildren<Rigidbody>();
 
         _transform = transform;
-        _baseAccelerationAmount = _accelerationAmount;
+        _baseAccelerationAmount = Acceleration;
         halfTireLength = wheels.Length / 2;
 
         foreach (var tire in wheels)
@@ -107,7 +107,7 @@ public class CustomCarPhysics : MonoBehaviour
     {
         
         float count = 0f;
-        _accelerationAmount = _baseAccelerationAmount * _nitroMultiplier;
+        Acceleration = _baseAccelerationAmount * _nitroMultiplier;
         isUsingNitro = true;
         //Set invunerable to offroad / physicsMaterials below when implemented
         while (count <= nitroTiming)
@@ -117,7 +117,7 @@ public class CustomCarPhysics : MonoBehaviour
                                 // this would make nitro timing 4x longer. don't do!
         }
         isUsingNitro = false;
-        _accelerationAmount = _baseAccelerationAmount;
+        Acceleration = _baseAccelerationAmount;
     }
 
     public void driftVehicle(bool isUsingDrift)
@@ -203,7 +203,7 @@ public class CustomCarPhysics : MonoBehaviour
 
 
 
-                wheels[i].applyTireAcceleration(_throttleInput, _accelerationAmount, availableTorque);
+                wheels[i].applyTireAcceleration(_throttleInput, Acceleration, availableTorque);
 
                 if (isDrifting)
                 {
