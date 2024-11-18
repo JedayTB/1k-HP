@@ -105,7 +105,7 @@ public class CustomCarPhysics : MonoBehaviour
     /// <returns></returns>
     public IEnumerator useNitro(float _nitroMultiplier, float nitroTiming)
     {
-        //_accelerationAmount = isUsingNitro ? _baseAccelerationAmount * _nitroMultiplier : _baseAccelerationAmount;
+        
         float count = 0f;
         _accelerationAmount = _baseAccelerationAmount * _nitroMultiplier;
         isUsingNitro = true;
@@ -137,46 +137,14 @@ public class CustomCarPhysics : MonoBehaviour
     }
     #endregion
 
-    #region Physics Simulations
-
-    void FixedUpdate()
+    public void Update()
     {
-
-        for (int i = 0; i < wheels.Length; i++)
+        for(int i = 0; i < wheels.Length; i++)
         {
             applyTireRotation(wheels[i], i);
-
-            wheels[i].raycastDown(_groundLayers, _raycastDistance);
-
-            if (wheels[i].TireIsGrounded)
-            {
-                wheels[i].applyTireSuspensionForces();
-
-                float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
-
-                float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
-
-
-
-                wheels[i].applyTireAcceleration(_throttleInput, _accelerationAmount, availableTorque);
-
-                if (isDrifting)
-                {
-
-                    wheels[i].applyTireSlideOnDrift(0.1f, 1f);
-                }
-                else
-                {
-                    wheels[i].applyTireSlide(1f);
-                }
-            }
-            
         }
-
-
-
     }
+
     /// <summary>
     /// Rotates the tire for use in tire accelleration. Changes Z axis
     /// lerps tire rotation back to 0 if no input detected
@@ -212,5 +180,47 @@ public class CustomCarPhysics : MonoBehaviour
         }
 
     }
+
+    #region Physics Simulations
+
+    void FixedUpdate()
+    {
+
+        for (int i = 0; i < wheels.Length; i++)
+        {
+            
+
+            wheels[i].raycastDown(_groundLayers, _raycastDistance);
+
+            if (wheels[i].TireIsGrounded)
+            {
+                wheels[i].applyTireSuspensionForces();
+
+                float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
+                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
+
+                float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
+
+
+
+                wheels[i].applyTireAcceleration(_throttleInput, _accelerationAmount, availableTorque);
+
+                if (isDrifting)
+                {
+
+                    wheels[i].applyTireSlideOnDrift(0.1f, 1f);
+                }
+                else
+                {
+                    wheels[i].applyTireSlide(1f);
+                }
+            }
+            
+        }
+
+
+
+    }
+    
     #endregion
 }

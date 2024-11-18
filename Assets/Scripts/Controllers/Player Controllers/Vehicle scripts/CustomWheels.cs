@@ -1,3 +1,4 @@
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 public enum TireType
 {
@@ -36,6 +37,9 @@ public class CustomWheels : MonoBehaviour
     private RaycastHit rayCastHit;
     [SerializeField]private float _leftAckermanAngle, _rightAckermanAngle;
 
+    public float LeftAckermanAngle { get => _leftAckermanAngle; }
+    public float RightAckermanAngle{ get => _rightAckermanAngle; }
+
     #region Public Physic's unrelated
     public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
     {
@@ -44,6 +48,8 @@ public class CustomWheels : MonoBehaviour
 
         _leftAckermanAngle = leftTurnAngle;
         _rightAckermanAngle = rightTurnAngle;
+
+        Debug.LogWarning("Funny business with neg vals in tire turning. ");
     }
     /// <summary>
     /// Manual Setting of tire Y angle
@@ -91,10 +97,11 @@ public class CustomWheels : MonoBehaviour
         {
             desiredAngle = _leftAckermanAngle * Mathf.Abs(turningInput);
             currentRotY = LerpAndEasings.ExponentialDecay(rotation.y , desiredAngle, _decaySpeed, Time.deltaTime);
-
+            
             rotation.y = currentRotY * -1;
-
+            
             rotation.y = Mathf.Clamp(rotation.y, _leftAckermanAngle * -1, 0);
+
         }
 
         steeringAngle = rotation.y;

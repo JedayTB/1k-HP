@@ -44,7 +44,7 @@ public class UIController : MonoBehaviour
         }
         _playerNitroSlider.value = _player._nitroChargeAmounts;
 
-        speedText.text = $"{GameStateManager.Player._vehiclePhysics.getVelocity()} km/h" ;
+        speedText.text = $"{GameStateManager.Player._vehiclePhysics.getVelocity().ToString("00.00")} km/h" ;
 
         //miniMap();
     }
