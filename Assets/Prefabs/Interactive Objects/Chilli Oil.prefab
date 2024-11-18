@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5261300145450663908}
   - component: {fileID: 865092745409259102}
+  - component: {fileID: 4025581889154668424}
   - component: {fileID: 7859883633229908956}
   - component: {fileID: 6448985373631822688}
   - component: {fileID: 555684961542161926}
@@ -52,6 +53,20 @@ MonoBehaviour:
   OwnerHashCode: 0
   speedMultiplier: 1.25
   _speedBoostTime: 0.75
+  rb: {fileID: 0}
+--- !u!114 &4025581889154668424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597530840202931924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e56e7fac3d9579a4d91fc1b9967c9752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 45
 --- !u!33 &7859883633229908956
 MeshFilter:
   m_ObjectHideFlags: 0

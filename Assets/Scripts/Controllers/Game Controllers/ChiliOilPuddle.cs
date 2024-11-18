@@ -6,9 +6,11 @@ public class ChilliOilPuddle : MonoBehaviour
     [SerializeField] private int OwnerHashCode;
     [SerializeField] private float speedMultiplier = 1.25f;
     [SerializeField] private float _speedBoostTime = 0.75f;
+    [SerializeField] public Rigidbody rb;
     public void Init(PlayerVehicleController owner)
     {
         OwnerHashCode = owner.GetInstanceID();
+        rb = GetComponent<Rigidbody>();
     }
     private void OnTriggerEnter(Collider other)
     {
