@@ -22,6 +22,8 @@ public class CustomCarPhysics : MonoBehaviour
     Vector3 cachedRbRotation;
     public Rigidbody RigidBody { get => _rigidBody; }
 
+    public AudioSource driftAudio;
+
     //Accelerations
 
     [Header("Acceleration Setup")]
@@ -125,6 +127,13 @@ public class CustomCarPhysics : MonoBehaviour
         if (isDrifting == false && isUsingDrift == true)
         {
             isDrifting = true;
+        }
+        if (isDrifting == true){
+            driftAudio.Play();
+        }
+        if (driftAudio.isPlaying == true & isDrifting == false)
+        {
+            driftAudio.Stop();
         }
     }
     public void endedDrifting(bool endedDrifting)

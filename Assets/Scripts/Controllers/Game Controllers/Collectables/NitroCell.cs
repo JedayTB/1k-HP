@@ -5,6 +5,8 @@ public class NitroCell : Collectables
 
     [SerializeField] private int _nitroCellAmount = 1;
     [SerializeField] private BoxCollider _boxCollider;
+
+    public AudioSource _nitroPickup;
     
     private void Awake()
     {
@@ -13,8 +15,8 @@ public class NitroCell : Collectables
     }
     public override void onPickup(I_VehicleController vehicle)
     {
+        _nitroPickup.Play();
         vehicle.addNitro(_nitroCellAmount);
         base.onPickup(vehicle);
-        
     }
 }
