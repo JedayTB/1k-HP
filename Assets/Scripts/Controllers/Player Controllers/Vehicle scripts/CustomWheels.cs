@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 public enum TireType
 {
@@ -6,18 +7,11 @@ public enum TireType
     backTire
 }
 
-/// <summary>
-/// 
-/// To do 
-/// 
-/// Implement forces at rayhit point 
-/// - fix oversteer by clamping the Z and X rotation of RB
-/// 
-/// Waypoint resolution
-/// </summary>
-
 public class CustomWheels : MonoBehaviour
 {
+    //Delete after finished
+    public string debugstr;
+
     public TireType tireType;
     private Vector3 forceApplicationPoint;
     [SerializeField] private bool applyForcesAtWheelPoint = false;
@@ -80,31 +74,40 @@ public class CustomWheels : MonoBehaviour
     public void TurnTire(float turningInput)
     { 
         Vector3 rotation = transform.localRotation.eulerAngles;
-        
+
         float desiredAngle = 0;
-        float currentRotY = Mathf.Abs(rotation.y);
+        float currentRotY = rotation.y;
+
+
+        desiredAngle = _leftAckermanAngle * turningInput;   // Ackerman angles are always positive. 
+                                                                // Therefore, when turning left,
+                                                                // Desired angle should always be negative
+                                                                // (turningInput is negative when turning left)
 
         if (turningInput > 0) // Turning right
         {
-            desiredAngle = _rightAckermanAngle * Mathf.Abs(turningInput);
-
             currentRotY = LerpAndEasings.ExponentialDecay(rotation.y, desiredAngle, _decaySpeed, Time.deltaTime);
 
             rotation.y = currentRotY;
         }
         else if(turningInput < 0) // Turning Left
         {
-            desiredAngle = _leftAckermanAngle * Mathf.Abs(turningInput);
-            currentRotY = LerpAndEasings.ExponentialDecay(rotation.y , desiredAngle, _decaySpeed, Time.deltaTime);
+            /*
+            currentRotY = LerpAndEasings.ExponentialDecay(currentRotY, desiredAngle, _decaySpeed, Time.deltaTime);
+            currentRotY = Mathf.Clamp(currentRotY, -LeftAckermanAngle, 0);
             
-            rotation.y = currentRotY * -1;
-            
-            rotation.y = Mathf.Clamp(rotation.y, _leftAckermanAngle * -1, 0);
-
+            rotation.y = currentRotY;
+            */
+            rotation.y = _leftAckermanAngle * turningInput;
         }
 
+        
+        // Workaround for funky Quaternion derived from euler with negative angles
+        Quaternion newRot = Quaternion.Euler(rotation);
+        _tireTransform.localRotation = Quaternion.Slerp(transform.localRotation, newRot, 1);
         steeringAngle = rotation.y;
-        _tireTransform.localRotation = Quaternion.Euler(rotation);
+
+        debugstr = $"CurrentRotY {currentRotY} \nFinished Rot {_tireTransform.localRotation.eulerAngles}";
     }
 
     #endregion
@@ -201,8 +204,7 @@ public class CustomWheels : MonoBehaviour
         _vehicleRB.AddForceAtPosition(steerForce, forceApplicationPoint);
     }
     /// <summary>
-    /// Apply force in  the local Z axis of the tire.
-    /// 
+    /// Apply force in  the local Z axis of the tire. 
     /// </summary>
     /// <param name="throttleInput">"Forward" Input by the controller class</param>
     /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
@@ -210,14 +212,12 @@ public class CustomWheels : MonoBehaviour
 
     public void applyTireAcceleration(float throttleInput, float accelerationAmount, float availableTorque)
     {
-        //only makes it so back tires accelerate while drifting
         Vector3 accelerationDirection = accelerationAmount * _tireTransform.forward;
-        //Shouldn't do anything if throttle is 0?
-        _vehicleRB.AddForceAtPosition(availableTorque * accelerationDirection, forceApplicationPoint);
+        _vehicleRB.AddForceAtPosition(throttleInput * availableTorque * accelerationDirection, forceApplicationPoint);
 
     }
     /// <summary>
-    /// Add spring force for the Car
+    /// Add spring force for the Vehicle
     /// </summary>
     public void applyTireSuspensionForces()
     {

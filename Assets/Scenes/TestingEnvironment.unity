@@ -425,6 +425,7 @@ MonoBehaviour:
   - {fileID: 1832051110}
   _max_RB_ZRotationAngle: 15
   _max_RB_XRotationAngle: 20
+  driftAudio: {fileID: 0}
   _terminalVelocity: 500
   Acceleration: 3500
   torqueCurve:
@@ -1537,9 +1538,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 362178890}
+  - component: {fileID: 362178893}
   - component: {fileID: 362178892}
   - component: {fileID: 362178891}
-  - component: {fileID: 362178893}
   m_Layer: 0
   m_Name: Front left
   m_TagString: Untagged
@@ -1624,6 +1625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugstr: 
   tireType: 0
   applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: 236a6576025f70747872983477d07b9c, type: 2}
@@ -5722,6 +5724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugstr: 
   tireType: 2
   applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: 236a6576025f70747872983477d07b9c, type: 2}

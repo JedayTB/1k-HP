@@ -47,8 +47,6 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
     [SerializeField] private float _tireGripHackFix = 100f;
     [HideInInspector] public bool isDrifting = false;
-    private float _durationOfAngleTiming;
-    private float _elapsedTime;
 
     #endregion
 
@@ -128,6 +126,8 @@ public class CustomCarPhysics : MonoBehaviour
         {
             isDrifting = true;
         }
+        
+        /*
         if (isDrifting == true){
             driftAudio.Play();
         }
@@ -135,6 +135,7 @@ public class CustomCarPhysics : MonoBehaviour
         {
             driftAudio.Stop();
         }
+        */
     }
     public void endedDrifting(bool endedDrifting)
     {
@@ -170,19 +171,10 @@ public class CustomCarPhysics : MonoBehaviour
 
             if (Mathf.Abs(_turningInput) < 0.1f)
             {
-                //When Player let's go of X input, lerp to 0
-                _durationOfAngleTiming += Time.fixedDeltaTime;
-
-                _elapsedTime = _durationOfAngleTiming / _rotationAngleTimeToZero;
-
-                tireYAngle = Mathf.Lerp(tireYAngle, 0, _elapsedTime);
-
                 Tire.setTireRotation(tireYAngle);
             }
             else
             {
-                _durationOfAngleTiming = 0;
-
                 Tire.TurnTire(_turningInput);
             }
 

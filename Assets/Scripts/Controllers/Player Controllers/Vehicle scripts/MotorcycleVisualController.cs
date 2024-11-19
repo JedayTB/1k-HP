@@ -20,7 +20,7 @@ public class MotorcycleVisualController : CarVisualController
         wheelBase = _vehiclePhysics.wheelbase;
         turnRadius = _vehiclePhysics.turnRadius;
 
-        _leanCircle = (Mathf.Rad2Deg * Mathf.Atan(wheelBase / turnRadius));
+        _leanCircle = Mathf.Rad2Deg * Mathf.Atan(wheelBase / turnRadius);
     }
 
     // Update is called once per frame
@@ -34,7 +34,8 @@ public class MotorcycleVisualController : CarVisualController
         emitDriftParticles();
         activateTrails();
     }
-
+    // No need to ease roll. 
+    // calculation is already based off an eased value
     void applyModelRoll(CustomWheels wheel)
     {
         cachedModelLocalRotation = ModelParentTransform.localRotation.eulerAngles;
