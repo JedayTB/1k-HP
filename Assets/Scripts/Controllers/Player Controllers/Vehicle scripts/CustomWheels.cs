@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using UnityEngine;
 public enum TireType
 {
@@ -9,9 +8,6 @@ public enum TireType
 
 public class CustomWheels : MonoBehaviour
 {
-    //Delete after finished
-    public string debugstr;
-
     public TireType tireType;
     private Vector3 forceApplicationPoint;
     [SerializeField] private bool applyForcesAtWheelPoint = false;
@@ -23,12 +19,11 @@ public class CustomWheels : MonoBehaviour
     public float SteeringAngle {get => steeringAngle;}
     private bool tireIsGrounded = false;
     public bool TireIsGrounded { get => tireIsGrounded; }
-
     
     private Rigidbody _vehicleRB;
     private Transform _tireTransform;
     private RaycastHit rayCastHit;
-    [SerializeField]private float _leftAckermanAngle, _rightAckermanAngle;
+    [SerializeField] private float _leftAckermanAngle, _rightAckermanAngle;
 
     public float LeftAckermanAngle { get => _leftAckermanAngle; }
     public float RightAckermanAngle{ get => _rightAckermanAngle; }
@@ -41,8 +36,6 @@ public class CustomWheels : MonoBehaviour
 
         _leftAckermanAngle = leftTurnAngle;
         _rightAckermanAngle = rightTurnAngle;
-
-        Debug.LogWarning("Funny business with neg vals in tire turning. ");
     }
     /// <summary>
     /// Manual Setting of tire Y angle
@@ -73,41 +66,15 @@ public class CustomWheels : MonoBehaviour
     /// <param name="turningInput">value from 0-1 inside Custom Car physics</param>
     public void TurnTire(float turningInput)
     { 
+        float desiredAngle = turningInput > 0 ? _rightAckermanAngle: _leftAckermanAngle;
+        desiredAngle *= turningInput;
+
+        steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, _decaySpeed, Time.deltaTime);
+        
         Vector3 rotation = transform.localRotation.eulerAngles;
 
-        float desiredAngle = 0;
-        float currentRotY = rotation.y;
-
-
-        desiredAngle = _leftAckermanAngle * turningInput;   // Ackerman angles are always positive. 
-                                                                // Therefore, when turning left,
-                                                                // Desired angle should always be negative
-                                                                // (turningInput is negative when turning left)
-
-        if (turningInput > 0) // Turning right
-        {
-            currentRotY = LerpAndEasings.ExponentialDecay(rotation.y, desiredAngle, _decaySpeed, Time.deltaTime);
-
-            rotation.y = currentRotY;
-        }
-        else if(turningInput < 0) // Turning Left
-        {
-            /*
-            currentRotY = LerpAndEasings.ExponentialDecay(currentRotY, desiredAngle, _decaySpeed, Time.deltaTime);
-            currentRotY = Mathf.Clamp(currentRotY, -LeftAckermanAngle, 0);
-            
-            rotation.y = currentRotY;
-            */
-            rotation.y = _leftAckermanAngle * turningInput;
-        }
-
-        
-        // Workaround for funky Quaternion derived from euler with negative angles
-        Quaternion newRot = Quaternion.Euler(rotation);
-        _tireTransform.localRotation = Quaternion.Slerp(transform.localRotation, newRot, 1);
-        steeringAngle = rotation.y;
-
-        debugstr = $"CurrentRotY {currentRotY} \nFinished Rot {_tireTransform.localRotation.eulerAngles}";
+        rotation.y = steeringAngle;
+        transform.localRotation = Quaternion.Euler(rotation);
     }
 
     #endregion

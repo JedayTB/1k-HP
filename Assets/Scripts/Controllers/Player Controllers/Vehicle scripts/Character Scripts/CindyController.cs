@@ -25,7 +25,7 @@ public class CindyController : PlayerVehicleController
 
         for (int i = 0; i < AmountOfThrowingProjectiles; i++)
         {
-            throwAngl = i * throwSpread;
+            throwAngl = i * throwSpread * modif;
             print(throwAngl);
             modif *= -1;
             
@@ -37,6 +37,7 @@ public class CindyController : PlayerVehicleController
 
             tempOil.transform.rotation = Quaternion.Euler(setRotation);
             throwDir.y = throwAngl;
+            throwDir.Normalize();
             tempOil.rb.AddForce(throwPower * throwDir);
         }
     }
@@ -50,7 +51,7 @@ public class CindyController : PlayerVehicleController
         if(_abilityGauge >= 100)
         {
             throwChilliOil();
-            //_abilityGauge = 0;
+            _abilityGauge = 0;
         }
         
     }
