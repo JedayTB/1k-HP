@@ -7,6 +7,11 @@ public class SceneChangeTrigger : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        if (Time.timeScale != 1)
+        {
+            Time.timeScale = 1;
+        }
+
         _sceneChanger.LoadLevelWithTransition(sceneName);
     }
 

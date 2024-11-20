@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    public static SceneChanger Instance {
+    // idk if there was a good reason this was a single instance but it caused things to be broken and making it not a single instance doesn't break anything soo
+    /*public static SceneChanger Instance {
         get { return instance; }
-    }
+    }*/
 
 
     public static void ChangeSceneTo(string sceneName){
@@ -30,7 +31,7 @@ public class SceneChanger : MonoBehaviour
         _anim = GetComponent<Animator>();
         if(instance != null)
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
         else
         {

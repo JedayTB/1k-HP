@@ -62,7 +62,7 @@ public class UIController : MonoBehaviour
         {
             _pauseMenu.SetActive(false);
             Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
         else if (_menuIsOpen == false)
@@ -70,8 +70,8 @@ public class UIController : MonoBehaviour
             _pauseMenu.SetActive(true);
             Time.timeScale = 0f;
             
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         _menuIsOpen = !_menuIsOpen;
