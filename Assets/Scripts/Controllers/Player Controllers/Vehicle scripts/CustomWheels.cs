@@ -6,16 +6,6 @@ public enum TireType
     backTire
 }
 
-/// <summary>
-/// 
-/// To do 
-/// 
-/// Implement forces at rayhit point 
-/// - fix oversteer by clamping the Z and X rotation of RB
-/// 
-/// Waypoint resolution
-/// </summary>
-
 public class CustomWheels : MonoBehaviour
 {
     public TireType tireType;
@@ -29,12 +19,14 @@ public class CustomWheels : MonoBehaviour
     public float SteeringAngle {get => steeringAngle;}
     private bool tireIsGrounded = false;
     public bool TireIsGrounded { get => tireIsGrounded; }
-
     
     private Rigidbody _vehicleRB;
     private Transform _tireTransform;
     private RaycastHit rayCastHit;
-    [SerializeField]private float _leftAckermanAngle, _rightAckermanAngle;
+    [SerializeField] private float _leftAckermanAngle, _rightAckermanAngle;
+
+    public float LeftAckermanAngle { get => _leftAckermanAngle; }
+    public float RightAckermanAngle{ get => _rightAckermanAngle; }
 
     #region Public Physic's unrelated
     public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
@@ -74,31 +66,15 @@ public class CustomWheels : MonoBehaviour
     /// <param name="turningInput">value from 0-1 inside Custom Car physics</param>
     public void TurnTire(float turningInput)
     { 
-        Vector3 rotation = transform.localRotation.eulerAngles;
+        float desiredAngle = turningInput > 0 ? _rightAckermanAngle: _leftAckermanAngle;
+        desiredAngle *= turningInput;
+
+        steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, _decaySpeed, Time.deltaTime);
         
-        float desiredAngle = 0;
-        float currentRotY = Mathf.Abs(rotation.y);
+        Vector3 rotation = transform.localRotation.eulerAngles;
 
-        if (turningInput > 0) // Turning right
-        {
-            desiredAngle = _rightAckermanAngle * Mathf.Abs(turningInput);
-
-            currentRotY = LerpAndEasings.ExponentialDecay(rotation.y, desiredAngle, _decaySpeed, Time.deltaTime);
-
-            rotation.y = currentRotY;
-        }
-        else if(turningInput < 0) // Turning Left
-        {
-            desiredAngle = _leftAckermanAngle * Mathf.Abs(turningInput);
-            currentRotY = LerpAndEasings.ExponentialDecay(rotation.y , desiredAngle, _decaySpeed, Time.deltaTime);
-
-            rotation.y = currentRotY * -1;
-
-            rotation.y = Mathf.Clamp(rotation.y, _leftAckermanAngle * -1, 0);
-        }
-
-        steeringAngle = rotation.y;
-        _tireTransform.localRotation = Quaternion.Euler(rotation);
+        rotation.y = steeringAngle;
+        transform.localRotation = Quaternion.Euler(rotation);
     }
 
     #endregion
@@ -195,8 +171,7 @@ public class CustomWheels : MonoBehaviour
         _vehicleRB.AddForceAtPosition(steerForce, forceApplicationPoint);
     }
     /// <summary>
-    /// Apply force in  the local Z axis of the tire.
-    /// 
+    /// Apply force in  the local Z axis of the tire. 
     /// </summary>
     /// <param name="throttleInput">"Forward" Input by the controller class</param>
     /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
@@ -204,14 +179,12 @@ public class CustomWheels : MonoBehaviour
 
     public void applyTireAcceleration(float throttleInput, float accelerationAmount, float availableTorque)
     {
-        //only makes it so back tires accelerate while drifting
         Vector3 accelerationDirection = accelerationAmount * _tireTransform.forward;
-        //Shouldn't do anything if throttle is 0?
-        _vehicleRB.AddForceAtPosition(availableTorque * accelerationDirection, forceApplicationPoint);
+        _vehicleRB.AddForceAtPosition(throttleInput * availableTorque * accelerationDirection, forceApplicationPoint);
 
     }
     /// <summary>
-    /// Add spring force for the Car
+    /// Add spring force for the Vehicle
     /// </summary>
     public void applyTireSuspensionForces()
     {

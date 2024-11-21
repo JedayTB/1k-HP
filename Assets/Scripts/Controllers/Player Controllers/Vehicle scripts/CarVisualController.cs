@@ -11,18 +11,18 @@ public class CarVisualController : MonoBehaviour
     [SerializeField] private Transform[] _wheels;
 
     [SerializeField] private MeshRenderer _vehicleMesh;
-    [SerializeField] private PlayerVehicleController _playerVehicleController;
+    [SerializeField] protected PlayerVehicleController _playerVehicleController;
 
     [SerializeField] private Material _vehicleTailLightBreaking;
     [SerializeField] private Material _vehicleTailLight;
 
-    [SerializeField] private List<GameObject> _trails;
+    [SerializeField] protected List<GameObject> _trails;
     [SerializeField] protected ParticleSystem[] driftParticles;
     [SerializeField] private List<Material> _carMats = new List<Material>();
 
-    private CustomCarPhysics _vehiclePhysics;
-    private CustomWheels[] PhysicsWheels;
-    private Rigidbody _rb;
+    protected CustomCarPhysics _vehiclePhysics;
+    protected CustomWheels[] PhysicsWheels;
+    protected Rigidbody _rb;
 
     public virtual void Init()
     {
@@ -61,15 +61,24 @@ public class CarVisualController : MonoBehaviour
             lastChange = 1;
         }
         */
+        emitDriftParticles();
+        activateTrails();
+        
+
+        
+    }
+    protected void emitDriftParticles()
+    {
         if (_vehiclePhysics.isDrifting)
         {
-            for(int i = 0; i < driftParticles.Length; i++)
+            for (int i = 0; i < driftParticles.Length; i++)
             {
                 driftParticles[i].Emit(3);
             }
         }
-        
-
+    }
+    protected void activateTrails()
+    {
         if (_vehiclePhysics.isUsingNitro)
         {
             foreach (GameObject trail in _trails)
@@ -85,14 +94,14 @@ public class CarVisualController : MonoBehaviour
             }
         }
     }
-    void SpinWheels(Transform wheel, Rigidbody carRb)
+    protected void SpinWheels(Transform wheel, Rigidbody carRb)
     {
         float velocityAtWheelPoint = carRb.GetPointVelocity(wheel.position).z;
 
         Vector3 rotation = new(0, velocityAtWheelPoint, 0);
         wheel.Rotate(rotation);
     }
-    void TurnWheels(Transform wheel, float rotationAngle)
+    protected void TurnWheels(Transform wheel, float rotationAngle)
     {
 
         Vector3 currentRotation = wheel.localRotation.eulerAngles;

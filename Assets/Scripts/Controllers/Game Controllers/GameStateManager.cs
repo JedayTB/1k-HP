@@ -19,6 +19,8 @@ public class GameStateManager : MonoBehaviour
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
 
+
+    public bool HasThreeTracks = false;
     private void Awake()
     {
         Player = _player;
@@ -29,13 +31,20 @@ public class GameStateManager : MonoBehaviour
 
         _player?.Init(inputManager);
 
-        _uiController.init(_player);
+        _uiController?.init(_player);
         cam = Camera.main.GetComponent<CameraFollower3D>();
         cam?.Init();
 
         for (int i = 0; i < _aiControllers.Length; i++)
         {
-            _aiControllers[i]?.Init(_waypointGizmosMiddle, _waypointGizmosOptimal, _waypointGizmosWide);
+            if (HasThreeTracks) {
+                _aiControllers[i]?.Init(_waypointGizmosMiddle, _waypointGizmosOptimal, _waypointGizmosWide);
+            }
+            else
+            {
+                _aiControllers[i]?.Init();
+            }
+            
         }
         Debug.Log("Finished Intializing!");
     }

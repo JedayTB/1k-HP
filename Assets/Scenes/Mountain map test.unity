@@ -3811,6 +3811,7 @@ MonoBehaviour:
   _aiControllers:
   - {fileID: 0}
   _lapTimesText: {fileID: 490146078}
+  HasThreeTracks: 0
 --- !u!4 &523297868
 Transform:
   m_ObjectHideFlags: 0
@@ -8645,6 +8646,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 523297868}
     m_Modifications:
+    - target: {fileID: 2620306863669694789, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4019304327284821921, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: _gameStateManager
@@ -8769,6 +8775,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477517629533230647, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477517629533230647, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 369
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

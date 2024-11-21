@@ -10062,6 +10062,7 @@ MonoBehaviour:
   _aiControllers:
   - {fileID: 0}
   _lapTimesText: {fileID: 490146078}
+  HasThreeTracks: 0
 --- !u!4 &523297868
 Transform:
   m_ObjectHideFlags: 0
@@ -50301,6 +50302,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6d508b8e38886424da4f5d535fed4b07,
         type: 3}
+    - target: {fileID: 2620306863669694789, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4019304327284821921, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: _miniScaleDivide
@@ -50311,6 +50317,11 @@ PrefabInstance:
       propertyPath: _gameStateManager
       value: 
       objectReference: {fileID: 523297867}
+    - target: {fileID: 5798187152589464464, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6257373978762454745, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -50430,6 +50441,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477517629533230647, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -23
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477517629533230647, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 399
       objectReference: {fileID: 0}
     - target: {fileID: 8080878929958556592, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}

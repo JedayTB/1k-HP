@@ -22,13 +22,15 @@ public class CustomCarPhysics : MonoBehaviour
     Vector3 cachedRbRotation;
     public Rigidbody RigidBody { get => _rigidBody; }
 
+    public AudioSource driftAudio;
+
     //Accelerations
 
     [Header("Acceleration Setup")]
     [Tooltip("Top speed of the car")]
     [SerializeField] private float _terminalVelocity = 500f;
     [Tooltip("How fast the car accelerates")]
-    [SerializeField] private float _accelerationAmount = 3500f;
+    [SerializeField] public float Acceleration = 3500f;
     private float _baseAccelerationAmount;
     [Tooltip("How much force is available at certain speeds.")]
     [SerializeField] private AnimationCurve torqueCurve;
@@ -45,8 +47,6 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
     [SerializeField] private float _tireGripHackFix = 100f;
     [HideInInspector] public bool isDrifting = false;
-    private float _durationOfAngleTiming;
-    private float _elapsedTime;
 
     #endregion
 
@@ -57,7 +57,7 @@ public class CustomCarPhysics : MonoBehaviour
         _rigidBody = GetComponentInChildren<Rigidbody>();
 
         _transform = transform;
-        _baseAccelerationAmount = _accelerationAmount;
+        _baseAccelerationAmount = Acceleration;
         halfTireLength = wheels.Length / 2;
 
         foreach (var tire in wheels)
@@ -105,9 +105,9 @@ public class CustomCarPhysics : MonoBehaviour
     /// <returns></returns>
     public IEnumerator useNitro(float _nitroMultiplier, float nitroTiming)
     {
-        //_accelerationAmount = isUsingNitro ? _baseAccelerationAmount * _nitroMultiplier : _baseAccelerationAmount;
+        
         float count = 0f;
-        _accelerationAmount = _baseAccelerationAmount * _nitroMultiplier;
+        Acceleration = _baseAccelerationAmount * _nitroMultiplier;
         isUsingNitro = true;
         //Set invunerable to offroad / physicsMaterials below when implemented
         while (count <= nitroTiming)
@@ -117,7 +117,7 @@ public class CustomCarPhysics : MonoBehaviour
                                 // this would make nitro timing 4x longer. don't do!
         }
         isUsingNitro = false;
-        _accelerationAmount = _baseAccelerationAmount;
+        Acceleration = _baseAccelerationAmount;
     }
 
     public void driftVehicle(bool isUsingDrift)
@@ -126,6 +126,16 @@ public class CustomCarPhysics : MonoBehaviour
         {
             isDrifting = true;
         }
+        
+        /*
+        if (isDrifting == true){
+            driftAudio.Play();
+        }
+        if (driftAudio.isPlaying == true & isDrifting == false)
+        {
+            driftAudio.Stop();
+        }
+        */
     }
     public void endedDrifting(bool endedDrifting)
     {
@@ -137,6 +147,41 @@ public class CustomCarPhysics : MonoBehaviour
     }
     #endregion
 
+    public void Update()
+    {
+        for(int i = 0; i < wheels.Length; i++)
+        {
+            applyTireRotation(wheels[i], i);
+        }
+    }
+
+    /// <summary>
+    /// Rotates the tire for use in tire accelleration. Changes Z axis
+    /// lerps tire rotation back to 0 if no input detected
+    /// </summary>
+    /// <param name="Tire"></param>
+    /// <param name="tireCount"></param>
+    /// <returns> Returns current tire grip calculated using _tireGripCurve. Still has side effect on tires if returns.</returns>
+    void applyTireRotation(CustomWheels Tire, int tireCount)
+    {
+        float tireYAngle = 0f;
+        //Only Steer front tires
+        if (tireCount < halfTireLength)
+        {
+
+            if (Mathf.Abs(_turningInput) < 0.1f)
+            {
+                Tire.setTireRotation(tireYAngle);
+            }
+            else
+            {
+                Tire.TurnTire(_turningInput);
+            }
+
+        }
+
+    }
+
     #region Physics Simulations
 
     void FixedUpdate()
@@ -144,7 +189,7 @@ public class CustomCarPhysics : MonoBehaviour
 
         for (int i = 0; i < wheels.Length; i++)
         {
-            applyTireRotation(wheels[i], i);
+            
 
             wheels[i].raycastDown(_groundLayers, _raycastDistance);
 
@@ -159,7 +204,7 @@ public class CustomCarPhysics : MonoBehaviour
 
 
 
-                wheels[i].applyTireAcceleration(_throttleInput, _accelerationAmount, availableTorque);
+                wheels[i].applyTireAcceleration(_throttleInput, Acceleration, availableTorque);
 
                 if (isDrifting)
                 {
@@ -177,40 +222,6 @@ public class CustomCarPhysics : MonoBehaviour
 
 
     }
-    /// <summary>
-    /// Rotates the tire for use in tire accelleration. Changes Z axis
-    /// lerps tire rotation back to 0 if no input detected
-    /// </summary>
-    /// <param name="Tire"></param>
-    /// <param name="tireCount"></param>
-    /// <returns> Returns current tire grip calculated using _tireGripCurve. Still has side effect on tires if returns.</returns>
-    void applyTireRotation(CustomWheels Tire, int tireCount)
-    {
-        float tireYAngle = 0f;
-        //Only Steer front tires
-        if (tireCount < halfTireLength)
-        {
-
-            if (Mathf.Abs(_turningInput) < 0.1f)
-            {
-                //When Player let's go of X input, lerp to 0
-                _durationOfAngleTiming += Time.fixedDeltaTime;
-
-                _elapsedTime = _durationOfAngleTiming / _rotationAngleTimeToZero;
-
-                tireYAngle = Mathf.Lerp(tireYAngle, 0, _elapsedTime);
-
-                Tire.setTireRotation(tireYAngle);
-            }
-            else
-            {
-                _durationOfAngleTiming = 0;
-
-                Tire.TurnTire(_turningInput);
-            }
-
-        }
-
-    }
+    
     #endregion
 }
