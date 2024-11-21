@@ -396,7 +396,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0.9219936}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 108487506}
   - {fileID: 1577404000}
   - {fileID: 1218423157}
   - {fileID: 339057680}
@@ -502,7 +501,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &93188384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,12 +592,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108487505}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.001, y: 0.66, z: -1.888}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.5289725, z: -0, w: 0.848639}
+  m_LocalPosition: {x: -1.3271103, y: -0.14799881, z: -5.0322266}
+  m_LocalScale: {x: 1, y: 1, z: 0.9219936}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 93188380}
+  m_Father: {fileID: 1241930274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &108487507
 TrailRenderer:
@@ -7788,6 +7787,10 @@ PrefabInstance:
         type: 3}
       insertIndex: 1
       addedObject: {fileID: 1960709359}
+    - targetCorrespondingSourceObject: {fileID: 5628243253250619376, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 108487506}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 927046883a284024692337c63f770fb4, type: 3}
 --- !u!1001 &8469248946281399051

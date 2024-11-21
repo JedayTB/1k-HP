@@ -8,6 +8,7 @@ public enum TireType
 
 public class CustomWheels : MonoBehaviour
 {
+   
     public TireType tireType;
     private Vector3 forceApplicationPoint;
     [SerializeField] private bool applyForcesAtWheelPoint = false;
@@ -66,6 +67,7 @@ public class CustomWheels : MonoBehaviour
     /// <param name="turningInput">value from 0-1 inside Custom Car physics</param>
     public void TurnTire(float turningInput)
     { 
+        
         float desiredAngle = turningInput > 0 ? _rightAckermanAngle: _leftAckermanAngle;
         desiredAngle *= turningInput;
 
@@ -75,6 +77,7 @@ public class CustomWheels : MonoBehaviour
 
         rotation.y = steeringAngle;
         transform.localRotation = Quaternion.Euler(rotation);
+        
     }
 
     #endregion
@@ -173,15 +176,13 @@ public class CustomWheels : MonoBehaviour
     /// <summary>
     /// Apply force in  the local Z axis of the tire. 
     /// </summary>
-    /// <param name="throttleInput">"Forward" Input by the controller class</param>
     /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
     /// <param name="availableTorque">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-    public void applyTireAcceleration(float throttleInput, float accelerationAmount, float availableTorque)
+    public void applyTireAcceleration(float accelerationAmount, float availableTorque)
     {
         Vector3 accelerationDirection = accelerationAmount * _tireTransform.forward;
-        _vehicleRB.AddForceAtPosition(throttleInput * availableTorque * accelerationDirection, forceApplicationPoint);
-
+        _vehicleRB.AddForceAtPosition(availableTorque * accelerationDirection, forceApplicationPoint);
     }
     /// <summary>
     /// Add spring force for the Vehicle

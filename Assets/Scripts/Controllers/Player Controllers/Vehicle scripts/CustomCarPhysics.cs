@@ -164,20 +164,10 @@ public class CustomCarPhysics : MonoBehaviour
     /// <returns> Returns current tire grip calculated using _tireGripCurve. Still has side effect on tires if returns.</returns>
     void applyTireRotation(CustomWheels Tire, int tireCount)
     {
-        float tireYAngle = 0f;
         //Only Steer front tires
         if (tireCount < halfTireLength)
         {
-
-            if (Mathf.Abs(_turningInput) < 0.1f)
-            {
-                Tire.setTireRotation(tireYAngle);
-            }
-            else
-            {
-                Tire.TurnTire(_turningInput);
-            }
-
+            Tire.TurnTire(_turningInput);
         }
 
     }
@@ -186,7 +176,7 @@ public class CustomCarPhysics : MonoBehaviour
 
     void FixedUpdate()
     {
-
+        
         for (int i = 0; i < wheels.Length; i++)
         {
             
@@ -204,11 +194,10 @@ public class CustomCarPhysics : MonoBehaviour
 
 
 
-                wheels[i].applyTireAcceleration(_throttleInput, Acceleration, availableTorque);
+                wheels[i].applyTireAcceleration(Acceleration, availableTorque);
 
                 if (isDrifting)
                 {
-
                     wheels[i].applyTireSlideOnDrift(0.1f, 1f);
                 }
                 else
