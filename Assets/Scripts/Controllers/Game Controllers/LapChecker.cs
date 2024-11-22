@@ -44,11 +44,11 @@ public class LapChecker : MonoBehaviour
             checkpoint.passedCheckpoint = false;
             checkpoint.resetHashset();
         }
-        _lapTimer.endLap();
+        _lapTimer?.endLap();
         Debug.Log($"Finished lap: {lapCount}");
         if (lapCount >= lapsToWin)
         {
-            
+            onRaceFinish();
         }
     }
     void onRaceFinish(){

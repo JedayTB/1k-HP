@@ -34,10 +34,6 @@ public class CindyController : PlayerVehicleController
         }
     }
 
-    protected override void onAbilityFull()
-    {
-        base.onAbilityFull();
-    }
     public override void useCharacterAbility()
     {
         if (_abilityGauge >= 100)
