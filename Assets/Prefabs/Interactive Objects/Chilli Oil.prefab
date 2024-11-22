@@ -50,10 +50,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba66da61488e994e97a7c85f9fa83cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OwnerHashCode: 0
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  BC: {fileID: 555684961542161926}
+  BCTrigger: {fileID: 7048800992349008073}
+  Owner: {fileID: 0}
   speedMultiplier: 1.25
   _speedBoostTime: 0.75
-  rb: {fileID: 0}
+  rb: {fileID: 4568351424161838582}
 --- !u!114 &4025581889154668424
 MonoBehaviour:
   m_ObjectHideFlags: 0

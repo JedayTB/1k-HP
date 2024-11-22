@@ -400,6 +400,9 @@ Transform:
   - {fileID: 1218423157}
   - {fileID: 339057680}
   - {fileID: 833366099}
+  - {fileID: 455904357}
+  - {fileID: 1506146633}
+  - {fileID: 551168611}
   m_Father: {fileID: 786947370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &93188381
@@ -564,9 +567,11 @@ MonoBehaviour:
   _abilityUseTimer: 5
   prototypeChilli: {fileID: 865092745409259102, guid: 491f10d479e697747989dcd563067003,
     type: 3}
-  throwPower: 100
-  throwSpread: 30
-  AmountOfThrowingProjectiles: 3
+  throwPower: 500
+  ChilliOilLaunchLocations:
+  - {fileID: 455904357}
+  - {fileID: 1506146633}
+  - {fileID: 551168611}
 --- !u!1 &108487505
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,6 +2106,68 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &455904356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 455904357}
+  m_Layer: 0
+  m_Name: chili oil launch transform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &455904357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455904356}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.3602483, y: -0.31168368, z: 0.12910362, w: 0.86971647}
+  m_LocalPosition: {x: -0.581, y: 1.5, z: 2.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93188380}
+  m_LocalEulerAnglesHint: {x: -33.103, y: -49.31, z: 32.423}
+--- !u!1 &551168610
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 551168611}
+  m_Layer: 0
+  m_Name: chili oil launch transform (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &551168611
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551168610}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.36776742, y: 0.25542513, z: -0.10580055, w: 0.887869}
+  m_LocalPosition: {x: 0.527, y: 1.5, z: 2.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93188380}
+  m_LocalEulerAnglesHint: {x: -36.799, y: 41.577, z: -27.986}
 --- !u!1 &578600798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3741,6 +3808,74 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1185890760}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1198117876
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 597530840202931924, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_Name
+      value: Chilli Oil
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 61.039413
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.017747708
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 128.35767
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5261300145450663908, guid: 491f10d479e697747989dcd563067003,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 491f10d479e697747989dcd563067003, type: 3}
 --- !u!1 &1218423156
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,7 +3891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1218423157
 Transform:
   m_ObjectHideFlags: 0
@@ -5009,6 +5144,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1506146632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1506146633}
+  m_Layer: 0
+  m_Name: chili oil launch transform (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1506146633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506146632}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0.21, y: 1.5, z: 2.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 93188380}
+  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
 --- !u!1 &1511447644 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 300163374162616891, guid: 64955309c1275f913bfbd7ae90ddcd00,
@@ -7885,3 +8051,4 @@ SceneRoots:
   - {fileID: 1941976115}
   - {fileID: 254236222}
   - {fileID: 1974805980}
+  - {fileID: 1198117876}
