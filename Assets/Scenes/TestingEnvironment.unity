@@ -709,6 +709,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1952792772}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &178394140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178394143}
+  - component: {fileID: 178394142}
+  m_Layer: 0
+  m_Name: ShakePivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &178394142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178394140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abaa96a3cb51d8945a5793f328e30dde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugInfo: 
+  _camera: {fileID: 330585545}
+  isDebugging: 1
+  _target: {fileID: 93188380}
+  _desiredLocation: {fileID: 1726511978}
+  _pivot: {fileID: 1577404000}
+  smoothSpeed: 0.2
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  _targetZPosition: 0
+  cameraCollisionOffset: 0.2
+  minimumDistanceUntilDither: 5
+  _sensitivity: 1
+  _maximumRotationX: 35
+  _maximumRotationY: 15
+  _timeUntilReset: 1
+  _rearViewKey: 9
+  _inverseCameraX: 0
+  _inverseCameraY: 1
+  _boostFOV: 90
+--- !u!4 &178394143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178394140}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.14546798, y: 0.5211433, z: -0.0906729, w: 0.83607846}
+  m_LocalPosition: {x: 44.027565, y: 4.9079986, z: 115.70451}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 330585546}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &179701646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1280,10 +1346,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 330585546}
-  - component: {fileID: 330585548}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585545}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1358,12 +1424,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14546798, y: 0.5211433, z: -0.0906729, w: 0.83607846}
-  m_LocalPosition: {x: 44.027565, y: 4.9079986, z: 115.70451}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 178394143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -1418,9 +1484,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abaa96a3cb51d8945a5793f328e30dde, type: 3}
+  m_Script: {fileID: 11500000, guid: 4195faadfde43da46bd33ec913b27fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   DebugInfo: 
   isDebugging: 1
   _target: {fileID: 786036863}
@@ -1441,6 +1508,15 @@ MonoBehaviour:
   _inverseCameraX: 0
   _inverseCameraY: 1
   _boostFOV: 90
+=======
+  _shakeDuration: 0.5
+  _shakeIntensity: 1
+  _shakeHarshness: 1
+  _xInfluence: 1
+  _yInfluence: 1
+  _zInfluence: 1
+  _progress: 0
+>>>>>>> 5a0a37283c9fc4d366d14fd62db171b91066dd10
 --- !u!1 &338934305
 GameObject:
   m_ObjectHideFlags: 0
@@ -5365,7 +5441,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577403999}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7566,7 +7642,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cam
       value: 
-      objectReference: {fileID: 330585548}
+      objectReference: {fileID: 0}
     - target: {fileID: 2806727714142052530, guid: 3189b709b3f32c54ca20b8140fb32380,
         type: 3}
       propertyPath: player
@@ -7862,7 +7938,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 330585546}
+  - {fileID: 178394143}
   - {fileID: 6099951654317005359}
   - {fileID: 1294188660}
   - {fileID: 1846660108}
