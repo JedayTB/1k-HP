@@ -27,6 +27,10 @@ public class UIController : MonoBehaviour
         _playerNitroSlider.maxValue = _player.MaxNitroChargeAmounts;
         _builtUpNitroSlider.maxValue = 1f;
         cachedLocation = _player.transform.position;
+
+        if (_player == null) {
+            Debug.Log("PLAYER NOT SET!");
+        }
     }
     void Update()
     {
@@ -38,7 +42,9 @@ public class UIController : MonoBehaviour
         {
             resetPlayer();
         }
+
         _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
+
         if(_player.isDrifting){
             _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
         }
