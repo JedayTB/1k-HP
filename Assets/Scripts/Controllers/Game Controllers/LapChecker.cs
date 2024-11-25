@@ -4,14 +4,17 @@ public delegate void CheckFinishedLap();
 public class LapChecker : MonoBehaviour
 {
     [SerializeField] private lapCheckpoint[] _checkpoints;
+    [SerializeField] private int lapsToWin = 3;
+    [SerializeField] private ParticleSystem[] raceFinishParticles;
+
+
     private LapTimer _lapTimer;
 
     private GameStateManager _gsm;
     public CheckFinishedLap checkFinishedLap;
     public int lapCount = 0;
-    [SerializeField] private int lapsToWin = 3;
 
-    
+
     public void Init(GameStateManager gsm)
     {
         _gsm = gsm;
@@ -41,12 +44,18 @@ public class LapChecker : MonoBehaviour
             checkpoint.passedCheckpoint = false;
             checkpoint.resetHashset();
         }
-        _lapTimer.endLap();
+        _lapTimer?.endLap();
         Debug.Log($"Finished lap: {lapCount}");
         if (lapCount >= lapsToWin)
         {
-            _gsm.onPlayerWin();
+            onRaceFinish();
         }
+    }
+    void onRaceFinish(){
+        foreach(var ps in raceFinishParticles){
+            ps.Play();
+        }
+        _gsm.onPlayerWin();
     }
 
     void OnDrawGizmos()

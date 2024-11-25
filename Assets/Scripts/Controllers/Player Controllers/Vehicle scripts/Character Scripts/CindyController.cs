@@ -3,11 +3,15 @@ using UnityEngine;
 public class CindyController : PlayerVehicleController
 {
     [SerializeField] private ChilliOilPuddle prototypeChilli;
-    [SerializeField] private float throwPower = 30f;
+    [SerializeField] private float throwPower = 500f;
 
-    [SerializeField] private float throwSpread = 5f;
-    [SerializeField] private int AmountOfThrowingProjectiles = 3;
+    [SerializeField] private Transform[] ChilliOilLaunchLocations;
 
+    private void Awake()
+    {
+
+        if(ChilliOilLaunchLocations.Length == 0)Debug.LogError($"{this.gameObject.name} Is missing Chilli Launch Locations! Ability will not function!");
+    }
 
     protected override void Update()
     {
@@ -16,43 +20,26 @@ public class CindyController : PlayerVehicleController
 
     private void throwChilliOil()
     {
-        int modif = 1;
-        float throwAngl = 0f;
-
-        Vector3 setRotation = transform.localRotation.eulerAngles;
-        Vector3 rbVelocity = _vehiclePhysics.RigidBody.velocity;
-        Vector3 throwDir = new Vector3(45, 0,0);
-
-        for (int i = 0; i < AmountOfThrowingProjectiles; i++)
+        for (int i = 0; i < ChilliOilLaunchLocations.Length; i++)
         {
-            throwAngl = i * throwSpread;
-            print(throwAngl);
-            modif *= -1;
-            
-            var tempOil = Instantiate(prototypeChilli); 
-            tempOil.Init(this);
-            tempOil.transform.position = transform.position + new Vector3(0, 1,0);
-            
-            setRotation.y = throwAngl;
+            ChilliOilPuddle tempChilli = Instantiate(prototypeChilli);
+            Transform launchLoc = ChilliOilLaunchLocations[i];
 
-            tempOil.transform.rotation = Quaternion.Euler(setRotation);
-            throwDir.y = throwAngl;
-            tempOil.rb.AddForce(throwPower * throwDir);
+            tempChilli.Init(this);
+
+            tempChilli.transform.position = launchLoc.position;
+            tempChilli.rb.velocity = _vehiclePhysics.RigidBody.velocity;
+
+            tempChilli.rb.AddForce(throwPower * launchLoc.forward);
         }
     }
 
-    protected override void onAbilityFull()
-    {
-        base.onAbilityFull();
-    }
     public override void useCharacterAbility()
     {
-        if(_abilityGauge >= 100)
+        if (_abilityGauge >= 100)
         {
             throwChilliOil();
-            //_abilityGauge = 0;
+            _abilityGauge = 0;
         }
-        
     }
-
 }

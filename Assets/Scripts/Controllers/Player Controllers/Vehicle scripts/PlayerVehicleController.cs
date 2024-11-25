@@ -41,7 +41,7 @@ public class PlayerVehicleController : I_VehicleController
 
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);
 
-        isBreaking = _throttleInput < 0 ? true : false; 
+        //sisBreaking = _throttleInput < 0 ? true : false; 
     }
     protected IEnumerator driftPressCoolDown(float time){
         float count = 0f;

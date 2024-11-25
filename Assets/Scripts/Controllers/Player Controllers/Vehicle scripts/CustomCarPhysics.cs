@@ -149,44 +149,26 @@ public class CustomCarPhysics : MonoBehaviour
 
     public void Update()
     {
-        for(int i = 0; i < wheels.Length; i++)
-        {
-            applyTireRotation(wheels[i], i);
+        for(int i = 0; i < wheels.Length; i++){
+            if( i < halfTireLength) applyTireRotation(wheels[i]);
         }
+        
     }
 
     /// <summary>
-    /// Rotates the tire for use in tire accelleration. Changes Z axis
-    /// lerps tire rotation back to 0 if no input detected
+    /// Tells the tire to turn!
     /// </summary>
-    /// <param name="Tire"></param>
-    /// <param name="tireCount"></param>
-    /// <returns> Returns current tire grip calculated using _tireGripCurve. Still has side effect on tires if returns.</returns>
-    void applyTireRotation(CustomWheels Tire, int tireCount)
+    /// <param name="Tire">The tire to turn</param>
+    void applyTireRotation(CustomWheels Tire)
     {
-        float tireYAngle = 0f;
-        //Only Steer front tires
-        if (tireCount < halfTireLength)
-        {
-
-            if (Mathf.Abs(_turningInput) < 0.1f)
-            {
-                Tire.setTireRotation(tireYAngle);
-            }
-            else
-            {
-                Tire.TurnTire(_turningInput);
-            }
-
-        }
-
+       Tire.TurnTire(_turningInput);
     }
 
     #region Physics Simulations
 
     void FixedUpdate()
     {
-
+        
         for (int i = 0; i < wheels.Length; i++)
         {
             
@@ -204,11 +186,10 @@ public class CustomCarPhysics : MonoBehaviour
 
 
 
-                wheels[i].applyTireAcceleration(_throttleInput, Acceleration, availableTorque);
+                wheels[i].applyTireAcceleration(Acceleration, availableTorque);
 
                 if (isDrifting)
                 {
-
                     wheels[i].applyTireSlideOnDrift(0.1f, 1f);
                 }
                 else
