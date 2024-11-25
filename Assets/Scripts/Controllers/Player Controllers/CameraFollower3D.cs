@@ -6,7 +6,7 @@ public class CameraFollower3D : MonoBehaviour
 {
     public string DebugInfo;
     private Transform _transform;
-    private Camera _camera;
+    [SerializeField]private Camera _camera;
     [Header("Basic Params")]
     [SerializeField] private bool isDebugging = true;
     [SerializeField] private Transform _target;
@@ -45,7 +45,7 @@ public class CameraFollower3D : MonoBehaviour
     void Awake()
     {
         _transform = transform;
-        _camera = GetComponent<Camera>();
+        //_camera = GetComponent<Camera>();
         _pivot.transform.localRotation = Quaternion.identity;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -53,7 +53,7 @@ public class CameraFollower3D : MonoBehaviour
     }
     public void Init(){
         _transform = transform;
-        _camera = GetComponent<Camera>();
+        //_camera = GetComponent<Camera>();
         _pivot.transform.localRotation = Quaternion.identity;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

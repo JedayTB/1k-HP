@@ -4,6 +4,8 @@ public class DynamicCameraManager : MonoBehaviour
 {
     [SerializeField] Transform _cameraPositions;
     private Camera _camera = Camera.main;
+    
+
 
     void Start()
     {
