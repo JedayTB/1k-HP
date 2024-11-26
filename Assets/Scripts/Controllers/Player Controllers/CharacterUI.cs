@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum CharacterNames
 {
+    None,
     Mimi,
     Hoku,
     Ethan,
@@ -18,20 +20,13 @@ public class CharacterUI : MonoBehaviour
 
     [Space(15)]
     [SerializeField] private CharacterNames _selectedCharacter;
-    [SerializeField] private Animator _animator;
+    [SerializeField] private Animator _animator; 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) && _selectedCharacter != CharacterNames.None)
         {
-            _animator.SetTrigger("OpenMenu");
+            _animator.SetBool("MenuIsOpen", true);
         }
     }
 
@@ -53,8 +48,13 @@ public class CharacterUI : MonoBehaviour
                 _selectedCharacter = CharacterNames.Cindy;
                 break;
             case null:
-                _selectedCharacter = CharacterNames.Mimi;
+                _selectedCharacter = CharacterNames.None;
                 break;
         }
+    }
+
+    public void CloseMenu()
+    {
+        _animator.SetBool("MenuIsOpen", false);
     }
 }
