@@ -598,19 +598,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 69426444}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 185553510}
-        m_TargetAssemblyTypeName: CharacterUI, Assembly-CSharp
-        m_MethodName: CloseMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &69426444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,7 +843,7 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 37f918b44c143ad4caa8aa9f61064053, type: 2}
   - {fileID: 7400000, guid: d1bb623162cd6e445a5adc4059eacc07, type: 2}
   _selectedCharacter: 0
-  _animator: {fileID: 746260794}
+  _animator: {fileID: 185553511}
 --- !u!95 &185553511
 Animator:
   serializedVersion: 5
