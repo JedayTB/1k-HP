@@ -1,7 +1,7 @@
 <div align="center">
 <h1>1K HP</h1>
 <br/>
-  <span>Developed 2024 by <a href="https://www.linkedin.com/in/ethan-arrazola-872066283/">Ethan Arrazola</a>, Joe, <a href="https://www.linkedin.com/in/ethan-ambler-019740223/">Ethan Ambler</a>, Gilbert, Micah, Luka, <a href="https://www.linkedin.com/in/drg-mihai/">Dragos</a>, and <a href="https://www.linkedin.com/in/nikita-evtushenko-873480307/">Nikita</a></span>
+  <span>Developed 2024 by <a href="https://www.linkedin.com/in/ethan-arrazola-872066283/">Ethan Arrazola</a>, Joe Roy, <a href="https://www.linkedin.com/in/ethan-ambler-019740223/">Ethan Ambler</a>, Gilbert, Micah, Luka, <a href="https://www.linkedin.com/in/drg-mihai/">Dragos</a>, and <a href="https://www.linkedin.com/in/nikita-evtushenko-873480307/">Nikita</a></span>
 <br/>
 <br/>
 <img src="https://img.shields.io/badge/-Unity%202022.3.39f1-0E1128?logo=unity&logoColor=white&style=for-the-badge" alt="Unity 2022.3.39f1" />
