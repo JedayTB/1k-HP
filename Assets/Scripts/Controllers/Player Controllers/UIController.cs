@@ -42,6 +42,7 @@ public class UIController : MonoBehaviour
         {
             resetPlayer();
         }
+        //print(_player);
 
         _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
 
@@ -50,7 +51,10 @@ public class UIController : MonoBehaviour
         }
         _playerNitroSlider.value = _player._nitroChargeAmounts;
 
-        speedText.text = $"{GameStateManager.Player.VehiclePhysics.getVelocity().ToString("00.00")} km/h" ;
+        if (speedText != null)
+        {
+            speedText.text = $"{GameStateManager.Player.VehiclePhysics.getVelocity().ToString("00.00")} km/h";
+        }
 
         //miniMap();
     }

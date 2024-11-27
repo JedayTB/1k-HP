@@ -44,20 +44,27 @@ public class CameraFollower3D : MonoBehaviour
     
     void Awake()
     {
+        /*_target = GameStateManager.Player.transform;
+        _pivot = _target.Find("camera pivot"); // 
+        _desiredLocation = _pivot.Find("camera target");
         _transform = transform;
         //_camera = GetComponent<Camera>();
         _pivot.transform.localRotation = Quaternion.identity;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        defaultZPosition = _desiredLocation.localPosition.z;
+        defaultZPosition = _desiredLocation.localPosition.z;*/
     }
     public void Init(){
+        _target = GameStateManager.Player.transform;
+        _pivot = _target.Find("camera pivot"); 
+        _desiredLocation = _pivot.Find("camera target");
         _transform = transform;
         //_camera = GetComponent<Camera>();
         _pivot.transform.localRotation = Quaternion.identity;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         defaultZPosition = _desiredLocation.localPosition.z;
+        
     }
 
     private void Update()

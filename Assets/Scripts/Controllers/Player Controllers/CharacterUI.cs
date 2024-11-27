@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public enum CharacterNames
 {
+    None,
     Mimi,
     Hoku,
     Ethan,
@@ -13,25 +16,33 @@ public enum CharacterNames
 
 public class CharacterUI : MonoBehaviour
 {
+    [SerializeField] private CharacterNames _selectedCharacter;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private KeyCode _confirmKey;
+    [SerializeField] private KeyCode _cancelKey;
+    [SerializeField] private TextMeshProUGUI _confirmCharText;
+
+    [Space(15)]
     [SerializeField] private GameObject[] _characterButtons;
     [SerializeField] private AnimationClip[] _animations;
 
-    [Space(15)]
-    [SerializeField] private CharacterNames _selectedCharacter;
-    [SerializeField] private Animator _animator;
+    
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        string yuh = _selectedCharacter.ToString();
+        print(yuh);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(_confirmKey) && _selectedCharacter != CharacterNames.None)
         {
-            _animator.SetTrigger("OpenMenu");
+            _confirmCharText.text = "Play as " + _selectedCharacter.ToString() + "?";
+            _animator.SetBool("MenuIsOpen", true);
         }
     }
 
@@ -53,8 +64,20 @@ public class CharacterUI : MonoBehaviour
                 _selectedCharacter = CharacterNames.Cindy;
                 break;
             case null:
-                _selectedCharacter = CharacterNames.Mimi;
+                _selectedCharacter = CharacterNames.None;
                 break;
         }
     }
+
+    public void CloseMenu()
+    {
+        _animator.SetBool("MenuIsOpen", false);
+    }
+
+    public void ConfirmButton()
+    {
+        GameStateManager._newCharacter = ((int)_selectedCharacter)-1;
+        SceneManager.LoadScene("LevelSelect");
+    }
 }
+

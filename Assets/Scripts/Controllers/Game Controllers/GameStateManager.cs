@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private waypointGizmos _waypointGizmosWide;
     [SerializeField] private UIController _uiController;
     [SerializeField] private VehicleAIController[] _aiControllers;
+    [SerializeField] private GameObject[] _playerVehicles;
+    [SerializeField] private GameObject _startLocation;
+    [SerializeField] private PostProcessing _postProcessing;
+    public static int _newCharacter = 2;
 
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
@@ -23,17 +28,21 @@ public class GameStateManager : MonoBehaviour
     public bool HasThreeTracks = false;
     private void Awake()
     {
+        GameObject tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocation.transform.position, Quaternion.identity);
+        _player = tempPlayer.GetComponent<PlayerVehicleController>();
         Player = _player;
+        print(Player);
         inputManager = this.gameObject.AddComponent<InputManager>();
         inputManager.Init();
-
         _lapChecker?.Init(this);
-
-        _player?.Init(inputManager);
-
         _uiController?.init(_player);
         cam = Camera.main.GetComponent<CameraFollower3D>();
         cam?.Init();
+        _postProcessing?.Init();
+        print("we are getting here");
+
+        // breaks at this one for some reason, had to move everything else up to stop them from not being called
+        _player?.Init(inputManager);
 
         for (int i = 0; i < _aiControllers.Length; i++)
         {
