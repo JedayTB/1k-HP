@@ -18,7 +18,7 @@ public class LapTimer : MonoBehaviour
 
     void Update()
     {
-        _lapElapsedTime = _lapStartTime - Time.time;
+        _lapElapsedTime = Time.time - _lapStartTime;
         setText();
     }
     private void setText()

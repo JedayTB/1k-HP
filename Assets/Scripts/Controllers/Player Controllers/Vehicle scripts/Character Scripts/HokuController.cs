@@ -16,7 +16,7 @@ public class HokuController : PlayerVehicleController
     {
 
         base.Init(inp);
-        _hookCrossHair.enabled = false;
+        //_hookCrossHair.enabled = false;
         _selfColliderID = _selfCollider.GetInstanceID();
 
     }

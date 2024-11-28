@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Specialized;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +18,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private RectTransform _miniPlayerPosition;
     [SerializeField][Tooltip("Changes how fast the minimap icon moves in relation to the players speed. \nHigher value = slower speed.")] private float _miniScaleDivide = 100f;
     [SerializeField] private float _resetFreezeDuration = 1.5f;
+
+    public Image lightningCrossHair;
+    public Image HookshotCrosshair;
 
     private Vector3 cachedLocation;
 

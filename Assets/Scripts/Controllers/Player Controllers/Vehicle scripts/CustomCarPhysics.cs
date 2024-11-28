@@ -80,6 +80,8 @@ public class CustomCarPhysics : MonoBehaviour
 
             tire.init(_rigidBody, leftAckAngle, rightAckAngle);
         }
+
+        print($"{this.gameObject.name} finished init");
     }
 
     public void setInputs(float throttleAmt, float turningAmt)
@@ -198,7 +200,6 @@ public class CustomCarPhysics : MonoBehaviour
                     wheels[i].applyTireSlide(1f);
                 }
             }
-            
         }
 
 
