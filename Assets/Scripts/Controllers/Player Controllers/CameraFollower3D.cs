@@ -6,7 +6,7 @@ public class CameraFollower3D : MonoBehaviour
 {
     public string DebugInfo;
     private Transform _transform;
-    private Camera _camera;
+    [SerializeField]private Camera _camera;
     [Header("Basic Params")]
     [SerializeField] private bool isDebugging = true;
     [SerializeField] private Transform _target;
@@ -40,24 +40,18 @@ public class CameraFollower3D : MonoBehaviour
     private float _startTime;
     private Vector3 _startRotation;
 
-    
-    
-    void Awake()
-    {
-        _transform = transform;
-        _camera = GetComponent<Camera>();
-        _pivot.transform.localRotation = Quaternion.identity;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        defaultZPosition = _desiredLocation.localPosition.z;
-    }
     public void Init(){
+
+        _camera = Camera.main;
+        _target = GameStateManager.Player.transform;
+        _pivot = _target.Find("camera pivot"); 
+        _desiredLocation = _pivot.Find("camera target");
         _transform = transform;
-        _camera = GetComponent<Camera>();
+        //_camera = GetComponent<Camera>();
         _pivot.transform.localRotation = Quaternion.identity;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        defaultZPosition = _desiredLocation.localPosition.z;
+        defaultZPosition = _desiredLocation.localPosition.z;   
     }
 
     private void Update()

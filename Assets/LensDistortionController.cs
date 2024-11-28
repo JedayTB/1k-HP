@@ -1,32 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LensDistortionController : MonoBehaviour
 {
+    #region  readonly
     private static readonly int _lensSize = Shader.PropertyToID("_CIrcleMaskSize");
     private static readonly int _distortionIntensity = Shader.PropertyToID("_LensDistortionStrength");
+    private readonly float MaxCircleClipSize = 2f;
+    private readonly float MinCircleClipSize = 2f;
+    private readonly float MinLensDistortionStrength = 0f;
+    private readonly float MaxLensDistortionStrength = -0.15f;
+    #endregion
 
-    [SerializeField] private float _threshold = 150f;
-
+    //Can't read only because Unity doesn't serilize
+    [SerializeField] private float _maxDistortionSpeed = 350f;
+    [SerializeField] private float _minSpeedForDistortion = 135f;
     [SerializeField] private Material lensDistortionMat;
 
+    float distortionMultiplier;
+    float playerVelocity;
+    float effectiveLensDistortion;
+    
+    public string debugStr;
+    
     private void Awake()
-    {    
+    {
         lensDistortionMat.SetFloat(_lensSize, 2f);
         lensDistortionMat.SetFloat(_distortionIntensity, 0f);
     }
-
+    private void OnDisable(){
+        lensDistortionMat.SetFloat(_lensSize, 2f);
+        lensDistortionMat.SetFloat(_distortionIntensity, 0f);
+    }
     private void Update()
     {
-        if(GameStateManager.Player.VehiclePhysics.getVelocity() > _threshold)
-        { 
-            lensDistortionMat.SetFloat(_distortionIntensity, -0.15f);
-        }
-        else
+        playerVelocity = GameStateManager.Player.VehiclePhysics.getVelocity();
+
+        if (playerVelocity > _minSpeedForDistortion)
         {
+            distortionMultiplier = Mathf.Clamp01(playerVelocity / _maxDistortionSpeed);
+
+            effectiveLensDistortion = MaxLensDistortionStrength * distortionMultiplier;
+
+            lensDistortionMat.SetFloat(_distortionIntensity, effectiveLensDistortion);
+
+            debugStr = $"dist mult {distortionMultiplier}\neffect dist {effectiveLensDistortion}";
+        }else{
             lensDistortionMat.SetFloat(_distortionIntensity, 0f);
         }
     }
+
 
 }

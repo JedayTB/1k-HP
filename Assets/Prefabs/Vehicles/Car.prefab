@@ -1062,19 +1062,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6994f96f971daf948904c3b90fabd985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vehiclePhysics: {fileID: 0}
-  _maxNitroAmount: 100
-  _nitroAmount: 50
-  _nitroSpeedBoost: 2
+  isDrifting: 0
   _isDebuging: 1
   _useGroundCheck: 0
   _raycastDistance: 5
   _worldGeometryLayers:
     serializedVersion: 2
     m_Bits: 8
+  isUsingNitro: 0
+  isBreaking: 0
+  MaxNitroChargeAmounts: 4
+  _builtUpNitroAmount: 0
+  _nitroChargeAmounts: 2
+  _nitroIncrementThresholdValue: 0
+  _nitroIncreaseScaler: 0.75
+  _nitroTimeLength: 1
+  _nitroSpeedMultiplier: 2.5
   _abilityGauge: 100
   _abilityUseTimer: 5
-  _initInStart: 0
 --- !u!114 &266032120304080216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1087,18 +1092,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b1e75b002032e4f92d5f0272a22cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Tires:
-  - {fileID: 3039660615323597116}
-  - {fileID: 8668472285663029866}
-  - {fileID: 8414251593179285742}
-  - {fileID: 2589939042674386637}
+  isUsingNitro: 0
+  _raycastDistance: 1.5
   _groundLayers:
     serializedVersion: 2
     m_Bits: 8
-  debugRaycasts: 1
-  _tireRaycastDistance: 1.5
-  _vehicleTopSpeed: 500
-  _accelerationAmount: 1250
+  wheels: []
+  _max_RB_ZRotationAngle: 15
+  _max_RB_XRotationAngle: 20
+  driftAudio: {fileID: 0}
+  _terminalVelocity: 500
+  Acceleration: 3500
   torqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -1141,41 +1145,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _frontWheelDrive: 1
-  _springStrength: 1000
-  _springDamping: 70
-  _springRestDistance: 0.8
-  _frontWheelBreaking: 0
-  _backWheelBreaking: 1
-  _tireMass: 5
-  _frontWheelSteer: 1
-  _backWheelSteer: 0
+  wheelbase: 5
+  turnRadius: 10
+  rearTrack: 2
   _rotationAngleTimeToZero: 1.5
-  _tireGripCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.00007247925
-      value: 0.22858047
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.9852732
-      value: 0.14243117
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   _tireGripHackFix: 90
+  isDrifting: 0
 --- !u!114 &6398176246842935318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1191,8 +1166,12 @@ MonoBehaviour:
   _wheelContainers: []
   _wheels: []
   _vehicleMesh: {fileID: 0}
+  _playerVehicleController: {fileID: 0}
   _vehicleTailLightBreaking: {fileID: 0}
   _vehicleTailLight: {fileID: 0}
+  _trails: []
+  driftParticles: []
+  _carMats: []
 --- !u!54 &2907201029969780788
 Rigidbody:
   m_ObjectHideFlags: 0

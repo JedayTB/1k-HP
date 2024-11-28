@@ -17,6 +17,11 @@ public class PostProcessing : MonoBehaviour
 
     public float maxDistortion = -.3f;
 
+    public void Init()
+    {
+        _physicsRef = GameStateManager.Player.VehiclePhysics;
+    }
+
     void Start()
     {
         volume.profile.TryGet(out bloom); // gotta set it here since we can't do it from editor >:(

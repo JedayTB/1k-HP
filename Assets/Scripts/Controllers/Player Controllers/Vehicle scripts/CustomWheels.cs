@@ -37,6 +37,8 @@ public class CustomWheels : MonoBehaviour
 
         _leftAckermanAngle = leftTurnAngle;
         _rightAckermanAngle = rightTurnAngle;
+
+        print($"{this.name} finished intializing!");
     }
     /// <summary>
     /// Manual Setting of tire Y angle
@@ -134,6 +136,8 @@ public class CustomWheels : MonoBehaviour
         Vector3 steerForce = _wheelSpecs.tireMass * desiredAcceleration * steeringDir;
 
         _vehicleRB.AddForceAtPosition(steerForce, forceApplicationPoint);
+
+        
     }
     /// <summary>
     /// tire slide attempts to make the car stay in the Z direction of it's tires.
@@ -206,6 +210,7 @@ public class CustomWheels : MonoBehaviour
         float force = (offset * _wheelSpecs.springStrength) - (vel * _wheelSpecs.springDamping);
 
         _vehicleRB.AddForceAtPosition(springDir * force, forceApplicationPoint);
+
     }
     #endregion
 }

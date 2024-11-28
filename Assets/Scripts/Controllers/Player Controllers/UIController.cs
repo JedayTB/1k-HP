@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Specialized;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +19,9 @@ public class UIController : MonoBehaviour
     [SerializeField][Tooltip("Changes how fast the minimap icon moves in relation to the players speed. \nHigher value = slower speed.")] private float _miniScaleDivide = 100f;
     [SerializeField] private float _resetFreezeDuration = 1.5f;
 
+    public Image lightningCrossHair;
+    public Image HookshotCrosshair;
+
     private Vector3 cachedLocation;
 
     public void init(PlayerVehicleController PLAYER){
@@ -27,6 +29,10 @@ public class UIController : MonoBehaviour
         _playerNitroSlider.maxValue = _player.MaxNitroChargeAmounts;
         _builtUpNitroSlider.maxValue = 1f;
         cachedLocation = _player.transform.position;
+
+        if (_player == null) {
+            Debug.Log("PLAYER NOT SET!");
+        }
     }
     void Update()
     {
@@ -38,13 +44,19 @@ public class UIController : MonoBehaviour
         {
             resetPlayer();
         }
+        //print(_player);
+
         _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
+
         if(_player.isDrifting){
             _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
         }
         _playerNitroSlider.value = _player._nitroChargeAmounts;
 
-        speedText.text = $"{GameStateManager.Player.VehiclePhysics.getVelocity().ToString("00.00")} km/h" ;
+        if (speedText != null)
+        {
+            speedText.text = $"{GameStateManager.Player.VehiclePhysics.getVelocity().ToString("00.00")} km/h";
+        }
 
         //miniMap();
     }

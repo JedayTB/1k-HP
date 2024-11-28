@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
+    public string dbgStr;
     #region Variables
     private float _throttleInput;
     private float _turningInput;
@@ -28,7 +29,7 @@ public class CustomCarPhysics : MonoBehaviour
 
     [Header("Acceleration Setup")]
     [Tooltip("Top speed of the car")]
-    [SerializeField] private float _terminalVelocity = 500f;
+    [SerializeField] private float _terminalVelocity = 250f;
     [Tooltip("How fast the car accelerates")]
     [SerializeField] public float Acceleration = 3500f;
     private float _baseAccelerationAmount;
@@ -79,6 +80,8 @@ public class CustomCarPhysics : MonoBehaviour
 
             tire.init(_rigidBody, leftAckAngle, rightAckAngle);
         }
+
+        print($"{this.gameObject.name} finished init");
     }
 
     public void setInputs(float throttleAmt, float turningAmt)
@@ -184,7 +187,7 @@ public class CustomCarPhysics : MonoBehaviour
 
                 float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
-
+                dbgStr = $"{availableTorque}";
 
                 wheels[i].applyTireAcceleration(Acceleration, availableTorque);
 
@@ -197,7 +200,6 @@ public class CustomCarPhysics : MonoBehaviour
                     wheels[i].applyTireSlide(1f);
                 }
             }
-            
         }
 
 
