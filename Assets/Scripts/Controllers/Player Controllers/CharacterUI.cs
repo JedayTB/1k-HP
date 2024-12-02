@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public enum CharacterNames
 {
@@ -77,7 +78,21 @@ public class CharacterUI : MonoBehaviour
     public void ConfirmButton()
     {
         GameStateManager._newCharacter = ((int)_selectedCharacter)-1;
-        SceneManager.LoadScene("LevelSelect");
+
+        if (GrandPrixManager.GameMode == 0)
+        {
+            SceneManager.LoadScene(GrandPrixManager.LevelOrder[GrandPrixManager.CurrentLevelIndex]);
+        }
+        if (GrandPrixManager.GameMode == 1)
+        {
+            SceneManager.LoadScene("LevelSelect");
+        }
+
+    }
+
+    public void BackButton(string text)
+    {
+        
     }
 }
 
