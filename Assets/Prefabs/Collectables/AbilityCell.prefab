@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6678592193788125990}
   - component: {fileID: 8730992638451669231}
-  - component: {fileID: 1944844403218256068}
+  - component: {fileID: 48205130762087862}
   m_Layer: 0
   m_Name: AbilityCell
   m_TagString: Untagged
@@ -55,7 +55,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5, y: 3, z: 1.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1944844403218256068
+--- !u!114 &48205130762087862
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,9 +64,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 300163374162616891}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95a024cf3e185b1f8aa9c9eb6b00a346, type: 3}
+  m_Script: {fileID: 11500000, guid: dab1b614e7a6ad244a045ffa9d2d2484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timeToRespawn: 5
+  _collider: {fileID: 8730992638451669231}
+  _renderer: {fileID: 7072697228302554928}
+  _abilityAmount: 100
+  _boxCollider: {fileID: 0}
 --- !u!1 &1837872199138934264
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +135,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0f510dd0580fd0c4d88ec4b2b0fe7c74, type: 2}
+  - {fileID: 2100000, guid: d31b0d043f2531e45bbd735d787c88de, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
