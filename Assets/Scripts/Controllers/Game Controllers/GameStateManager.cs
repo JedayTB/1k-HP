@@ -40,7 +40,7 @@ public class GameStateManager : MonoBehaviour
 
         _lapChecker?.Init(this);
         _uiController?.init(_player);
-        cam = Camera.main.GetComponent<CameraFollower3D>();
+        cam = Camera.main.transform.parent.GetComponent<CameraFollower3D>(); // kinda stupid but it works
         cam?.Init();
         _postProcessing?.Init();
 

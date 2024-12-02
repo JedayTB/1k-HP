@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class CameraShake : MonoBehaviour
@@ -8,6 +9,8 @@ public class CameraShake : MonoBehaviour
     [SerializeField][Tooltip("Length of the shake")] private float _shakeDuration;
     [SerializeField][Tooltip("How much the camera shakes")] private float _shakeIntensity;
     [SerializeField][Tooltip("How often a new shake happens \nLower is more often")] private float _shakeHarshness;
+    [SerializeField][Tooltip("Determines if the shake should become more gentle near the end")] private bool _hasFalloff;
+    [SerializeField][Tooltip("How long should the falloff take")] private float _falloffDuration;
 
     [Space(15)]
     [SerializeField] private float _xInfluence = 1f;
@@ -22,34 +25,61 @@ public class CameraShake : MonoBehaviour
     private Vector3 _startLocation;
     private Vector3 _endLocation;
     private Vector3 _originalPosition;
+    private bool _right; // trust;
+
+    public bool doShake = false;
    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) || doShake)
         {
-            StartCoroutine(Shake(_shakeDuration, _shakeIntensity, _shakeHarshness));
+            StartCoroutine(Shake(_shakeDuration, _shakeIntensity, _shakeHarshness, _hasFalloff, _falloffDuration));
+            doShake = false;
         }
     }
 
-    IEnumerator Shake(float duration, float intensity, float harshness)
+    IEnumerator Shake(float duration, float intensity, float harshness, bool hasFalloff, float falloffDuration)
     {
         Vector3 originalPosition = transform.localPosition;
         _originalPosition = originalPosition;
         float timeShaking = 0;
         float timeWaitingToShake = 999f;
 
+        // This is just so we can scale the intensity later if falloff is enabled
+        float originalIntensity = intensity;
+        bool right = true; // trust
+        
+        // Adds the falloff time to the total duration if enabled
+        // Needed so the loop doesn't end before the falloff
+        duration = hasFalloff ? duration + falloffDuration : duration;
+
         while (timeShaking < duration)
         {
+            // duration - falloffDuration is done to check if it is time for the falloff to start
+            if (hasFalloff && timeShaking >= duration - falloffDuration)
+            {
+                //print("the falloff is crazy");
 
-            print("we are shaking");
+                // Terrible formula...
+                // duration - falloffDuration is so we are scaling based off the duration of the main shake
+                // timeShaking - duration / 
+                // lowkey mid commenting i already forget it but it works so idk
+                float amountToReduceBy = (timeShaking - (duration - falloffDuration)) / falloffDuration;
+                intensity = originalIntensity * (1 - amountToReduceBy);
+            }
 
             if (timeWaitingToShake > harshness/10)
             {
-                float xPos = Random.Range(-_xInfluence * intensity, _xInfluence * intensity);
-                float yPos = Random.Range(-_yInfluence * intensity, _yInfluence * intensity);
-                float zPos = Random.Range(-_zInfluence * intensity, _zInfluence * intensity);
+                float xPos = Random.Range(0, _xInfluence * intensity);
+                float yPos = Random.Range(0, _yInfluence * intensity);
+                float zPos = Random.Range(0, _zInfluence * intensity);
 
                 _endLocation = new Vector3(xPos, yPos, zPos);
+                _endLocation.x *= right ? 1 : -1;
+
+                // Just alternate between right and left lmao
+                right = !right;
+
                 LerpReset();
 
                 timeWaitingToShake = 0;
@@ -65,26 +95,27 @@ public class CameraShake : MonoBehaviour
 
         StartCoroutine(FinishShake(originalPosition, harshness / 10));
     }
-
     private void LerpReset()
     {
         _startTime = Time.time;
         _startLocation = transform.localPosition;
         _currentLerpDuration = 0.00001f;
+        _progress = 0;
     }
 
     private void ShakeLerp(Vector3 endPosition, float duration)
     {
-        print("are we actually lerping here");
-
         float progress = _currentLerpDuration / duration;
-        if (progress < 0.5f)
+
+        progress = 1 - Mathf.Pow(1 - _currentLerpDuration / duration, 2);
+
+       //if (progress < 0.5f)
         {
-            progress = 2 * progress * progress;
+            //progress = 2 * progress * progress;
         }
-        else
+        //else
         {
-            progress = 1 - Mathf.Pow(-2 * progress + 2, 2) / 2;
+            //progress = 1 - Mathf.Pow(-2 * progress + 2, 2) / 2;
         }
 
         transform.localPosition = Vector3.Lerp(_startLocation, endPosition, progress);
@@ -96,8 +127,6 @@ public class CameraShake : MonoBehaviour
         LerpReset();
         print("poo");
         _currentLerpDuration = 0.0001f;
-
-        
 
         //float progress = 1 - Mathf.Pow(1 - (Time.time - _startTime - duration), 0.5f);
 
@@ -114,7 +143,7 @@ public class CameraShake : MonoBehaviour
             }
 
             _progress = progress;
-            transform.localPosition = Vector3.Lerp(_startLocation, originalPosition, progress);
+            transform.localPosition = Vector3.Lerp(_startLocation, _originalPosition, progress);
             _currentLerpDuration += Time.deltaTime;
             yield return null;
         }
