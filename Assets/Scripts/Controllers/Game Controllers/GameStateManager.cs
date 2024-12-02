@@ -33,7 +33,6 @@ public class GameStateManager : MonoBehaviour
         //
         _player = tempPlayer.GetComponent<PlayerVehicleController>();
         Player = _player;
-        print(Player);
 
         inputManager = this.gameObject.AddComponent<InputManager>();
         inputManager.Init();
