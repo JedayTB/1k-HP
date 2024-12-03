@@ -24,8 +24,8 @@ public class GameStateManager : MonoBehaviour
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
 
-
     public bool HasThreeTracks = false;
+
     private void Awake()
     {
         var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocation.transform.position, Quaternion.identity);

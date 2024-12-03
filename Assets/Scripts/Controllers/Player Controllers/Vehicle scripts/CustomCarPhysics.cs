@@ -4,7 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
-    public string dbgStr;
     #region Variables
     private float _throttleInput;
     private float _turningInput;
@@ -17,10 +16,6 @@ public class CustomCarPhysics : MonoBehaviour
     public CustomWheels[] WheelArray { get => wheels; }
     private int halfTireLength;
     private Rigidbody _rigidBody;
-
-    [SerializeField] private float _max_RB_ZRotationAngle = 15f;
-    [SerializeField] private float _max_RB_XRotationAngle = 20f;
-    Vector3 cachedRbRotation;
     public Rigidbody RigidBody { get => _rigidBody; }
 
     public AudioSource driftAudio;
@@ -35,6 +30,7 @@ public class CustomCarPhysics : MonoBehaviour
     private float _baseAccelerationAmount;
     [Tooltip("How much force is available at certain speeds.")]
     [SerializeField] private AnimationCurve torqueCurve;
+    [SerializeField] private AnimationCurve tireGripCurve;
     //Steering
 
     [Header("Steering Setup")]
@@ -153,7 +149,14 @@ public class CustomCarPhysics : MonoBehaviour
     public void Update()
     {
         for(int i = 0; i < wheels.Length; i++){
-            if( i < halfTireLength) applyTireRotation(wheels[i]);
+            if (i < halfTireLength) {
+
+                float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
+                float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
+
+                float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
+                applyTireRotation(wheels[i], tireGrip);
+            } 
         }
         
     }
@@ -162,9 +165,9 @@ public class CustomCarPhysics : MonoBehaviour
     /// Tells the tire to turn!
     /// </summary>
     /// <param name="Tire">The tire to turn</param>
-    void applyTireRotation(CustomWheels Tire)
+    void applyTireRotation(CustomWheels Tire, float tireGrip)
     {
-       Tire.TurnTire(_turningInput);
+       Tire.TurnTire(_turningInput, tireGrip);
     }
 
     #region Physics Simulations
@@ -187,7 +190,7 @@ public class CustomCarPhysics : MonoBehaviour
 
                 float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
-                dbgStr = $"{availableTorque}";
+                float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
 
                 wheels[i].applyTireAcceleration(Acceleration, availableTorque);
 
@@ -197,7 +200,7 @@ public class CustomCarPhysics : MonoBehaviour
                 }
                 else
                 {
-                    wheels[i].applyTireSlide(1f);
+                    wheels[i].applyTireSlide(tireGrip);
                 }
             }
         }

@@ -65,11 +65,11 @@ public class CustomWheels : MonoBehaviour
     /// Lerp smoothed setting of tire Y angle. Uses ExponentialDecay smoothing, which is frame independent.
     /// </summary>
     /// <param name="turningInput">value from 0-1 inside Custom Car physics</param>
-    public void TurnTire(float turningInput)
+    public void TurnTire(float turningInput, float angleModifier)
     { 
         
         float desiredAngle = turningInput > 0 ? _rightAckermanAngle: _leftAckermanAngle;
-        desiredAngle *= turningInput;
+        desiredAngle *= turningInput * angleModifier;
 
         steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, _decaySpeed, Time.deltaTime);
         
