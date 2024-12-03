@@ -12,8 +12,20 @@ public class SceneChangeTrigger : MonoBehaviour
             Time.timeScale = 1;
         }
 
+        GrandPrixManager.GameMode = 1;
+
         _sceneChanger.LoadLevelWithTransition(sceneName);
     }
+
+
+    public void LoadGrandPrix()
+    {
+        GrandPrixManager.GameMode = 0;
+
+        _sceneChanger.LoadLevelWithTransition("CharacterSelect");
+    }
+
+
 
     private void OnTriggerEnter(Collider other)
     {

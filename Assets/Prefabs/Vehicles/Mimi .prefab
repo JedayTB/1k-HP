@@ -129,9 +129,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tireType: 0
-  isDebugging: 1
-  steeringAngle: 0
+  applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
+  _decaySpeed: 7.5
+  isDebugging: 1
+  _leftAckermanAngle: 0
+  _rightAckermanAngle: 0
 --- !u!1 &961957184674547309
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,9 +705,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tireType: 2
-  isDebugging: 1
-  steeringAngle: 0
+  applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
+  _decaySpeed: 7.5
+  isDebugging: 1
+  _leftAckermanAngle: 0
+  _rightAckermanAngle: 0
 --- !u!1 &2635368579874017976
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,9 +876,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tireType: 2
-  isDebugging: 1
-  steeringAngle: 0
+  applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
+  _decaySpeed: 7.5
+  isDebugging: 1
+  _leftAckermanAngle: 0
+  _rightAckermanAngle: 0
 --- !u!1 &4744576920071506283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,9 +1011,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tireType: 1
-  isDebugging: 1
-  steeringAngle: 0
+  applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
+  _decaySpeed: 7.5
+  isDebugging: 1
+  _leftAckermanAngle: 0
+  _rightAckermanAngle: 0
 --- !u!1 &5033676955752234772
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,7 +1371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fd1df0e6fae6840b76ba63395d0d8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vehiclePhysics: {fileID: 0}
   isDrifting: 0
   _isDebuging: 0
   _useGroundCheck: 1
@@ -1367,9 +1378,6 @@ MonoBehaviour:
   _worldGeometryLayers:
     serializedVersion: 2
     m_Bits: 8
-  driftParticles:
-  - {fileID: 5103489309361250267}
-  - {fileID: 6188940298402867556}
   isUsingNitro: 0
   isBreaking: 0
   MaxNitroChargeAmounts: 4
@@ -1395,7 +1403,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b1e75b002032e4f92d5f0272a22cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dbgStr: 
   isUsingNitro: 0
+  _raycastDistance: 1.5
   _groundLayers:
     serializedVersion: 2
     m_Bits: 8
@@ -1404,8 +1414,11 @@ MonoBehaviour:
   - {fileID: 4945029508039140816}
   - {fileID: 4768605789729957501}
   - {fileID: 2084711804822013439}
-  _vehicleTopSpeed: 500
-  _accelerationAmount: 1250
+  _max_RB_ZRotationAngle: 15
+  _max_RB_XRotationAngle: 20
+  driftAudio: {fileID: 0}
+  _terminalVelocity: 250
+  Acceleration: 3500
   torqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -1448,6 +1461,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  wheelbase: 5
+  turnRadius: 10
+  rearTrack: 2
   _rotationAngleTimeToZero: 1.5
   _tireGripHackFix: 90
   isDrifting: 0
@@ -1481,6 +1497,7 @@ MonoBehaviour:
   _trails:
   - {fileID: 6590939056156863252}
   - {fileID: 961957184674547309}
+  driftParticles: []
   _carMats: []
 --- !u!54 &8095818865533755442
 Rigidbody:
@@ -1508,7 +1525,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &-2231260768845180680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2008,12 +2025,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfa06d31acf7cd14490907c3730c423b, type: 3}
---- !u!198 &6188940298402867556 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8724825145483676988, guid: dfa06d31acf7cd14490907c3730c423b,
-    type: 3}
-  m_PrefabInstance: {fileID: 3240135797828248664}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9159723170135063976 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6046814663646435824, guid: dfa06d31acf7cd14490907c3730c423b,
@@ -2103,12 +2114,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfa06d31acf7cd14490907c3730c423b, type: 3}
---- !u!198 &5103489309361250267 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8724825145483676988, guid: dfa06d31acf7cd14490907c3730c423b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4595908312797041383}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7795004884680215319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6046814663646435824, guid: dfa06d31acf7cd14490907c3730c423b,
