@@ -6,11 +6,11 @@ public class ChilliOilPuddle : MonoBehaviour
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private BoxCollider BC;
     [SerializeField] private BoxCollider BCTrigger;
-    [SerializeField] private I_VehicleController Owner;
+    [SerializeField] private A_VehicleController Owner;
     [SerializeField] private float speedMultiplier = 1.25f;
     [SerializeField] private float _speedBoostTime = 0.75f;
     [SerializeField] public Rigidbody rb;
-    I_VehicleController vhc;
+    A_VehicleController vhc;
 
 
     void Awake(){
@@ -34,7 +34,7 @@ public class ChilliOilPuddle : MonoBehaviour
         Debug.LogWarning($"Getting Component off of {other.gameObject.name}. Inefficient");
         //More fuck ugly dogshit stupid code
         //            physics model  actual object with I_VehicleController attached
-        vhc = other.transform.parent.parent.gameObject.GetComponent<I_VehicleController>();
+        vhc = other.transform.parent.parent.gameObject.GetComponent<A_VehicleController>();
         if(vhc != null && vhc == Owner){
             print("Boosting Owner speed!");
             StartCoroutine(increaseOwnerSpeed(_speedBoostTime, speedMultiplier, vhc));
@@ -42,7 +42,7 @@ public class ChilliOilPuddle : MonoBehaviour
         }
         print($"{other.gameObject.name}");
     }
-    IEnumerator increaseOwnerSpeed(float time,float speedMultiplier, I_VehicleController owner)
+    IEnumerator increaseOwnerSpeed(float time,float speedMultiplier, A_VehicleController owner)
     {
         float count = 0f;
         float baseAccel = owner.VehiclePhysics.Acceleration;

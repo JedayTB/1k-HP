@@ -13,7 +13,7 @@ public class NitroCell : Collectables
         _boxCollider = GetComponent<BoxCollider>();
         _boxCollider.isTrigger = true;
     }
-    public override void onPickup(I_VehicleController vehicle)
+    public override void onPickup(A_VehicleController vehicle)
     {
         _nitroPickup.Play();
         vehicle.addNitro(_nitroCellAmount);

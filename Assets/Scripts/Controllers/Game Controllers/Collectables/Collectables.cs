@@ -13,7 +13,7 @@ public class Collectables : MonoBehaviour
         _collider.isTrigger = true;
         _renderer = GetComponentInChildren<Renderer>();
     }
-    public virtual void onPickup(I_VehicleController vehicle)
+    public virtual void onPickup(A_VehicleController vehicle)
     {
         Debug.Log($"{this.name} got picked up. Disabling object");
         StartCoroutine(respawnClock());

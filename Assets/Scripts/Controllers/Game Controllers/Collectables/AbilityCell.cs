@@ -14,7 +14,7 @@ public class AbilityCell : Collectables
         _boxCollider.isTrigger = true;
     }
 
-    public override void onPickup(I_VehicleController vehicle)
+    public override void onPickup(A_VehicleController vehicle)
     {
         vehicle.addAbilityGauge(_abilityAmount);
         base.onPickup(vehicle);

@@ -17,7 +17,7 @@ public class EthanController : PlayerVehicleController
     [SerializeField] private float timeTillLightningHit = 0.05f;
 
 
-    private I_VehicleController lightningTarget;
+    private A_VehicleController lightningTarget;
     private int selfColliderID;
 
     // Update is called once per frame
@@ -58,13 +58,13 @@ public class EthanController : PlayerVehicleController
         RaycastHit hitInfo;
         Physics.Raycast(aimray.origin, aimray.direction, out hitInfo, _maxLightningDistance, VehicleLayer);
 
-        I_VehicleController vehicleTarget = null;
+        A_VehicleController vehicleTarget = null;
 
         if (hitInfo.collider != null && hitInfo.collider.GetInstanceID() != selfColliderID)
         {
             //beautiful code
             //print($"{hitInfo.collider.gameObject.transform.parent.parent.name} id {hitInfo.collider.GetInstanceID()}");
-            vehicleTarget = hitInfo.collider.gameObject.transform.parent.parent.gameObject.GetComponent<I_VehicleController>();
+            vehicleTarget = hitInfo.collider.gameObject.transform.parent.parent.gameObject.GetComponent<A_VehicleController>();
 
         }
 

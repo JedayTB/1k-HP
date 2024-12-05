@@ -8,7 +8,7 @@ public class BoostPannels : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Rigidbody rb = other.GetComponentInParent<I_VehicleController>().VehiclePhysics.RigidBody;
+        Rigidbody rb = other.GetComponentInParent<A_VehicleController>().VehiclePhysics.RigidBody;
         if(rb != null) {
             Debug.Log($"Got RB: {rb}");
             StartCoroutine(AddBoostToVehicle(pannelBoostTime, rb));

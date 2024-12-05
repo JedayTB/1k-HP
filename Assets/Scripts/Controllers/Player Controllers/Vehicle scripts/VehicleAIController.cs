@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class VehicleAIController : I_VehicleController
+public class VehicleAIController : A_VehicleController
 {
     #region AI Variables
     [Header("AI Basic setup")]

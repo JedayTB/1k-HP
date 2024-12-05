@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerVehicleController : I_VehicleController
+public class PlayerVehicleController : A_VehicleController
 {
     protected InputManager inputManager;
 

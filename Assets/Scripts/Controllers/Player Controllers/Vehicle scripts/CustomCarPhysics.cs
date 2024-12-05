@@ -174,11 +174,8 @@ public class CustomCarPhysics : MonoBehaviour
 
     void FixedUpdate()
     {
-        
         for (int i = 0; i < wheels.Length; i++)
         {
-            
-
             wheels[i].raycastDown(_groundLayers, _raycastDistance);
 
             if (wheels[i].TireIsGrounded)

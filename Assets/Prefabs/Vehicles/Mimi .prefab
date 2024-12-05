@@ -1388,8 +1388,10 @@ MonoBehaviour:
   _nitroTimeLength: 2.5
   _nitroSpeedMultiplier: 2.5
   _abilityGauge: 1000
-  _abilityUseTimer: 5
+  _BubbleActiveTime: 5
   _bounceStrength: 1000
+  _speedIncreaseAmt: 0.5
+  _driftChargeIncreaseAmt: 0.4
   _bubble: {fileID: 1406113427568025263}
 --- !u!114 &153339807512611077
 MonoBehaviour:
@@ -1429,8 +1431,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.39851418
-      value: 0.9955735
+      time: 0.41592446
+      value: 0.8646836
       inSlope: 0.012024398
       outSlope: 0.012024398
       tangentMode: 0
@@ -1438,8 +1440,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.69308436
-      value: 0.99627316
+      time: 0.7289425
+      value: 0.86924756
       inSlope: 0.026075052
       outSlope: 0.026075052
       tangentMode: 0
@@ -1462,8 +1464,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 1
-      value: 1
+      time: -0.004739821
+      value: 1.0024924
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1471,8 +1473,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.0141182
-      value: -0.0008239746
+      time: 1.0198675
+      value: 0.048275307
       inSlope: 0
       outSlope: 0
       tangentMode: 0

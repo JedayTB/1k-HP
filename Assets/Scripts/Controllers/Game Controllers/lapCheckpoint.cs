@@ -16,7 +16,7 @@ public class lapCheckpoint : MonoBehaviour
     private BoxCollider _BC;
     private CheckFinishedLap lapPassed;
     [SerializeField] private Transform respawnPoint;
-    HashSet<I_VehicleController> _vehiclesPassedThroughCheckpoint;
+    HashSet<A_VehicleController> _vehiclesPassedThroughCheckpoint;
 
     [SerializeField] private LapSetType _respawnPointSetType = LapSetType.useRespawnCubePos;
     
@@ -27,7 +27,7 @@ public class lapCheckpoint : MonoBehaviour
         this.checkPointNumber = checkPointNumber;
         lapPassed = lapLogic;
 
-        _vehiclesPassedThroughCheckpoint = new HashSet<I_VehicleController>();
+        _vehiclesPassedThroughCheckpoint = new HashSet<A_VehicleController>();
     }
     public void resetHashset()
     {
@@ -35,7 +35,7 @@ public class lapCheckpoint : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        var vehicle = other.GetComponentInParent<I_VehicleController>();
+        var vehicle = other.GetComponentInParent<A_VehicleController>();
 
         if (other.CompareTag("PLAYER"))
         {
@@ -53,7 +53,7 @@ public class lapCheckpoint : MonoBehaviour
 
         }
     }
-    void setVehicleRespawn(I_VehicleController vehicle)
+    void setVehicleRespawn(A_VehicleController vehicle)
     {
         switch (_respawnPointSetType)
         {
