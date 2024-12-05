@@ -9,7 +9,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _pauseMenu;
 
     [SerializeField] private CanvasGroup _playMenu;
-    [SerializeField] private CanvasGroup _winMenu;
+    [SerializeField] private GameObject _winMenuGP;
+    [SerializeField] private GameObject _winMenuLS;
+    [SerializeField] private TextMeshProUGUI _nextMapName;
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
     [SerializeField] private Slider _playerNitroSlider;
@@ -64,8 +66,19 @@ public class UIController : MonoBehaviour
     public void setPlayScreen(bool val){
         _playMenu.gameObject.SetActive(val);
     }
-    public void setWinScreen(bool val){
-        _winMenu.gameObject.SetActive(val);
+    public void setWinScreen(bool val, bool isGP){
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = val;
+
+        if (isGP)
+        {
+            _nextMapName.text = GrandPrixManager.LevelDisplayNames[GrandPrixManager.CurrentLevelIndex];
+            _winMenuGP.gameObject.SetActive(val);
+        }
+        else
+        {
+            _winMenuLS.gameObject.SetActive(val);
+        }
     }
 
     private void menuOpenClose()

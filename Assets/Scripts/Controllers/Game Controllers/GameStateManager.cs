@@ -72,13 +72,15 @@ public class GameStateManager : MonoBehaviour
 
         foreach (float lapTime in lapTimes)
         {
-            lapTimesStr += $"Lap {count} Time: {lapTime}\n";
+            lapTimesStr += $"Lap {count + 1} Time: {lapTime}\n";
             count++;
         }
 
         _lapTimesText.text = lapTimesStr;
 
-        _uiController.setWinScreen(true);
+        bool isGP = GrandPrixManager.GameMode == 0 ? true : false;
+        GrandPrixManager.CurrentLevelIndex += isGP ? 1 : 0;
+        _uiController.setWinScreen(true, isGP);
 
     }
 }

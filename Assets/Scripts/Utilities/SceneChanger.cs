@@ -45,6 +45,11 @@ public class SceneChanger : MonoBehaviour
     }
 
     public void LoadLevelWithTransition(string sceneName){
+        if (sceneName == "MainMenu")
+        {
+            GrandPrixManager.CurrentLevelIndex = 0; // just making sure the grand prix progress is reset when main menu is picked
+        }
+
         StartCoroutine(StartSceneTransition(sceneName));
     }
 
