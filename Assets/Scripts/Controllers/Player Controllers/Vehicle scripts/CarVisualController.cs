@@ -6,6 +6,10 @@ public class CarVisualController : MonoBehaviour
     //Wheel containers and wheels are separate
     //This is so we can have wheel yaw (left, right), and pitch(spin)
     // Ask Ethan Arr for further clarification
+
+    [SerializeField] protected Vector3 spinWheelDirection;
+    [SerializeField] protected Vector3 turnWheelDirection;
+
     [SerializeField] private Transform[] _wheelContainers;
     
     [SerializeField] private Transform[] _wheels;
@@ -23,6 +27,8 @@ public class CarVisualController : MonoBehaviour
     protected CustomCarPhysics _vehiclePhysics;
     protected CustomWheels[] PhysicsWheels;
     protected Rigidbody _rb;
+
+    
 
     public virtual void Init()
     {
@@ -98,17 +104,14 @@ public class CarVisualController : MonoBehaviour
     {
         float velocityAtWheelPoint = carRb.GetPointVelocity(wheel.position).z;
 
-        Vector3 rotation = new(0, velocityAtWheelPoint, 0);
+        Vector3 rotation = spinWheelDirection * velocityAtWheelPoint;
         wheel.Rotate(rotation);
     }
     protected void TurnWheels(Transform wheel, float rotationAngle)
     {
-
         Vector3 currentRotation = wheel.localRotation.eulerAngles;
         
         Vector3 rotationEul = new(currentRotation.x, rotationAngle, currentRotation.z);
-
-
 
         Quaternion rotation = Quaternion.Euler(rotationEul);
 

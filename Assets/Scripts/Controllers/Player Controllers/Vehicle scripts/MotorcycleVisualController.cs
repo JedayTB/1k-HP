@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MotorcycleVisualController : CarVisualController
 {
+    [Header("Motorcycle Specific ")]
+    [SerializeField] private Vector3 rollDirection = Vector3.zero;
     [SerializeField] private Transform ModelParentTransform;
     Vector3 cachedModelLocalRotation;
     [SerializeField] Transform[] _modelWheels;
@@ -47,7 +49,9 @@ public class MotorcycleVisualController : CarVisualController
         float zRoll = turnProgress01 * _leanCircle;
 
         zRoll = Mathf.Clamp(zRoll, _minVisualizeLean, _maxVisualizeLean) * -1;
-        ModelParentTransform.localRotation = Quaternion.Euler(cachedModelLocalRotation.x, cachedModelLocalRotation.y, zRoll);
+        Vector3 zrollVec = rollDirection * zRoll;
+        cachedModelLocalRotation = zrollVec;
+        ModelParentTransform.localRotation = Quaternion.Euler(cachedModelLocalRotation);
     }
 
 }

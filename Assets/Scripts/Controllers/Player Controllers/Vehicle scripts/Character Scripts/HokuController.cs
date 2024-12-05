@@ -90,13 +90,14 @@ public class HokuController : PlayerVehicleController
     private void onGrappleStop()
     {
         Destroy(_springJoint);
+        _vehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;  
         // Avoids "marked as destroy" bullshit
         _springJoint = null;
         isUsingHookshot = false;
-        print("stopped grapple");
     }
     private void grappleTowardsPoint(SpringJoint sprJoint)
     {
+        _vehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;
         sprJoint.maxDistance = LerpAndEasings.ExponentialDecay(_springJoint.maxDistance, _springJoint.minDistance, lerpSpeed, Time.deltaTime);
 
     }

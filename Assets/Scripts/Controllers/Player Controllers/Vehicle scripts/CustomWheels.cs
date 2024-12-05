@@ -67,7 +67,6 @@ public class CustomWheels : MonoBehaviour
     /// <param name="turningInput">value from 0-1 inside Custom Car physics</param>
     public void TurnTire(float turningInput, float angleModifier)
     { 
-        
         float desiredAngle = turningInput > 0 ? _rightAckermanAngle: _leftAckermanAngle;
         desiredAngle *= turningInput * angleModifier;
 
@@ -77,7 +76,6 @@ public class CustomWheels : MonoBehaviour
 
         rotation.y = steeringAngle;
         transform.localRotation = Quaternion.Euler(rotation);
-        
     }
 
     #endregion

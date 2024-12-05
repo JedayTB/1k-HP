@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private GameObject[] _playerVehicles;
     [SerializeField] private Transform _startLocation;
     [SerializeField] private PostProcessing _postProcessing;
-    public static int _newCharacter = 0;
+    public static int _newCharacter = 1;
 
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
