@@ -25,7 +25,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Awake()
     {
-        var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocation.transform.position, Quaternion.identity);
+        var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocation.transform.position, _startLocation.transform.rotation);
 
         //
         _player = tempPlayer.GetComponent<PlayerVehicleController>();
@@ -37,7 +37,7 @@ public class GameStateManager : MonoBehaviour
         _lapChecker?.Init(this);
         _uiController?.init(_player);
         cam = Camera.main.transform.parent.GetComponent<CameraFollower3D>(); // kinda stupid but it works
-        cam?.Init();
+        cam?.Init(inputManager);
         _postProcessing?.Init();
 
         // breaks at this one for some reason, had to move everything else up to stop them from not being called

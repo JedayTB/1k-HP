@@ -21,6 +21,7 @@ public class CameraFollower3D : MonoBehaviour
     [SerializeField] float minimumDistanceUntilDither = 5f;
     float cameraCollisionRadius = 0.2f;
     Vector3 _cameraVecPos;
+    private InputManager _inputManager;
 
     [Header("Camera Controlling")]
     [SerializeField] private float _sensitivity = 1f;
@@ -40,7 +41,7 @@ public class CameraFollower3D : MonoBehaviour
     private float _startTime;
     private Vector3 _startRotation;
 
-    public void Init(){
+    public void Init(InputManager inputManager){
 
         _camera = Camera.main;
         _target = GameStateManager.Player.transform;
@@ -52,6 +53,7 @@ public class CameraFollower3D : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         defaultZPosition = _desiredLocation.localPosition.z;   
+        _inputManager = inputManager;
     }
 
     private void Update()
@@ -105,6 +107,15 @@ public class CameraFollower3D : MonoBehaviour
         }
 
         Vector3 targetPosition = _desiredLocation.position;
+
+        /*if (GameStateManager.Player.VehiclePhysics.RigidBody.velocity.x < 0 || GameStateManager.Player.VehiclePhysics.RigidBody.velocity.z < 0)
+        {
+            _transform.position = targetPosition;
+        }
+        else
+        {
+            
+        }*/
 
         _transform.position = Vector3.SmoothDamp(_transform.position, targetPosition, ref _currentVelocity, smoothSpeed);
         _transform.LookAt(_target);

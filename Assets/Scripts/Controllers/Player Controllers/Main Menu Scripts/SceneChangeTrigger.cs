@@ -25,6 +25,11 @@ public class SceneChangeTrigger : MonoBehaviour
         _sceneChanger.LoadLevelWithTransition("CharacterSelect");
     }
 
+    public void LoadNextGPRace()
+    {
+        _sceneChanger.LoadLevelWithTransition(GrandPrixManager.LevelOrder[GrandPrixManager.CurrentLevelIndex]);
+    }
+    
 
 
     private void OnTriggerEnter(Collider other)

@@ -9,5 +9,5 @@ public class GrandPrixManager
     public static string[] LevelOrder = {"CityLevel", "MountainLevel", "PastelLevel", "JapanLevel"};
     public static string[] LevelDisplayNames = { "City", "Mountain", "Pastel City", "Japan"};
     public static int CurrentLevelIndex = 0;
-
+    public static int GrandPrixLength = 2;
 }
