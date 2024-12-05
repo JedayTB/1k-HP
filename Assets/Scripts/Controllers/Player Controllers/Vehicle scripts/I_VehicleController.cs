@@ -101,7 +101,6 @@ public abstract class I_VehicleController : MonoBehaviour
 
         _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
         _vehiclePhysics.RigidBody.angularVelocity = Vector3.zero;
-        Debug.Log(_vehiclePhysics.RigidBody.velocity);
     }
     public virtual void setNewRespawnPosition()
     {

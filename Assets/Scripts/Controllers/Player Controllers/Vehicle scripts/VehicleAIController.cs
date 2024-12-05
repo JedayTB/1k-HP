@@ -6,7 +6,7 @@ public class VehicleAIController : I_VehicleController
     #region AI Variables
     [Header("AI Basic setup")]
     [SerializeField] private Vector3 _steeringPosition;
-    [SerializeField] protected float SteerPathingClock = 0.15f; 
+    [SerializeField] protected float SteerPathingClock = 0.15f;
     [SerializeField] private bool _debugOptions = true;
     [SerializeField] private bool _singleTarget = false;
     [SerializeField] private bool _driveVehicle = true;
@@ -22,30 +22,31 @@ public class VehicleAIController : I_VehicleController
     [SerializeField] private int _respawnWaypointIndex = 0;
 
     private float yAngleToTarget;
-    
+
     [Header("Steering Weights")]
     [SerializeField] private int _currentTrackOption;
 
     #endregion
 
     #region public I_Vehicle Methods
-    public void Init(waypointGizmos waypointsMiddle, waypointGizmos waypointOptimal, waypointGizmos waypointWide)
-    { 
-        _NavigationTracks = new waypointGizmos[3];
+    public void Init(waypointGizmos[] tracks)
+    {
+        _NavigationTracks = new waypointGizmos[tracks.Length];
 
-        _NavigationTracks[0] = waypointsMiddle;
-        _NavigationTracks[1] = waypointOptimal;
-        _NavigationTracks[2] = waypointWide;
-
-        waypointsArrayLength = waypointsMiddle.getWaypoints().Length - 1;
+        for (int i = 0; i < tracks.Length; i++)
+        {
+            _NavigationTracks[i] = tracks[i];
+        }
+        
+        waypointsArrayLength = _NavigationTracks[0].getWaypoints().Length - 1;
 
         _vehiclePhysics = GetComponent<CustomCarPhysics>();
-        _vehicleVisualController = GetComponent<CarVisualController>();
-
         _vehiclePhysics.Init();
+
+        _vehicleVisualController = GetComponent<CarVisualController>();
         _vehicleVisualController.Init();
 
-        _steeringPosition = _NavigationTracks[0].getWaypoints()[0].position;
+        if(_NavigationTracks.Length != 0) _steeringPosition = _NavigationTracks[0].getWaypoints()[0].position;
 
         StartCoroutine(SteerPathing(SteerPathingClock));
     }
@@ -118,7 +119,7 @@ public class VehicleAIController : I_VehicleController
             updateTrackOption();
             _steeringPosition = getPosInsideWaypoint(_currentTrackOption);
         }
-        
+
         if (_debugOptions)
         {
             Debug.DrawRay(transform.position, _steeringPosition - transform.position, Color.green);
@@ -145,7 +146,7 @@ public class VehicleAIController : I_VehicleController
         else
         {
             _currentWaypointIndex++;
-            _currentWaypointIndex = Mathf.Clamp(_currentWaypointIndex,0, waypointsArrayLength);
+            _currentWaypointIndex = Mathf.Clamp(_currentWaypointIndex, 0, waypointsArrayLength);
 
             //Debug.Log($"Waypoint index updated {_currentWaypointIndex}, Time {Time.time}");
         }

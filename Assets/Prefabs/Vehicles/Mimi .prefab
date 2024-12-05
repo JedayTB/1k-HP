@@ -1403,7 +1403,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88b1e75b002032e4f92d5f0272a22cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dbgStr: 
   isUsingNitro: 0
   _raycastDistance: 1.5
   _groundLayers:
@@ -1414,8 +1413,6 @@ MonoBehaviour:
   - {fileID: 4945029508039140816}
   - {fileID: 4768605789729957501}
   - {fileID: 2084711804822013439}
-  _max_RB_ZRotationAngle: 15
-  _max_RB_XRotationAngle: 20
   driftAudio: {fileID: 0}
   _terminalVelocity: 250
   Acceleration: 3500
@@ -1457,6 +1454,30 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.621729
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  tireGripCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.0141182
+      value: -0.0008239746
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

@@ -11,15 +11,13 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private CameraFollower3D cam;
     [SerializeField] private LapChecker _lapChecker;
     [SerializeField] private LapTimer _lapTimer;
-    [SerializeField] private waypointGizmos _waypointGizmosMiddle;
-    [SerializeField] private waypointGizmos _waypointGizmosOptimal;
-    [SerializeField] private waypointGizmos _waypointGizmosWide;
+    [SerializeField] private waypointGizmos[] NavigationTracks;
     [SerializeField] private UIController _uiController;
     [SerializeField] private VehicleAIController[] _aiControllers;
     [SerializeField] private GameObject[] _playerVehicles;
     [SerializeField] private Transform _startLocation;
     [SerializeField] private PostProcessing _postProcessing;
-    public static int _newCharacter = 1;
+    public static int _newCharacter = 2;
 
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
@@ -49,7 +47,7 @@ public class GameStateManager : MonoBehaviour
         for (int i = 0; i < _aiControllers.Length; i++)
         {
             if (HasThreeTracks) {
-                _aiControllers[i]?.Init(_waypointGizmosMiddle, _waypointGizmosOptimal, _waypointGizmosWide);
+                _aiControllers[i]?.Init(NavigationTracks);
             }
             else
             {
@@ -57,7 +55,7 @@ public class GameStateManager : MonoBehaviour
             }
             
         }
-        Debug.Log("Finished Intializing!");
+        Debug.Log("GSM has Finished Intializing! - No Issues! (hopefully)");
     }
 
     public void onPlayerWin()
