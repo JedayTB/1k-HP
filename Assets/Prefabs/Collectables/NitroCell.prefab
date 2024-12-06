@@ -185,6 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa0dc0df6776224caf7ff16b86952bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timeToRespawn: 5
+  _collider: {fileID: 0}
+  _renderer: {fileID: 0}
   _nitroCellAmount: 20
   _boxCollider: {fileID: 4281420428127734451}
   _nitroPickup: {fileID: -4043936032220703146}
@@ -199,7 +202,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 57726749034db8746bfb42b1a8c9f3d3, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
