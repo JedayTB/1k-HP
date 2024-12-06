@@ -128,7 +128,7 @@ public class UIController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        miniMap();
+        //miniMap();
     }
 
     private void miniMap()

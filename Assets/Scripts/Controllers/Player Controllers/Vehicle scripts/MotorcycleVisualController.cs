@@ -14,13 +14,10 @@ public class MotorcycleVisualController : CarVisualController
     private float turnRadius;
     public override void Init()
     {
-        _vehiclePhysics = GetComponent<CustomCarPhysics>();
-        PhysicsWheels = _vehiclePhysics.WheelArray;
-        _rb = GetComponent<Rigidbody>();
-
+        base.Init();
         wheelBase = _vehiclePhysics.wheelbase;
         turnRadius = _vehiclePhysics.turnRadius;
-
+        
         _leanCircle = Mathf.Rad2Deg * Mathf.Atan(wheelBase / turnRadius);
     }
 

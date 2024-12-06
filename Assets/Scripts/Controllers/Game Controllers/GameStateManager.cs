@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     private InputManager inputManager;
-    [SerializeField] private PlayerVehicleController _player;
+    private PlayerVehicleController _player;
     public static PlayerVehicleController Player; // Singleton var
     [SerializeField] private CameraFollower3D cam;
     [SerializeField] private LapChecker _lapChecker;
@@ -16,7 +16,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private GameObject[] _playerVehicles;
     [SerializeField] private Transform _startLocation;
     [SerializeField] private PostProcessing _postProcessing;
-    public static int _newCharacter = 0;
+    public static int _newCharacter = 1;
 
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
@@ -35,7 +35,7 @@ public class GameStateManager : MonoBehaviour
 
         _lapChecker?.Init(this);
         _uiController?.init(_player);
-        cam = Camera.main.transform.parent.GetComponent<CameraFollower3D>(); // kinda stupid but it works
+        cam = Camera.main.gameObject.GetComponent<CameraFollower3D>();
         cam?.Init(inputManager);
         _postProcessing?.Init();
 

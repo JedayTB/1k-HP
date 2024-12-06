@@ -12,7 +12,6 @@ public class CarVisualController : MonoBehaviour
     [SerializeField] protected Vector3 turnWheelDirection;
     [SerializeField] protected Transform[] _wheelContainers;
     [SerializeField] protected Transform[] _wheelModels;
-    [SerializeField] protected PlayerVehicleController _playerVehicleController;
     [SerializeField] protected List<GameObject> _trails;
     [SerializeField] protected ParticleSystem[] driftParticles;
     protected CustomCarPhysics _vehiclePhysics;
@@ -29,13 +28,16 @@ public class CarVisualController : MonoBehaviour
         PhysicsWheels = _vehiclePhysics.WheelArray;
         _rb = GetComponent<Rigidbody>();
 
+        createbaseTireRestHeights();
+    }
+    protected void createbaseTireRestHeights()
+    {
         baseTireRestHeights = new float[_wheelContainers.Length];
         for (int i = 0; i < _wheelContainers.Length; i++)
         {
             baseTireRestHeights[i] = _wheelContainers[i].transform.localPosition.y;
         }
     }
-
     void Update()
     {
         for (int i = 0; i < _wheelContainers.Length; i++)
@@ -59,7 +61,7 @@ public class CarVisualController : MonoBehaviour
     {
         Vector3 currentLocalPosition = visualWheel.localPosition;
         float yOffset = baseTireRestHeights[index] + PhysicsWheels[index].SuspensionOffset;
-        Vector3 offsetPosition = new(currentLocalPosition.x, yOffset , currentLocalPosition.z);
+        Vector3 offsetPosition = new(currentLocalPosition.x, yOffset, currentLocalPosition.z);
 
         visualWheel.localPosition = offsetPosition;
     }

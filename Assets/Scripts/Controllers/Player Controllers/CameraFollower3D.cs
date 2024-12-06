@@ -1,10 +1,7 @@
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor;
 using UnityEngine;
 
 public class CameraFollower3D : MonoBehaviour
 {
-    public string DebugInfo;
     private Transform _transform;
     [SerializeField]private Camera _camera;
     [Header("Basic Params")]
@@ -47,6 +44,7 @@ public class CameraFollower3D : MonoBehaviour
         _target = GameStateManager.Player.transform;
         _pivot = _target.Find("camera pivot"); 
         _desiredLocation = _pivot.Find("camera target");
+        
         _transform = transform;
         //_camera = GetComponent<Camera>();
         _pivot.transform.localRotation = Quaternion.identity;
@@ -146,7 +144,6 @@ public class CameraFollower3D : MonoBehaviour
             if(zOffset < minimumDistanceUntilDither){
                 _cameraVecPos = Vector3.Lerp(hit.point, _desiredLocation.position, 0.4f);
             }
-            DebugInfo = $"Z distance {zOffset}\nGo Beyond? {zOffset < minimumDistanceUntilDither}";
             _transform.position = _cameraVecPos;
         }        
 

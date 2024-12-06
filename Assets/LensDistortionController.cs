@@ -20,8 +20,6 @@ public class LensDistortionController : MonoBehaviour
     float playerVelocity;
     float effectiveLensDistortion;
     
-    public string debugStr;
-    
     private void Awake()
     {
         lensDistortionMat.SetFloat(_lensSize, 2f);
@@ -43,7 +41,6 @@ public class LensDistortionController : MonoBehaviour
 
             lensDistortionMat.SetFloat(_distortionIntensity, effectiveLensDistortion);
 
-            debugStr = $"dist mult {distortionMultiplier}\neffect dist {effectiveLensDistortion}";
         }else{
             lensDistortionMat.SetFloat(_distortionIntensity, 0f);
         }
