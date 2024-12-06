@@ -128,8 +128,8 @@ Transform:
   m_GameObject: {fileID: 198871725301281455}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.686, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.9219935}
+  m_LocalPosition: {x: 0, y: -0.826, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0.6593387}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9188638067669029895}
@@ -273,7 +273,7 @@ Transform:
   m_GameObject: {fileID: 608705978403913832}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 51.68, y: 1.308, z: 125.46}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -448,24 +448,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spinWheelDirection: {x: 0, y: 0, z: 1}
   turnWheelDirection: {x: 0, y: 1, z: 0}
-  _wheelContainers: []
-  _wheels: []
-  _vehicleMesh: {fileID: 0}
+  _wheelContainers:
+  - {fileID: 7182874577180509111}
+  - {fileID: 7762876015509653340}
+  _wheelModels:
+  - {fileID: 4946644784624793219}
+  - {fileID: 4761205887776908186}
   _playerVehicleController: {fileID: 0}
-  _vehicleTailLightBreaking: {fileID: 0}
-  _vehicleTailLight: {fileID: 0}
   _trails:
   - {fileID: 2992496372840669226}
   - {fileID: 8231508351759339335}
   driftParticles:
   - {fileID: 858867721966193235}
   - {fileID: 5282785173006015400}
-  _carMats: []
   rollDirection: {x: 0, y: 0, z: 1}
   ModelParentTransform: {fileID: 5487074474534000891}
-  _modelWheels:
-  - {fileID: 4946644784624793219}
-  - {fileID: 4761205887776908186}
   _maxVisualizeLean: 35
   _minVisualizeLean: -35
   _leanCircle: 0
@@ -620,7 +617,7 @@ GameObject:
   - component: {fileID: 6023185240988896097}
   - component: {fileID: 6543835664420440878}
   m_Layer: 0
-  m_Name: WheeelTire (1)
+  m_Name: wheel model back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -634,8 +631,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199381864485588645}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0866, y: 0.01017, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1286,7 +1283,7 @@ Transform:
   m_GameObject: {fileID: 4514012588633193514}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.4, z: -0}
+  m_LocalPosition: {x: 0, y: 0.4, z: 3.433}
   m_LocalScale: {x: 39.896004, y: 39.896, z: 39.896004}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1305,7 +1302,7 @@ GameObject:
   - component: {fileID: 7746654093590552209}
   - component: {fileID: 3639245681098909463}
   m_Layer: 0
-  m_Name: WheeelTire.001 (1)
+  m_Name: wheel model front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1404,7 +1401,7 @@ Transform:
   m_GameObject: {fileID: 4954503951751882999}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0.388, z: 0.001}
   m_LocalScale: {x: 39.896004, y: 39.896, z: 39.896004}
   m_ConstrainProportionsScale: 0
   m_Children:

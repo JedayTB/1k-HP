@@ -97,9 +97,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tireType: 2
-  isDebugging: 0
-  steeringAngle: 0
+  applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
+  _decaySpeed: 7.5
+  isDebugging: 0
+  _leftAckermanAngle: 0
+  _rightAckermanAngle: 0
 --- !u!1 &194598049365718252
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,9 +200,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tireType: 0
-  isDebugging: 0
-  steeringAngle: 0
+  applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
+  _decaySpeed: 7.5
+  isDebugging: 0
+  _leftAckermanAngle: 0
+  _rightAckermanAngle: 0
 --- !u!1 &562353251753676056
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +330,7 @@ Transform:
   m_GameObject: {fileID: 3097150923252005119}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23, y: 1.21, z: 19.23}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -347,7 +353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a497d04d66a2a06479909636a5710a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vehiclePhysics: {fileID: 0}
   isDrifting: 0
   _isDebuging: 1
   _useGroundCheck: 0
@@ -355,7 +360,6 @@ MonoBehaviour:
   _worldGeometryLayers:
     serializedVersion: 2
     m_Bits: 8
-  driftParticles: []
   isUsingNitro: 0
   isBreaking: 0
   MaxNitroChargeAmounts: 4
@@ -366,22 +370,19 @@ MonoBehaviour:
   _nitroTimeLength: 1
   _nitroSpeedMultiplier: 2.5
   _abilityGauge: 100
-  _abilityUseTimer: 5
-  _targetTransform: {fileID: 0}
+  _steeringPosition: {x: 0, y: 0, z: 0}
+  SteerPathingClock: 0.15
   _debugOptions: 1
   _singleTarget: 0
   _driveVehicle: 1
   _circuitedpath: 1
+  _NavigationTracks: []
   _reachedTargetDistance: 4
   _reverseThreshold: 25
   _turningThreshold: 15
-  _wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   _currentWaypointIndex: 0
   _respawnWaypointIndex: 0
+  _currentTrackOption: 0
 --- !u!114 &2118189843144686473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingNitro: 0
+  _raycastDistance: 1.5
   _groundLayers:
     serializedVersion: 2
     m_Bits: 8
@@ -403,8 +405,9 @@ MonoBehaviour:
   - {fileID: 5921485350325466169}
   - {fileID: 3753230268447649944}
   - {fileID: 1709498449036955898}
-  _vehicleTopSpeed: 500
-  _accelerationAmount: 3500
+  driftAudio: {fileID: 0}
+  _terminalVelocity: 250
+  Acceleration: 3500
   torqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -447,6 +450,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  tireGripCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wheelbase: 5
+  turnRadius: 10
+  rearTrack: 2
   _rotationAngleTimeToZero: 1.5
   _tireGripHackFix: 100
   isDrifting: 0
@@ -462,22 +474,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb3b23902ef5640bf46ebabe68851b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spinWheelDirection: {x: 0, y: 0, z: 0}
+  turnWheelDirection: {x: 0, y: 0, z: 0}
   _wheelContainers:
   - {fileID: 228988914783191891}
   - {fileID: 5531046382758315826}
   - {fileID: 7091466020342101084}
   - {fileID: 7258383255824788479}
-  _wheels:
+  _wheelModels:
   - {fileID: 3466464651214360597}
   - {fileID: 5276002595839049110}
   - {fileID: 1047918847260637932}
   - {fileID: 1693272113341390851}
-  _vehicleMesh: {fileID: 0}
   _playerVehicleController: {fileID: 0}
-  _vehicleTailLightBreaking: {fileID: 0}
-  _vehicleTailLight: {fileID: 0}
   _trails: []
-  _carMats: []
+  driftParticles: []
 --- !u!54 &897513817591306491
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -720,9 +731,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tireType: 2
-  isDebugging: 0
-  steeringAngle: 0
+  applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
+  _decaySpeed: 7.5
+  isDebugging: 0
+  _leftAckermanAngle: 0
+  _rightAckermanAngle: 0
 --- !u!1 &3599157978605375151
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,9 +866,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tireType: 1
-  isDebugging: 0
-  steeringAngle: 0
+  applyForcesAtWheelPoint: 0
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
+  _decaySpeed: 7.5
+  isDebugging: 0
+  _leftAckermanAngle: 0
+  _rightAckermanAngle: 0
 --- !u!1 &4709706336814223691
 GameObject:
   m_ObjectHideFlags: 0

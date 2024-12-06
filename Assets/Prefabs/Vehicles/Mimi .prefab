@@ -1502,26 +1502,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb3b23902ef5640bf46ebabe68851b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spinWheelDirection: {x: 0, y: 0, z: 0}
+  turnWheelDirection: {x: 0, y: 0, z: 0}
   _wheelContainers:
   - {fileID: 2321797666404070612}
   - {fileID: 5535819322048649419}
   - {fileID: 6093995842230626021}
   - {fileID: 6729660393092900847}
-  _wheels:
+  _wheelModels:
   - {fileID: 3143347491034436945}
   - {fileID: 7181786874189000556}
   - {fileID: 8916387844110859656}
   - {fileID: 5892206081317176990}
-  _vehicleMesh: {fileID: 8493630832370461267}
   _playerVehicleController: {fileID: 5941679640192156269}
-  _vehicleTailLightBreaking: {fileID: 2100000, guid: b991442bcaf8a2e4a96e48cb8ec122e1,
-    type: 2}
-  _vehicleTailLight: {fileID: 2100000, guid: 95c16ac15f89a7e4e80f9a6999bd04b1, type: 2}
   _trails:
   - {fileID: 6590939056156863252}
   - {fileID: 961957184674547309}
   driftParticles: []
-  _carMats: []
 --- !u!54 &8095818865533755442
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1852,12 +1849,6 @@ PrefabInstance:
 --- !u!4 &1569967139661902143 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d3cf402effb249e47a72878f44158bfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1315928187303630548}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &8493630832370461267 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -1757409308890940281, guid: d3cf402effb249e47a72878f44158bfc,
     type: 3}
   m_PrefabInstance: {fileID: 1315928187303630548}
   m_PrefabAsset: {fileID: 0}

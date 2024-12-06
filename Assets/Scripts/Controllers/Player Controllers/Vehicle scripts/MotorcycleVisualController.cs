@@ -6,7 +6,6 @@ public class MotorcycleVisualController : CarVisualController
     [SerializeField] private Vector3 rollDirection = Vector3.zero;
     [SerializeField] private Transform ModelParentTransform;
     Vector3 cachedModelLocalRotation;
-    [SerializeField] Transform[] _modelWheels;
     [SerializeField] private float _maxVisualizeLean;
     [SerializeField] private float _minVisualizeLean;
     [SerializeField] private float _leanCircle;
@@ -28,8 +27,11 @@ public class MotorcycleVisualController : CarVisualController
     // Update is called once per frame
     void Update()
     {
-        SpinWheels(_modelWheels[0], _rb);
-        SpinWheels(_modelWheels[1], _rb);
+        SpinWheels(_wheelModels[0], _rb);
+        SpinWheels(_wheelModels[1], _rb);
+
+        offsetTireWithSuspension(_wheelContainers[0], 0);
+        offsetTireWithSuspension(_wheelContainers[1], 1);
 
         applyModelRoll(_vehiclePhysics.WheelArray[0]);
 

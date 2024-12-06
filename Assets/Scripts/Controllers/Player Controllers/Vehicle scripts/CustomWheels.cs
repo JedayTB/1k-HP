@@ -20,11 +20,12 @@ public class CustomWheels : MonoBehaviour
     public float SteeringAngle {get => steeringAngle;}
     private bool tireIsGrounded = false;
     public bool TireIsGrounded { get => tireIsGrounded; }
-    
     private Rigidbody _vehicleRB;
     private Transform _tireTransform;
     private RaycastHit rayCastHit;
     [SerializeField] private float _leftAckermanAngle, _rightAckermanAngle;
+    private float suspensionOffset;
+    public float SuspensionOffset {get => suspensionOffset;}
 
     public float LeftAckermanAngle { get => _leftAckermanAngle; }
     public float RightAckermanAngle{ get => _rightAckermanAngle; }
@@ -196,14 +197,15 @@ public class CustomWheels : MonoBehaviour
         //World space velocity of this tire
         Vector3 tireWorldVelocity = _vehicleRB.GetPointVelocity(transform.position);
 
-        float offset = _wheelSpecs.springRestDistance - rayCastHit.distance;
+        suspensionOffset = _wheelSpecs.springRestDistance - rayCastHit.distance;
 
         //Calculate velocity along the spring direction
-        //springDir is a unity vector, this returns the magnitude of trieWorldVel
+        //springDir is a unit vector, this returns the magnitude of tireWorldVel
         //as projected onto springDir
+
         float vel = Vector3.Dot(springDir, tireWorldVelocity);
 
-        float force = (offset * _wheelSpecs.springStrength) - (vel * _wheelSpecs.springDamping);
+        float force = (suspensionOffset * _wheelSpecs.springStrength) - (vel * _wheelSpecs.springDamping);
 
         _vehicleRB.AddForceAtPosition(springDir * force, forceApplicationPoint);
 

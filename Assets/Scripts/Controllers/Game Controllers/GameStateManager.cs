@@ -16,7 +16,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private GameObject[] _playerVehicles;
     [SerializeField] private Transform _startLocation;
     [SerializeField] private PostProcessing _postProcessing;
-    public static int _newCharacter = 1;
+    public static int _newCharacter = 0;
 
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
@@ -27,7 +27,6 @@ public class GameStateManager : MonoBehaviour
     {
         var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocation.transform.position, _startLocation.transform.rotation);
 
-        //
         _player = tempPlayer.GetComponent<PlayerVehicleController>();
         Player = _player;
 
