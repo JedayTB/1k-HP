@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _winMenuLS;
     [SerializeField] private TextMeshProUGUI _nextMapName;
     [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private RectTransform _spedometerLinePivot;
     [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
     [SerializeField] private Slider _playerNitroSlider;
     [SerializeField] private Slider _builtUpNitroSlider;
@@ -25,6 +26,8 @@ public class UIController : MonoBehaviour
     public Image HookshotCrosshair;
 
     private Vector3 cachedLocation;
+    private float maxSpeed = 320f;
+    private float rotationDif = 194;
 
     public void init(PlayerVehicleController PLAYER){
         _player = PLAYER; 
@@ -55,9 +58,14 @@ public class UIController : MonoBehaviour
         }
         _playerNitroSlider.value = _player._nitroChargeAmounts;
 
-        if (speedText != null)
+        if (_spedometerLinePivot != null)
         {
-            speedText.text = $"{GameStateManager.Player.VehiclePhysics.getVelocity().ToString("00.00")} km/h";
+            //speedText.text = $"{GameStateManager.Player.VehiclePhysics.getVelocity().ToString("00.00")} km/h";
+            // Basically just find out how far along the spedometer we are as a percent from 0-1
+            // Then multiply the degree difference from 0km to 320km (right now the total diff is 194 degrees) by the percent
+            float spedometerPercent = GameStateManager.Player.VehiclePhysics.getVelocity() / maxSpeed;
+            float spedometerZRot = -rotationDif * spedometerPercent;
+            _spedometerLinePivot.rotation = Quaternion.Euler(0, 0, spedometerZRot);
         }
 
         //miniMap();
@@ -136,7 +144,7 @@ public class UIController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //miniMap();
+        miniMap();
     }
 
     private void miniMap()
