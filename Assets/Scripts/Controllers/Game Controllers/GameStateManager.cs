@@ -35,7 +35,7 @@ public class GameStateManager : MonoBehaviour
 
         _lapChecker?.Init(this);
         _uiController?.init(_player);
-        cam = Camera.main.gameObject.GetComponent<CameraFollower3D>();
+        cam = Camera.main.gameObject.GetComponentInParent<CameraFollower3D>();
         cam?.Init(inputManager);
         _postProcessing?.Init();
 
@@ -54,6 +54,14 @@ public class GameStateManager : MonoBehaviour
             
         }
         Debug.Log("GSM has Finished Intializing! - No Issues! (hopefully)");
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            onPlayerWin();
+        }
     }
 
     public void onPlayerWin()
@@ -77,6 +85,7 @@ public class GameStateManager : MonoBehaviour
         _lapTimesText.text = lapTimesStr;
 
         bool isGP = GrandPrixManager.GameMode == 0 ? true : false;
+        GrandPrixManager.SetRacePlacement(GrandPrixManager.CurrentLevelIndex, 1);
         GrandPrixManager.CurrentLevelIndex += isGP ? 1 : 0;
         _uiController.setWinScreen(true, isGP);
 

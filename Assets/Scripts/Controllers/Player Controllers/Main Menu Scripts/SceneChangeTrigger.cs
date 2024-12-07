@@ -27,7 +27,14 @@ public class SceneChangeTrigger : MonoBehaviour
 
     public void LoadNextGPRace()
     {
-        _sceneChanger.LoadLevelWithTransition(GrandPrixManager.LevelOrder[GrandPrixManager.CurrentLevelIndex]);
+        if (GrandPrixManager.CurrentLevelIndex < GrandPrixManager.GrandPrixLength)
+        {
+            _sceneChanger.LoadLevelWithTransition(GrandPrixManager.LevelOrder[GrandPrixManager.CurrentLevelIndex]);
+        }
+        else
+        {
+            _sceneChanger.LoadLevelWithTransition("ResultsScreen");
+        }
     }
     
 

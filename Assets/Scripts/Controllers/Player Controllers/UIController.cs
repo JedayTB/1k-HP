@@ -72,7 +72,15 @@ public class UIController : MonoBehaviour
 
         if (isGP)
         {
-            _nextMapName.text = GrandPrixManager.LevelDisplayNames[GrandPrixManager.CurrentLevelIndex];
+            if (GrandPrixManager.CurrentLevelIndex + 1 > GrandPrixManager.GrandPrixLength)
+            {
+                _nextMapName.text = "Results";
+            }
+            else
+            {
+                _nextMapName.text = GrandPrixManager.LevelDisplayNames[GrandPrixManager.CurrentLevelIndex];
+            }
+
             _winMenuGP.gameObject.SetActive(val);
         }
         else
