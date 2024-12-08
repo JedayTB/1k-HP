@@ -26,16 +26,13 @@ public class MP_Player : MonoBehaviour
     public static void Spawn(ushort id, string username)
     {
         MP_Player player;
-        if (id == NetworkManager.Singleton.Client.Id)
-        {
-            player = Instantiate(GameLogic.Singleton.PlayerPrefab, NetworkManager.Singleton.playerLobbySpawns[id - 1].position, Quaternion.identity).GetComponent<MP_Player>();
-            player.IsLocal = true;
-        }
-        else
-        {
-            player = Instantiate(GameLogic.Singleton.PlayerPrefab, NetworkManager.Singleton.playerLobbySpawns[id - 1].position, Quaternion.identity).GetComponent<MP_Player>();
-            player.IsLocal = false;
-        }
+
+        Debug.Log($"Local ID: ${id} | Singleton ID: ${NetworkManager.Singleton.Client.Id}");
+        player = Instantiate((id == NetworkManager.Singleton.Client.Id ? GameLogic.Singleton.LocalPlayerPrefab : GameLogic.Singleton.PlayerPrefab), NetworkManager.Singleton.playerLobbySpawns[id - 1].position, Quaternion.identity).GetComponent<MP_Player>();
+        player.IsLocal = id == NetworkManager.Singleton.Client.Id;
+
+        Debug.Log("Is player local? " + player.IsLocal);
+ 
 
         player.Id = id;
         player.username = username;

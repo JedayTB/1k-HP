@@ -34,8 +34,8 @@ public class NetworkManager : MonoBehaviour
         
         public Client Client { get; private set; }
         
-        [SerializeField] private string ip = "10.113.48.239";
-        [SerializeField] private ushort port = 24561;
+        private string ip = "10.113.48.239";
+        private ushort port = 24561;
 
         [SerializeField] public Transform[] playerLobbySpawns;
 
