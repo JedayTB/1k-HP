@@ -37,7 +37,7 @@ public class PostProcessing : MonoBehaviour
         //bloom.intensity.value = intensityChange;
         //motionBlur.intensity.value = intensityChange;
 
-        float vel = _physicsRef.getVelocity();
+        float vel = _physicsRef.getSpeed();
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -69,7 +69,7 @@ public class PostProcessing : MonoBehaviour
 
     private void applyDistortion()
     {
-        float carVel = _physicsRef.getVelocity();
+        float carVel = _physicsRef.getSpeed();
 
         float distortionChange = -(carVel / 250);
         lensDistortion.intensity.value = distortionChange;

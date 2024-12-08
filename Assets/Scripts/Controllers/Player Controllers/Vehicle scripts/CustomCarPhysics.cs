@@ -85,9 +85,13 @@ public class CustomCarPhysics : MonoBehaviour
         _throttleInput = throttleAmt;
         _turningInput = turningAmt;
     }
-    public float getVelocity()
+    public float getSpeed()
     {
         return _rigidBody.velocity.magnitude;
+    }
+    public Vector3 getVelocity()
+    {
+        return _rigidBody.velocity;
     }
     public void setRigidBodyVelocity(Vector3 vel)
     {
