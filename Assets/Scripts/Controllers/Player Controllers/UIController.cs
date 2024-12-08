@@ -63,7 +63,7 @@ public class UIController : MonoBehaviour
             //speedText.text = $"{GameStateManager.Player.VehiclePhysics.getVelocity().ToString("00.00")} km/h";
             // Basically just find out how far along the spedometer we are as a percent from 0-1
             // Then multiply the degree difference from 0km to 320km (right now the total diff is 194 degrees) by the percent
-            float spedometerPercent = GameStateManager.Player.VehiclePhysics.getVelocity() / maxSpeed;
+            float spedometerPercent = GameStateManager.Player.VehiclePhysics.getSpeed() / maxSpeed;
             float spedometerZRot = -rotationDif * spedometerPercent;
             _spedometerLinePivot.rotation = Quaternion.Euler(0, 0, spedometerZRot);
         }

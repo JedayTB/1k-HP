@@ -31,7 +31,7 @@ public class LensDistortionController : MonoBehaviour
     }
     private void Update()
     {
-        playerVelocity = GameStateManager.Player.VehiclePhysics.getVelocity();
+        playerVelocity = GameStateManager.Player.VehiclePhysics.getSpeed();
 
         if (playerVelocity > _minSpeedForDistortion)
         {

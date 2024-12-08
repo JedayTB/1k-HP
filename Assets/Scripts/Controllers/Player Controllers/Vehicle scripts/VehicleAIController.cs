@@ -226,7 +226,7 @@ public class VehicleAIController : A_VehicleController
         else
         {
             //Reached Target
-            _throttleInput = _vehiclePhysics.getVelocity() > 15f ? -1 : 0;
+            _throttleInput = _vehiclePhysics.getSpeed() > 15f ? -1 : 0;
             //_carPhysics.Break(); function doesn't exist yet
         }
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);
