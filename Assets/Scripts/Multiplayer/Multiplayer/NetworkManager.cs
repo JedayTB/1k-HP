@@ -37,6 +37,8 @@ public class NetworkManager : MonoBehaviour
         [SerializeField] private string ip = "127.0.0.1";
         [SerializeField] private ushort port = 24561;
 
+        [SerializeField] public Transform[] playerLobbySpawns;
+
         private void Awake()
         {
             Singleton = this;
@@ -49,7 +51,7 @@ public class NetworkManager : MonoBehaviour
             Client = new Client();
             Client.Connected += DidConnect;
             Client.ConnectionFailed += FailedToConnect;
-            Client.ClientConnected += PlayerLeft;
+            Client.ClientDisconnected += PlayerLeft;
             Client.Disconnected += DidDisconnect;
         }
 
@@ -78,7 +80,7 @@ public class NetworkManager : MonoBehaviour
             UIManager.Singleton.BackToConnection();
         }
 
-        private void PlayerLeft(object sender, ClientConnectedEventArgs e)
+        private void PlayerLeft(object sender, ClientDisconnectedEventArgs e)
         {
             Destroy(MP_Player.list[e.Id].gameObject);
         }

@@ -25,4 +25,6 @@ public class MainMenuUI : MonoBehaviour
     {
         animator.SetBool("MenuIsOpen", false);
     }
+
+   
 }
