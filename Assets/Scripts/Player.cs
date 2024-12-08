@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Riptide;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -29,8 +30,16 @@ public class Player : MonoBehaviour
         
         player.SendSpawned();
         list.Add(id, player);
-    }
 
+        print(list.ToArray());
+    }
+    void printArr(IEnumerable obj)
+    {
+        foreach(var b in obj)
+        {
+            print(b);
+        }
+    }
     #region Messages
 
     [MessageHandler((ushort)ClientToServerId.name)]

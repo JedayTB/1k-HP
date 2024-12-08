@@ -1,5 +1,6 @@
 using System;
 using Riptide;
+using Riptide.Transports.Udp;
 using Riptide.Utils;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ public class NetworkManager : MonoBehaviour
     public Server Server { get; private set; }
     
     [SerializeField] private ushort port = 24561;
-    [SerializeField] private ushort maxConnections = 3;
+    [SerializeField] private ushort maxConnections = 4;
     private void Awake()
     {
         Singleton = this;
@@ -47,7 +48,7 @@ public class NetworkManager : MonoBehaviour
         
         RiptideLogger.Initialize(Debug.Log, Debug.Log, Debug.LogWarning, Debug.LogError, false);
 
-        Server = new Server();
+        Server = new Server(new UdpServer(System.Net.IPAddress.Any));
         Server.Start(port, maxConnections);
         Server.ClientDisconnected += PlayerLeft;
     }
