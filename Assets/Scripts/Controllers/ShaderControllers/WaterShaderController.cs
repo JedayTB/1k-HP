@@ -42,11 +42,6 @@ public class WaterShaderController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     void OnTriggerEnter(Collider other)
     {
         Vector3 newOffsetPos = other.gameObject.transform.position;
