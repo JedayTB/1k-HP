@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>1k HP Server Control Panel</title>
+    <script>
+        async function sendCommand(command) {
+            const response = await fetch(`http://localhost:9090/${command}`, {mode: 'no-cors'});
+            const text = await response.text();
+            await updateStats();
+        }
+
+        async function fetchPlayers() {
+            const response = await fetch("http://localhost:9090/players", {mode: 'no-cors'});
+            const players = await response.json();
+            const playersList = document.getElementById("players-list");
+
+            playersList.innerHTML = "";
+
+            playersList.innerHTML += `<p>Connected Players: ${players.length}/4</p>`;
+            players.forEach(player => {
+                playersList.innerHTML += `<p>${player.username} (${player.id})</p>`;
+            });
+        }
+
+        async function fetchStatus() {
+            const response = await fetch("http://localhost:9090/status", {mode: 'no-cors'});
+            const status = await response.text();
+            document.getElementById("status").innerText = `Server Status: ${status}`;
+        }
+		
+		async function updateStats() {
+			fetchPlayers();
+			fetchStatus();
+		}
+
+		//fetchStatus();
+        setInterval(updateStats, 3000);
+    </script>
+</head>
+<body>
+    <h1>1k HP Server Control Panel</h1>
+	<br />
+    <button onclick="sendCommand('start')">Start Server</button>
+    <button onclick="sendCommand('stop')">Stop Server</button>
+    <p id="status">Server status: Syncing...</p>
+
+    <h2>Connected Players</h2>
+    <div id="players-list">
+        <p>Syncing...</p>
+    </div>
+</body>
+</html>
