@@ -37,7 +37,7 @@ public class PostProcessing : MonoBehaviour
         //bloom.intensity.value = intensityChange;
         //motionBlur.intensity.value = intensityChange;
 
-        float vel = _physicsRef.getSpeed();
+        //float vel = _physicsRef.getSpeed();
 
         if (Input.GetKeyDown(KeyCode.Z))
         {

@@ -38,6 +38,7 @@ public class CustomWheels : MonoBehaviour
 
         _leftAckermanAngle = leftTurnAngle;
         _rightAckermanAngle = rightTurnAngle;
+        print($"{this.name} initialized");
     }
     /// <summary>
     /// Manual Setting of tire Y angle
@@ -84,7 +85,7 @@ public class CustomWheels : MonoBehaviour
     #region Physics Simulations
     public void raycastDown(LayerMask groundLayers, float raycastDistance)
     {
-        tireIsGrounded = Physics.Raycast(_tireTransform.position, -_tireTransform.up, out rayCastHit, raycastDistance, groundLayers);
+        tireIsGrounded = Physics.Raycast(transform.position, -transform.up, out rayCastHit, raycastDistance, groundLayers);
         if(tireIsGrounded){
             forceApplicationPoint = applyForcesAtWheelPoint ? rayCastHit.point: transform.position;
         }
@@ -94,7 +95,7 @@ public class CustomWheels : MonoBehaviour
 
             Color rayColour = rayHit ? Color.green : Color.red;
 
-            Debug.DrawRay(_tireTransform.position, -_tireTransform.up * raycastDistance, rayColour);
+            Debug.DrawRay(transform.position, -transform.up * raycastDistance, rayColour);
         }
     }
     /// <summary>

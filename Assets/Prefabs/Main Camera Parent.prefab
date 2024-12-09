@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedLinesOBJ: {fileID: 3760465749834173164}
+  dbgString: 
   _minSpeedThreshold: 100
   _maxSpeedThreshold: 100
   _minSpawnRate: 25
@@ -247,6 +248,9 @@ MonoBehaviour:
   _zInfluence: 0.1
   _progress: 0
   doShake: 0
+  _intensityDivision: 20
+  _harshnessDivision: 1
+  _intensityIncreaseRate: 10
 --- !u!1 &5718509820143519634
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,9 +260,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5602179561221422517}
+  - component: {fileID: 1350928341286303621}
   - component: {fileID: 3760465749834173164}
   - component: {fileID: 4819509837973485717}
-  - component: {fileID: 1350928341286303621}
   m_Layer: 0
   m_Name: Speed Lines Effect
   m_TagString: Untagged
@@ -281,6 +285,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4623124840920390270}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1350928341286303621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5718509820143519634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385305bfd016a974cac16c864112f875, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedLinesOBJ: {fileID: 3760465749834173164}
+  dbgString: 
+  _minSpeedThreshold: 100
+  _maxSpeedThreshold: 250
+  _minSpawnRate: 25
+  _maxSpawnRate: 90
+  _minRadiusSize: 1
+  _maxRadiusSize: 2.5
 --- !u!2083052967 &3760465749834173164
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -365,25 +389,6 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1350928341286303621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5718509820143519634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 385305bfd016a974cac16c864112f875, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedLinesOBJ: {fileID: 3760465749834173164}
-  _minSpeedThreshold: 100
-  _maxSpeedThreshold: 250
-  _minSpawnRate: 25
-  _maxSpawnRate: 90
-  _minRadiusSize: 1
-  _maxRadiusSize: 2.5
 --- !u!1001 &1414961159408179650
 PrefabInstance:
   m_ObjectHideFlags: 0

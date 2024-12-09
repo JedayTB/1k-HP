@@ -71,8 +71,6 @@ public class SpeedLinesController : MonoBehaviour
             speedLinesOBJ.SetFloat(RadiusID, _currentRadiusSize);
             speedLinesOBJ.SetFloat(ParticleSpawnRateID, _currentSpawnRate);
 
-            dbgString = $"LerpBy value {lerpByValue}\nRadius set size {_currentRadiusSize}\nSpawn rate {_currentSpawnRate}";
-
         }
         else
         {
