@@ -51,7 +51,7 @@ public abstract class A_VehicleController : MonoBehaviour
     [Header("Character Abilities Basic setup")]
 
     [Tooltip("Ability Gauge counts to 100. Once at 100, can use ability")]
-    [SerializeField] protected int _abilityGauge = 0;
+    [SerializeField] public int _abilityGauge = 0;
     
     protected bool _canUseAbility = false;
     #endregion

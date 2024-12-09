@@ -17,6 +17,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
     [SerializeField] private Slider _playerNitroSlider;
     [SerializeField] private Slider _builtUpNitroSlider;
+    [SerializeField] private Slider _AbilityGaugeSlider;
     [SerializeField] private bool _menuIsOpen = false;
     [SerializeField] private RectTransform _miniPlayerPosition;
     [SerializeField][Tooltip("Changes how fast the minimap icon moves in relation to the players speed. \nHigher value = slower speed.")] private float _miniScaleDivide = 100f;
@@ -49,7 +50,6 @@ public class UIController : MonoBehaviour
         {
             resetPlayer();
         }
-        //print(_player);
 
         _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
 
@@ -57,6 +57,16 @@ public class UIController : MonoBehaviour
             _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
         }
         _playerNitroSlider.value = _player._nitroChargeAmounts;
+        if (_player._abilityGauge > 0)
+        {
+            _AbilityGaugeSlider.gameObject.SetActive(true);
+            _AbilityGaugeSlider.value = _player._abilityGauge;
+        }
+        else
+        {
+            _AbilityGaugeSlider.gameObject.SetActive(false);
+        }
+        
 
         if (_spedometerLinePivot != null)
         {

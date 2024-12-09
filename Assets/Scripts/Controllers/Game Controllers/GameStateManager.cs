@@ -14,18 +14,21 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private UIController _uiController;
     [SerializeField] private VehicleAIController[] _aiControllers;
     [SerializeField] private GameObject[] _playerVehicles;
-    [SerializeField] private Transform _startLocation;
+    [SerializeField] private Transform[] _startLocations;
     [SerializeField] private PostProcessing _postProcessing;
     public static int _newCharacter = 2;
 
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
 
+    private List<A_VehicleController> vehicles = new List<A_VehicleController>();
+
     public bool HasThreeTracks = false;
 
     private void Awake()
     {
-        var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocation.transform.position, _startLocation.transform.rotation);
+        
+        var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocations[0].transform.position, _startLocations[0].transform.rotation);
 
         _player = tempPlayer.GetComponent<PlayerVehicleController>();
         Player = _player;
@@ -42,6 +45,8 @@ public class GameStateManager : MonoBehaviour
         // breaks at this one for some reason, had to move everything else up to stop them from not being called
         _player?.Init(inputManager);
 
+        vehicles.Add(_player);
+
         for (int i = 0; i < _aiControllers.Length; i++)
         {
             if (HasThreeTracks) {
@@ -51,9 +56,20 @@ public class GameStateManager : MonoBehaviour
             {
                 _aiControllers[i]?.Init();
             }
-            
+            vehicles.Add(_aiControllers[i]);
         }
-        Debug.Log("GSM has Finished Intializing! - No Issues! (hopefully)");
+
+        // Only doing one, MP Server will handle multiple players
+        int vehiclesToPosition = 1 + _aiControllers.Length;
+
+        for (int i = 0; i < vehiclesToPosition; i++)
+        {
+            vehicles[i].transform.position = _startLocations[i].position;
+            vehicles[i].setNewRespawnPosition(_startLocations[i].position);
+        }
+
+
+        Debug.Log("GSM has Finished Intializing!");
     }
 
     private void Update()
