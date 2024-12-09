@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-
+    // Single instance shakes are ones that happen once (e.g. car being hit, being struck by something, explosion, etc.)
+    [Header("Single Instance Settings")]
     [SerializeField][Tooltip("Length of the shake")] private float _shakeDuration;
     [SerializeField][Tooltip("How much the camera shakes")] private float _shakeIntensity;
     [SerializeField][Tooltip("How often a new shake happens \nLower is more often")] private float _shakeHarshness;
@@ -17,6 +18,13 @@ public class CameraShake : MonoBehaviour
 
     [Space(15)]
     [SerializeField] private float _progress;
+    public bool doShake = false;
+
+    // Continuous shake is the slight shaking from going fast
+    [Header("Contiuous Settings")]
+    [SerializeField][Tooltip("Basically controls how intense the shake is \nLower is more intense")] private float _intensityDivision = 20f;
+    [SerializeField][Tooltip("How often a new shake happens \nLower is more often")] private float _harshnessDivision = 1f;
+    [SerializeField][Tooltip("How many KM/H until the next shake itensity increase")] private float _intensityIncreaseRate = 10f;
 
     private float _currentLerpDuration;
     private float _startTime;
@@ -24,9 +32,8 @@ public class CameraShake : MonoBehaviour
     private Vector3 _endLocation;
     private Vector3 _originalPosition;
     private bool _right; // trust;
+    private float _timeWaitingToShake = 999f;
 
-    public bool doShake = false;
-   
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.J) || doShake)
@@ -34,6 +41,48 @@ public class CameraShake : MonoBehaviour
             StartCoroutine(Shake(_shakeDuration, _shakeIntensity, _shakeHarshness, _hasFalloff, _falloffDuration));
             doShake = false;
         }
+
+        Vector3 velocity = GameStateManager.Player.VehiclePhysics.getVelocity();
+        float velocitymag = velocity.magnitude;
+        float amountToShake = velocitymag - 80; // only do it after they reach 80kmh
+        amountToShake = (int)amountToShake / 10; // only increase shake intensity every 10 kmph
+        amountToShake = (float)amountToShake / _intensityDivision; // this just scales the shake way down so it's not insanely aggresive
+
+        if (amountToShake > 0)
+        {
+            ContinuousShake(amountToShake, 1/_harshnessDivision);
+        }
+        else
+        {
+            transform.localPosition = Vector3.zero;
+        }
+    }
+
+    private void ContinuousShake(float intensity, float harshness)
+    {
+        Vector3 originalPosition = transform.localPosition;
+        _originalPosition = originalPosition;
+
+        if (_timeWaitingToShake > harshness / 10)
+        {
+            float xPos = Random.Range(0, _xInfluence * intensity);
+            float yPos = Random.Range(0, _yInfluence * intensity);
+            float zPos = Random.Range(0, _zInfluence * intensity);
+
+            _endLocation = new Vector3(xPos, yPos, zPos);
+            _endLocation.x *= _right ? 1 : -1;
+
+            // Just alternate between right and left lmao
+            _right = !_right;
+
+            LerpReset();
+
+            _timeWaitingToShake = 0;
+        }
+
+        ShakeLerp(_endLocation, harshness / 10);
+
+        _timeWaitingToShake += Time.deltaTime;
     }
 
     IEnumerator Shake(float duration, float intensity, float harshness, bool hasFalloff, float falloffDuration)
