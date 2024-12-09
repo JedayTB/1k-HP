@@ -69,6 +69,10 @@ public class NetworkManager : MonoBehaviour
 
         private void DidConnect(object sender, EventArgs e)
         {
+            string username = UIManager.Singleton.usernameField.text;
+            ushort id = Client.Id;
+            UIManager.Singleton.AddPlayer(username, id);
+            
             UIManager.Singleton.SendName();
         }
 
@@ -79,6 +83,7 @@ public class NetworkManager : MonoBehaviour
 
         private void PlayerLeft(object sender, ClientDisconnectedEventArgs e)
         {
+            UIManager.Singleton.RemovePlayer(e.Id);
             Destroy(MP_Player.list[e.Id].gameObject);
         }
 
