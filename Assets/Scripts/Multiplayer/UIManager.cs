@@ -25,13 +25,20 @@ public class UIManager : MonoBehaviour
         }
     }
     
-    [Header("Connect")]
+    [Header("Connection")]
     [SerializeField] private GameObject connectUI;
     [SerializeField] private TMP_InputField usernameField;
+    [SerializeField] private TMP_InputField addressField;
+    [SerializeField] private TMP_InputField portField;
+    
+    [SerializeField] private GameObject advancedOptionsUI;
+
+    private bool advancedOpen = false;
 
     private void Awake()
     {
         Singleton = this;
+        advancedOptionsUI.gameObject.SetActive(false);
     }
 
     public void ConnectClicked()
@@ -39,7 +46,29 @@ public class UIManager : MonoBehaviour
         usernameField.interactable = false;
         connectUI.SetActive(false);
 
-        NetworkManager.Singleton.Connect();
+        if (addressField.text.Length > 0 && portField.text.Length > 0)
+        {
+            NetworkManager.Singleton.Connect(addressField.text, portField.text);
+        }
+        else if (addressField.text.Length > 0)
+        {
+            NetworkManager.Singleton.Connect(addressField.text);
+        }
+        else if (portField.text.Length > 0)
+        {
+            NetworkManager.Singleton.Connect("127.0.0.1", portField.text);
+        }
+        else
+        {
+            NetworkManager.Singleton.Connect();
+        }
+
+    }
+
+    public void AdvancedOptionsClicked()
+    {
+        advancedOpen = !advancedOpen;
+        advancedOptionsUI.SetActive(advancedOpen);
     }
 
     public void BackToConnection()

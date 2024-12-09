@@ -33,9 +33,6 @@ public class NetworkManager : MonoBehaviour
         }
         
         public Client Client { get; private set; }
-        
-        private string ip = "10.113.48.239";
-        private ushort port = 24561;
 
         [SerializeField] public Transform[] playerLobbySpawns;
 
@@ -65,9 +62,9 @@ public class NetworkManager : MonoBehaviour
             Client.Disconnect();
         }
 
-        public void Connect()
+        public void Connect(string address = "127.0.0.1", string port = "24561")
         {
-            Client.Connect($"{ip}:{port}");
+            Client.Connect($"{address}:{port}");
         }
 
         private void DidConnect(object sender, EventArgs e)
