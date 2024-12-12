@@ -10,7 +10,7 @@ public class GrandPrixManager
     public static string[] LevelDisplayNames = { "City", "Mountain", "Pastel City", "Japan"};
     public static int[] RacePlacements = { 0, 0, 0, 0 };
     public static int CurrentLevelIndex = 0;
-    public static int GrandPrixLength = 2;
+    public static int GrandPrixLength = 4;
 
     public static void SetRacePlacement(int raceIndex, int racePlacement)
     {

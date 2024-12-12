@@ -9,10 +9,11 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _pauseMenu;
 
     [SerializeField] private CanvasGroup _playMenu;
-    [SerializeField] private GameObject _winMenuGP;
-    [SerializeField] private GameObject _winMenuLS;
+    [SerializeField] private CanvasGroup _winMenuGP;
+    [SerializeField] private CanvasGroup _winMenuLS;
     [SerializeField] private TextMeshProUGUI _nextMapName;
     [SerializeField] private TextMeshProUGUI speedText;
+    [SerializeField] private TextMeshProUGUI _countdownText;
     [SerializeField] private RectTransform _spedometerLinePivot;
     [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
     [SerializeField] private Slider _playerNitroSlider;
@@ -39,6 +40,13 @@ public class UIController : MonoBehaviour
         if (_player == null) {
             Debug.Log("PLAYER NOT SET!");
         }
+
+
+        if (_player.VehiclePhysics == null)
+        {
+            print("WHAT THE FUCK!");
+        }
+        StartCoroutine(CountDown(3));
     }
     void Update()
     {
@@ -99,11 +107,11 @@ public class UIController : MonoBehaviour
                 _nextMapName.text = GrandPrixManager.LevelDisplayNames[GrandPrixManager.CurrentLevelIndex];
             }
 
-            _winMenuGP.gameObject.SetActive(val);
+            StartCoroutine(FadeInResults(1.5f, _winMenuGP));
         }
         else
         {
-            _winMenuLS.gameObject.SetActive(val);
+            StartCoroutine(FadeInResults(1.5f, _winMenuLS));
         }
     }
 
@@ -181,4 +189,51 @@ public class UIController : MonoBehaviour
         }
         _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
     }   
+
+    public IEnumerator FadeInResults(float time, CanvasGroup winScreen)
+    {
+        float count = 0;
+        winScreen.gameObject.SetActive(true);
+        winScreen.alpha = 0;
+
+        print("what is happenijng");
+
+        while (count < time)
+        {
+            print("please");
+            count += Time.deltaTime;
+            float progress = count / time;
+            winScreen.alpha = progress;
+
+            yield return null;
+        }
+
+        winScreen.alpha = 1;
+        winScreen.enabled = false;
+    }
+
+    public IEnumerator CountDown(float time)
+    {
+        _playMenu.alpha = 0;
+        float count = time;
+
+        while (count > 0)
+        {
+            count -= Time.deltaTime;
+            _countdownText.text = (count + 0.5f).ToString("0");
+
+            if (count < 2 && count > 1) // highschool ass if statement man what am i doing
+            {
+                _countdownText.fontSize = 100;
+            }
+            else if (count <= 1)
+            {
+                _countdownText.fontSize = 130;
+            }
+            yield return null;
+        }
+
+        _playMenu.alpha = 1;
+        _countdownText.gameObject.SetActive(false);
+    }
 }

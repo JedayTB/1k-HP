@@ -62,7 +62,10 @@ public class GameStateManager : MonoBehaviour
         // Only doing one, MP Server will handle multiple players
         int vehiclesToPosition = 1 + _aiControllers.Length;
 
-        for (int i = 0; i < vehiclesToPosition; i++)
+
+        // needed to change to 1 for now so lonly the player is spawned
+        // attempting to spawn the ai makes the the gsm turn off once it hits an error :(
+        for (int i = 0; i < 1; i++)
         {
             vehicles[i].transform.position = _startLocations[i].position;
             vehicles[i].setNewRespawnPosition(_startLocations[i].position);
@@ -77,6 +80,10 @@ public class GameStateManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             onPlayerWin();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            _player.transform.rotation = Quaternion.Euler(_player.transform.rotation.x, _player.transform.rotation.y + 90f, _player.transform.rotation.z);
         }
     }
 

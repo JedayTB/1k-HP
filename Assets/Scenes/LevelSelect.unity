@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 33463792}
   - component: {fileID: 33463791}
   m_Layer: 5
-  m_Name: JungleTextBG
+  m_Name: PastelCityBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 245576042}
   - component: {fileID: 245576041}
   m_Layer: 5
-  m_Name: JungleLevelButton
+  m_Name: PastelCityButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -396,7 +396,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 245576037}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1003308950}
+        m_TargetAssemblyTypeName: SceneChangeTrigger, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: PastelLevel
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &245576037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,7 +601,7 @@ GameObject:
   - component: {fileID: 356024914}
   - component: {fileID: 356024913}
   m_Layer: 5
-  m_Name: LeastLevelColour
+  m_Name: JapanColour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -627,7 +639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.6462264, b: 0.6462264, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -668,7 +680,7 @@ GameObject:
   - component: {fileID: 401012174}
   - component: {fileID: 401012173}
   m_Layer: 5
-  m_Name: LastLevelButton
+  m_Name: JapanButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -717,7 +729,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 401012169}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1003308950}
+        m_TargetAssemblyTypeName: SceneChangeTrigger, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: JapanLevel
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &401012169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1188,7 +1212,7 @@ GameObject:
   - component: {fileID: 559927983}
   - component: {fileID: 559927982}
   m_Layer: 5
-  m_Name: last one BG
+  m_Name: JapanBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1648,7 +1672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.7028302, b: 0.9315458, a: 1}
+  m_Color: {r: 0.2688679, g: 0.7168365, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1685,7 +1709,7 @@ GameObject:
   - component: {fileID: 646108735}
   - component: {fileID: 646108734}
   m_Layer: 5
-  m_Name: idk the last level lol
+  m_Name: JapanImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1730,7 +1754,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4389491758da0aa4ba5cedbe0b2276be, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a5e11eeafee26624ea6e03e5af335b2c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1814,8 +1838,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294500863
-  m_fontColor: {r: 1, g: 0.8820755, b: 0.97169816, a: 1}
+    rgba: 4294826142
+  m_fontColor: {r: 0.62144, g: 0.8476785, b: 0.990566, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1921,8 +1945,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -319.8, y: -195.9}
-  m_SizeDelta: {x: 114.4003, y: 22.4001}
+  m_AnchoredPosition: {x: -313.2, y: -192.6}
+  m_SizeDelta: {x: 147.9675, y: 40.6431}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &717593957
 MonoBehaviour:
@@ -2000,8 +2024,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: ededae3e448cae448890e54e88c5af4d, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3221,7 +3245,7 @@ GameObject:
   - component: {fileID: 1170160287}
   - component: {fileID: 1170160286}
   m_Layer: 5
-  m_Name: JungleLevelImage
+  m_Name: PastelCityImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3266,7 +3290,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4389491758da0aa4ba5cedbe0b2276be, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 986fae408ccfad44cb28f4745bb47475, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3296,7 +3320,7 @@ GameObject:
   - component: {fileID: 1282170051}
   - component: {fileID: 1282170050}
   m_Layer: 5
-  m_Name: last one text
+  m_Name: JapanText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3318,8 +3342,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000031471, y: 1.444}
-  m_SizeDelta: {x: 137.0122, y: 90.845}
+  m_AnchoredPosition: {x: 0.000021935, y: 0.00000047684}
+  m_SizeDelta: {x: 66.743, y: 28.0286}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1282170050
 MonoBehaviour:
@@ -3341,9 +3365,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'whatever tf the last one is
-
-    also doesn''t exist'
+  m_text: Japan
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3352,8 +3374,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4292335615
+  m_fontColor: {r: 1, g: 0.8443396, b: 0.8443396, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3370,8 +3392,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 23
+  m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4451,7 +4473,7 @@ GameObject:
   - component: {fileID: 1873789938}
   - component: {fileID: 1873789937}
   m_Layer: 5
-  m_Name: JungleColour
+  m_Name: PastelCityColour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4489,7 +4511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7764706, g: 1, b: 0.77826405, a: 1}
+  m_Color: {r: 0.9673741, g: 0.6839622, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5569,7 +5591,7 @@ GameObject:
   - component: {fileID: 2139430589}
   - component: {fileID: 2139430588}
   m_Layer: 5
-  m_Name: JungleText
+  m_Name: PastelCityText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5591,8 +5613,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.6, y: -7.5}
-  m_SizeDelta: {x: 188.8712, y: 95.7266}
+  m_AnchoredPosition: {x: -0.000018358, y: 0.0000041127}
+  m_SizeDelta: {x: 117.4468, y: 28.3199}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2139430588
 MonoBehaviour:
@@ -5614,9 +5636,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Jungle Stage
-
-    DOES NOT EXIST!!!'
+  m_text: Pastel City
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5625,8 +5645,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4292018131
-  m_fontColor: {r: 0.82611406, g: 1, b: 0.8254717, a: 1}
+    rgba: 4294954750
+  m_fontColor: {r: 0.99530774, g: 0.8066038, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5679,7 +5699,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -0.000007631524, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
