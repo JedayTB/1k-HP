@@ -1,5 +1,7 @@
+using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public class InputManager: MonoBehaviour
 {
@@ -24,15 +26,32 @@ public class InputManager: MonoBehaviour
     public void Init()
     {
         _inputActions = new PlayerInput();
-
+        
         _inputActions.Enable();
+
+        
 
         _Accelerate = _inputActions.Driving.Accelerate;
         _Turn = _inputActions.Driving.Turn;
         _Drift = _inputActions.Driving.Drift;
         _Ability = _inputActions.Driving.Ability;
         _Nitro = _inputActions.Driving.Nitro;
-        
+
+        InputUser.onChange += InputUser_onChange;
+
+
+    }
+
+    private void OnDisable()
+    {
+        InputUser.onChange -= InputUser_onChange;
+    }
+
+    private void InputUser_onChange(InputUser arg1, InputUserChange arg2, InputDevice arg3)
+    {
+        if (arg2 == InputUserChange.ControlSchemeChanged) {
+            Debug.Log(arg1.controlScheme);
+        }
     }
 
     void Update()
