@@ -38,7 +38,6 @@ public class CustomWheels : MonoBehaviour
 
         _leftAckermanAngle = leftTurnAngle;
         _rightAckermanAngle = rightTurnAngle;
-        print($"{this.name} initialized");
     }
     /// <summary>
     /// Manual Setting of tire Y angle

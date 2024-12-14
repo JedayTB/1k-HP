@@ -371,7 +371,7 @@ MonoBehaviour:
   _nitroSpeedMultiplier: 2.5
   _abilityGauge: 100
   _steeringPosition: {x: 0, y: 0, z: 0}
-  SteerPathingClock: 0.15
+  SteerPathingClock: 0.01
   _debugOptions: 1
   _singleTarget: 0
   _driveVehicle: 1
@@ -382,7 +382,10 @@ MonoBehaviour:
   _turningThreshold: 15
   _currentWaypointIndex: 0
   _respawnWaypointIndex: 0
-  _currentTrackOption: 0
+  _angleThresholdOfDrift: 25
+  _middleTrackWeight: 50
+  _optimalTrackWeight: 25
+  _wideTrackWeight: 35
 --- !u!114 &2118189843144686473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,14 +409,14 @@ MonoBehaviour:
   - {fileID: 3753230268447649944}
   - {fileID: 1709498449036955898}
   driftAudio: {fileID: 0}
-  _terminalVelocity: 250
+  _terminalVelocity: 500
   Acceleration: 3500
   torqueCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.00076559
-      value: 0.4948547
+      time: -0.0021189898
+      value: 0.20341182
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -421,46 +424,73 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.39851418
-      value: 0.9955735
-      inSlope: 0.012024398
-      outSlope: 0.012024398
+      time: 0.40353432
+      value: 0.65526056
+      inSlope: 0.18047336
+      outSlope: 0.18047336
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2091468
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6842849
+      value: 0.65248495
+      inSlope: -0.19248967
+      outSlope: -0.19248967
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.46538776
     - serializedVersion: 3
-      time: 0.69308436
-      value: 0.99627316
-      inSlope: 0.026075052
-      outSlope: 0.026075052
+      time: 1.0002539
+      value: 0.10291323
+      inSlope: 1.487456
+      outSlope: 1.487456
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.99482185
-      value: 0.3360847
-      inSlope: 0.15187965
-      outSlope: 0.15187965
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.621729
+      inWeight: 0.37411734
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   tireGripCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.00061035156
+      value: 1.0096436
+      inSlope: -2.6934834
+      outSlope: -2.6934834
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.03206023
+    - serializedVersion: 3
+      time: 0.39140064
+      value: 0.2732031
+      inSlope: -0.18720022
+      outSlope: -0.18720022
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.15228255
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0006953
+      value: 0.102275334
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  wheelbase: 5
-  turnRadius: 10
+  wheelbase: 1
+  turnRadius: 6
   rearTrack: 2
   _rotationAngleTimeToZero: 1.5
-  _tireGripHackFix: 100
+  _tireGripHackFix: 90
   isDrifting: 0
 --- !u!114 &2643251588687572955
 MonoBehaviour:
@@ -486,7 +516,6 @@ MonoBehaviour:
   - {fileID: 5276002595839049110}
   - {fileID: 1047918847260637932}
   - {fileID: 1693272113341390851}
-  _playerVehicleController: {fileID: 0}
   _trails: []
   driftParticles: []
 --- !u!54 &897513817591306491

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class waypointGizmos : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField] private bool DrawDebug = true;
     [Header("Waypoint Settings")]
     [SerializeField] private float waypointGizmoRadius = 0.25f;
@@ -15,16 +14,12 @@ public class waypointGizmos : MonoBehaviour
     [SerializeField] private bool autoRefreshWaypoints  = true;
     [SerializeField] private bool circuit = true;
 
-
     [SerializeField] private Transform[] Waypoints;
-
 
     public Transform[] getWaypoints()
     {
         return Waypoints;
     }
-
-
 
     private void  Awake()
     {
@@ -69,4 +64,9 @@ public class waypointGizmos : MonoBehaviour
         }
 
     }
+}
+public enum TrackType{
+    optimal, 
+    middle,
+    wide
 }

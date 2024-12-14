@@ -40,9 +40,6 @@ public class CustomCarPhysics : MonoBehaviour
     [SerializeField] public float turnRadius = 10f;
     [Tooltip("Distance between back Wheels")]
     [SerializeField] private float rearTrack = 2f;
-
-    [SerializeField] private float _rotationAngleTimeToZero = 1.5f;
-    [SerializeField] private float _tireGripHackFix = 100f;
     [HideInInspector] public bool isDrifting = false;
 
     #endregion
