@@ -26,6 +26,7 @@ public class CharacterUI : MonoBehaviour
     [Space(15)]
     [SerializeField] private GameObject[] _characterButtons;
     [SerializeField] private AnimationClip[] _animations;
+    [SerializeField] private SceneChanger _sceneChanger;
 
     
 
@@ -81,11 +82,11 @@ public class CharacterUI : MonoBehaviour
 
         if (GrandPrixManager.GameMode == 0)
         {
-            SceneManager.LoadScene(GrandPrixManager.LevelOrder[GrandPrixManager.CurrentLevelIndex]);
+            _sceneChanger.LoadLevelWithTransition(GrandPrixManager.LevelOrder[GrandPrixManager.CurrentLevelIndex]);
         }
         if (GrandPrixManager.GameMode == 1)
         {
-            SceneManager.LoadScene("LevelSelect");
+            _sceneChanger.LoadLevelWithTransition("LevelSelect");
         }
 
     }
