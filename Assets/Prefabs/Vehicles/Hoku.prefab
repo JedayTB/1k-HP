@@ -352,8 +352,8 @@ MonoBehaviour:
   - {fileID: 8474824526611576442}
   - {fileID: 7994983016796505166}
   driftAudio: {fileID: 0}
-  _terminalVelocity: 500
-  Acceleration: 3500
+  _terminalVelocity: 250
+  Acceleration: 2000
   torqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -418,8 +418,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.03206023
     - serializedVersion: 3
-      time: 0.39140064
-      value: 0.2732031
+      time: 0.34779102
+      value: 0.2509863
       inSlope: -0.18720022
       outSlope: -0.18720022
       tangentMode: 0
@@ -438,11 +438,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  wheelbase: 5
-  turnRadius: 10
-  rearTrack: 2
-  _rotationAngleTimeToZero: 1.5
-  _tireGripHackFix: 90
+  wheelbase: 1.5
+  turnRadius: 5
+  rearTrack: 0
   isDrifting: 0
 --- !u!114 &7312018781602798775
 MonoBehaviour:
@@ -483,7 +481,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608705978403913832}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 60
   m_Drag: 0.5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}

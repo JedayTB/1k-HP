@@ -281,7 +281,7 @@ Transform:
   m_GameObject: {fileID: 2861250836150769310}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7072302, z: 0.7069834, w: 0}
-  m_LocalPosition: {x: 0.926, y: 0.322, z: 1.445}
+  m_LocalPosition: {x: 0.926, y: 0.281, z: 1.445}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -418,7 +418,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.011517167, z: -0, w: 0.9999337}
   m_LocalPosition: {x: -0.974, y: 1.19, z: -4.174}
-  m_LocalPosition: {x: -0.65000004, y: 1.096, z: -4.1819997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -562,7 +561,7 @@ Transform:
   m_GameObject: {fileID: 3201296778828462741}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7069834, y: -0, z: -0, w: 0.7072302}
-  m_LocalPosition: {x: -0.8560001, y: 0.432, z: -2.788}
+  m_LocalPosition: {x: -0.8560001, y: 0.329, z: -2.788}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1012,7 +1011,7 @@ Transform:
   m_GameObject: {fileID: 6360557661715635853}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7072302, z: 0.7069834, w: 0}
-  m_LocalPosition: {x: 0.86, y: 0.432, z: -2.788}
+  m_LocalPosition: {x: 0.86, y: 0.329, z: -2.788}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1044,7 +1043,7 @@ Transform:
   m_GameObject: {fileID: 6773886522081540590}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7069834, y: -0, z: -0, w: 0.7072302}
-  m_LocalPosition: {x: -0.79, y: 0.322, z: 1.445}
+  m_LocalPosition: {x: -0.79, y: 0.281, z: 1.445}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1274,31 +1273,31 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.40353432
-      value: 0.65526056
-      inSlope: 0.18047336
-      outSlope: 0.18047336
+      time: 0.35701215
+      value: 0.47248864
+      inSlope: 0.043002747
+      outSlope: 0.043002747
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.2091468
-      outWeight: 0.33333334
+      outWeight: 0.5599108
     - serializedVersion: 3
-      time: 0.6842849
-      value: 0.65248495
-      inSlope: -0.19248967
-      outSlope: -0.19248967
+      time: 0.7799916
+      value: 0.47222263
+      inSlope: -0.015515763
+      outSlope: -0.015515763
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.46538776
+      inWeight: 0.4574302
+      outWeight: 0.65909874
     - serializedVersion: 3
-      time: 1.0002539
-      value: 0.10291323
-      inSlope: 1.487456
-      outSlope: 1.487456
+      time: 0.98894715
+      value: 0.10193667
+      inSlope: 0.256488
+      outSlope: 0.256488
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.37411734
+      inWeight: 0.6224665
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1336,11 +1335,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  wheelbase: 5
-  turnRadius: 10
+  wheelbase: 1
+  turnRadius: 8
   rearTrack: 2
-  _rotationAngleTimeToZero: 1.5
-  _tireGripHackFix: 100
   isDrifting: 0
 --- !u!114 &5385889746810218508
 MonoBehaviour:
@@ -1354,8 +1351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb3b23902ef5640bf46ebabe68851b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinWheelDirection: {x: 1, y: 0, z: 0}
-  turnWheelDirection: {x: 0, y: 0, z: 1}
   spinWheelDirection: {x: 1, y: 0, z: 0}
   turnWheelDirection: {x: 0, y: 0, z: 1}
   _wheelContainers:
@@ -1694,7 +1689,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.011517167, z: -0, w: 0.9999337}
   m_LocalPosition: {x: 0.984, y: 1.087, z: -4.166}
-  m_LocalPosition: {x: 0.923, y: 1.138, z: -4.166}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

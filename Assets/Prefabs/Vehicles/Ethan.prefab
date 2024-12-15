@@ -1914,8 +1914,6 @@ MonoBehaviour:
   wheelbase: 1
   turnRadius: 6
   rearTrack: 2
-  _rotationAngleTimeToZero: 1.5
-  _tireGripHackFix: 90
   isDrifting: 0
 --- !u!114 &7371111997208422806
 MonoBehaviour:
@@ -1929,8 +1927,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdb3b23902ef5640bf46ebabe68851b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinWheelDirection: {x: 0, y: 0, z: 0}
-  turnWheelDirection: {x: 0, y: 0, z: 0}
+  spinWheelDirection: {x: 0, y: 1, z: 0}
+  turnWheelDirection: {x: 0, y: 0, z: 1}
   _wheelContainers:
   - {fileID: 1841105134898287339}
   - {fileID: 7127411583078965924}
@@ -2115,7 +2113,7 @@ Transform:
   m_GameObject: {fileID: 4775619355580563099}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -1.047, y: -1.509, z: -2.1}
+  m_LocalPosition: {x: -1.047, y: -0.886, z: -2.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8414,7 +8412,7 @@ Transform:
   m_GameObject: {fileID: 8757028883261942219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 1.218, y: -1.48, z: -2.306}
+  m_LocalPosition: {x: 1.218, y: -0.85700005, z: -2.306}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -16,7 +16,7 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private GameObject[] _playerVehicles;
   [SerializeField] private Transform[] _startLocations;
   [SerializeField] private PostProcessing _postProcessing;
-  public static int _newCharacter = 2;
+  public static int _newCharacter = 1;
 
   // UI Stuff
   [SerializeField] private TextMeshProUGUI _lapTimesText;
@@ -26,7 +26,6 @@ public class GameStateManager : MonoBehaviour
 
   private void Awake()
   {
-    Debug.Log("Hello from neovim");
     var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocations[0].transform.position, _startLocations[0].transform.rotation);
 
     _player = tempPlayer.GetComponent<PlayerVehicleController>();
