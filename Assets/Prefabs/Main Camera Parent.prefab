@@ -53,11 +53,13 @@ MonoBehaviour:
   _desiredLocation: {fileID: 0}
   _pivot: {fileID: 0}
   smoothSpeed: 0.25
+  _minSmoothSpeed: 0.15
+  _maxSmoothSpeed: 0.25
   collisionLayers:
     serializedVersion: 2
     m_Bits: 0
   _targetZPosition: 0
-  cameraCollisionOffset: 0.2
+  cameraCollisionOffset: 0
   minimumDistanceUntilDither: 5
   _sensitivity: 1
   _maximumRotationX: 35
@@ -80,7 +82,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedLinesOBJ: {fileID: 3760465749834173164}
-  dbgString: 
   _minSpeedThreshold: 100
   _maxSpeedThreshold: 100
   _minSpawnRate: 25
@@ -298,7 +299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedLinesOBJ: {fileID: 3760465749834173164}
-  dbgString: 
   _minSpeedThreshold: 100
   _maxSpeedThreshold: 250
   _minSpawnRate: 25
