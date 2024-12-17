@@ -1867,13 +1867,37 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.46538776
     - serializedVersion: 3
-      time: 1.0002539
-      value: 0.10291323
-      inSlope: 1.487456
-      outSlope: 1.487456
+      time: 1.0045569
+      value: 0.014653489
+      inSlope: 0.20931974
+      outSlope: 0.20931974
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.37411734
+      inWeight: 0.36916327
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  tireTurnRate:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1882,37 +1906,37 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.00061035156
-      value: 1.0096436
-      inSlope: -2.6934834
-      outSlope: -2.6934834
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.03206023
-    - serializedVersion: 3
-      time: 0.39140064
-      value: 0.2732031
-      inSlope: -0.18720022
-      outSlope: -0.18720022
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.15228255
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0006953
-      value: 0.102275334
+      time: 0.03595352
+      value: 0.76132584
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    - serializedVersion: 3
+      time: 0.48803955
+      value: 0.48117384
+      inSlope: 0.22274515
+      outSlope: 0.22274515
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3248599
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0023041
+      value: 0.020230234
+      inSlope: 0.25508556
+      outSlope: 0.25508556
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.089786835
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   wheelbase: 1
-  turnRadius: 6
+  turnRadius: 7.5
   rearTrack: 2
   isDrifting: 0
 --- !u!114 &7371111997208422806

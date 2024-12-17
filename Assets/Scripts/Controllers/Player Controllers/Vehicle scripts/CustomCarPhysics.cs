@@ -40,7 +40,9 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] public float turnRadius = 10f;
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
+  [SerializeField] private float timeToFullTurnAnggle = 3;
   [HideInInspector] public bool isDrifting = false;
+  private float turnProgress = 0f;
 
   #endregion
 
@@ -153,12 +155,19 @@ public class CustomCarPhysics : MonoBehaviour
     {
       if (i < halfTireLength)
       {
+        //Tire turning shit
+        //
+        //  
+        if (Mathf.Abs(_turningInput) > 0)
+        {
 
-        float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-        float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
-
-        float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
-        applyTireRotation(wheels[i], tireGrip);
+          turnProgress += Time.deltaTime / (timeToFullTurnAnggle / Mathf.Abs(_turningInput));
+        }
+        else
+        {
+          turnProgress = 0f;
+        }
+        applyTireRotation(wheels[i], turnProgress);
       }
     }
 
@@ -191,9 +200,12 @@ public class CustomCarPhysics : MonoBehaviour
         float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
 
         float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
-
+        //Cetrifugal motion to affect turnRadius
         wheels[i].applyTireAcceleration(Acceleration, availableTorque);
 
+        // If the forward vector angle of the tire is past a certain threshold of the 
+        // Forward vector of the car, skid (lose traction)
+        // find a way to put speed into the calculation
         if (isDrifting)
         {
           wheels[i].applyTireSlideOnDrift(0.1f, 1f);
