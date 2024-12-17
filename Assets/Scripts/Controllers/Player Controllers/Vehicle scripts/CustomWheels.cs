@@ -184,15 +184,17 @@ public class CustomWheels : MonoBehaviour
   /// Apply force in  the local Z axis of the tire. 
   /// </summary>
   /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
-  /// <param name="availableTorque">Available torque the engine has. Calculated in  VehiclePhysics</param>
+  /// <param name="throttle">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-  public void applyTireAcceleration(float accelerationAmount, float availableTorque)
+  public void applyTireAcceleration(float accelerationAmount, float throttle)
   {
     //V = V0*t + 0.5*a*t^2
     //V += 1/2at^2
-    
-    accTime += Time.fixedTime; 
-    if (accelerationAmount == 0) {
+    print(Mathf.Abs(throttle));
+    if(Mathf.Abs(throttle) > 0){
+        accTime += Time.fixedDeltaTime; 
+    }
+    else if (Mathf.Abs(throttle) == 0) {
        accTime = 0;
     }
 
@@ -200,8 +202,9 @@ public class CustomWheels : MonoBehaviour
     //F = m*v^2
     
     // 490000f = 100 * 70^2
-    Vector3 accelerationDirection = Mathf.Min(0.5f * accelerationAmount * Mathf.Pow(accTime, 2f),490000f) * _tireTransform.forward;
-    if (_vehicleRB.velocity.magnitude < 250) {
+    // Accelamount is divided by 4 for 4 wheels
+    Vector3 accelerationDirection = Mathf.Min(0.5f * (accelerationAmount  / 4)* Mathf.Pow(accTime, 2f),490000f) * _tireTransform.forward;
+    if (Mathf.Abs(_vehicleRB.velocity.magnitude) < 200) {
       _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
     }
     
