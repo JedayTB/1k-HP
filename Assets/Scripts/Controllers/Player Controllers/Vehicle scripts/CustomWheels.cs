@@ -30,6 +30,9 @@ public class CustomWheels : MonoBehaviour
   public float LeftAckermanAngle { get => _leftAckermanAngle; }
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
+
+  private float accTime = 0;
+
   #region Public Physic's unrelated
   public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
   {
@@ -185,8 +188,24 @@ public class CustomWheels : MonoBehaviour
 
   public void applyTireAcceleration(float accelerationAmount, float availableTorque)
   {
-    Vector3 accelerationDirection = accelerationAmount * _tireTransform.forward;
-    _vehicleRB.AddForceAtPosition(availableTorque * accelerationDirection, forceApplicationPoint);
+    //V = V0*t + 0.5*a*t^2
+    //V += 1/2at^2
+    
+    accTime += Time.fixedTime; 
+    if (accelerationAmount == 0) {
+       accTime = 0;
+    }
+
+    //70m/s = 250km/h / 3.6
+    //F = m*v^2
+    
+    // 490000f = 100 * 70^2
+    Vector3 accelerationDirection = Mathf.Min(0.5f * accelerationAmount * Mathf.Pow(accTime, 2f),490000f) * _tireTransform.forward;
+    if (_vehicleRB.velocity.magnitude < 250) {
+      _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
+    }
+    
+    
   }
   /// <summary>
   /// Add spring force for the Vehicle
