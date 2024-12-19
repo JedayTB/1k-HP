@@ -26,10 +26,12 @@ public class CustomCarPhysics : MonoBehaviour
   [Tooltip("Top speed of the car")]
   [SerializeField] public float _terminalVelocity = 250f;
   [Tooltip("How fast the car accelerates")]
-  [SerializeField] public float Acceleration = 3500f;
+  public float Acceleration = 3500f;
+  [SerializeField] private float timeToFullAcceleration = 5f;
+  private float elapsedThrottleTime;
   private float _baseAccelerationAmount;
   [Tooltip("How much force is available at certain speeds.")]
-  [SerializeField] private AnimationCurve torqueCurve;
+  [SerializeField] private AnimationCurve accelerationCurve;
   [SerializeField] private AnimationCurve tireGripCurve;
   //Steering
 
@@ -151,22 +153,14 @@ public class CustomCarPhysics : MonoBehaviour
 
   public void Update()
   {
+    elapsedThrottleTime = _throttleInput != 0 ? elapsedThrottleTime + Time.deltaTime : 0;
+
+    turnProgress = _turningInput != 0 ? turnProgress + Time.deltaTime : 0;
+    //Tire turning shit
     for (int i = 0; i < wheels.Length; i++)
     {
       if (i < halfTireLength)
       {
-        //Tire turning shit
-        //
-        //  
-        if (Mathf.Abs(_turningInput) > 0)
-        {
-
-          turnProgress += Time.deltaTime / (timeToFullTurnAnggle / Mathf.Abs(_turningInput));
-        }
-        else
-        {
-          turnProgress = 0f;
-        }
         applyTireRotation(wheels[i], turnProgress);
       }
     }
@@ -197,11 +191,13 @@ public class CustomCarPhysics : MonoBehaviour
         float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
         float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
 
-        float availableTorque = torqueCurve.Evaluate(normalizedSpeed) * _throttleInput;
-
         float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
+
+        float availableTorque = accelerationCurve.Evaluate(elapsedThrottleTime);
+
+        float accel = Acceleration * availableTorque;
         //Cetrifugal motion to affect turnRadius
-        wheels[i].applyTireAcceleration(Acceleration, availableTorque);
+        wheels[i].applyTireAcceleration(Acceleration, _throttleInput);
 
         // If the forward vector angle of the tire is past a certain threshold of the 
         // Forward vector of the car, skid (lose traction)

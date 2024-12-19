@@ -1835,13 +1835,14 @@ MonoBehaviour:
   - {fileID: 2052704930392583272}
   driftAudio: {fileID: 0}
   _terminalVelocity: 500
-  Acceleration: 3500
-  torqueCurve:
+  Acceleration: 1500
+  timeToFullAcceleration: 5
+  accelerationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0021189898
-      value: 0.20341182
+      time: 0.026096344
+      value: 0.27331543
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1849,55 +1850,31 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.40353432
-      value: 0.65526056
-      inSlope: 0.18047336
-      outSlope: 0.18047336
+      time: 0.42196098
+      value: 0.45309216
+      inSlope: 0.09595715
+      outSlope: 0.09595715
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.2091468
+      inWeight: 0.8124987
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.6842849
-      value: 0.65248495
-      inSlope: -0.19248967
-      outSlope: -0.19248967
+      time: 0.82694066
+      value: 0.44545388
+      inSlope: -0.033500154
+      outSlope: -0.033500154
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.46538776
+      inWeight: 0.35249072
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1.0045569
-      value: 0.014653489
-      inSlope: 0.20931974
-      outSlope: 0.20931974
+      time: 0.9866013
+      value: 0.22181447
+      inSlope: -0.011433023
+      outSlope: -0.011433023
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.36916327
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  tireTurnRate:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
+      inWeight: 1
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1938,6 +1915,7 @@ MonoBehaviour:
   wheelbase: 1
   turnRadius: 7.5
   rearTrack: 2
+  timeToFullTurnAnggle: 3
   isDrifting: 0
 --- !u!114 &7371111997208422806
 MonoBehaviour:
