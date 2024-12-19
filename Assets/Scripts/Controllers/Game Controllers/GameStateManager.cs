@@ -16,7 +16,7 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private GameObject[] _playerVehicles;
   [SerializeField] private Transform[] _startLocations;
   [SerializeField] private PostProcessing _postProcessing;
-  public static int _newCharacter = 0;
+  public static int _newCharacter = 2;
 
   // UI Stuff
   [SerializeField] private TextMeshProUGUI _lapTimesText;
