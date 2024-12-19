@@ -190,20 +190,27 @@ public class CustomWheels : MonoBehaviour
   {
     //V = V0*t + 0.5*a*t^2
     //V += 1/2at^2
-    print(Mathf.Abs(throttle));
     if(Mathf.Abs(throttle) > 0){
         accTime += Time.fixedDeltaTime; 
     }
     else if (Mathf.Abs(throttle) == 0) {
        accTime = 0;
     }
-
+    // "Terminal Velocity"
     //70m/s = 250km/h / 3.6
     //F = m*v^2
     
     // 490000f = 100 * 70^2
+    // Force in newtons (kinda)
     // Accelamount is divided by 4 for 4 wheels
-    Vector3 accelerationDirection = Mathf.Min(0.5f * (accelerationAmount  / 4)* Mathf.Pow(accTime, 2f),490000f) * _tireTransform.forward;
+    
+    //V = V0*t + 0.5*a*t^2
+    //V += 1/2at^2
+    float accelerationForce = 0.5f * (accelerationAmount  / 4) * (accTime * accTime);
+    // Forward and Backward
+    accelerationForce *= throttle;
+    Vector3 accelerationDirection = Mathf.Clamp(accelerationForce,-490000f,490000f ) * _tireTransform.forward;
+
     if (Mathf.Abs(_vehicleRB.velocity.magnitude) < 200) {
       _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
     }
