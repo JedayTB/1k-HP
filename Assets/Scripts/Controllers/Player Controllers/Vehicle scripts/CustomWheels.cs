@@ -30,6 +30,9 @@ public class CustomWheels : MonoBehaviour
   public float LeftAckermanAngle { get => _leftAckermanAngle; }
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
+
+  private float accTime = 0;
+
   #region Public Physic's unrelated
   public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
   {
@@ -181,12 +184,31 @@ public class CustomWheels : MonoBehaviour
   /// Apply force in  the local Z axis of the tire. 
   /// </summary>
   /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
-  /// <param name="availableTorque">Available torque the engine has. Calculated in  VehiclePhysics</param>
+  /// <param name="throttle">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-  public void applyTireAcceleration(float accelerationAmount, float availableTorque)
+  public void applyTireAcceleration(float accelerationAmount, float throttle)
   {
-    Vector3 accelerationDirection = accelerationAmount * _tireTransform.forward;
-    _vehicleRB.AddForceAtPosition(availableTorque * accelerationDirection, forceApplicationPoint);
+    //V = V0*t + 0.5*a*t^2
+    //V += 1/2at^2
+    print(Mathf.Abs(throttle));
+    if(Mathf.Abs(throttle) > 0){
+        accTime += Time.fixedDeltaTime; 
+    }
+    else if (Mathf.Abs(throttle) == 0) {
+       accTime = 0;
+    }
+
+    //70m/s = 250km/h / 3.6
+    //F = m*v^2
+    
+    // 490000f = 100 * 70^2
+    // Accelamount is divided by 4 for 4 wheels
+    Vector3 accelerationDirection = Mathf.Min(0.5f * (accelerationAmount  / 4)* Mathf.Pow(accTime, 2f),490000f) * _tireTransform.forward;
+    if (Mathf.Abs(_vehicleRB.velocity.magnitude) < 200) {
+      _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
+    }
+    
+    
   }
   /// <summary>
   /// Add spring force for the Vehicle
