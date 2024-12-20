@@ -353,13 +353,14 @@ MonoBehaviour:
   - {fileID: 7994983016796505166}
   driftAudio: {fileID: 0}
   _terminalVelocity: 250
-  Acceleration: 2000
-  torqueCurve:
+  Acceleration: 1250
+  timeToFullAcceleration: 5
+  accelerationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.00076559
-      value: 0.4948547
+      time: 0.026096344
+      value: 0.27331543
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -367,40 +368,31 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.39131117
-      value: 0.77733225
-      inSlope: 0.012024398
-      outSlope: 0.012024398
+      time: 0.42196098
+      value: 0.45309216
+      inSlope: 0.09595715
+      outSlope: 0.09595715
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.8124987
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.63558924
-      value: 0.7781488
-      inSlope: 0.026075052
-      outSlope: 0.026075052
+      time: 0.82694066
+      value: 0.44545388
+      inSlope: -0.033500154
+      outSlope: -0.033500154
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.35249072
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.83224565
-      value: 0.3659691
-      inSlope: -6.689155
-      outSlope: -6.689155
+      time: 0.9866013
+      value: 0.22181447
+      inSlope: -0.011433023
+      outSlope: -0.011433023
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.06733424
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.99238044
-      value: 0.110010475
-      inSlope: 0.15187965
-      outSlope: 0.15187965
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.621729
+      inWeight: 1
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -441,6 +433,7 @@ MonoBehaviour:
   wheelbase: 1.5
   turnRadius: 5
   rearTrack: 0
+  timeToFullTurnAnggle: 3
   isDrifting: 0
 --- !u!114 &7312018781602798775
 MonoBehaviour:
