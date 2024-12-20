@@ -31,7 +31,6 @@ public class CustomCarPhysics : MonoBehaviour
   private float elapsedThrottleTime;
   private float _baseAccelerationAmount;
   [Tooltip("How much force is available at certain speeds.")]
-  [SerializeField] private AnimationCurve accelerationCurve;
   [SerializeField] private AnimationCurve tireGripCurve;
   //Steering
 
@@ -192,10 +191,7 @@ public class CustomCarPhysics : MonoBehaviour
         float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
 
         float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
-
-        float availableTorque = accelerationCurve.Evaluate(elapsedThrottleTime);
-
-        float accel = Acceleration * availableTorque;
+        
         //Cetrifugal motion to affect turnRadius
         wheels[i].applyTireAcceleration(Acceleration, _throttleInput);
 

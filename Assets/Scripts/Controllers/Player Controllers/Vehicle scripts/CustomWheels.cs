@@ -34,7 +34,7 @@ public class CustomWheels : MonoBehaviour
   public float LeftAckermanAngle { get => _leftAckermanAngle; }
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
-  
+
 
   private static float g = 9.81f;
   private float accTime = 0;
@@ -44,7 +44,7 @@ public class CustomWheels : MonoBehaviour
   private float engineForce;
   public int horsepower = 200;
   private float effieciency = 0.85f;
-  
+
   private float velocity = 0;
   private float gripCoefficient = 0.15f;
 
@@ -108,11 +108,9 @@ public class CustomWheels : MonoBehaviour
 
     float decaySpd = Mathf.Abs(turningInput) < 0.1f ? _decaySpeed : _decaySpeed * angleModifier;
 
-    
-
     steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, decaySpd, Time.deltaTime);
     moveTires(steeringAngle);
-    
+
     Vector3 rotation = transform.localRotation.eulerAngles;
 
     rotation.y = steeringAngle;
@@ -120,19 +118,22 @@ public class CustomWheels : MonoBehaviour
   }
 
 
-  public void moveTires(float steeringAngle) {
-      double turningRadius = wheelbase / Math.Tan(steeringAngle);
-      velocity = _vehicleRB.velocity.magnitude;
-      double lateralAcceleration = Math.Pow(velocity,2f) / turningRadius;
-      double lateralForce = mass * lateralAcceleration;
-      double gripForce = gripCoefficient * mass * g;
-      if (lateralForce > gripForce) {
-          skid();
-      }
-      
-  } 
+  public void moveTires(float steeringAngle)
+  {
+    double turningRadius = wheelbase / Math.Tan(steeringAngle);
+    velocity = _vehicleRB.velocity.magnitude;
+    double lateralAcceleration = Math.Pow(velocity, 2f) / turningRadius;
+    double lateralForce = mass * lateralAcceleration;
+    double gripForce = gripCoefficient * mass * g;
+    if (lateralForce > gripForce)
+    {
+      skid();
+    }
 
-  public void skid() {
+  }
+
+  public void skid()
+  {
 
   }
   #endregion
@@ -242,34 +243,41 @@ public class CustomWheels : MonoBehaviour
     //V = V0*t + 0.5*a*t^2
     //V += 1/2at^2
     //print(Mathf.Abs(throttle));
-    if(Mathf.Abs(throttle) > 0){
-        accTime += Time.fixedDeltaTime; 
+    if (Mathf.Abs(throttle) > 0)
+    {
+      accTime += Time.fixedDeltaTime;
     }
-    else if (Mathf.Abs(throttle) == 0) {
-       accTime = 0;
+    else if (Mathf.Abs(throttle) == 0)
+    {
+      accTime = 0;
     }
-    
+
     //70m/s = 250km/h / 3.6
     //F = m*v^2
-    
+
     // 490000f = 100 * 70^2
     // Accelamount is divided by 2 for the 2 front wheels
-    
+
     velocity = Math.Abs(_vehicleRB.velocity.magnitude);
-    if (velocity < 1) {
+    if (velocity < 1)
+    {
       velocity = 1;
     }
     engineForce = horsepower * 745.7f / (velocity * effieciency);
     acceleration = engineForce;
-    Vector3 accelerationDirection = Mathf.Min(0.5f * (acceleration  / 2) * accTime,490000f) * _tireTransform.forward;
+
+    Vector3 accelerationDirection = Mathf.Min(0.5f * (acceleration / 2) * accTime, 490000f) * _tireTransform.forward;
+
+    accelerationDirection *= throttle;
     //if (Mathf.Abs(_vehicleRB.velocity.magnitude) < 200) {
     //Checks if the tires are front tires.
-    if (tireType == TireType.frontTireLeft || tireType == TireType.frontTireRight) {
+    if (tireType == TireType.frontTireLeft || tireType == TireType.frontTireRight)
+    {
       _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
     }
     //}
-    
-    
+
+
   }
   /// <summary>
   /// Add spring force for the Vehicle
