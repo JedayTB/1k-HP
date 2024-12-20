@@ -190,9 +190,6 @@ public class CustomWheels : MonoBehaviour
   {
     Vector3 accelerationDirection = throttle * accelerationAmount * transform.forward;
     _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
-
-
-
   }
   /// <summary>
   /// Add spring force for the Vehicle

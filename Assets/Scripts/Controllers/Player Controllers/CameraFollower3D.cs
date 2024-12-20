@@ -71,6 +71,7 @@ public class CameraFollower3D : MonoBehaviour
   {
     float playerSpeed = GameStateManager.Player.VehiclePhysics.getSpeed();
     Vector3 playerVelocity = GameStateManager.Player.VehiclePhysics.getVelocity();
+    playerVelocity = transform.InverseTransformDirection(playerVelocity);
     float playerTerminalVelocity = GameStateManager.Player.VehiclePhysics._terminalVelocity;
 
     if (playerVelocity.z < 0)
