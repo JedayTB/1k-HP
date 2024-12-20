@@ -125,7 +125,7 @@ public class CameraFollower3D : MonoBehaviour
     currentEulerRotation.x = Mathf.Clamp(currentEulerRotation.x, -_maximumRotationY, _maximumRotationY);
 
     // Sometimes we get a NaN error here, I did my best to get rid of it but it still shows up sometimes
-    // I did manage to make it never (I think) affect gameplay, though        
+    // I did manage to make it never (I think) affect gameplay, though
     if (currentEulerRotation.x <= 360f && currentEulerRotation.x >= -360f)
     {
       _pivot.transform.localRotation = Quaternion.Euler(currentEulerRotation);
@@ -133,13 +133,9 @@ public class CameraFollower3D : MonoBehaviour
 
     Vector3 targetPosition = _desiredLocation.position;
 
-
     _transform.position = Vector3.SmoothDamp(_transform.position, targetPosition, ref _currentVelocity, smoothSpeed);
     _transform.LookAt(_target);
 
-    // We need to change the rotation of the Z to the car's Z after the LookAt, or else it gets overridden
-    Quaternion newRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, _target.rotation.eulerAngles.z);
-    _transform.rotation = newRotation;
     // Make sure camera doesn't go inside walls
     cameraCollision();
 
@@ -163,7 +159,7 @@ public class CameraFollower3D : MonoBehaviour
 
       if (zOffset < minimumDistanceUntilDither)
       {
-        _cameraVecPos = Vector3.Lerp(hit.point, _desiredLocation.position, 0.4f);
+        _cameraVecPos = Vector3.Lerp(hit.point, _desiredLocation.position, cameraCollisionOffset);
       }
       _transform.position = _cameraVecPos;
     }
@@ -228,12 +224,6 @@ public class CameraFollower3D : MonoBehaviour
 
     return currentEulerRotation;
   }
-
-  float easeInOutQuad(float x)
-  {
-    return x < 0.5 ? 1 * x * x : 1 - Mathf.Pow(-1 * x + 1, 1) / 1;
-  }
-
 
 
 }
