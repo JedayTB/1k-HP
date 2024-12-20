@@ -30,8 +30,29 @@ public class CustomWheels : MonoBehaviour
   public float LeftAckermanAngle { get => _leftAckermanAngle; }
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
+  
 
+  private static float g = 9.81f;
   private float accTime = 0;
+  //Car Variables
+  private float mass;
+  private float acceleration;
+  private float engineForce;
+  public int horsepower = 200;
+  private float effieciency = 0.85f;
+  
+  private float velocity = 0;
+
+  //Drag Variables
+  private float dragForce;
+  private float airDensity = 1.225f;
+  private float frontalArea = 2.16f;
+  private float dragCoefficient = 0.3f;
+
+  private float rollingResistanceForce;
+  private float rrCoefficient = 0.15f;
+
+
 
   #region Public Physic's unrelated
   public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
@@ -190,23 +211,30 @@ public class CustomWheels : MonoBehaviour
   {
     //V = V0*t + 0.5*a*t^2
     //V += 1/2at^2
-    print(Mathf.Abs(throttle));
+    
     if(Mathf.Abs(throttle) > 0){
         accTime += Time.fixedDeltaTime; 
     }
     else if (Mathf.Abs(throttle) == 0) {
        accTime = 0;
     }
-
+    print(Mathf.Abs(accTime));
     //70m/s = 250km/h / 3.6
     //F = m*v^2
     
     // 490000f = 100 * 70^2
     // Accelamount is divided by 4 for 4 wheels
-    Vector3 accelerationDirection = Mathf.Min(0.5f * (accelerationAmount  / 4)* Mathf.Pow(accTime, 2f),490000f) * _tireTransform.forward;
-    if (Mathf.Abs(_vehicleRB.velocity.magnitude) < 200) {
-      _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
+    
+    velocity = _vehicleRB.velocity.magnitude;
+    if (Mathf.Abs(velocity) < 1) {
+      velocity = 1;
     }
+    engineForce = horsepower * 745.7f / (velocity * effieciency);
+    acceleration = engineForce;
+    Vector3 accelerationDirection = Mathf.Min(0.5f * (acceleration  / 4) * accTime,490000f) * _tireTransform.forward;
+    //if (Mathf.Abs(_vehicleRB.velocity.magnitude) < 200) {
+    _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
+    //}
     
     
   }
