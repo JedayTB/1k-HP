@@ -132,12 +132,12 @@ public abstract class A_VehicleController : MonoBehaviour
   public virtual void addNitro()
   {
     _nitroChargeAmounts++;
-    Mathf.Clamp(_nitroChargeAmounts, 0, MaxNitroChargeAmounts);
+    _nitroChargeAmounts = Mathf.Clamp(_nitroChargeAmounts, 0, MaxNitroChargeAmounts);
   }
   public virtual void addNitro(int nitroDelta)
   {
     _nitroChargeAmounts += nitroDelta;
-    Mathf.Clamp(_nitroChargeAmounts, 0, MaxNitroChargeAmounts);
+    _nitroChargeAmounts = Mathf.Clamp(_nitroChargeAmounts, 0, MaxNitroChargeAmounts);
   }
   public virtual void addAbilityGauge(int abilityDelta)
   {

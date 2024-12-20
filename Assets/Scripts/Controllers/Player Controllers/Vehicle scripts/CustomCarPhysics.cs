@@ -33,6 +33,7 @@ public class CustomCarPhysics : MonoBehaviour
 
   [Header("Steering Setup")]
   [SerializeField] private float tireTurnModifier = 1;
+  [SerializeField] private float minimumModifier = 0.25f;
   [Tooltip("The Distance between the Front and Back tires")]
   [SerializeField] public float wheelbase = 5f;
   [Tooltip("Minimum Space rquired to turn Vehicle 180 degree's in metres")]
@@ -139,7 +140,7 @@ public class CustomCarPhysics : MonoBehaviour
   public void Update()
   {
 
-    tireTurnModifier = Mathf.Max(1 - (_rigidBody.velocity.magnitude / _terminalVelocity), 0.1f);
+    tireTurnModifier = Mathf.Max(1 - (_rigidBody.velocity.magnitude / _terminalVelocity), minimumModifier);
 
     //Tire turning shit
     for (int i = 0; i < wheels.Length; i++)
@@ -160,6 +161,10 @@ public class CustomCarPhysics : MonoBehaviour
 
   void FixedUpdate()
   {
+    float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
+    float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
+
+    float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
 
     for (int i = 0; i < wheels.Length; i++)
     {
@@ -168,11 +173,6 @@ public class CustomCarPhysics : MonoBehaviour
       if (wheels[i].TireIsGrounded)
       {
         wheels[i].applyTireSuspensionForces();
-
-        float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-        float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
-
-        float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
 
         wheels[i].applyTireAcceleration(horsePower, axleEffiency, _throttleInput);
 
