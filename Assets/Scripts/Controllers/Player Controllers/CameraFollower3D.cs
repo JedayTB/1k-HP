@@ -53,7 +53,6 @@ public class CameraFollower3D : MonoBehaviour
     _desiredLocation = _pivot.Find("camera target");
 
     _transform = transform;
-    //_camera = GetComponent<Camera>();
     _pivot.transform.localRotation = Quaternion.identity;
     Cursor.lockState = CursorLockMode.Locked;
     Cursor.visible = false;
@@ -66,15 +65,26 @@ public class CameraFollower3D : MonoBehaviour
     checkForInput();
     ChangeFOV();
     lerpSmoothSpeed();
+
   }
   private void lerpSmoothSpeed()
   {
     float playerSpeed = GameStateManager.Player.VehiclePhysics.getSpeed();
+    Vector3 playerVelocity = GameStateManager.Player.VehiclePhysics.getVelocity();
     float playerTerminalVelocity = GameStateManager.Player.VehiclePhysics._terminalVelocity;
 
-    float progress = playerSpeed / playerTerminalVelocity;
+    if (playerVelocity.z < 0)
+    {
+      smoothSpeed = LerpAndEasings.ExponentialDecay(smoothSpeed, 0.01f, 4, Time.deltaTime);
+    }
+    else
+    {
+      float progress = playerSpeed / playerTerminalVelocity;
 
-    smoothSpeed = Mathf.Lerp(_maxSmoothSpeed, _minSmoothSpeed, progress);
+      smoothSpeed = Mathf.Lerp(_maxSmoothSpeed, _minSmoothSpeed, progress);
+
+    }
+
   }
   void FixedUpdate()
   {
