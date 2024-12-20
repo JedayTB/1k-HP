@@ -45,16 +45,16 @@ public class ChilliOilPuddle : MonoBehaviour
     IEnumerator increaseOwnerSpeed(float time,float speedMultiplier, A_VehicleController owner)
     {
         float count = 0f;
-        float baseAccel = owner.VehiclePhysics.Acceleration;
+        float baseAccel = owner.VehiclePhysics.horsePower;
 
-        owner.VehiclePhysics.Acceleration *= speedMultiplier;
+        owner.VehiclePhysics.horsePower *= speedMultiplier;
         while (count < time)
         {
             count += Time.deltaTime;
 
             yield return null;
         }
-        owner.VehiclePhysics.Acceleration = baseAccel;
+        owner.VehiclePhysics.horsePower = baseAccel;
 
 
     }

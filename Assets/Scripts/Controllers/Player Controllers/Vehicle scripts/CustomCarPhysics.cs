@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
@@ -18,32 +17,29 @@ public class CustomCarPhysics : MonoBehaviour
   private Rigidbody _rigidBody;
   public Rigidbody RigidBody { get => _rigidBody; }
 
-  public AudioSource driftAudio;
-
   //Accelerations
 
   [Header("Acceleration Setup")]
   [Tooltip("Top speed of the car")]
   [SerializeField] public float _terminalVelocity = 250f;
-  [Tooltip("How fast the car accelerates")]
-  public float Acceleration = 3500f;
-  [SerializeField] private float timeToFullAcceleration = 5f;
-  private float elapsedThrottleTime;
-  private float _baseAccelerationAmount;
-  [Tooltip("How much force is available at certain speeds.")]
+  [Tooltip("Horse Power of the Vehicle")]
+  [SerializeField] public float horsePower = 500f;
+  private float _baseHP;
+  [SerializeField] private float axleEffiency = 0.85f;
+
+  [Tooltip("Grip")]
   [SerializeField] private AnimationCurve tireGripCurve;
   //Steering
 
   [Header("Steering Setup")]
+  [SerializeField] private float tireTurnModifier = 1;
   [Tooltip("The Distance between the Front and Back tires")]
   [SerializeField] public float wheelbase = 5f;
   [Tooltip("Minimum Space rquired to turn Vehicle 180 degree's in metres")]
   [SerializeField] public float turnRadius = 10f;
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
-  [SerializeField] private float timeToFullTurnAnggle = 3;
   [HideInInspector] public bool isDrifting = false;
-  private float turnProgress = 0f;
 
   #endregion
 
@@ -54,7 +50,7 @@ public class CustomCarPhysics : MonoBehaviour
     _rigidBody = GetComponentInChildren<Rigidbody>();
 
     _transform = transform;
-    _baseAccelerationAmount = Acceleration;
+    _baseHP = horsePower;
     halfTireLength = wheels.Length / 2;
 
     foreach (var tire in wheels)
@@ -110,7 +106,7 @@ public class CustomCarPhysics : MonoBehaviour
   {
 
     float count = 0f;
-    Acceleration = _baseAccelerationAmount * _nitroMultiplier;
+    horsePower = _baseHP * _nitroMultiplier;
     isUsingNitro = true;
     //Set invunerable to offroad / physicsMaterials below when implemented
     while (count <= nitroTiming)
@@ -120,7 +116,7 @@ public class CustomCarPhysics : MonoBehaviour
                           // this would make nitro timing 4x longer. don't do!
     }
     isUsingNitro = false;
-    Acceleration = _baseAccelerationAmount;
+    horsePower = _baseHP;
   }
 
   public void driftVehicle(bool isUsingDrift)
@@ -129,16 +125,6 @@ public class CustomCarPhysics : MonoBehaviour
     {
       isDrifting = true;
     }
-
-    /*
-    if (isDrifting == true){
-        driftAudio.Play();
-    }
-    if (driftAudio.isPlaying == true & isDrifting == false)
-    {
-        driftAudio.Stop();
-    }
-    */
   }
   public void endedDrifting(bool endedDrifting)
   {
@@ -152,33 +138,29 @@ public class CustomCarPhysics : MonoBehaviour
 
   public void Update()
   {
-    elapsedThrottleTime = _throttleInput != 0 ? elapsedThrottleTime + Time.deltaTime : 0;
 
-    turnProgress = _turningInput != 0 ? turnProgress + Time.deltaTime : 0;
+    tireTurnModifier = Mathf.Max(1 - (_rigidBody.velocity.magnitude / _terminalVelocity), 0.1f);
+
     //Tire turning shit
     for (int i = 0; i < wheels.Length; i++)
     {
+      wheels[i].setInputs(_throttleInput, _turningInput);
+
       if (i < halfTireLength)
       {
-        applyTireRotation(wheels[i], turnProgress);
+        wheels[i].TurnTire(tireTurnModifier);
       }
+
     }
 
   }
 
-  /// <summary>
-  /// Tells the tire to turn!
-  /// </summary>
-  /// <param name="Tire">The tire to turn</param>
-  void applyTireRotation(CustomWheels Tire, float tireGrip)
-  {
-    Tire.TurnTire(_turningInput, tireGrip);
-  }
 
   #region Physics Simulations
 
   void FixedUpdate()
   {
+
     for (int i = 0; i < wheels.Length; i++)
     {
       wheels[i].raycastDown(_groundLayers, _raycastDistance);
@@ -191,13 +173,9 @@ public class CustomCarPhysics : MonoBehaviour
         float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
 
         float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
-        
-        //Cetrifugal motion to affect turnRadius
-        wheels[i].applyTireAcceleration(Acceleration, _throttleInput);
 
-        // If the forward vector angle of the tire is past a certain threshold of the 
-        // Forward vector of the car, skid (lose traction)
-        // find a way to put speed into the calculation
+        wheels[i].applyTireAcceleration(horsePower, axleEffiency, _throttleInput);
+
         if (isDrifting)
         {
           wheels[i].applyTireSlideOnDrift(0.1f, 1f);
@@ -207,11 +185,9 @@ public class CustomCarPhysics : MonoBehaviour
           wheels[i].applyTireSlide(tireGrip);
         }
       }
+
     }
 
-
-
   }
-
   #endregion
 }

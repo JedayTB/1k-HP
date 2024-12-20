@@ -25,7 +25,7 @@ public class MimiController : PlayerVehicleController
         float count = 0;
         
         _builtUpNitroAmount *= _driftChargeIncreaseAmt;
-        _vehiclePhysics.Acceleration *= _speedIncreaseAmt;
+        _vehiclePhysics.horsePower *= _speedIncreaseAmt;
         
         while (count < bubbleActiveTime)
         {
@@ -36,7 +36,7 @@ public class MimiController : PlayerVehicleController
         _bubble.SetActive(false);
         print("bubble func ended");
         _builtUpNitroAmount /= _driftChargeIncreaseAmt;
-        _vehiclePhysics.Acceleration /= _speedIncreaseAmt;
+        _vehiclePhysics.horsePower /= _speedIncreaseAmt;
 
     }
     protected override void Update()
