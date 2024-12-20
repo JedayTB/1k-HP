@@ -42,7 +42,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AnimationSpeed: 1
+    - _AnimationSpeed: 0.2
     - _CloudTexScale: 1.22
     - _DistanceFadePower: 1.91
     - _NadirBlendPower: 0.48
@@ -52,9 +52,9 @@ Material:
     m_Colors:
     - _AnimationDir: {r: 1, g: 0.25, b: 0, a: 0}
     - _CloudColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
-    - _HorizionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _NadirColor: {r: 0, g: 0.3584906, b: 0.18408978, a: 0}
-    - _ZenithColor: {r: 0.4481132, g: 0.9479351, b: 1, a: 0}
+    - _HorizionColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 0}
+    - _NadirColor: {r: 0, g: 0, b: 0, a: 0}
+    - _ZenithColor: {r: 0.31359026, g: 0.5037769, b: 0.8207547, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1520041051513686164
 MonoBehaviour:
