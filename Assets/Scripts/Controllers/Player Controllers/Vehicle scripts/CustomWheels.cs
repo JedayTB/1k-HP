@@ -1,3 +1,7 @@
+using System;
+using System.Linq.Expressions;
+using Unity.Burst.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 public enum TireType
 {
@@ -42,6 +46,10 @@ public class CustomWheels : MonoBehaviour
   private float effieciency = 0.85f;
   
   private float velocity = 0;
+  private float gripCoefficient = 0.15f;
+
+  //Change this to the actual wheelbase (distance from front axel to back axel) of the car
+  private float wheelbase = 2.4f;
 
   //Drag Variables
   private float dragForce;
@@ -62,6 +70,9 @@ public class CustomWheels : MonoBehaviour
 
     _leftAckermanAngle = leftTurnAngle;
     _rightAckermanAngle = rightTurnAngle;
+
+    //car var
+    mass = _vehicleRB.mass;
   }
   /// <summary>
   /// Manual Setting of tire Y angle
@@ -97,14 +108,33 @@ public class CustomWheels : MonoBehaviour
 
     float decaySpd = Mathf.Abs(turningInput) < 0.1f ? _decaySpeed : _decaySpeed * angleModifier;
 
-    steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, decaySpd, Time.deltaTime);
+    
 
+    steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, decaySpd, Time.deltaTime);
+    moveTires(steeringAngle);
+    
     Vector3 rotation = transform.localRotation.eulerAngles;
 
     rotation.y = steeringAngle;
     transform.localRotation = Quaternion.Euler(rotation);
   }
 
+
+  public void moveTires(float steeringAngle) {
+      double turningRadius = wheelbase / Math.Tan(steeringAngle);
+      velocity = _vehicleRB.velocity.magnitude;
+      double lateralAcceleration = Math.Pow(velocity,2f) / turningRadius;
+      double lateralForce = mass * lateralAcceleration;
+      double gripForce = gripCoefficient * mass * g;
+      if (lateralForce > gripForce) {
+          skid();
+      }
+      
+  } 
+
+  public void skid() {
+
+  }
   #endregion
 
   #region Physics Simulations
@@ -211,29 +241,32 @@ public class CustomWheels : MonoBehaviour
   {
     //V = V0*t + 0.5*a*t^2
     //V += 1/2at^2
-    
+    //print(Mathf.Abs(throttle));
     if(Mathf.Abs(throttle) > 0){
         accTime += Time.fixedDeltaTime; 
     }
     else if (Mathf.Abs(throttle) == 0) {
        accTime = 0;
     }
-    print(Mathf.Abs(accTime));
+    
     //70m/s = 250km/h / 3.6
     //F = m*v^2
     
     // 490000f = 100 * 70^2
-    // Accelamount is divided by 4 for 4 wheels
+    // Accelamount is divided by 2 for the 2 front wheels
     
-    velocity = _vehicleRB.velocity.magnitude;
-    if (Mathf.Abs(velocity) < 1) {
+    velocity = Math.Abs(_vehicleRB.velocity.magnitude);
+    if (velocity < 1) {
       velocity = 1;
     }
     engineForce = horsepower * 745.7f / (velocity * effieciency);
     acceleration = engineForce;
-    Vector3 accelerationDirection = Mathf.Min(0.5f * (acceleration  / 4) * accTime,490000f) * _tireTransform.forward;
+    Vector3 accelerationDirection = Mathf.Min(0.5f * (acceleration  / 2) * accTime,490000f) * _tireTransform.forward;
     //if (Mathf.Abs(_vehicleRB.velocity.magnitude) < 200) {
-    _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
+    //Checks if the tires are front tires.
+    if (tireType == TireType.frontTireLeft || tireType == TireType.frontTireRight) {
+      _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
+    }
     //}
     
     
