@@ -71,6 +71,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""GearShift"",
+                    ""type"": ""Button"",
+                    ""id"": ""a088340c-0d0e-4a3a-9efe-cfbd09b93177"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -271,6 +280,72 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Drift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""GamePad"",
+                    ""id"": ""2da3eb1d-7cf2-4d11-84ec-3684ccf67f1f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearShift"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""76180ff5-1636-4d5b-8396-7b0ebfb61fa4"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearShift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""9b641a96-284f-4649-887f-e0168959bcd6"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearShift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""3c82b5b5-f57a-42ae-ba8f-e21e724c9551"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearShift"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""d79e8df8-035b-41fb-b821-e6327f77f02a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearShift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""0e28f517-a59e-4c01-ab13-04166c8b09c3"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GearShift"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -284,6 +359,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Driving_Nitro = m_Driving.FindAction("Nitro", throwIfNotFound: true);
         m_Driving_Ability = m_Driving.FindAction("Ability", throwIfNotFound: true);
         m_Driving_Drift = m_Driving.FindAction("Drift", throwIfNotFound: true);
+        m_Driving_GearShift = m_Driving.FindAction("GearShift", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -350,6 +426,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Nitro;
     private readonly InputAction m_Driving_Ability;
     private readonly InputAction m_Driving_Drift;
+    private readonly InputAction m_Driving_GearShift;
     public struct DrivingActions
     {
         private @PlayerInput m_Wrapper;
@@ -359,6 +436,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Nitro => m_Wrapper.m_Driving_Nitro;
         public InputAction @Ability => m_Wrapper.m_Driving_Ability;
         public InputAction @Drift => m_Wrapper.m_Driving_Drift;
+        public InputAction @GearShift => m_Wrapper.m_Driving_GearShift;
         public InputActionMap Get() { return m_Wrapper.m_Driving; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -383,6 +461,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Drift.started += instance.OnDrift;
             @Drift.performed += instance.OnDrift;
             @Drift.canceled += instance.OnDrift;
+            @GearShift.started += instance.OnGearShift;
+            @GearShift.performed += instance.OnGearShift;
+            @GearShift.canceled += instance.OnGearShift;
         }
 
         private void UnregisterCallbacks(IDrivingActions instance)
@@ -402,6 +483,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Drift.started -= instance.OnDrift;
             @Drift.performed -= instance.OnDrift;
             @Drift.canceled -= instance.OnDrift;
+            @GearShift.started -= instance.OnGearShift;
+            @GearShift.performed -= instance.OnGearShift;
+            @GearShift.canceled -= instance.OnGearShift;
         }
 
         public void RemoveCallbacks(IDrivingActions instance)
@@ -426,5 +510,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnNitro(InputAction.CallbackContext context);
         void OnAbility(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
+        void OnGearShift(InputAction.CallbackContext context);
     }
 }

@@ -3,53 +3,56 @@ using UnityEngine;
 
 public class PlayerVehicleController : A_VehicleController
 {
-    protected InputManager inputManager;
+  protected InputManager inputManager;
 
-    protected override void Update()
+  protected override void Update()
+  {
+    base.Update();
+    playerControlsLogic();
+  }
+  public override void Init(InputManager playerInput)
+  {
+    base.Init();
+    this.inputManager = playerInput;
+  }
+  /// <summary>
+  /// Use in Update for child classes.
+  /// Does all the frame by frame input
+  /// </summary>
+  protected virtual void playerControlsLogic()
+  {
+    _throttleInput = inputManager.PlayerThrottleInput;
+    _turningInput = inputManager.PlayerTurningInput;
+
+    isUsingNitro = inputManager.isUsingNitro && _nitroChargeAmounts > 0;
+
+    isUsingDrift = inputManager.isDrifting;
+    //float gearShiftInput = inputManager.ShiftGearInput;
+    bool endedDrift = inputManager.endedDrifting;
+
+    if (isUsingNitro && canNitroAgain)
     {
-        base.Update();
-        playerControlsLogic();
+      startNitroBoost();
+      StartCoroutine(driftPressCoolDown(0.25f));
     }
-    public override void Init(InputManager playerInput)
+
+    if (inputManager.usedAbility) useCharacterAbility();
+    //    if (gearShiftInput != 0) _vehiclePhysics.ShiftGears(gearShiftInput);
+    _vehiclePhysics.driftVehicle(isUsingDrift);
+    _vehiclePhysics.endedDrifting(endedDrift);
+
+    _vehiclePhysics.setInputs(_throttleInput, _turningInput);
+
+  }
+  protected IEnumerator driftPressCoolDown(float time)
+  {
+    float count = 0f;
+    canNitroAgain = false;
+    while (count < time)
     {
-        base.Init();
-        this.inputManager = playerInput;
+      count += Time.deltaTime;
+      yield return null;
     }
-    /// <summary>
-    /// Use in Update for child classes.
-    /// Does all the frame by frame input
-    /// </summary>
-    protected virtual void playerControlsLogic()
-    {
-        _throttleInput = inputManager.PlayerThrottleInput;
-        _turningInput = inputManager.PlayerTurningInput;
-
-        isUsingNitro = inputManager.isUsingNitro && _nitroChargeAmounts > 0;
-
-        isUsingDrift = inputManager.isDrifting;
-        bool endedDrift = inputManager.endedDrifting;
-
-        if (isUsingNitro && canNitroAgain){
-            startNitroBoost();
-            StartCoroutine(driftPressCoolDown(0.25f));
-        }
-
-        if (inputManager.usedAbility) useCharacterAbility();
-
-        _vehiclePhysics.driftVehicle(isUsingDrift);
-        _vehiclePhysics.endedDrifting(endedDrift);
-
-        _vehiclePhysics.setInputs(_throttleInput, _turningInput);
-
-        //sisBreaking = _throttleInput < 0 ? true : false; 
-    }
-    protected IEnumerator driftPressCoolDown(float time){
-        float count = 0f;
-        canNitroAgain = false;
-        while(count < time){
-            count += Time.deltaTime;
-            yield return null;
-        }
-        canNitroAgain = true;
-    }
+    canNitroAgain = true;
+  }
 }

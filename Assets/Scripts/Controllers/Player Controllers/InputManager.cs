@@ -1,75 +1,79 @@
-using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
-public class InputManager: MonoBehaviour
+public class InputManager : MonoBehaviour
 {
-    [SerializeField] private PlayerInput _inputActions;
+  [SerializeField] private PlayerInput _inputActions;
 
-    private InputAction _Accelerate;
-    private InputAction _Turn;
-    private InputAction _Drift;
-    private InputAction _Ability;
-    private InputAction _Nitro;
+  private InputAction _Accelerate;
+  private InputAction _Turn;
+  private InputAction _Drift;
+  private InputAction _Ability;
+  private InputAction _Nitro;
+  private InputAction _GearShift;
+  //1D Axes. (Floats)
+  public float PlayerThrottleInput;
+  public float PlayerTurningInput;
 
-    //1D Axes. (Floats)
-    public float PlayerThrottleInput;
-    public float PlayerTurningInput;
-    //Booleans
-    public bool isDrifting;
-    public bool endedDrifting;
-    public bool usedAbility;
-    public bool isUsingNitro;
 
-    [SerializeField] private string debugginString;
-    public void Init()
+  //Booleans
+  public bool isDrifting;
+  public bool endedDrifting;
+  public bool usedAbility;
+  public bool isUsingNitro;
+
+
+  public bool ShiftGearInput;
+  [SerializeField] private string debugginString;
+  public void Init()
+  {
+    _inputActions = new PlayerInput();
+
+    _inputActions.Enable();
+
+
+
+    _Accelerate = _inputActions.Driving.Accelerate;
+    _Turn = _inputActions.Driving.Turn;
+    _GearShift = _inputActions.Driving.GearShift;
+    _Drift = _inputActions.Driving.Drift;
+    _Ability = _inputActions.Driving.Ability;
+    _Nitro = _inputActions.Driving.Nitro;
+
+    InputUser.onChange += InputUser_onChange;
+  }
+
+  private void OnDisable()
+  {
+    InputUser.onChange -= InputUser_onChange;
+  }
+
+  private void InputUser_onChange(InputUser arg1, InputUserChange arg2, InputDevice arg3)
+  {
+    if (arg2 == InputUserChange.ControlSchemeChanged)
     {
-        _inputActions = new PlayerInput();
-        
-        _inputActions.Enable();
-
-        
-
-        _Accelerate = _inputActions.Driving.Accelerate;
-        _Turn = _inputActions.Driving.Turn;
-        _Drift = _inputActions.Driving.Drift;
-        _Ability = _inputActions.Driving.Ability;
-        _Nitro = _inputActions.Driving.Nitro;
-
-        InputUser.onChange += InputUser_onChange;
-
-
+      Debug.Log(arg1.controlScheme);
     }
+  }
 
-    private void OnDisable()
-    {
-        InputUser.onChange -= InputUser_onChange;
-    }
+  void Update()
+  {
+    PlayerThrottleInput = _Accelerate.ReadValue<float>();
+    PlayerTurningInput = _Turn.ReadValue<float>();
 
-    private void InputUser_onChange(InputUser arg1, InputUserChange arg2, InputDevice arg3)
-    {
-        if (arg2 == InputUserChange.ControlSchemeChanged) {
-            Debug.Log(arg1.controlScheme);
-        }
-    }
+    isDrifting = _Drift.IsPressed();
 
-    void Update()
-    {
-        PlayerThrottleInput = _Accelerate.ReadValue<float>();
-        PlayerTurningInput = _Turn.ReadValue<float>();
+    endedDrifting = _Drift.WasReleasedThisFrame();
 
-        isDrifting = _Drift.IsPressed();
-
-        endedDrifting = _Drift.WasReleasedThisFrame();
-
-        usedAbility = _Ability.IsPressed();
-        isUsingNitro = _Nitro.IsPressed();
+    usedAbility = _Ability.IsPressed();
+    isUsingNitro = _Nitro.IsPressed();
 
 
-        debugginString = $"Throttle: {PlayerThrottleInput}\tTurning: {PlayerTurningInput}\n" +
-                    $"Drifting: {isDrifting}\n" +
-                    $"Using Ability: {usedAbility}\n" +
-                    $"Nitro Attempt: {isUsingNitro}";
-    }
+    debugginString = $"Throttle: {PlayerThrottleInput}\tTurning: {PlayerTurningInput}\n" +
+                $"Drifting: {isDrifting}\n" +
+                $"Using Ability: {usedAbility}\n" +
+                $"Nitro Attempt: {isUsingNitro}\n" +
+                $"Gear Shift: {ShiftGearInput}";
+  }
 }

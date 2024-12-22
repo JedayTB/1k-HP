@@ -20,26 +20,19 @@ public class CustomCarPhysics : MonoBehaviour
   private Rigidbody _rigidBody;
   public Rigidbody RigidBody { get => _rigidBody; }
 
-  //Accelerations
+  // Gear specifics
 
-  [Header("Acceleration Setup")]
+  [SerializeField] VehicleGearSpecs GearOne;
+  [SerializeField] VehicleGearSpecs GearTwo;
 
-
-  [Tooltip("Top speed of the car")]
-  [SerializeField] public float _terminalVelocity = 250f;
-
-  [Tooltip("Horse Power of the Vehicle")]
-  [SerializeField] public float horsePower = 500f;
-
-  private float _baseHP;
-  [SerializeField] private float axleEffiency = 0.85f;
-
-  [Tooltip("Grip")]
-  [SerializeField] private AnimationCurve tireGripCurve;
-  //Steering
+  public float horsePower;
+  public float _terminalVelocity = 250f;
+  private VehicleGearSpecs currentGear;
 
   [Header("Steering Setup")]
 
+  [Tooltip("Grip Of wheels Between speed 0 - Terminal Velocity")]
+  [SerializeField] private AnimationCurve tireGripCurve;
 
   [SerializeField] private float tireTurnModifier = 1;
   [SerializeField] private float minimumModifier = 0.25f;
@@ -62,7 +55,8 @@ public class CustomCarPhysics : MonoBehaviour
     _rigidBody = GetComponentInChildren<Rigidbody>();
 
     _transform = transform;
-    _baseHP = horsePower;
+    currentGear = GearOne;
+    horsePower = GearOne.HorsePower;
     halfTireLength = wheels.Length / 2;
 
     foreach (var tire in wheels)
@@ -93,6 +87,13 @@ public class CustomCarPhysics : MonoBehaviour
     _throttleInput = throttleAmt;
     _turningInput = turningAmt;
   }
+  public void ShiftGears(float delta)
+  {
+    currentGear = delta > 0 ? GearTwo : GearOne;
+    horsePower = currentGear.HorsePower;
+    Debug.Log("Hello?");
+    Debug.Log(currentGear.name);
+  }
   public float getSpeed()
   {
     return _rigidBody.velocity.magnitude;
@@ -118,7 +119,7 @@ public class CustomCarPhysics : MonoBehaviour
   {
 
     float count = 0f;
-    horsePower = _baseHP * _nitroMultiplier;
+    horsePower = currentGear.HorsePower * _nitroMultiplier;
     isUsingNitro = true;
     //Set invunerable to offroad / physicsMaterials below when implemented
     while (count <= nitroTiming)
@@ -128,7 +129,7 @@ public class CustomCarPhysics : MonoBehaviour
                           // this would make nitro timing 4x longer. don't do!
     }
     isUsingNitro = false;
-    horsePower = _baseHP;
+    horsePower = currentGear.HorsePower;
   }
 
   public void driftVehicle(bool isUsingDrift)
@@ -175,6 +176,7 @@ public class CustomCarPhysics : MonoBehaviour
     float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
     float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
 
+
     float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
 
     for (int i = 0; i < wheels.Length; i++)
@@ -185,7 +187,7 @@ public class CustomCarPhysics : MonoBehaviour
       {
         wheels[i].applyTireSuspensionForces();
 
-        wheels[i].applyTireAcceleration(horsePower, axleEffiency, _throttleInput);
+        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, _throttleInput);
 
         if (isDrifting)
         {
