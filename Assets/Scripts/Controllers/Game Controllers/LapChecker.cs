@@ -27,7 +27,6 @@ public class LapChecker : MonoBehaviour
         for (int i = 0; i < _checkpoints.Length; i++)
         {
             _checkpoints[i].Init(i, checkFinishedLap);
-            print("is anyone there");
         }
 
     }
