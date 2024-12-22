@@ -101,8 +101,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: bdab2b1aaaadd0243a64c56da6e05b36, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
-  _leftAckermanAngle: 0
-  _rightAckermanAngle: 0
+  _leftAckermanAngle: 16.699245
+  _rightAckermanAngle: 16.699245
 --- !u!1 &198871725301281455
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 2254422543436797512}
   m_Layer: 7
   m_Name: Hoku
-  m_TagString: PLAYER
+  m_TagString: Vehicle
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,7 +273,7 @@ Transform:
   m_GameObject: {fileID: 608705978403913832}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 7.56, z: -23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -342,6 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingNitro: 0
+  isDrifting: 0
   _raycastDistance: 1.5
   _groundLayers:
     serializedVersion: 2
@@ -351,52 +352,9 @@ MonoBehaviour:
   - {fileID: 1897339307590397757}
   - {fileID: 8474824526611576442}
   - {fileID: 7994983016796505166}
-  driftAudio: {fileID: 0}
   _terminalVelocity: 250
-  Acceleration: 1250
-  timeToFullAcceleration: 5
-  accelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.026096344
-      value: 0.27331543
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.42196098
-      value: 0.45309216
-      inSlope: 0.09595715
-      outSlope: 0.09595715
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.8124987
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.82694066
-      value: 0.44545388
-      inSlope: -0.033500154
-      outSlope: -0.033500154
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.35249072
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9866013
-      value: 0.22181447
-      inSlope: -0.011433023
-      outSlope: -0.011433023
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 1
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  horsePower: 500
+  axleEffiency: 0.85
   tireGripCurve:
     serializedVersion: 2
     m_Curve:
@@ -430,11 +388,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  tireTurnModifier: 1
+  minimumModifier: 0.25
   wheelbase: 1.5
   turnRadius: 5
   rearTrack: 0
-  timeToFullTurnAnggle: 3
-  isDrifting: 0
 --- !u!114 &7312018781602798775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +423,7 @@ MonoBehaviour:
   ModelParentTransform: {fileID: 5487074474534000891}
   _maxVisualizeLean: 35
   _minVisualizeLean: -35
-  _leanCircle: 0
+  _leanCircle: 16.699245
 --- !u!54 &7199422364950319069
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1730,8 +1688,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: bdab2b1aaaadd0243a64c56da6e05b36, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
-  _leftAckermanAngle: 0
-  _rightAckermanAngle: 0
+  _leftAckermanAngle: 16.699245
+  _rightAckermanAngle: 16.699245
 --- !u!1 &8231508351759339335
 GameObject:
   m_ObjectHideFlags: 0

@@ -1010,8 +1010,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: 29a3a66feb5f8544fa8f1fa9f4f4af58, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
-  _leftAckermanAngle: 11.309933
-  _rightAckermanAngle: 8.130103
+  _leftAckermanAngle: 8.746162
+  _rightAckermanAngle: 6.709837
 --- !u!1 &2370079206515548080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,8 +1450,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: 29a3a66feb5f8544fa8f1fa9f4f4af58, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
-  _leftAckermanAngle: 8.130103
-  _rightAckermanAngle: 11.309933
+  _leftAckermanAngle: 6.709837
+  _rightAckermanAngle: 8.746162
 --- !u!1 &3742358858707158326
 GameObject:
   m_ObjectHideFlags: 0
@@ -1755,7 +1755,7 @@ Transform:
   m_GameObject: {fileID: 4446781413359444397}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 7.56, z: -23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1824,6 +1824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingNitro: 0
+  isDrifting: 0
   _raycastDistance: 2
   _groundLayers:
     serializedVersion: 2
@@ -1870,10 +1871,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   tireTurnModifier: 1
+  minimumModifier: 0.25
   wheelbase: 1
   turnRadius: 7.5
   rearTrack: 2
-  isDrifting: 0
 --- !u!114 &7371111997208422806
 MonoBehaviour:
   m_ObjectHideFlags: 0

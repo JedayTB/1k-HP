@@ -793,8 +793,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
-  _leftAckermanAngle: 0
-  _rightAckermanAngle: 0
+  _leftAckermanAngle: 14.036243
+  _rightAckermanAngle: 11.309933
 --- !u!1 &5232671738890803637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,7 +1171,7 @@ GameObject:
   - component: {fileID: 7659244220439612871}
   m_Layer: 0
   m_Name: Mimi
-  m_TagString: Untagged
+  m_TagString: Vehicle
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1185,7 +1185,7 @@ Transform:
   m_GameObject: {fileID: 7077487187611724851}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 7.56, z: -23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1248,6 +1248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingNitro: 0
+  isDrifting: 0
   _raycastDistance: 2
   _groundLayers:
     serializedVersion: 2
@@ -1257,52 +1258,9 @@ MonoBehaviour:
   - {fileID: 3958110246255828870}
   - {fileID: 3582768172689973622}
   - {fileID: 7818923073952825665}
-  driftAudio: {fileID: 0}
   _terminalVelocity: 250
-  Acceleration: 1750
-  timeToFullAcceleration: 5
-  accelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.026096344
-      value: 0.27331543
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.42196098
-      value: 0.45309216
-      inSlope: 0.09595715
-      outSlope: 0.09595715
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.8124987
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.82694066
-      value: 0.44545388
-      inSlope: -0.033500154
-      outSlope: -0.033500154
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.35249072
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9866013
-      value: 0.22181447
-      inSlope: -0.011433023
-      outSlope: -0.011433023
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 1
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  horsePower: 500
+  axleEffiency: 0.85
   tireGripCurve:
     serializedVersion: 2
     m_Curve:
@@ -1336,11 +1294,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  tireTurnModifier: 1
+  minimumModifier: 0.25
   wheelbase: 2
   turnRadius: 9
   rearTrack: 2
-  timeToFullTurnAnggle: 3
-  isDrifting: 0
 --- !u!114 &5385889746810218508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1595,8 +1553,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
-  _leftAckermanAngle: 0
-  _rightAckermanAngle: 0
+  _leftAckermanAngle: 11.309933
+  _rightAckermanAngle: 14.036243
 --- !u!1 &7682401824571423170
 GameObject:
   m_ObjectHideFlags: 0

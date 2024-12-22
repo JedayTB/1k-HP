@@ -8,10 +8,13 @@ public class CustomCarPhysics : MonoBehaviour
   private float _turningInput;
   private Transform _transform;
   [HideInInspector] public bool isUsingNitro = false;
+  [HideInInspector] public bool isDrifting = false;
+
   [Header("Basic Setup")]
   [SerializeField] private float _raycastDistance = 1.5f;
   [SerializeField] private LayerMask _groundLayers;
   [SerializeField] private CustomWheels[] wheels;
+
   public CustomWheels[] WheelArray { get => wheels; }
   private int halfTireLength;
   private Rigidbody _rigidBody;
@@ -20,10 +23,14 @@ public class CustomCarPhysics : MonoBehaviour
   //Accelerations
 
   [Header("Acceleration Setup")]
+
+
   [Tooltip("Top speed of the car")]
   [SerializeField] public float _terminalVelocity = 250f;
+
   [Tooltip("Horse Power of the Vehicle")]
   [SerializeField] public float horsePower = 500f;
+
   private float _baseHP;
   [SerializeField] private float axleEffiency = 0.85f;
 
@@ -32,15 +39,19 @@ public class CustomCarPhysics : MonoBehaviour
   //Steering
 
   [Header("Steering Setup")]
+
+
   [SerializeField] private float tireTurnModifier = 1;
   [SerializeField] private float minimumModifier = 0.25f;
+
   [Tooltip("The Distance between the Front and Back tires")]
   [SerializeField] public float wheelbase = 5f;
+
   [Tooltip("Minimum Space rquired to turn Vehicle 180 degree's in metres")]
   [SerializeField] public float turnRadius = 10f;
+
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
-  [HideInInspector] public bool isDrifting = false;
 
   #endregion
 
