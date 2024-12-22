@@ -1833,52 +1833,9 @@ MonoBehaviour:
   - {fileID: 7903311167190477084}
   - {fileID: 2053133649919926467}
   - {fileID: 2052704930392583272}
-  driftAudio: {fileID: 0}
-  _terminalVelocity: 500
-  Acceleration: 1500
-  timeToFullAcceleration: 5
-  accelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.026096344
-      value: 0.27331543
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.42196098
-      value: 0.45309216
-      inSlope: 0.09595715
-      outSlope: 0.09595715
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.8124987
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.82694066
-      value: 0.44545388
-      inSlope: -0.033500154
-      outSlope: -0.033500154
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.35249072
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9866013
-      value: 0.22181447
-      inSlope: -0.011433023
-      outSlope: -0.011433023
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 1
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  _terminalVelocity: 250
+  horsePower: 500
+  axleEffiency: 0.85
   tireGripCurve:
     serializedVersion: 2
     m_Curve:
@@ -1912,10 +1869,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  tireTurnModifier: 1
   wheelbase: 1
   turnRadius: 7.5
   rearTrack: 2
-  timeToFullTurnAnggle: 3
   isDrifting: 0
 --- !u!114 &7371111997208422806
 MonoBehaviour:

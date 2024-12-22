@@ -1,4 +1,7 @@
+using System;
+using UnityEditor;
 using UnityEngine;
+
 public enum TireType
 {
   frontTireLeft,
@@ -8,7 +11,8 @@ public enum TireType
 
 public class CustomWheels : MonoBehaviour
 {
-
+  private float _turningInput = 0;
+  private float _throttleInput = 0;
   public TireType tireType;
   private Vector3 forceApplicationPoint;
   [SerializeField] private bool applyForcesAtWheelPoint = false;
@@ -23,15 +27,25 @@ public class CustomWheels : MonoBehaviour
   private Rigidbody _vehicleRB;
   private Transform _tireTransform;
   private RaycastHit rayCastHit;
+
+  private float forwardAccTime = 0f;
+  private float backwardAccTime = 0f;
+
   [SerializeField] private float _leftAckermanAngle, _rightAckermanAngle;
   private float suspensionOffset;
   public float SuspensionOffset { get => suspensionOffset; }
-
   public float LeftAckermanAngle { get => _leftAckermanAngle; }
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
+  //Drag Variables
+  private float dragForce;
+  private float airDensity = 1.225f;
+  private float frontalArea = 2.16f;
+  private float dragCoefficient = 0.3f;
+  private float rollingResistanceForce;
+  private float rrCoefficient = 0.15f;
 
-  private float accTime = 0;
+
 
   #region Public Physic's unrelated
   public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
@@ -66,17 +80,19 @@ public class CustomWheels : MonoBehaviour
     _tireTransform.localRotation = Quaternion.Euler(rotation);
   }
   /// <summary>
-  /// Lerp smoothed setting of tire Y angle. Uses ExponentialDecay smoothing, which is frame independent.
+  /// Smoothed turning of the tire! uses exponential decay
   /// </summary>
-  /// <param name="turningInput">value from 0-1 inside Custom Car physics</param>
-  public void TurnTire(float turningInput, float angleModifier)
+  /// <param name="modifier">Modifier that affects decayspeed, as well as the maximum desired angle</param>
+  public void TurnTire(float modifier)
   {
-    float desiredAngle = turningInput > 0 ? _rightAckermanAngle : _leftAckermanAngle;
-    desiredAngle *= turningInput;
+    float desiredAngle = _turningInput > 0 ? _rightAckermanAngle : _leftAckermanAngle;
+    desiredAngle *= _turningInput;
+    desiredAngle *= modifier;
 
-    float decaySpd = Mathf.Abs(turningInput) < 0.1f ? _decaySpeed : _decaySpeed * angleModifier;
+    float decaySpd = _decaySpeed * modifier;
 
     steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, decaySpd, Time.deltaTime);
+    //moveTires(steeringAngle);
 
     Vector3 rotation = transform.localRotation.eulerAngles;
 
@@ -84,6 +100,49 @@ public class CustomWheels : MonoBehaviour
     transform.localRotation = Quaternion.Euler(rotation);
   }
 
+  public void setInputs(float throttle, float turning)
+  {
+    _throttleInput = throttle;
+    _turningInput = turning;
+  }
+
+  /*
+  public void moveTires(float steeringAngle)
+  {
+    double turningRadius = wheelbase / Math.Tan(steeringAngle);s
+    velocity = _vehicleRB.velocity.magnitude;
+    double lateralAcceleration = Math.Pow(velocity, 2f) / turningRadius;
+    double lateralForce = mass * lateralAcceleration;
+    double gripForce = gripCoefficient * mass * Physics.gravity.y;
+    if (lateralForce > gripForce)
+    {
+      skid();
+    }
+
+  }
+  */
+
+  public void skid()
+  {
+
+  }
+  void Update()
+  {
+    // Timing bs
+
+
+    bool calcForward = tireIsGrounded && _throttleInput > 0f;
+    bool calcBackward = tireIsGrounded && _throttleInput < 0f;
+
+    forwardAccTime = calcForward ? forwardAccTime + Time.deltaTime : 0f;
+    backwardAccTime = calcBackward ? backwardAccTime + Time.deltaTime : 0f;
+    // If the forward vector angle of the tire is past a certain threshold of the 
+    // Forward vector of the car, skid (lose traction)
+    // find a way to put speed into the calculation
+    Vector3 carVelocity = _vehicleRB.velocity;
+    carVelocity = transform.InverseTransformDirection(carVelocity);
+    
+  }
   #endregion
 
   #region Physics Simulations
@@ -103,6 +162,9 @@ public class CustomWheels : MonoBehaviour
       Debug.DrawRay(transform.position, -transform.up * raycastDistance, rayColour);
     }
   }
+
+
+
   /// <summary>
   /// tire slide attempts to make the car stay in the Z direction of it's tires.
   /// </summary>
@@ -186,12 +248,34 @@ public class CustomWheels : MonoBehaviour
   /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
   /// <param name="throttle">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-  public void applyTireAcceleration(float accelerationAmount, float throttle)
+  public void applyTireAcceleration(float horsePower, float efficiency, float throttle)
   {
-    Vector3 accelerationDirection = throttle * accelerationAmount * transform.forward;
-    _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
+    float accelerationTime = _throttleInput > 0f ? forwardAccTime : backwardAccTime;
 
+    //V = V0*t + 0.5*a*t^2
+    //V += 1/2at^2
 
+    //70m/s = 250km/h / 3.6
+    //F = m*v^2
+
+    float velocity = Math.Abs(_vehicleRB.velocity.magnitude);
+
+    if (velocity < 1)
+    {
+      velocity = 1;
+    }
+
+    float engineForce = horsePower * 745.7f / (velocity * efficiency);
+
+    Vector3 accelerationDirection = 0.5f * (engineForce / 2) * accelerationTime * _tireTransform.forward;
+
+    accelerationDirection *= throttle;
+
+    //Checks if the tires are front tires.
+    if (tireType == TireType.frontTireLeft || tireType == TireType.frontTireRight)
+    {
+      _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
+    }
 
   }
   /// <summary>
