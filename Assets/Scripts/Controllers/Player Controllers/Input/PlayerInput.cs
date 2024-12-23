@@ -74,12 +74,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""GearShift"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""a088340c-0d0e-4a3a-9efe-cfbd09b93177"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
