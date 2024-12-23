@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
@@ -24,9 +25,15 @@ public class CustomCarPhysics : MonoBehaviour
 
   [SerializeField] VehicleGearSpecs GearOne;
   [SerializeField] VehicleGearSpecs GearTwo;
+  // Only for UI display
+  [HideInInspector] public string gearText = "1st Gear";
 
-  public float horsePower;
+  [Header("Acceleration setup")]
+
+
+  [HideInInspector] public float horsePower;
   public float _terminalVelocity = 250f;
+  private Vector3 cachedLocalVelocity;
   private VehicleGearSpecs currentGear;
 
   [Header("Steering Setup")]
@@ -89,10 +96,19 @@ public class CustomCarPhysics : MonoBehaviour
   }
   public void ShiftGears(float delta)
   {
-    currentGear = delta > 0 ? GearTwo : GearOne;
-    horsePower = currentGear.HorsePower;
-    Debug.Log("Hello?");
-    Debug.Log(currentGear.name);
+    if (delta != 0)
+    {
+      currentGear = delta > 0 ? GearTwo : GearOne;
+      gearText = delta > 0 ? "2nd Gear" : "1st Gear";
+      horsePower = currentGear.HorsePower;
+
+      foreach (var wheel in wheels)
+      {
+        wheel.forwardAccTime = 0f;
+        wheel.backwardAccTime = 0f;
+      }
+    }
+
   }
   public float getSpeed()
   {
@@ -200,7 +216,10 @@ public class CustomCarPhysics : MonoBehaviour
       }
 
     }
+    cachedLocalVelocity = _rigidBody.velocity;
+    cachedLocalVelocity.z = Mathf.Clamp(cachedLocalVelocity.z, -currentGear.MaxSpeed, currentGear.MaxSpeed);
 
+    _rigidBody.velocity = cachedLocalVelocity;
   }
   #endregion
 }

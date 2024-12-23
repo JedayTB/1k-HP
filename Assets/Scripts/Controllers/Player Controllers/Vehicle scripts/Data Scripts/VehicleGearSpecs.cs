@@ -8,4 +8,6 @@ public class VehicleGearSpecs : ScriptableObject
   [SerializeField] public float HorsePower = 500f;
   [Tooltip("Axle Efficiency at given gear")]
   [SerializeField] public float AxleEfficiency = 0.85f;
+  [Tooltip("Max Speed with given Gear")]
+  [SerializeField] public float MaxSpeed = 80f;
 }

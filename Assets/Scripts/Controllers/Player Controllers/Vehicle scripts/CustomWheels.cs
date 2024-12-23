@@ -27,8 +27,8 @@ public class CustomWheels : MonoBehaviour
   private Transform _tireTransform;
   private RaycastHit rayCastHit;
 
-  private float forwardAccTime = 0f;
-  private float backwardAccTime = 0f;
+  public float forwardAccTime = 0f;
+  public float backwardAccTime = 0f;
 
   [SerializeField] private float _leftAckermanAngle, _rightAckermanAngle;
   private float suspensionOffset;
