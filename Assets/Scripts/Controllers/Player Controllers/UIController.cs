@@ -25,6 +25,7 @@ public class UIController : MonoBehaviour
   [SerializeField] private Slider _playerNitroSlider;
   [SerializeField] private Slider _builtUpNitroSlider;
   [SerializeField] private Slider _AbilityGaugeSlider;
+  [SerializeField] private Slider _DirToCheckpoint;
   // Misc
   private bool _menuIsOpen = false;
   [SerializeField] private float _resetFreezeDuration = 1.5f;
@@ -65,14 +66,10 @@ public class UIController : MonoBehaviour
     {
       resetPlayer();
     }
-
-    _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
-
     if (_player.isDrifting)
     {
       _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
     }
-    _playerNitroSlider.value = _player._nitroChargeAmounts;
     if (_player._abilityGauge > 0)
     {
       _AbilityGaugeSlider.gameObject.SetActive(true);
@@ -83,7 +80,6 @@ public class UIController : MonoBehaviour
       _AbilityGaugeSlider.gameObject.SetActive(false);
     }
 
-
     if (_spedometerLinePivot != null)
     {
       // Basically just find out how far along the spedometer we are as a percent from 0-1
@@ -92,9 +88,25 @@ public class UIController : MonoBehaviour
       float spedometerZRot = -rotationDif * spedometerPercent;
       _spedometerLinePivot.rotation = Quaternion.Euler(0, 0, spedometerZRot);
     }
-    GearText.text = _player.VehiclePhysics.gearText;
-  }
+    AdjustAngleToCheckpoint();
 
+    _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
+    _playerNitroSlider.value = _player._nitroChargeAmounts;
+    GearText.text = _player.VehiclePhysics.gearText;
+
+
+  }
+  private void AdjustAngleToCheckpoint()
+  {
+    float angleToCheckpoint = 0;
+    int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
+    Vector3 playerToNextCheckpointDir = GameStateManager.Instance.levelCheckpointLocations[index] - _player.transform.position;
+    Debug.DrawRay(_player.transform.position, playerToNextCheckpointDir, Color.red);
+    // Use X and Z values because we're in 3d!;
+    angleToCheckpoint = Mathf.Rad2Deg * Mathf.Atan2(playerToNextCheckpointDir.x, playerToNextCheckpointDir.z) - 90f;
+
+    _DirToCheckpoint.value = angleToCheckpoint;
+  }
   public void setPlayScreen(bool val)
   {
     _playMenu.gameObject.SetActive(val);

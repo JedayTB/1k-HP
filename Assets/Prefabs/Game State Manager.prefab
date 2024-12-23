@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625de75fe6388b4478b447a7ad0f6e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextPlayerCheckpointPosition: 0
   cam: {fileID: 0}
   _lapChecker: {fileID: 0}
   _lapTimer: {fileID: 1856795309123257200}
@@ -266,6 +267,7 @@ MonoBehaviour:
   - {fileID: 7047727161722418333}
   _postProcessing: {fileID: 0}
   _lapTimesText: {fileID: 161902357188795642}
+  levelCheckpointLocations: []
 --- !u!1 &5758554554474994287
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,6 +879,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 782140631646644743}
     m_Modifications:
+    - target: {fileID: 1091972026641267408, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091972026641267408, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091972026641267408, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6257373978762454745, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: m_Pivot.x

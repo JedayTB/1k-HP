@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
+  public int nextPlayerCheckpointPosition = 0;
+  private static GameStateManager instance;
+
+  public static GameStateManager Instance { get { return instance; } }
   private InputManager inputManager;
   private PlayerVehicleController _player;
   public static PlayerVehicleController Player; // Singleton var
+
   [SerializeField] private CameraFollower3D cam;
-  [SerializeField] private LapChecker _lapChecker;
+  [SerializeField] public LapChecker _lapChecker;
   [SerializeField] private LapTimer _lapTimer;
   [SerializeField] private waypointGizmos[] NavigationTracks;
   [SerializeField] private UIController _uiController;
@@ -22,10 +27,11 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private TextMeshProUGUI _lapTimesText;
 
   private List<A_VehicleController> vehicles = new List<A_VehicleController>();
-
+  public Vector3[] levelCheckpointLocations;
 
   private void Awake()
   {
+    instance = this;
     var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocations[0].transform.position, _startLocations[0].transform.rotation);
 
     _player = tempPlayer.GetComponent<PlayerVehicleController>();
@@ -35,6 +41,7 @@ public class GameStateManager : MonoBehaviour
     inputManager.Init();
 
     _lapChecker?.Init(this);
+    levelCheckpointLocations = _lapChecker.checkPointLocations;
     _uiController?.init(_player);
     cam = Camera.main.gameObject.GetComponentInParent<CameraFollower3D>();
     cam?.Init(inputManager);
@@ -78,7 +85,10 @@ public class GameStateManager : MonoBehaviour
       onPlayerWin();
     }
   }
-
+  public void setNextPlayerCheckpoint(int index)
+  {
+    nextPlayerCheckpointPosition = index;
+  }
   public void onPlayerWin()
   {
     Debug.Log("Player won!");
