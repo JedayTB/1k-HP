@@ -27,6 +27,7 @@ public class UIController : MonoBehaviour
   [SerializeField] private Slider _AbilityGaugeSlider;
   [SerializeField] private Slider _DirToCheckpoint;
   // Misc
+  public float nextCheckpointAngle;
   private bool _menuIsOpen = false;
   [SerializeField] private float _resetFreezeDuration = 1.5f;
 
@@ -98,14 +99,17 @@ public class UIController : MonoBehaviour
   }
   private void AdjustAngleToCheckpoint()
   {
-    float angleToCheckpoint = 0;
+
     int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
     Vector3 playerToNextCheckpointDir = GameStateManager.Instance.levelCheckpointLocations[index] - _player.transform.position;
-    Debug.DrawRay(_player.transform.position, playerToNextCheckpointDir, Color.red);
-    // Use X and Z values because we're in 3d!;
-    angleToCheckpoint = Mathf.Rad2Deg * Mathf.Atan2(playerToNextCheckpointDir.x, playerToNextCheckpointDir.z) - 90f;
+    playerToNextCheckpointDir -= _player.transform.forward;
 
-    _DirToCheckpoint.value = angleToCheckpoint;
+    Debug.DrawRay(_player.transform.position, playerToNextCheckpointDir, Color.green);
+    // Use X and Z values because we're in 3d!;
+    nextCheckpointAngle = Mathf.Rad2Deg * Mathf.Atan2(playerToNextCheckpointDir.z, playerToNextCheckpointDir.x) - 90f;
+    nextCheckpointAngle -= _player.transform.rotation.eulerAngles.y;
+    //nextCheckpointAngle *= Mathf.Rad2Deg;
+    _DirToCheckpoint.value = nextCheckpointAngle;
   }
   public void setPlayScreen(bool val)
   {
