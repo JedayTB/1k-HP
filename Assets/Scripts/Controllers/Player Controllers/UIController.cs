@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+  public string debugStr;
   private PlayerVehicleController _player;
   [SerializeField] private GameObject _pauseMenu;
   // Menu's
@@ -14,20 +15,19 @@ public class UIController : MonoBehaviour
 
   // Text
   [SerializeField] private TextMeshProUGUI _nextMapName;
-  [SerializeField] private TextMeshProUGUI speedText;
   [SerializeField] private TextMeshProUGUI _countdownText;
   [SerializeField] private TextMeshProUGUI GearText;
   // Rect transforms 
   [SerializeField] private RectTransform _spedometerLinePivot;
-  [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
-
+  [SerializeField] private RectTransform nextCheckpointCompas;
   // Slider's 
   [SerializeField] private Slider _playerNitroSlider;
   [SerializeField] private Slider _builtUpNitroSlider;
   [SerializeField] private Slider _AbilityGaugeSlider;
-  [SerializeField] private Slider _DirToCheckpoint;
   // Misc
-  public float nextCheckpointAngle;
+  [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
+
+  private float nextCheckpointAngle;
   private bool _menuIsOpen = false;
   [SerializeField] private float _resetFreezeDuration = 1.5f;
 
@@ -81,14 +81,7 @@ public class UIController : MonoBehaviour
       _AbilityGaugeSlider.gameObject.SetActive(false);
     }
 
-    if (_spedometerLinePivot != null)
-    {
-      // Basically just find out how far along the spedometer we are as a percent from 0-1
-      // Then multiply the degree difference from 0km to 320km (right now the total diff is 194 degrees) by the percent
-      float spedometerPercent = GameStateManager.Player.VehiclePhysics.getSpeed() / maxSpeed;
-      float spedometerZRot = -rotationDif * spedometerPercent;
-      _spedometerLinePivot.rotation = Quaternion.Euler(0, 0, spedometerZRot);
-    }
+    rotateSpeedometreLine();
     AdjustAngleToCheckpoint();
 
     _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
@@ -101,15 +94,29 @@ public class UIController : MonoBehaviour
   {
 
     int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
-    Vector3 playerToNextCheckpointDir = GameStateManager.Instance.levelCheckpointLocations[index] - _player.transform.position;
-    playerToNextCheckpointDir -= _player.transform.forward;
+    // Effectively forward facing angle
+    float playerYRot = _player.transform.rotation.eulerAngles.y;
 
-    Debug.DrawRay(_player.transform.position, playerToNextCheckpointDir, Color.green);
+    Vector3 playerToNextCheckpointDir = GameStateManager.Instance.levelCheckpointLocations[index] - _player.transform.position;
+    playerToNextCheckpointDir.Normalize();
+
     // Use X and Z values because we're in 3d!;
     nextCheckpointAngle = Mathf.Rad2Deg * Mathf.Atan2(playerToNextCheckpointDir.z, playerToNextCheckpointDir.x) - 90f;
-    nextCheckpointAngle -= _player.transform.rotation.eulerAngles.y;
-    //nextCheckpointAngle *= Mathf.Rad2Deg;
-    _DirToCheckpoint.value = nextCheckpointAngle;
+
+    nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
+    debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
+  }
+
+  private void rotateSpeedometreLine()
+  {
+    if (_spedometerLinePivot != null)
+    {
+      // Basically just find out how far along the spedometer we are as a percent from 0-1
+      // Then multiply the degree difference from 0km to 320km (right now the total diff is 194 degrees) by the percent
+      float spedometerPercent = GameStateManager.Player.VehiclePhysics.getSpeed() / maxSpeed;
+      float spedometerZRot = -rotationDif * spedometerPercent;
+      _spedometerLinePivot.rotation = Quaternion.Euler(0, 0, spedometerZRot);
+    }
   }
   public void setPlayScreen(bool val)
   {
