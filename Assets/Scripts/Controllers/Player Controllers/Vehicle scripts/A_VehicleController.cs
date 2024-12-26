@@ -113,6 +113,9 @@ public abstract class A_VehicleController : MonoBehaviour
 
     _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
     _vehiclePhysics.RigidBody.angularVelocity = Vector3.zero;
+    _vehiclePhysics.delayGroundCheck(3.5f);
+
+    Debug.LogError("Respawn is fucked I think");
   }
   public virtual void setNewRespawnPosition()
   {

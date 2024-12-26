@@ -53,6 +53,14 @@ public class CustomCarPhysics : MonoBehaviour
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
 
+  [Header("Ground Stick Setup")]
+  [Tooltip("The amount of speed to stop sticking to the ground")]
+  [SerializeField] private float thresholdToJump = 145f;
+  [Tooltip("Distance from above the ground the car is considered 'grounded'. (How far until groundStick is applies)")]
+  [SerializeField] private float groundCheckDistance = 4f;
+  private Vector3 setGroundPos;
+  [SerializeField] private float lastGroundedXAngle;
+  bool doStickGround;
   #endregion
 
   #region Public use Methods
@@ -85,7 +93,7 @@ public class CustomCarPhysics : MonoBehaviour
 
       tire.init(_rigidBody, leftAckAngle, rightAckAngle);
     }
-
+    StartCoroutine(delayGroundCheck(3.5f));
     print($"{this.gameObject.name} finished init");
   }
 
@@ -214,12 +222,44 @@ public class CustomCarPhysics : MonoBehaviour
           wheels[i].applyTireSlide(tireGrip);
         }
       }
-
     }
     cachedLocalVelocity = _rigidBody.velocity;
     cachedLocalVelocity.z = Mathf.Clamp(cachedLocalVelocity.z, -currentGear.MaxSpeed, currentGear.MaxSpeed);
 
     _rigidBody.velocity = cachedLocalVelocity;
+
+    bool isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundCheckDistance, _groundLayers);
+    Debug.DrawRay(transform.position, -transform.up * _raycastDistance, isGrounded == true ? Color.green : Color.red);
+    // Not enough speed to jump
+    if (isGrounded == false && _rigidBody.velocity.magnitude < thresholdToJump)
+    {
+      if (doStickGround) stickToGround();
+    }
+    else
+    {
+      lastGroundedXAngle = transform.rotation.eulerAngles.x;
+    }
+  }
+  private void stickToGround()
+  {
+    Physics.Raycast(transform.position, Vector3.down, out RaycastHit GroundHit, _groundLayers);
+    setGroundPos = GroundHit.point;
+    transform.position = setGroundPos;
+    Vector3 rot = transform.rotation.eulerAngles;
+    rot.x = lastGroundedXAngle;
+
+    transform.rotation = Quaternion.Euler(rot);
+    StartCoroutine(delayGroundCheck(1.5f));
+  }
+  public IEnumerator delayGroundCheck(float delayTime)
+  {
+    float timeCount = 0;
+    while (timeCount < delayTime)
+    {
+      timeCount += Time.deltaTime;
+      yield return null;
+    }
+    doStickGround = true;
   }
   #endregion
 }

@@ -4,10 +4,11 @@ using UnityEngine;
 public class PlayerVehicleController : A_VehicleController
 {
   protected InputManager inputManager;
-
+  protected KeyCode resetInput = KeyCode.R;
   protected override void Update()
   {
     base.Update();
+    if (Input.GetKeyDown(resetInput)) resetPlayer();
     playerControlsLogic();
   }
   public override void Init(InputManager playerInput)
@@ -55,5 +56,26 @@ public class PlayerVehicleController : A_VehicleController
       yield return null;
     }
     canNitroAgain = true;
+  }
+  protected void resetPlayer()
+  {
+    transform.position += new Vector3(0, 5f, 0);
+
+    transform.rotation = Quaternion.identity;
+    VehiclePhysics.RigidBody.velocity = Vector3.zero;
+    StartCoroutine(FreezeRotation(1.5f));
+
+  }
+  // I moved it here, Ethan :kissyface:
+  public IEnumerator FreezeRotation(float time) // my first coroutine omg are you proud of me :3
+  {
+    float count = 0;
+    VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+    while (count < time)
+    {
+      count += Time.deltaTime;
+      yield return null;
+    }
+    VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
   }
 }

@@ -1010,6 +1010,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: 29a3a66feb5f8544fa8f1fa9f4f4af58, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
+  forwardAccTime: 0
+  backwardAccTime: 0
   _leftAckermanAngle: 8.746162
   _rightAckermanAngle: 6.709837
 --- !u!1 &2370079206515548080
@@ -1450,6 +1452,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: 29a3a66feb5f8544fa8f1fa9f4f4af58, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
+  forwardAccTime: 0
+  backwardAccTime: 0
   _leftAckermanAngle: 6.709837
   _rightAckermanAngle: 8.746162
 --- !u!1 &3742358858707158326
@@ -1722,6 +1726,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: 29a3a66feb5f8544fa8f1fa9f4f4af58, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
+  forwardAccTime: 0
+  backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
 --- !u!1 &4446781413359444397
@@ -1836,6 +1842,7 @@ MonoBehaviour:
   - {fileID: 2052704930392583272}
   GearOne: {fileID: 11400000, guid: 90a437f4aceb858a88b37e3c5f580a50, type: 2}
   GearTwo: {fileID: 11400000, guid: 7123d7238e809b1d2a6ba9d5cbc32395, type: 2}
+  gearText: 1st Gear
   horsePower: 500
   _terminalVelocity: 250
   tireGripCurve:
@@ -1876,6 +1883,7 @@ MonoBehaviour:
   wheelbase: 1
   turnRadius: 7.5
   rearTrack: 2
+  thresholdToJump: 145
 --- !u!114 &7371111997208422806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7096,6 +7104,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: 29a3a66feb5f8544fa8f1fa9f4f4af58, type: 2}
   _decaySpeed: 7.5
   isDebugging: 1
+  forwardAccTime: 0
+  backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
 --- !u!1 &5218607769501586475

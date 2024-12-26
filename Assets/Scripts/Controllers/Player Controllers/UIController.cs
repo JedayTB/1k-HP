@@ -45,16 +45,6 @@ public class UIController : MonoBehaviour
     _builtUpNitroSlider.maxValue = 1f;
     cachedLocation = _player.transform.position;
 
-    if (_player == null)
-    {
-      Debug.Log("PLAYER NOT SET!");
-    }
-
-
-    if (_player.VehiclePhysics == null)
-    {
-      print("WHAT THE FUCK!");
-    }
     StartCoroutine(CountDown(3));
   }
   void Update()
@@ -63,10 +53,7 @@ public class UIController : MonoBehaviour
     {
       menuOpenClose();
     }
-    if (Input.GetKeyDown(KeyCode.R))
-    {
-      resetPlayer();
-    }
+
     if (_player.isDrifting)
     {
       _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
@@ -80,15 +67,16 @@ public class UIController : MonoBehaviour
     {
       _AbilityGaugeSlider.gameObject.SetActive(false);
     }
+    if (GameStateManager.Instance.levelCheckpointLocations != null)
+    {
 
+      AdjustAngleToCheckpoint();
+    }
     rotateSpeedometreLine();
-    AdjustAngleToCheckpoint();
 
     _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
     _playerNitroSlider.value = _player._nitroChargeAmounts;
     GearText.text = _player.VehiclePhysics.gearText;
-
-
   }
   private void AdjustAngleToCheckpoint()
   {
@@ -102,6 +90,8 @@ public class UIController : MonoBehaviour
 
     // Use X and Z values because we're in 3d!;
     nextCheckpointAngle = Mathf.Rad2Deg * Mathf.Atan2(playerToNextCheckpointDir.z, playerToNextCheckpointDir.x) - 90f;
+
+    nextCheckpointAngle = Mathf.DeltaAngle(nextCheckpointAngle, playerYRot);
 
     nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
     debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
@@ -148,6 +138,8 @@ public class UIController : MonoBehaviour
 
   private void menuOpenClose()
   {
+    Debug.LogWarning("Configure to use Input System instead of keycode");
+
     if (_menuIsOpen == true)
     {
       _pauseMenu.SetActive(false);
@@ -169,17 +161,8 @@ public class UIController : MonoBehaviour
 
   public void resetPlayer()
   {
-    _player.VehiclePhysics.RigidBody.velocity = Vector3.zero;
+    _player.respawn();
 
-    Vector3 newPosition = new Vector3(_player.transform.position.x, _player.transform.position.y + 10f, _player.transform.position.z);
-    _player.transform.position = newPosition;
-
-    Quaternion newRotation = Quaternion.Euler(0, _player.transform.rotation.eulerAngles.y, 0);
-    _player.transform.rotation = newRotation;
-
-    StartCoroutine(FreezeRotation(1.5f));
-
-    //GameStateManager.Player.respawn();
     if (_menuIsOpen)
     {
       menuOpenClose();
@@ -191,17 +174,6 @@ public class UIController : MonoBehaviour
     menuOpenClose(); // pretty sure this will always close and never cause problems
   }
 
-  public IEnumerator FreezeRotation(float time) // my first coroutine omg are you proud of me :3
-  {
-    float count = 0;
-    _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezeRotation;
-    while (count < time)
-    {
-      count += Time.deltaTime;
-      yield return null;
-    }
-    _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
-  }
 
   public IEnumerator FadeInResults(float time, CanvasGroup winScreen)
   {
