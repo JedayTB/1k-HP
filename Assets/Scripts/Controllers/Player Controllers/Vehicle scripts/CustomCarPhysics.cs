@@ -228,6 +228,7 @@ public class CustomCarPhysics : MonoBehaviour
 
     _rigidBody.velocity = cachedLocalVelocity;
 
+    /*
     bool isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundCheckDistance, _groundLayers);
     Debug.DrawRay(transform.position, -transform.up * _raycastDistance, isGrounded == true ? Color.green : Color.red);
     // Not enough speed to jump
@@ -239,6 +240,7 @@ public class CustomCarPhysics : MonoBehaviour
     {
       lastGroundedXAngle = transform.rotation.eulerAngles.x;
     }
+    */
   }
   private void stickToGround()
   {

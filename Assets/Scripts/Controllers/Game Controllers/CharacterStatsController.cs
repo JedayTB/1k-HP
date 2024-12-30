@@ -14,6 +14,7 @@ struct characterStats
 public class CharacterStatsController : MonoBehaviour
 {
   [SerializeField] A_VehicleController[] CharactersList;
+  [SerializeField] Transform[] characterSpawnLocations;
   private characterStats[] charStats;
 
   [SerializeField] Slider horsePowerSlider;
@@ -29,13 +30,13 @@ public class CharacterStatsController : MonoBehaviour
   void Start()
   {
     charStats = new characterStats[CharactersList.Length];
-
-    //Has To init cars first to access other members.
-    // It's goofy... But it Should work!
-    foreach (var p in CharactersList)
+    for (int i = 0; i < CharactersList.Length; i++)
     {
-      p.Init();
-      p.transform.position = new Vector3(0, 7.56f, -23f);
+      var vehicle = Instantiate(CharactersList[i]);
+      vehicle.Init();
+      vehicle.transform.position = characterSpawnLocations[i].position;
+      // Disable the controller
+      vehicle.enabled = false;
     }
 
 
