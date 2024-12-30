@@ -22,7 +22,7 @@ public class CharacterStatsController : MonoBehaviour
   [SerializeField] Slider handlingSlider;
 
   private float highestHP = float.MinValue;
-  private float highestTurningRadius = float.MinValue;
+  private float highestHandling = float.MinValue;
   private float highestNitroChargeAmounts = int.MinValue;
 
   private Dictionary<string, characterStats> NameToStat = new();
@@ -42,8 +42,14 @@ public class CharacterStatsController : MonoBehaviour
 
     for (int i = 0; i < CharactersList.Length; i++)
     {
+      float handlingAverage = CharactersList[i].VehiclePhysics.WheelArray[0].LeftAckermanAngle +
+                              CharactersList[i].VehiclePhysics.WheelArray[0].RightAckermanAngle +
+                              CharactersList[i].VehiclePhysics.WheelArray[1].LeftAckermanAngle +
+                              CharactersList[i].VehiclePhysics.WheelArray[1].RightAckermanAngle;
+      handlingAverage /= 4;
+
       if (CharactersList[i].VehiclePhysics.horsePower > highestHP) highestHP = CharactersList[i].VehiclePhysics.horsePower;
-      if (CharactersList[i].VehiclePhysics.turnRadius > highestTurningRadius) highestTurningRadius = CharactersList[i].VehiclePhysics.turnRadius;
+      if (handlingAverage > highestHandling) highestHandling = handlingAverage;
       if (CharactersList[i].MaxNitroChargeAmounts > highestNitroChargeAmounts) highestNitroChargeAmounts = CharactersList[i].MaxNitroChargeAmounts;
       //
       Debug.Log(CharactersList[i].gameObject.name);
@@ -55,15 +61,17 @@ public class CharacterStatsController : MonoBehaviour
       charStats[i].characterName = CharactersList[i].gameObject.name;
       charStats[i].HorsePower = CharactersList[i].VehiclePhysics.horsePower;
       charStats[i].NitroChargeAmounts = CharactersList[i].MaxNitroChargeAmounts;
-      charStats[i].Handling = CharactersList[i].VehiclePhysics.turnRadius;
+      charStats[i].Handling = handlingAverage;
       //  
       NameToStat.Add(CharactersList[i].gameObject.name, charStats[i]);
 
     }
 
     horsePowerSlider.maxValue = highestHP;
-    handlingSlider.maxValue = highestTurningRadius;
+    handlingSlider.maxValue = highestHandling;
     NitroChargeAmountSlider.maxValue = highestNitroChargeAmounts;
+
+    changeAllSliderValues("Mimi");
   }
 
   public void changeAllSliderValues(string characterName)

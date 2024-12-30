@@ -19,6 +19,7 @@ public class CustomWheels : MonoBehaviour
   [SerializeField] private WheelSpecs _wheelSpecs;
   [SerializeField] private float _decaySpeed = 7.5f;
   [SerializeField] private bool isDebugging;
+
   private float steeringAngle;
   public float SteeringAngle { get => steeringAngle; }
   private bool tireIsGrounded = false;
