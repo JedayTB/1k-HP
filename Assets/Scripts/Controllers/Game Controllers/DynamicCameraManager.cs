@@ -29,9 +29,8 @@ public class DynamicCameraManager : MonoBehaviour
   IEnumerator PanCameraToLocation(float panTime, Transform newTransform)
   {
     float count = 0;
-    Vector3 cameraStartPos = Camera.main.transform.position;
-    Quaternion cameraStartRotation = Camera.main.transform.rotation;
-
+    Vector3 cameraStartPos = _camera.transform.position;
+    Quaternion cameraStartRotation = _camera.transform.rotation;
     Vector3 destPos = newTransform.position;
     Quaternion destRot = newTransform.rotation;
 
@@ -43,8 +42,8 @@ public class DynamicCameraManager : MonoBehaviour
 
       progress = LerpAndEasings.ExponentialDecay(progress, 1f, 5, Time.deltaTime);
 
-      Camera.main.transform.position = Vector3.Slerp(cameraStartPos, destPos, progress);
-      Camera.main.transform.rotation = Quaternion.Slerp(cameraStartRotation, destRot, progress);
+      _camera.transform.position = Vector3.Slerp(cameraStartPos, destPos, progress);
+      _camera.transform.rotation = Quaternion.Slerp(cameraStartRotation, destRot, progress);
 
       yield return null;
     }

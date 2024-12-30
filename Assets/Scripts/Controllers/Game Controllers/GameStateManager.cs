@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
+  public bool UseDebug = true;
   public int nextPlayerCheckpointPosition = 0;
   private static GameStateManager instance;
 
