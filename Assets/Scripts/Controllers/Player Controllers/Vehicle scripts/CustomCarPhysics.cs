@@ -21,6 +21,12 @@ public class CustomCarPhysics : MonoBehaviour
   private Rigidbody _rigidBody;
   public Rigidbody RigidBody { get => _rigidBody; }
 
+  [Header("Angle Clamping")]
+
+  [SerializeField] private float minXAngle = -10, maxXAngle = 10;
+  [SerializeField] private float minZAngle = -15, maxZAngle = 15;
+
+  [Header("Gears")]
   // Gear specifics
 
   [SerializeField] VehicleGearSpecs GearOne;
@@ -29,7 +35,6 @@ public class CustomCarPhysics : MonoBehaviour
   [HideInInspector] public string gearText = "1st Gear";
 
   [Header("Acceleration setup")]
-
 
   [HideInInspector] public float horsePower;
   public float _terminalVelocity = 250f;
@@ -199,8 +204,6 @@ public class CustomCarPhysics : MonoBehaviour
   {
     float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
     float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
-
-
     float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
 
     for (int i = 0; i < wheels.Length; i++)
@@ -211,7 +214,7 @@ public class CustomCarPhysics : MonoBehaviour
       {
         wheels[i].applyTireSuspensionForces();
 
-        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, _throttleInput);
+        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, _throttleInput);
 
         if (isDrifting)
         {
@@ -228,7 +231,34 @@ public class CustomCarPhysics : MonoBehaviour
 
     _rigidBody.velocity = cachedLocalVelocity;
 
-    /*
+    //checkIfGrounded();
+    ClampLocalRotation();
+  }
+  private void ClampLocalRotation()
+  {
+    Vector3 localEulerAngles = transform.localRotation.eulerAngles;
+
+    localEulerAngles.x = ClampAngle(localEulerAngles.x, minXAngle, maxXAngle);
+    localEulerAngles.z = ClampAngle(localEulerAngles.z, minZAngle, maxZAngle);
+
+    transform.localRotation = Quaternion.Euler(localEulerAngles);
+  }
+
+  public static float ClampAngle(float current, float min, float max)
+  {
+    float dtAngle = Mathf.Abs(((min - max) + 180) % 360 - 180);
+    float hdtAngle = dtAngle * 0.5f;
+    float midAngle = min + hdtAngle;
+
+    float offset = Mathf.Abs(Mathf.DeltaAngle(current, midAngle)) - hdtAngle;
+    if (offset > 0)
+      current = Mathf.MoveTowardsAngle(current, midAngle, offset);
+    return current;
+  }
+
+  private void checkIfGrounded()
+  {
+
     bool isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundCheckDistance, _groundLayers);
     Debug.DrawRay(transform.position, -transform.up * _raycastDistance, isGrounded == true ? Color.green : Color.red);
     // Not enough speed to jump
@@ -240,7 +270,6 @@ public class CustomCarPhysics : MonoBehaviour
     {
       lastGroundedXAngle = transform.rotation.eulerAngles.x;
     }
-    */
   }
   private void stickToGround()
   {

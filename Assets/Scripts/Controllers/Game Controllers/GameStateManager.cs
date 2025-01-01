@@ -42,7 +42,7 @@ public class GameStateManager : MonoBehaviour
     inputManager.Init();
 
     _lapChecker?.Init(this);
-    levelCheckpointLocations = _lapChecker.checkPointLocations;
+    if (_lapChecker) levelCheckpointLocations = _lapChecker.checkPointLocations;
     _uiController?.init(_player);
     cam = Camera.main.gameObject.GetComponentInParent<CameraFollower3D>();
     cam?.Init(inputManager);

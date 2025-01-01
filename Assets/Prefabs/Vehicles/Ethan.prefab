@@ -1831,7 +1831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUsingNitro: 0
   isDrifting: 0
-  _raycastDistance: 2
+  _raycastDistance: 1
   _groundLayers:
     serializedVersion: 2
     m_Bits: 8
@@ -1840,6 +1840,10 @@ MonoBehaviour:
   - {fileID: 7903311167190477084}
   - {fileID: 2053133649919926467}
   - {fileID: 2052704930392583272}
+  minXAngle: -5
+  maxXAngle: 5
+  minZAngle: -2.5
+  maxZAngle: 2.5
   GearOne: {fileID: 11400000, guid: 90a437f4aceb858a88b37e3c5f580a50, type: 2}
   GearTwo: {fileID: 11400000, guid: 7123d7238e809b1d2a6ba9d5cbc32395, type: 2}
   gearText: 1st Gear
@@ -1849,8 +1853,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.03595352
-      value: 0.76132584
+      time: 0.023017883
+      value: 0.6708946
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1858,17 +1862,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.48803955
-      value: 0.48117384
-      inSlope: 0.22274515
-      outSlope: 0.22274515
+      time: 0.5160959
+      value: 0.38917035
+      inSlope: -0.014516371
+      outSlope: -0.014516371
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.3248599
+      inWeight: 0.3960688
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1.0023041
-      value: 0.020230234
+      time: 0.9936343
+      value: 0.06260058
       inSlope: 0.25508556
       outSlope: 0.25508556
       tangentMode: 0
@@ -1884,6 +1888,8 @@ MonoBehaviour:
   turnRadius: 7.5
   rearTrack: 2
   thresholdToJump: 145
+  groundCheckDistance: 4
+  lastGroundedXAngle: 0
 --- !u!114 &7371111997208422806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1924,7 +1930,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4446781413359444397}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 250
   m_Drag: 0.5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}

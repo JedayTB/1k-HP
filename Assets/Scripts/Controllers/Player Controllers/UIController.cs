@@ -69,7 +69,6 @@ public class UIController : MonoBehaviour
     }
     if (GameStateManager.Instance.levelCheckpointLocations != null)
     {
-
       AdjustAngleToCheckpoint();
     }
     rotateSpeedometreLine();

@@ -55,6 +55,7 @@ public class CustomWheels : MonoBehaviour
 
     _leftAckermanAngle = leftTurnAngle;
     _rightAckermanAngle = rightTurnAngle;
+    applyForcesAtWheelPoint = true;
   }
   /// <summary>
   /// Manual Setting of tire Y angle
@@ -141,7 +142,6 @@ public class CustomWheels : MonoBehaviour
     // find a way to put speed into the calculation
     Vector3 carVelocity = _vehicleRB.velocity;
     carVelocity = transform.InverseTransformDirection(carVelocity);
-
   }
   #endregion
 
@@ -155,10 +155,7 @@ public class CustomWheels : MonoBehaviour
     }
     if (isDebugging)
     {
-      bool rayHit = transform.position != Vector3.zero;
-
-      Color rayColour = rayHit ? Color.green : Color.red;
-
+      Color rayColour = tireIsGrounded ? Color.green : Color.red;
       Debug.DrawRay(transform.position, -transform.up * raycastDistance, rayColour);
     }
   }
@@ -248,7 +245,7 @@ public class CustomWheels : MonoBehaviour
   /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
   /// <param name="throttle">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-  public void applyTireAcceleration(float horsePower, float efficiency, float throttle)
+  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float throttle)
   {
     float accelerationTime = _throttleInput > 0f ? forwardAccTime : backwardAccTime;
 
@@ -267,16 +264,14 @@ public class CustomWheels : MonoBehaviour
 
     float engineForce = horsePower * 745.7f / (velocity * efficiency);
 
-    Vector3 accelerationDirection = 0.5f * (engineForce / 2) * accelerationTime * _tireTransform.forward;
+    Vector3 dir = _tireTransform.forward;
+    dir.y = 0;
+    dir.Normalize();
+    Vector3 accelerationDirection = 0.5f * (engineForce / 4) * accelerationTime * tireGrip * dir;
 
     accelerationDirection *= throttle;
 
-    //Checks if the tires are front tires.
-    if (tireType == TireType.frontTireLeft || tireType == TireType.frontTireRight)
-    {
-      _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
-    }
-
+    _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
   }
   /// <summary>
   /// Add spring force for the Vehicle
