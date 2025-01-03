@@ -99,7 +99,6 @@ public class CustomCarPhysics : MonoBehaviour
       tire.init(_rigidBody, leftAckAngle, rightAckAngle);
     }
     StartCoroutine(delayGroundCheck(3.5f));
-    print($"{this.gameObject.name} finished init");
   }
 
   public void setInputs(float throttleAmt, float turningAmt)

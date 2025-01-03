@@ -105,7 +105,10 @@ public class VehicleAIController : A_VehicleController
   }
   #endregion
 
-
+  protected override void Update()
+  {
+    base.Update();
+  }
   IEnumerator SteerPathing(float waitTime)
   {
     while (true)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class CarVisualController : MonoBehaviour
@@ -10,7 +11,7 @@ public class CarVisualController : MonoBehaviour
   [SerializeField] protected Vector3 spinWheelDirection;
   [SerializeField] protected Vector3 turnWheelDirection;
   [SerializeField] protected Transform[] _wheelContainers;
-  [SerializeField] protected Transform[] _wheelModels;
+  [SerializeField] public Transform[] _wheelModels;
   [SerializeField] protected List<GameObject> _trails;
   [SerializeField] protected ParticleSystem[] driftParticles;
   protected CustomCarPhysics _vehiclePhysics;
@@ -37,12 +38,17 @@ public class CarVisualController : MonoBehaviour
       baseTireRestHeights[i] = _wheelContainers[i].transform.localPosition.y;
     }
   }
-  void Update()
+  /// <summary>
+  /// Used as Update - But only when called!
+  /// gives more control over the scripts functionality.
+  /// </summary>
+  public void Process()
   {
     for (int i = 0; i < _wheelContainers.Length; i++)
     {
+      float velocityAtWheelPoint = _rb.GetPointVelocity(PhysicsWheels[i].transform.position).z;
       //Rotates the model
-      SpinWheels(_wheelModels[i], _rb);
+      SpinWheels(_wheelModels[i], velocityAtWheelPoint);
 
       //Rotates the container
       float rotAngle = PhysicsWheels[i].SteeringAngle;
@@ -50,8 +56,11 @@ public class CarVisualController : MonoBehaviour
       offsetTireWithSuspension(_wheelContainers[i], i);
     }
 
-    emitDriftParticles();
-    activateTrails();
+    bool useDriftParticles = _vehiclePhysics.isDrifting;
+    bool useTrails = _vehiclePhysics.isUsingNitro;
+
+    emitDriftParticles(useDriftParticles);
+    activateTrails(useTrails);
 
   }
   protected void offsetTireWithSuspension(Transform visualWheel, int index)
@@ -62,9 +71,9 @@ public class CarVisualController : MonoBehaviour
 
     visualWheel.localPosition = offsetPosition;
   }
-  protected void emitDriftParticles()
+  protected void emitDriftParticles(bool on)
   {
-    if (_vehiclePhysics.isDrifting)
+    if (on)
     {
       for (int i = 0; i < driftParticles.Length; i++)
       {
@@ -72,31 +81,20 @@ public class CarVisualController : MonoBehaviour
       }
     }
   }
-  protected void activateTrails()
+  public void activateTrails(bool on)
   {
-    if (_vehiclePhysics.isUsingNitro)
+
+    foreach (GameObject trail in _trails)
     {
-      foreach (GameObject trail in _trails)
-      {
-        trail.gameObject.SetActive(true);
-      }
-    }
-    else
-    {
-      foreach (GameObject trail in _trails)
-      {
-        trail.gameObject.SetActive(false);
-      }
+      trail.gameObject.SetActive(on);
     }
   }
-  protected void SpinWheels(Transform wheel, Rigidbody carRb)
+  public void SpinWheels(Transform wheel, float wheelvelocity)
   {
-    float velocityAtWheelPoint = carRb.GetPointVelocity(wheel.position).z;
-
-    Vector3 rotation = spinWheelDirection * velocityAtWheelPoint;
+    Vector3 rotation = spinWheelDirection * wheelvelocity;
     wheel.Rotate(rotation);
   }
-  protected void TurnWheels(Transform wheel, float rotationAngle)
+  public void TurnWheels(Transform wheel, float rotationAngle)
   {
     Vector3 currentRotation = wheel.localRotation.eulerAngles;
 
