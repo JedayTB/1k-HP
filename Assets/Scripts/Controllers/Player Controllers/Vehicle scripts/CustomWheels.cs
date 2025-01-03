@@ -55,7 +55,7 @@ public class CustomWheels : MonoBehaviour
 
     _leftAckermanAngle = leftTurnAngle;
     _rightAckermanAngle = rightTurnAngle;
-    applyForcesAtWheelPoint = true;
+    //applyForcesAtWheelPoint = true;
   }
   /// <summary>
   /// Manual Setting of tire Y angle
@@ -267,6 +267,7 @@ public class CustomWheels : MonoBehaviour
     Vector3 dir = _tireTransform.forward;
     dir.y = 0;
     dir.Normalize();
+    
     Vector3 accelerationDirection = 0.5f * (engineForce / 4) * accelerationTime * tireGrip * dir;
 
     accelerationDirection *= throttle;

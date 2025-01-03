@@ -5,7 +5,7 @@ using UnityEngine;
 public class VehicleGearSpecs : ScriptableObject
 {
   [Tooltip("Horse Power at given gear")]
-  [SerializeField] public float HorsePower = 500f;
+  [SerializeField] public float HorsePower = 200;
   [Tooltip("Axle Efficiency at given gear")]
   [SerializeField] public float AxleEfficiency = 0.85f;
   [Tooltip("Max Speed with given Gear")]

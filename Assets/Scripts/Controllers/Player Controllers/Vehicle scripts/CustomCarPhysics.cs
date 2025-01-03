@@ -202,7 +202,8 @@ public class CustomCarPhysics : MonoBehaviour
   void FixedUpdate()
   {
     float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-    float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
+    float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / currentGear.MaxSpeed);
+
     float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
 
     for (int i = 0; i < wheels.Length; i++)

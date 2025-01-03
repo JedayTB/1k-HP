@@ -22,12 +22,12 @@ public class PostProcessing : MonoBehaviour
 
     void Start()
     {
+        /*
         volume.profile.TryGet(out bloom); // gotta set it here since we can't do it from editor >:(
         volume.profile.TryGet(out motionBlur);
         volume.profile.TryGet(out lensDistortion);
         motionBlur.intensity.max = 5f;
-
-        
+        */
     }
 
     void Update()
