@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MainMenuSkybox
-  m_Shader: {fileID: -6465566751694194690, guid: 9792225b846bf3840a96e8705c940135,
+  m_Name: MainMenuSkybox 1
+  m_Shader: {fileID: -6465566751694194690, guid: 6c9649d41b20e4349bfeb52628cab727,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _CloudTex:
-        m_Texture: {fileID: 2800000, guid: 3360fafe162ebf94280396b49604e1b7, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -42,21 +42,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AnimationSpeed: 0.2
-    - _CloudTexScale: 0.1
-    - _DistanceFadePower: 1.91
+    - _AnimationSpeed: 0.01
+    - _CloudOpacity: 0
+    - _CloudTexScale: 1
+    - _DistanceFadePower: 1
     - _NadirBlendPower: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ZenithBlendPower: 0.64
+    - _ZenithBlendPower: 4.96
     m_Colors:
-    - _AnimationDir: {r: 1, g: 0.25, b: 0, a: 0}
-    - _CloudColor: {r: 1, g: 1, b: 1, a: 0}
-    - _HorizionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _NadirColor: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0}
-    - _ZenithColor: {r: 0.5730242, g: 0.58315706, b: 0.745283, a: 1}
+    - _AnimationDir: {r: 1, g: 0, b: 0, a: 0}
+    - _CloudColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0}
+    - _HorizionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _NadirColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ZenithColor: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5469701210968648491
+--- !u!114 &7744252886621026368
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

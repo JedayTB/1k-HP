@@ -12,7 +12,7 @@ public class CarVisualController : MonoBehaviour
   [SerializeField] protected Vector3 turnWheelDirection;
   [SerializeField] protected Transform[] _wheelContainers;
   [SerializeField] public Transform[] _wheelModels;
-  [SerializeField] protected List<GameObject> _trails;
+  [SerializeField] protected List<TrailRenderer> _trails;
   [SerializeField] protected ParticleSystem[] driftParticles;
   protected CustomCarPhysics _vehiclePhysics;
   protected CustomWheels[] PhysicsWheels;
@@ -83,10 +83,9 @@ public class CarVisualController : MonoBehaviour
   }
   public void activateTrails(bool on)
   {
-
-    foreach (GameObject trail in _trails)
+    foreach (var trail in _trails)
     {
-      trail.gameObject.SetActive(on);
+      trail.emitting = on;
     }
   }
   public void SpinWheels(Transform wheel, float wheelvelocity)

@@ -13,7 +13,9 @@ struct characterStats
 
 public class CharacterStatsController : MonoBehaviour
 {
+  [SerializeField] A_VehicleController[] CharPrefabs;
   [SerializeField] A_VehicleController[] CharactersList;
+
   [SerializeField] Transform[] characterSpawnLocations;
   private characterStats[] charStats;
 
@@ -29,16 +31,19 @@ public class CharacterStatsController : MonoBehaviour
 
   void Start()
   {
-    charStats = new characterStats[CharactersList.Length];
+    charStats = new characterStats[CharPrefabs.Length];
+    CharactersList = new A_VehicleController[CharPrefabs.Length];
+
     for (int i = 0; i < CharactersList.Length; i++)
     {
-      var vehicle = Instantiate(CharactersList[i]);
+      var vehicle = Instantiate(CharPrefabs[i]);
       vehicle.Init();
       vehicle.transform.position = characterSpawnLocations[i].position;
       // Disable the controller
       vehicle.enabled = false;
+      vehicle.gameObject.name =  CharPrefabs[i].gameObject.name;
+      CharactersList[i] = vehicle;
     }
-
 
     for (int i = 0; i < CharactersList.Length; i++)
     {
@@ -71,7 +76,7 @@ public class CharacterStatsController : MonoBehaviour
     handlingSlider.maxValue = highestHandling;
     NitroChargeAmountSlider.maxValue = highestNitroChargeAmounts;
 
-    changeAllSliderValues("Mimi");
+    changeAllSliderValues(CharactersList[2].gameObject.name);
   }
 
   public void changeAllSliderValues(string characterName)
