@@ -58,6 +58,13 @@ public class CustomCarPhysics : MonoBehaviour
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
 
+  [Header("RigidBody mod Settings")]
+  [Tooltip("The minimum angluar drag the car will experience For steering mechanics")]
+  [SerializeField] private float minimumAngularDrag = 0.05f;
+  [Tooltip("The maximum angular drag the car will experience For steering mechanics")]
+
+  [SerializeField] private float maximumAngularDrag = 0.5f;
+
   [Header("Ground Stick Setup")]
   [Tooltip("The amount of speed to stop sticking to the ground")]
   [SerializeField] private float thresholdToJump = 145f;
@@ -66,6 +73,7 @@ public class CustomCarPhysics : MonoBehaviour
   private Vector3 setGroundPos;
   [SerializeField] private float lastGroundedXAngle;
   bool doStickGround;
+
   #endregion
 
   #region Public use Methods
@@ -180,8 +188,8 @@ public class CustomCarPhysics : MonoBehaviour
   public void Update()
   {
 
-    tireTurnModifier = Mathf.Max(1 - (_rigidBody.velocity.magnitude / _terminalVelocity), minimumModifier);
-
+    //tireTurnModifier = Mathf.Max(1 - (_rigidBody.velocity.magnitude / _terminalVelocity), minimumModifier);
+    tireTurnModifier = 1f;
     //Tire turning shit
     for (int i = 0; i < wheels.Length; i++)
     {
@@ -204,6 +212,9 @@ public class CustomCarPhysics : MonoBehaviour
     float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
     float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
     float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
+    //To Resist turning at higher speeds
+    float angularDrag = Mathf.Lerp(minimumAngularDrag, maximumAngularDrag, normalizedSpeed);
+    _rigidBody.angularDrag = angularDrag;
 
     for (int i = 0; i < wheels.Length; i++)
     {

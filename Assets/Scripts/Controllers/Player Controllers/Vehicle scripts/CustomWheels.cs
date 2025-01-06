@@ -38,13 +38,14 @@ public class CustomWheels : MonoBehaviour
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
   //Drag Variables
+  /*
   private float dragForce;
   private float airDensity = 1.225f;
   private float frontalArea = 2.16f;
   private float dragCoefficient = 0.3f;
   private float rollingResistanceForce;
   private float rrCoefficient = 0.15f;
-
+  */
 
 
   #region Public Physic's unrelated
@@ -55,7 +56,7 @@ public class CustomWheels : MonoBehaviour
 
     _leftAckermanAngle = leftTurnAngle;
     _rightAckermanAngle = rightTurnAngle;
-    applyForcesAtWheelPoint = true;
+    //applyForcesAtWheelPoint = true;
   }
   /// <summary>
   /// Manual Setting of tire Y angle
@@ -131,17 +132,38 @@ public class CustomWheels : MonoBehaviour
   {
     // Timing bs
 
+    Vector3 carVelocity = _vehicleRB.velocity;
+    carVelocity = transform.InverseTransformDirection(carVelocity);
+
+    float zVelSign = Mathf.Sign(carVelocity.z);
+
+    float inputSign = Mathf.Sign(_throttleInput);
+
+    bool SameAccelAsVelocity = zVelSign == inputSign;
 
     bool calcForward = tireIsGrounded && _throttleInput > 0f;
     bool calcBackward = tireIsGrounded && _throttleInput < 0f;
 
-    forwardAccTime = calcForward ? forwardAccTime + Time.deltaTime : 0f;
-    backwardAccTime = calcBackward ? backwardAccTime + Time.deltaTime : 0f;
+
+    if (SameAccelAsVelocity == false)
+    {
+      forwardAccTime = calcForward ? 1f : 0f;
+      backwardAccTime = calcBackward ? 1f : 0f;
+    }
+    // Must find a way to set back to 0 once out
+    // Start accelerating the same direction as input
+    else
+    {
+      forwardAccTime = calcForward ? forwardAccTime + Time.deltaTime : 0f;
+      backwardAccTime = calcBackward ? backwardAccTime + Time.deltaTime : 0f;
+    }
+
     // If the forward vector angle of the tire is past a certain threshold of the 
     // Forward vector of the car, skid (lose traction)
     // find a way to put speed into the calculation
-    Vector3 carVelocity = _vehicleRB.velocity;
-    carVelocity = transform.InverseTransformDirection(carVelocity);
+
+
+
   }
   #endregion
 
@@ -193,7 +215,6 @@ public class CustomWheels : MonoBehaviour
     float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
 
     // Force = Mass * acceleration. 
-    // Quick ternary for tire driting
 
     Vector3 steerForce = _wheelSpecs.tireMass * desiredAcceleration * steeringDir;
 

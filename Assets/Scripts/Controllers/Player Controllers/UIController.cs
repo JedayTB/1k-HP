@@ -67,7 +67,7 @@ public class UIController : MonoBehaviour
     {
       _AbilityGaugeSlider.gameObject.SetActive(false);
     }
-    if (GameStateManager.Instance.levelCheckpointLocations != null)
+    if (GameStateManager.Instance.levelCheckpointLocations.Length != 0)
     {
       AdjustAngleToCheckpoint();
     }
