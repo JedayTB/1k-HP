@@ -241,7 +241,7 @@ public class CustomCarPhysics : MonoBehaviour
 
     _rigidBody.velocity = cachedLocalVelocity;
 
-    //checkIfGrounded();
+    checkIfGrounded();
     ClampLocalRotation();
   }
   private void ClampLocalRotation()

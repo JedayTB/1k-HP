@@ -36,9 +36,9 @@ public class CharacterStatsController : MonoBehaviour
 
     for (int i = 0; i < CharactersList.Length; i++)
     {
-      var vehicle = Instantiate(CharPrefabs[i]);
+      var vehicle = CharPrefabs[i];
       vehicle.Init();
-      vehicle.transform.position = characterSpawnLocations[i].position;
+      //vehicle.transform.position = characterSpawnLocations[i].position;
       // Disable the controller
       vehicle.enabled = false;
       vehicle.gameObject.name =  CharPrefabs[i].gameObject.name;
