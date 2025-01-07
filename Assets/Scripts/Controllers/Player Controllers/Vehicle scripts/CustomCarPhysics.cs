@@ -188,8 +188,8 @@ public class CustomCarPhysics : MonoBehaviour
   public void Update()
   {
 
-    //tireTurnModifier = Mathf.Max(1 - (_rigidBody.velocity.magnitude / _terminalVelocity), minimumModifier);
-    tireTurnModifier = 1f;
+    tireTurnModifier = Mathf.Max(1 - (_rigidBody.velocity.magnitude / _terminalVelocity), minimumModifier);
+    
     //Tire turning shit
     for (int i = 0; i < wheels.Length; i++)
     {

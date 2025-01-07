@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EthanController : PlayerVehicleController
+public class EthanController : A_Ability
 {
 
     [Header("Lightning Ability variables")]
@@ -18,7 +18,7 @@ public class EthanController : PlayerVehicleController
 
     private A_VehicleController lightningTarget;
     private int selfColliderID;
-
+    /*
     // Update is called once per frame
     public override void Init(InputManager inputManager)
     {
@@ -168,4 +168,5 @@ public class EthanController : PlayerVehicleController
         print($"Hit {lightningTarget.name}. Respawning");
         lightningTarget.respawn();
     }
+    */
 }

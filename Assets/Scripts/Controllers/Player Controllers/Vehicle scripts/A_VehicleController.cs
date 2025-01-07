@@ -85,15 +85,7 @@ public abstract class A_VehicleController : MonoBehaviour
     }
 
     _vehicleVisualController.Process();
-    // this is causing more problems than solving rn so i'm not gonna leave it for the build
-    /*bool hitWall = Physics.Raycast(transform.position, transform.forward, _forwardRaycastDistance);
-    Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), transform.forward * _forwardRaycastDistance);
-    if (hitWall)
-    {
-        _vehiclePhysics.RigidBody.velocity = Vector3.zero;
-
-        _vehiclePhysics.RigidBody.AddForce(transform.forward * -10000);
-    }*/
+    
   }
   #region Public use Methods
   public virtual void setAsAutoDriveAI()

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HokuController : PlayerVehicleController
+public class HokuController : A_Ability
 {
     [Header("Ability Basics")]
     [SerializeField] private float _maxHookDistance = 100f;
@@ -30,10 +30,10 @@ public class HokuController : PlayerVehicleController
     private int _selfColliderID;
     Vector3 _hookShotPos;
 
-    public override void Init(InputManager inp)
+    void Awake()
     {
 
-        base.Init(inp);
+        
         //_hookCrossHair.enabled = false;
         if (_selfCollider == null)
         {
@@ -49,7 +49,7 @@ public class HokuController : PlayerVehicleController
         _hookCrossHair.enabled = false;
 
     }
-
+    /*
     protected override void onAbilityFull()
     {
         _canUseAbility = true;
@@ -58,6 +58,7 @@ public class HokuController : PlayerVehicleController
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
+    
 
     protected override void Update()
     {
@@ -187,5 +188,5 @@ public class HokuController : PlayerVehicleController
     {
         _lineRenderer.positionCount = 2;
     }
-    
+    */
 }

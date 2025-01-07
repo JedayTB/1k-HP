@@ -8,6 +8,7 @@ public class GameStateManager : MonoBehaviour
   public int nextPlayerCheckpointPosition = 0;
   private static GameStateManager instance;
 
+  public A_Ability[] Abilitieslist;
   public static GameStateManager Instance { get { return instance; } }
   private InputManager inputManager;
   private PlayerVehicleController _player;
@@ -29,6 +30,8 @@ public class GameStateManager : MonoBehaviour
 
   private List<A_VehicleController> vehicles = new List<A_VehicleController>();
   public Vector3[] levelCheckpointLocations;
+
+
 
   private void Awake()
   {

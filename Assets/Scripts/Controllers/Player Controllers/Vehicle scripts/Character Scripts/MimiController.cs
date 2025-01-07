@@ -1,31 +1,29 @@
 using System.Collections;
 using UnityEngine;
 
-public class MimiController : PlayerVehicleController
+public class MimiController : A_Ability
 {
+    private PlayerVehicleController vehicle;
     [Header("Mimi Bubble Specifics")]
     [SerializeField] private float _BubbleActiveTime = 5f;
     [SerializeField] private float _bounceStrength = 40;
     [SerializeField] private float _speedIncreaseAmt = 1.5f;
     [SerializeField] private float _driftChargeIncreaseAmt = 1.4f;
     [SerializeField] GameObject _bubble;
-    public override void useCharacterAbility()
+    public override void AbilityUsed(PlayerVehicleController UsedVehicle)
     {
-        if (_abilityGauge >= 100)
-        {
-            _bubble.SetActive(true);
-            StartCoroutine(bubbleActive(_BubbleActiveTime));
-            _abilityGauge = 0;
-            //Debug.Log("ability used!");
-        }
+        vehicle = UsedVehicle;
+        _bubble.SetActive(true);
+        StartCoroutine(bubbleActive(_BubbleActiveTime));
+        
     }
     IEnumerator bubbleActive(float bubbleActiveTime)
     {   
         print("bubble func being run");
         float count = 0;
-        
-        _builtUpNitroAmount *= _driftChargeIncreaseAmt;
-        _vehiclePhysics.horsePower *= _speedIncreaseAmt;
+
+        vehicle._builtUpNitroAmount *= _driftChargeIncreaseAmt;
+        vehicle.VehiclePhysics.horsePower *= _speedIncreaseAmt;
         
         while (count < bubbleActiveTime)
         {
@@ -35,20 +33,16 @@ public class MimiController : PlayerVehicleController
         }
         _bubble.SetActive(false);
         print("bubble func ended");
-        _builtUpNitroAmount /= _driftChargeIncreaseAmt;
-        _vehiclePhysics.horsePower /= _speedIncreaseAmt;
+        vehicle._builtUpNitroAmount /= _driftChargeIncreaseAmt;
+        vehicle.VehiclePhysics.horsePower /= _speedIncreaseAmt;
 
     }
-    protected override void Update()
-    {
-        //playerControlsLogic();
-        base.Update();
-    }
+
+
     //Should be from the capsule
-    protected override void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other); //Just does checking for collectables
-
+       
         A_VehicleController vehicle = other.GetComponentInParent<A_VehicleController>();
 
         if (vehicle != null)
