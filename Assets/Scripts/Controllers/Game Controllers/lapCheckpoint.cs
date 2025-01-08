@@ -1,12 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum LapSetType
-{
-  useVehicleTransform,
-  useRespawnCubePos,
-  useRespawnCubeTransform
-}
 [RequireComponent(typeof(BoxCollider))]
 public class lapCheckpoint : MonoBehaviour
 {
@@ -18,7 +12,7 @@ public class lapCheckpoint : MonoBehaviour
   [SerializeField] private Transform respawnPoint;
   HashSet<A_VehicleController> _vehiclesPassedThroughCheckpoint;
 
-  [SerializeField] private LapSetType _respawnPointSetType = LapSetType.useRespawnCubePos;
+  
 
   public void Init(int checkPointNumber, CheckFinishedLap lapLogic)
   {
@@ -56,24 +50,7 @@ public class lapCheckpoint : MonoBehaviour
   }
   void setVehicleRespawn(A_VehicleController vehicle)
   {
-    switch (_respawnPointSetType)
-    {
-      case LapSetType.useVehicleTransform:
-        vehicle?.setNewRespawnPosition();
-        break;
-
-      case LapSetType.useRespawnCubePos:
-        vehicle?.setNewRespawnPosition(respawnPoint.position);
-        break;
-
-      case LapSetType.useRespawnCubeTransform:
-        vehicle?.setNewRespawnPosition(respawnPoint);
-        break;
-
-      default:
-        Debug.LogError("We're fucked");
-        break;
-    }
+    vehicle?.setNewRespawnPosition(respawnPoint);
 
 
   }

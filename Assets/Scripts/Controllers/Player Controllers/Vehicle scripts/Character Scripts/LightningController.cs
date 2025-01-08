@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EthanController : A_Ability
+public class LightningController : A_Ability
 {
 
     [Header("Lightning Ability variables")]

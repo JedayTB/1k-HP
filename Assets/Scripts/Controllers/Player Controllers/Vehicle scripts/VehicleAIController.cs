@@ -80,16 +80,6 @@ public class VehicleAIController : A_VehicleController
     _currentWaypointIndex = _respawnWaypointIndex;
   }
 
-  public override void setNewRespawnPosition()
-  {
-    base.setNewRespawnPosition();
-    _respawnWaypointIndex = _currentWaypointIndex;
-  }
-  public override void setNewRespawnPosition(Vector3 newpos)
-  {
-    base.setNewRespawnPosition(newpos);
-    _respawnWaypointIndex = _currentWaypointIndex;
-  }
   public override void setNewRespawnPosition(Transform newTransform)
   {
     base.setNewRespawnPosition(newTransform);

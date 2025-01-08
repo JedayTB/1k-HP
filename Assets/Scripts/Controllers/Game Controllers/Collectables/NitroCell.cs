@@ -16,7 +16,11 @@ public class NitroCell : Collectables
     public override void onPickup(A_VehicleController vehicle)
     {
         _nitroPickup.Play();
-        vehicle.addNitro(_nitroCellAmount);
+        // lol
+        for(int i = 0; i < _nitroCellAmount; i++){
+            vehicle.addNitro();
+        }
+        
         base.onPickup(vehicle);
     }
 }

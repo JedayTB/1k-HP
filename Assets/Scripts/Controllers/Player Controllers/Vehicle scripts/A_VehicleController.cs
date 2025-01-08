@@ -1,5 +1,6 @@
 using UnityEngine;
 
+public delegate void AbilityAction();
 /// <summary>
 /// Vehicle class for all vehicle controller classes to inherit
 /// Includes basic functionality for AI and PlayerVehicles.
@@ -21,22 +22,20 @@ public abstract class A_VehicleController : MonoBehaviour
 
   [HideInInspector] public bool isDrifting;
 
-  protected bool isGrounded = true;
   [Header("I_VehicleController member's")]
   [SerializeField] protected bool _isDebuging = true;
-  [SerializeField] protected bool _useGroundCheck = false;
   [SerializeField] protected float _raycastDistance = 5f;
   [SerializeField] protected LayerMask _worldGeometryLayers;
   [SerializeField] protected float _forwardRaycastDistance = 4f; // idk if you wanted this here but this is where i put it >:(
 
-
-
   [HideInInspector] public bool isUsingNitro = false;
+
+  [HideInInspector] public bool isBreaking = false;
   protected bool canNitroAgain = true;
   protected bool isUsingDrift;
-  [HideInInspector] public bool isBreaking = false;
 
   [Header("Nitro Setup")]
+
   [Tooltip("The amount of nitro boosts the player can use")]
   public int MaxNitroChargeAmounts = 4;
   [HideInInspector] public float _builtUpNitroAmount;
@@ -49,12 +48,9 @@ public abstract class A_VehicleController : MonoBehaviour
   [SerializeField] protected float _nitroTimeLength = 1f;
   [SerializeField] protected float _nitroSpeedMultiplier = 2.5f;
 
-  [Header("Character Abilities Basic setup")]
+  private AbilityAction onAbilityUsed;
+  public bool _canUseAbility;
 
-  [Tooltip("Ability Gauge counts to 100. Once at 100, can use ability")]
-  [SerializeField] public int _abilityGauge = 0;
-
-  protected bool _canUseAbility = false;
   #endregion
   public virtual void Init()
   {
@@ -85,7 +81,7 @@ public abstract class A_VehicleController : MonoBehaviour
     }
 
     _vehicleVisualController.Process();
-    
+
   }
   #region Public use Methods
   public virtual void setAsAutoDriveAI()
@@ -107,72 +103,47 @@ public abstract class A_VehicleController : MonoBehaviour
     _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
     _vehiclePhysics.RigidBody.angularVelocity = Vector3.zero;
     _vehiclePhysics.delayGroundCheck(3.5f);
-
-    Debug.LogError("Respawn is fucked I think");
   }
-  public virtual void setNewRespawnPosition()
+  public virtual void enlistAbilityAction(AbilityAction action)
   {
-    _respawnPosition = transform.position;
-    _respawnRotation = transform.rotation;
+    onAbilityUsed += action;
+    _canUseAbility = true;
   }
-  public virtual void setNewRespawnPosition(Vector3 newPos)
+  public virtual void delistAbilityAction(AbilityAction action)
   {
-    _respawnPosition = newPos;
+    onAbilityUsed -= action;
+    _canUseAbility = false;
   }
   public virtual void setNewRespawnPosition(Transform newRespawn)
   {
     _respawnPosition = newRespawn.position;
     _respawnRotation = newRespawn.rotation;
   }
-  //End of public methods
   public virtual void addNitro()
   {
     _nitroChargeAmounts++;
     _nitroChargeAmounts = Mathf.Clamp(_nitroChargeAmounts, 0, MaxNitroChargeAmounts);
   }
-  public virtual void addNitro(int nitroDelta)
-  {
-    _nitroChargeAmounts += nitroDelta;
-    _nitroChargeAmounts = Mathf.Clamp(_nitroChargeAmounts, 0, MaxNitroChargeAmounts);
-  }
-  public virtual void addAbilityGauge(int abilityDelta)
-  {
-    _abilityGauge += abilityDelta;
-    if (_abilityGauge >= 100) onAbilityFull();
-  }
-  protected virtual void onAbilityFull()
-  {
-    Debug.Log($"{name} Got full ability");
-  }
 
   #endregion
+
+  #region protected virtual methods
   //Protected virtual methods
   public virtual void useCharacterAbility()
   {
-    if (_abilityGauge >= 100)
+    if (_canUseAbility)
     {
       Debug.Log($"{this.name} used their ability!");
+      onAbilityUsed?.Invoke();
     }
     else
     {
-      Debug.Log($"ability gauge must be at 100 to use ability.");
+      Debug.Log("No ability to use");
     }
 
   }
-  #region protected virtual methods
-  protected virtual void groundCheck()
-  {
-    if (_useGroundCheck)
-    {
-      isGrounded = Physics.Raycast(transform.position, Vector3.down, _raycastDistance, _worldGeometryLayers);
 
-      if (_isDebuging) Debug.DrawRay(transform.position, Vector3.down * _raycastDistance, isGrounded ? Color.green : Color.red);
 
-      //if it's grounded, let rb rotate freely.
-
-      _vehiclePhysics.RigidBody.freezeRotation = !isGrounded;
-    }
-  }
   protected virtual void startNitroBoost()
   {
 

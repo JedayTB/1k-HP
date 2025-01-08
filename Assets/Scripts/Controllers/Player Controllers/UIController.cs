@@ -59,10 +59,9 @@ public class UIController : MonoBehaviour
     {
       _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
     }
-    if (_player._abilityGauge > 0)
+    if (_player._canUseAbility)
     {
       _AbilityGaugeSlider.gameObject.SetActive(true);
-      _AbilityGaugeSlider.value = _player._abilityGauge;
     }
     else
     {
