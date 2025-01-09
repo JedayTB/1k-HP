@@ -302,5 +302,20 @@ public class CustomCarPhysics : MonoBehaviour
     }
     doStickGround = true;
   }
-  #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Vector3 newVelocity = Vector3.zero;
+        ContactPoint cpoint  = collision.GetContact(0);
+
+        Vector3 bumpDir = transform.position - cpoint.point;
+        bumpDir.y = 1;
+        bumpDir.Normalize();
+
+        RigidBody.AddForce(1* RigidBody.mass * bumpDir );
+
+        print("Buump Wall");
+        _rigidBody.velocity = newVelocity;
+    }
+    #endregion
 }
