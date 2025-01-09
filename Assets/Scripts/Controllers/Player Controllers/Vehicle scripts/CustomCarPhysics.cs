@@ -40,7 +40,7 @@ public class CustomCarPhysics : MonoBehaviour
   public float _terminalVelocity = 250f;
   private Vector3 cachedLocalVelocity;
   private VehicleGearSpecs currentGear;
-
+  [SerializeField] private float momentumModifier = 1f;
   [Header("Steering Setup")]
 
   [Tooltip("Grip Of wheels Between speed 0 - Terminal Velocity")]
@@ -57,13 +57,6 @@ public class CustomCarPhysics : MonoBehaviour
 
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
-
-  [Header("RigidBody mod Settings")]
-  [Tooltip("The minimum angluar drag the car will experience For steering mechanics")]
-  [SerializeField] private float minimumAngularDrag = 0.05f;
-  [Tooltip("The maximum angular drag the car will experience For steering mechanics")]
-
-  [SerializeField] private float maximumAngularDrag = 0.5f;
 
   [Header("Ground Stick Setup")]
   [Tooltip("The amount of speed to stop sticking to the ground")]
@@ -213,10 +206,24 @@ public class CustomCarPhysics : MonoBehaviour
     float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
     float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
     //To Resist turning at higher speeds
-    float angularDrag = Mathf.Lerp(minimumAngularDrag, maximumAngularDrag, normalizedSpeed);
-    _rigidBody.angularDrag = angularDrag;
+    Vector3 momentumDir = transform.forward;
 
-    for (int i = 0; i < wheels.Length; i++)
+    float angleoffsetFromMomentum = Mathf.Abs(Vector3.SignedAngle(wheels[0].transform.forward, momentumDir, Vector3.up) + Vector3.SignedAngle(wheels[1].transform.forward, momentumDir, Vector3.up) / 2);
+    float speedModifier = 1 - normalizedSpeed;
+    
+        momentumModifier = 1f;
+        /*
+    if(angleoffsetFromMomentum != 0)
+    {
+        momentumModifier = angleoffsetFromMomentum * speedModifier;
+    }
+    else
+    {
+        momentumModifier = 1f;
+    }*/
+
+
+        for (int i = 0; i < wheels.Length; i++)
     {
       wheels[i].raycastDown(_groundLayers, _raycastDistance);
 
@@ -224,7 +231,7 @@ public class CustomCarPhysics : MonoBehaviour
       {
         wheels[i].applyTireSuspensionForces();
 
-        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, _throttleInput);
+        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, momentumModifier,_throttleInput);
 
         if (isDrifting)
         {
