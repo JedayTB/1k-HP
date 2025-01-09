@@ -5,6 +5,8 @@ public class PlayerVehicleController : A_VehicleController
 {
   protected InputManager inputManager;
   protected KeyCode resetInput = KeyCode.R;
+
+    protected bool canUseAbilityAgain = true;
   protected override void Update()
   {
     base.Update();
@@ -37,7 +39,10 @@ public class PlayerVehicleController : A_VehicleController
       StartCoroutine(driftPressCoolDown(0.25f));
     }
 
-    if (inputManager.usedAbility) useCharacterAbility();
+     if (inputManager.usedAbility && canUseAbilityAgain) 
+     {
+        useCharacterAbility();
+     } 
     if (gearShiftInput != 0) _vehiclePhysics.ShiftGears(gearShiftInput);
 
     _vehiclePhysics.driftVehicle(isUsingDrift);
@@ -57,6 +62,17 @@ public class PlayerVehicleController : A_VehicleController
     }
     canNitroAgain = true;
   }
+    protected IEnumerator abilityPresscooldown(float time)
+    {
+        float count = 0f;
+        canUseAbilityAgain = false;
+        while (count < time)
+        {
+            count += Time.deltaTime;
+            yield return null;
+        }
+        canUseAbilityAgain = true;
+    }
   protected void resetPlayer()
   {
     transform.position += new Vector3(0, 5f, 0);

@@ -133,7 +133,6 @@ public abstract class A_VehicleController : MonoBehaviour
   {
     if (_canUseAbility)
     {
-      Debug.Log($"{this.name} used their ability!");
       onAbilityUsed?.Invoke();
     }
     else

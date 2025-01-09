@@ -15,44 +15,46 @@ public class LightningController : A_Ability
     [SerializeField] private float lightningFadeoutTime = 1.1f;
     [SerializeField] private float timeTillLightningHit = 0.05f;
 
-
+    private bool _canUseAbility = false;
     private A_VehicleController lightningTarget;
     private int selfColliderID;
-    /*
-    // Update is called once per frame
-    public override void Init(InputManager inputManager)
-    {
-        base.Init(inputManager);
-        selfColliderID = selfCollider.GetInstanceID();
 
+    // InputManager inputManager
+    // Update is called once per frame
+    void Awake()
+    {
+        selfColliderID = selfCollider.GetInstanceID();
         UIController uiCont = FindAnyObjectByType<UIController>();
         crosshair = uiCont.lightningCrossHair;
-        crosshair.enabled = false;
-    }
-    protected override void Update()
-    {
-        base.Update();
+        crosshair.gameObject.SetActive(false);
+        
 
+        onAbility = AbilityUsed;
+    }
+    void Update()
+    {
         if (_canUseAbility)
         {
             getAbiliyTarget();
         }
     }
-    protected override void onAbilityFull()
+    private void startAbility()
     {
         _canUseAbility = true;
-        crosshair.enabled = true;
+        crosshair.gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        print("Start looking for target");
     }
 
     private void getAbiliyTarget()
     {
-        Debug.LogWarning("Ability isn't configured to use Input Manager");
+        //Debug.LogWarning("Ability isn't configured to use Input Manager");
 
         Ray aimray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (_isDebuging) Debug.DrawRay(aimray.origin, aimray.direction * _maxLightningDistance);
+        if (GameStateManager.Instance.UseDebug) Debug.DrawRay(aimray.origin, aimray.direction * _maxLightningDistance);
 
         RaycastHit hitInfo;
         Physics.Raycast(aimray.origin, aimray.direction, out hitInfo, _maxLightningDistance, VehicleLayer);
@@ -90,9 +92,20 @@ public class LightningController : A_Ability
 
     }
 
-    public override void useCharacterAbility()
+    public override void AbilityUsed()
+    {   
+        if(_canUseAbility == false)
+        {
+            startAbility();
+        }
+        else if(_canUseAbility == true) 
+        {
+            strikeLightning();
+        }  
+    }
+    private void strikeLightning()
     {
-        if (lightningTarget != null && _abilityGauge >= 100)
+        if (lightningTarget != null)
         {
 
             Vector3 lightningDir = lightningTarget.transform.position - Camera.main.transform.position;
@@ -103,8 +116,6 @@ public class LightningController : A_Ability
             if (hitVehicle)
             {
                 StartCoroutine(fireLightningTo(timeTillLightningHit, hit.point));
-                _abilityGauge = 0;
-
             }
         }
     }
@@ -133,6 +144,11 @@ public class LightningController : A_Ability
         StartCoroutine(fadeoutLightning(lightningFadeoutTime));
         onVehicleHit();
     }
+    /// <summary>
+    /// Last function called before disabled
+    /// </summary>
+    /// <param name="lightningFadeoutTime"></param>
+    /// <returns></returns>
     IEnumerator fadeoutLightning(float lightningFadeoutTime)
     {
         float count = 0f;
@@ -161,12 +177,13 @@ public class LightningController : A_Ability
         }
         Destroy(lightningMat);
         _lr.positionCount = 0;
+        gameObject.SetActive(false);
     }
-
+    
     private void onVehicleHit()
     {
         print($"Hit {lightningTarget.name}. Respawning");
         lightningTarget.respawn();
     }
-    */
+    
 }
