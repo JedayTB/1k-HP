@@ -17,7 +17,7 @@ public class CustomWheels : MonoBehaviour
   [SerializeField] private bool applyForcesAtWheelPoint = false;
   [Tooltip("Set in inspector with Wheel Specs scriptable object")]
   [SerializeField] private WheelSpecs _wheelSpecs;
-  [SerializeField] private float _decaySpeed = 2.5f;
+  [SerializeField] private float _decaySpeed = 7.5f;
   [SerializeField] private bool isDebugging;
 
   private float steeringAngle;
@@ -91,8 +91,9 @@ public class CustomWheels : MonoBehaviour
     desiredAngle *= _turningInput;
     desiredAngle *= modifier;
 
-    
-    steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, _decaySpeed, Time.deltaTime);
+    float decaySpd = _decaySpeed * modifier;
+
+    steeringAngle = LerpAndEasings.ExponentialDecay(steeringAngle, desiredAngle, decaySpd, Time.deltaTime);
     //moveTires(steeringAngle);
 
     Vector3 rotation = transform.localRotation.eulerAngles;
@@ -265,7 +266,7 @@ public class CustomWheels : MonoBehaviour
   /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
   /// <param name="throttle">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float momentumModifier,float throttle)
+  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float throttle)
   {
     float accelerationTime = _throttleInput > 0f ? forwardAccTime : backwardAccTime;
 
@@ -287,7 +288,7 @@ public class CustomWheels : MonoBehaviour
     Vector3 dir = _tireTransform.forward;
     dir.y = 0;
     dir.Normalize();
-    Vector3 accelerationDirection = (0.5f * (engineForce / 4) * accelerationTime) * tireGrip * momentumModifier * dir;
+    Vector3 accelerationDirection = 0.5f * (engineForce / 4) * accelerationTime * tireGrip * dir;
 
     accelerationDirection *= throttle;
 
