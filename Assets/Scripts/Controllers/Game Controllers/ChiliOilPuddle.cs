@@ -17,7 +17,7 @@ public class ChilliOilPuddle : MonoBehaviour
         BC.enabled = false;
         BCTrigger.enabled = false;
     }
-    public void Init(PlayerVehicleController owner)
+    public void Init(A_VehicleController owner)
     {
         Owner = owner;
         rb = GetComponent<Rigidbody>();
