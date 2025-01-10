@@ -40,7 +40,7 @@ public class CustomCarPhysics : MonoBehaviour
   public float _terminalVelocity = 250f;
   private Vector3 cachedLocalVelocity;
   private VehicleGearSpecs currentGear;
-  [SerializeField] private float momentumModifier = 1f;
+
   [Header("Steering Setup")]
 
   [Tooltip("Grip Of wheels Between speed 0 - Terminal Velocity")]
@@ -57,6 +57,13 @@ public class CustomCarPhysics : MonoBehaviour
 
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
+
+  [Header("RigidBody mod Settings")]
+  [Tooltip("The minimum angluar drag the car will experience For steering mechanics")]
+  [SerializeField] private float minimumAngularDrag = 0.05f;
+  [Tooltip("The maximum angular drag the car will experience For steering mechanics")]
+
+  [SerializeField] private float maximumAngularDrag = 0.5f;
 
   [Header("Ground Stick Setup")]
   [Tooltip("The amount of speed to stop sticking to the ground")]
@@ -224,6 +231,7 @@ else
 
 
     for (int i = 0; i < wheels.Length; i++)
+    for (int i = 0; i < wheels.Length; i++)
     {
       wheels[i].raycastDown(_groundLayers, _raycastDistance);
 
@@ -309,5 +317,20 @@ else
     }
     doStickGround = true;
   }
-  #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Vector3 newVelocity = Vector3.zero;
+        ContactPoint cpoint  = collision.GetContact(0);
+
+        Vector3 bumpDir = transform.position - cpoint.point;
+        bumpDir.y = 1;
+        bumpDir.Normalize();
+
+        RigidBody.AddForce(1* RigidBody.mass * bumpDir );
+
+        print("Buump Wall");
+        _rigidBody.velocity = newVelocity;
+    }
+    #endregion
 }

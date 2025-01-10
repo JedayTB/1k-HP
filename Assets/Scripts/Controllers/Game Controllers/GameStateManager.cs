@@ -4,25 +4,30 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-  public bool UseDebug = true;
+    private PlayerVehicleController _player;
+    public static GameStateManager Instance { get { return instance; } }
+
+    [SerializeField] private CameraFollower3D cam;
+    [SerializeField] public LapChecker _lapChecker;
+    [SerializeField] private LapTimer _lapTimer;
+    [SerializeField] private waypointGizmos[] NavigationTracks;
+    [SerializeField] private UIController _uiController;
+    [SerializeField] private VehicleAIController[] _aiControllers;
+    [SerializeField] private GameObject[] _playerVehicles;
+    [SerializeField] private Transform[] _startLocations;
+    [SerializeField] private PostProcessing _postProcessing;
+
+
+    public bool UseDebug = true;
   public int nextPlayerCheckpointPosition = 0;
   private static GameStateManager instance;
 
   public A_Ability[] Abilitieslist;
-  public static GameStateManager Instance { get { return instance; } }
+  
   private InputManager inputManager;
-  private PlayerVehicleController _player;
+  
   public static PlayerVehicleController Player; // Singleton var
 
-  [SerializeField] private CameraFollower3D cam;
-  [SerializeField] public LapChecker _lapChecker;
-  [SerializeField] private LapTimer _lapTimer;
-  [SerializeField] private waypointGizmos[] NavigationTracks;
-  [SerializeField] private UIController _uiController;
-  [SerializeField] private VehicleAIController[] _aiControllers;
-  [SerializeField] private GameObject[] _playerVehicles;
-  [SerializeField] private Transform[] _startLocations;
-  [SerializeField] private PostProcessing _postProcessing;
   public static int _newCharacter = 2;
 
   // UI Stuff
@@ -31,7 +36,7 @@ public class GameStateManager : MonoBehaviour
   private List<A_VehicleController> vehicles = new List<A_VehicleController>();
   public Vector3[] levelCheckpointLocations;
 
-
+    private Dictionary<float, A_VehicleController> distPlayerDict =new();
 
   private void Awake()
   {
@@ -82,6 +87,10 @@ public class GameStateManager : MonoBehaviour
     Debug.Log("GSM has Finished Intializing!");
   }
 
+    private void calculateVehiclePlacements()
+    {
+
+    }
   private void Update()
   {
     if (Input.GetKeyDown(KeyCode.L))

@@ -46,7 +46,6 @@ public class HookshotController : A_Ability
     UIController uiCont = FindAnyObjectByType<UIController>();
     _hookCrossHair = uiCont.HookshotCrosshair;
     _hookCrossHair.gameObject.SetActive(true);
-
   }
   
   private void startAbility()
