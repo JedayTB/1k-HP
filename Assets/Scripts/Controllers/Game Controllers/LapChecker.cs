@@ -1,6 +1,5 @@
 using UnityEngine;
 
-public delegate void CheckFinishedLap();
 public class LapChecker : MonoBehaviour
 {
   [SerializeField] private lapCheckpoint[] _checkpoints;
@@ -12,7 +11,6 @@ public class LapChecker : MonoBehaviour
   private LapTimer _lapTimer;
 
   private GameStateManager _gsm;
-  public CheckFinishedLap checkFinishedLap;
   public int lapCount = 0;
 
 
@@ -23,29 +21,30 @@ public class LapChecker : MonoBehaviour
     _checkpoints = GetComponentsInChildren<lapCheckpoint>();
     print(_checkpoints.Length);
     _lapTimer = FindObjectOfType<LapTimer>();
-    checkFinishedLap = checkIfLapsPassed;
 
     for (int i = 0; i < _checkpoints.Length; i++)
     {
-      _checkpoints[i].Init(i, checkFinishedLap);
+      _checkpoints[i].Init(i);
     }
 
   }
 
-  void checkIfLapsPassed()
+  public void checkIfVehicleFinishedlap(A_VehicleController vehicle)
   {
     int nextPos = 0;
 
     for (int i = 0; i < _checkpoints.Length; i++)
     {
       nextPos = i;
-
-      _gsm.setNextPlayerCheckpoint(nextPos++);
-      if (_checkpoints[i].passedCheckpoint != true) return;
+      _gsm.setVehicleNextCheckpoint(vehicle, nextPos++);
+      if (vehicle.checkpointsPassedThrough[i] != true) return;
     }
     // If here is reached, lap was finished
-    _gsm.setNextPlayerCheckpoint(0);
-    onLapFinished();
+    _gsm.setVehicleNextCheckpoint(vehicle, 0);
+    // Change to see if its 1st place
+    // need further logic if player isn't first place 
+    // and still wants to drive
+    if (vehicle is PlayerVehicleController) onLapFinished();
   }
   void onLapFinished()
   {

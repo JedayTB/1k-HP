@@ -1,31 +1,35 @@
 using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-    private PlayerVehicleController _player;
-    public static GameStateManager Instance { get { return instance; } }
+  // Every 0.25 seconds, calculate Race placements
+  // RECALCULATE RACE PLACEMENTS AT END OF RACE
+  private static readonly float RACEPLACEMENTSTICK = 0.25f;
+  private PlayerVehicleController _player;
+  public static GameStateManager Instance { get { return instance; } }
 
-    [SerializeField] private CameraFollower3D cam;
-    [SerializeField] public LapChecker _lapChecker;
-    [SerializeField] private LapTimer _lapTimer;
-    [SerializeField] private waypointGizmos[] NavigationTracks;
-    [SerializeField] private UIController _uiController;
-    [SerializeField] private VehicleAIController[] _aiControllers;
-    [SerializeField] private GameObject[] _playerVehicles;
-    [SerializeField] private Transform[] _startLocations;
-    [SerializeField] private PostProcessing _postProcessing;
+  [SerializeField] private CameraFollower3D cam;
+  [SerializeField] public LapChecker _lapChecker;
+  [SerializeField] private LapTimer _lapTimer;
+  [SerializeField] private waypointGizmos[] NavigationTracks;
+  [SerializeField] private UIController _uiController;
+  [SerializeField] private VehicleAIController[] _aiControllers;
+  [SerializeField] private GameObject[] _playerVehicles;
+  [SerializeField] private Transform[] _startLocations;
+  [SerializeField] private PostProcessing _postProcessing;
 
 
-    public bool UseDebug = true;
+  public bool UseDebug = true;
   public int nextPlayerCheckpointPosition = 0;
   private static GameStateManager instance;
 
   public A_Ability[] Abilitieslist;
-  
+
   private InputManager inputManager;
-  
+
   public static PlayerVehicleController Player; // Singleton var
 
   public static int _newCharacter = 2;
@@ -36,7 +40,7 @@ public class GameStateManager : MonoBehaviour
   private List<A_VehicleController> vehicles = new List<A_VehicleController>();
   public Vector3[] levelCheckpointLocations;
 
-    private Dictionary<float, A_VehicleController> distPlayerDict =new();
+  private Dictionary<float, A_VehicleController> distPlayerDict = new();
 
   private void Awake()
   {
@@ -61,6 +65,7 @@ public class GameStateManager : MonoBehaviour
 
     vehicles.Add(_player);
 
+    //VehicleAIController[] ais = FindObjectsByType<VehicleAIController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     for (int i = 0; i < _aiControllers.Length; i++)
     {
       if (NavigationTracks.Length > 0)
@@ -73,6 +78,17 @@ public class GameStateManager : MonoBehaviour
       }
       vehicles.Add(_aiControllers[i]);
     }
+    // Set checkpoints passed through.
+
+    for (int i = 0; i < levelCheckpointLocations.Length; i++)
+    {
+      vehicles[i].checkpointsPassedThrough = new bool[levelCheckpointLocations.Length];
+      // Set all to false
+      for (int k = 0; i < levelCheckpointLocations.Length; i++)
+      {
+        vehicles[i].checkpointsPassedThrough[k] = false;
+      }
+    }
 
     // Only doing one, MP Server will handle multiple players
     int vehiclesToPosition = 1 + _aiControllers.Length;
@@ -83,22 +99,41 @@ public class GameStateManager : MonoBehaviour
       vehicles[i].setNewRespawnPosition(_startLocations[i]);
     }
 
-
+    StartCoroutine(calculateVehiclePlacements());
     Debug.Log("GSM has Finished Intializing!");
   }
 
-    private void calculateVehiclePlacements()
+  IEnumerator calculateVehiclePlacements()
+  {
+    while (true)
     {
-
+      distPlayerDict.Clear();
+      float[] distances = new float[vehicles.Count];
+      for (int i = 0; i < vehicles.Count; i++)
+      {
+        float distToNextCheckpoint = Vector3.Distance(vehicles[i].transform.position, levelCheckpointLocations[vehicles[i].nextCheckpointIndex]);
+        distances[i] = distToNextCheckpoint;
+        distPlayerDict.Add(distToNextCheckpoint, vehicles[i]);
+      }
+      //distances.sort();
+      for (int i = 0; i < vehicles.Count; i++)
+      {
+        A_VehicleController v = distPlayerDict[distances[i]];
+        v.racePlacement = i;
+      }
+      yield return new WaitForSeconds(RACEPLACEMENTSTICK);
     }
+
+  }
   private void Update()
   {
+    //Debug
     if (Input.GetKeyDown(KeyCode.L))
     {
       onPlayerWin();
     }
   }
-  public void setNextPlayerCheckpoint(int index)
+  public void setVehicleNextCheckpoint(A_VehicleController vehicle, int index)
   {
     nextPlayerCheckpointPosition = index;
   }

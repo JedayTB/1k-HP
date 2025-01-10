@@ -40,6 +40,7 @@ public class CustomCarPhysics : MonoBehaviour
   public float _terminalVelocity = 250f;
   private Vector3 cachedLocalVelocity;
   private VehicleGearSpecs currentGear;
+  [SerializeField] private float momentumModifier;
 
   [Header("Steering Setup")]
 
@@ -230,7 +231,7 @@ else
 }*/
 
 
-    for (int i = 0; i < wheels.Length; i++)
+    
     for (int i = 0; i < wheels.Length; i++)
     {
       wheels[i].raycastDown(_groundLayers, _raycastDistance);

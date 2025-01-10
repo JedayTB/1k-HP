@@ -266,7 +266,7 @@ public class CustomWheels : MonoBehaviour
   /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
   /// <param name="throttle">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float throttle)
+  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float momentumModifier,float throttle)
   {
     float accelerationTime = _throttleInput > 0f ? forwardAccTime : backwardAccTime;
 
