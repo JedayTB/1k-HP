@@ -182,7 +182,7 @@ public class CustomCarPhysics : MonoBehaviour
   {
 
     tireTurnModifier = Mathf.Max(1 - (_rigidBody.velocity.magnitude / _terminalVelocity), minimumModifier);
-    
+
     //Tire turning shit
     for (int i = 0; i < wheels.Length; i++)
     {
@@ -210,20 +210,20 @@ public class CustomCarPhysics : MonoBehaviour
 
     float angleoffsetFromMomentum = Mathf.Abs(Vector3.SignedAngle(wheels[0].transform.forward, momentumDir, Vector3.up) + Vector3.SignedAngle(wheels[1].transform.forward, momentumDir, Vector3.up) / 2);
     float speedModifier = 1 - normalizedSpeed;
-    
-        momentumModifier = 1f;
-        /*
-    if(angleoffsetFromMomentum != 0)
-    {
-        momentumModifier = angleoffsetFromMomentum * speedModifier;
-    }
-    else
-    {
-        momentumModifier = 1f;
-    }*/
+
+    momentumModifier = 1f;
+    /*
+if(angleoffsetFromMomentum != 0)
+{
+    momentumModifier = angleoffsetFromMomentum * speedModifier;
+}
+else
+{
+    momentumModifier = 1f;
+}*/
 
 
-        for (int i = 0; i < wheels.Length; i++)
+    for (int i = 0; i < wheels.Length; i++)
     {
       wheels[i].raycastDown(_groundLayers, _raycastDistance);
 
@@ -231,7 +231,7 @@ public class CustomCarPhysics : MonoBehaviour
       {
         wheels[i].applyTireSuspensionForces();
 
-        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, momentumModifier,_throttleInput);
+        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, momentumModifier, _throttleInput);
 
         if (isDrifting)
         {
