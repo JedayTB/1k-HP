@@ -13,17 +13,14 @@ struct characterStats
 
 public class CharacterStatsController : MonoBehaviour
 {
-  [SerializeField] A_VehicleController[] CharPrefabs;
   [SerializeField] A_VehicleController[] CharactersList;
-
-  [SerializeField] Transform[] characterSpawnLocations;
   private characterStats[] charStats;
 
   [SerializeField] Slider horsePowerSlider;
   [SerializeField] Slider NitroChargeAmountSlider;
   [SerializeField] Slider handlingSlider;
 
-  private float highestHP = float.MinValue;
+  private float highestMaxSpeed = float.MinValue;
   private float highestHandling = float.MinValue;
   private float highestNitroChargeAmounts = int.MinValue;
 
@@ -31,18 +28,14 @@ public class CharacterStatsController : MonoBehaviour
 
   void Start()
   {
-    charStats = new characterStats[CharPrefabs.Length];
-    CharactersList = new A_VehicleController[CharPrefabs.Length];
-
+    charStats = new characterStats[CharactersList.Length];
+    
     for (int i = 0; i < CharactersList.Length; i++)
     {
-      var vehicle = CharPrefabs[i];
+      var vehicle = CharactersList[i];
       vehicle.Init();
-      //vehicle.transform.position = characterSpawnLocations[i].position;
       // Disable the controller
       vehicle.enabled = false;
-      vehicle.gameObject.name =  CharPrefabs[i].gameObject.name;
-      CharactersList[i] = vehicle;
     }
 
     for (int i = 0; i < CharactersList.Length; i++)
@@ -53,13 +46,10 @@ public class CharacterStatsController : MonoBehaviour
                               CharactersList[i].VehiclePhysics.WheelArray[1].RightAckermanAngle;
       handlingAverage /= 4;
 
-      if (CharactersList[i].VehiclePhysics.horsePower > highestHP) highestHP = CharactersList[i].VehiclePhysics.horsePower;
+      if (CharactersList[i].VehiclePhysics.TerminalVelocity > highestMaxSpeed) highestMaxSpeed = CharactersList[i].VehiclePhysics.TerminalVelocity;
       if (handlingAverage > highestHandling) highestHandling = handlingAverage;
       if (CharactersList[i].MaxNitroChargeAmounts > highestNitroChargeAmounts) highestNitroChargeAmounts = CharactersList[i].MaxNitroChargeAmounts;
       //
-      Debug.Log(CharactersList[i].gameObject.name);
-
-      // 
       //
       charStats[i] = new characterStats();
 
@@ -72,7 +62,7 @@ public class CharacterStatsController : MonoBehaviour
 
     }
 
-    horsePowerSlider.maxValue = highestHP;
+    horsePowerSlider.maxValue = highestMaxSpeed;
     handlingSlider.maxValue = highestHandling;
     NitroChargeAmountSlider.maxValue = highestNitroChargeAmounts;
 
