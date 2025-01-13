@@ -329,8 +329,6 @@ else
         bumpDir.Normalize();
 
         RigidBody.AddForce(1* RigidBody.mass * bumpDir );
-
-        print("Buump Wall");
         _rigidBody.velocity = newVelocity;
     }
     #endregion

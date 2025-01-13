@@ -19,7 +19,6 @@ public class LapChecker : MonoBehaviour
     _gsm = gsm;
 
     _checkpoints = GetComponentsInChildren<lapCheckpoint>();
-    print(_checkpoints.Length);
     _lapTimer = FindObjectOfType<LapTimer>();
 
     for (int i = 0; i < _checkpoints.Length; i++)
