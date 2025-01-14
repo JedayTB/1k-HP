@@ -326,15 +326,25 @@ else
 
     private void OnCollisionEnter(Collision collision)
     {
-        Vector3 newVelocity = Vector3.zero;
-        ContactPoint cpoint  = collision.GetContact(0);
+        if (!collision.gameObject.CompareTag("PLAYER"))
+        {
+            Debug.Log("we hit a wall");
+            float hitVelocity = getSpeed();
+            Vector3 newVelocity = Vector3.zero;
+            ContactPoint cpoint = collision.GetContact(0);
 
-        Vector3 bumpDir = transform.position - cpoint.point;
-        bumpDir.y = 1;
-        bumpDir.Normalize();
+            if (gameObject.CompareTag("Vehicle"))
+            {
+                print(cpoint.point);
+            }
 
-        RigidBody.AddForce(1* RigidBody.mass * bumpDir );
-        _rigidBody.velocity = newVelocity;
+            Vector3 bumpDir = transform.position - cpoint.point;
+            bumpDir.y = 1;
+            bumpDir.Normalize();
+
+            RigidBody.AddForce(100 * hitVelocity * RigidBody.mass * bumpDir);
+            _rigidBody.velocity = newVelocity;
+        }
     }
     #endregion
 }
