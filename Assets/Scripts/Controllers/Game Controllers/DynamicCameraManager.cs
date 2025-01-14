@@ -15,7 +15,7 @@ public class DynamicCameraManager : MonoBehaviour
   }
   public void MoveToLocation(int characterCamPosIndex)
   {
-    //Debug.Log($"{this.gameObject.name} is moving to index {characterCamPosIndex}\n Pos{_cameraPositions[characterCamPosIndex].position}");
+    Debug.Log($"{this.gameObject.name} is moving to index {characterCamPosIndex}\n Pos{_cameraPositions[characterCamPosIndex].position}");
     Transform newTransform = _cameraPositions[characterCamPosIndex];
 
     cameraPositionIndex = characterCamPosIndex;

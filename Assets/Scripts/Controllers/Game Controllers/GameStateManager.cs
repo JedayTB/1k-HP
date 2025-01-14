@@ -20,9 +20,7 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private GameObject[] _playerVehicles;
   [SerializeField] private Transform[] _startLocations;
   [SerializeField] private PostProcessing _postProcessing;
-    [SerializeField] private MusicManager _musicManager;
 
-    public static readonly float musicVolumeLevel = 0.5f;
 
   public bool UseDebug = true;
   public int nextPlayerCheckpointPosition = 0;
@@ -106,9 +104,6 @@ public class GameStateManager : MonoBehaviour
     }
 
     StartCoroutine(calculateVehiclePlacements());
-
-
-    _musicManager?.startMusic();
     Debug.Log("GSM has Finished Intializing!");
   }
 
@@ -166,6 +161,8 @@ public class GameStateManager : MonoBehaviour
         A_VehicleController vRef = distPlayerDict[progressions[i]];
 
         vRef.racePlacement = count;
+
+        print($"i {i}, val {progressions[i]}");
       }
 
       yield return new WaitForSeconds(RACEPLACEMENTSTICK);

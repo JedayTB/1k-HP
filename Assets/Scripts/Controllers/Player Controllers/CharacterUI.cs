@@ -29,7 +29,8 @@ public class CharacterUI : MonoBehaviour
   // Start is called before the first frame update
   void Start()
   {
-        string yuh = _selectedCharacter.ToString();
+    string yuh = _selectedCharacter.ToString();
+    print(yuh);
   }
 
   // Update is called once per frame
