@@ -9,11 +9,14 @@ using UnityEngine;
 public enum ServerToClient : ushort
 {
     playerSpawned = 1,
+    playerReady = 2,
+    startGame = 3,
 }
 
 public enum ClientToServerId : ushort
 {
     name = 1,
+    readyUp = 2,
 }
 
 public class NetworkManager : MonoBehaviour
@@ -79,7 +82,7 @@ public class NetworkManager : MonoBehaviour
 
     private void PlayerLeft(object sender, ServerDisconnectedEventArgs e)
     {
-        Destroy(Player.list[e.Client.Id].gameObject);
+        Destroy(Player.List[e.Client.Id].gameObject);
     }
     
     // fuck c#
@@ -95,5 +98,12 @@ public class NetworkManager : MonoBehaviour
             }
         }
         return localIP;
+    }
+
+    public void StartGame()
+    {
+        Message message = Message.Create(MessageSendMode.Reliable, (ushort)ServerToClient.startGame);
+        Server.SendToAll(message);
+        Debug.Log("ALl players ready, Starting game!!!!!!!!");
     }
 }
