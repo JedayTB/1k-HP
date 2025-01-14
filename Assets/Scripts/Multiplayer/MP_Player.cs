@@ -8,10 +8,12 @@ using UnityEngine;
 
 public class MP_Player : MonoBehaviour
 {
-    public static Dictionary<ushort, MP_Player> list = new Dictionary<ushort, MP_Player>();
+    public static Dictionary<ushort, MP_Player> List = new Dictionary<ushort, MP_Player>();
     
     public ushort Id { get; private set; }
     public bool IsLocal { get; private set; }
+    
+    public bool IsReady { get; private set; }
 
     private string username;
 
@@ -20,7 +22,7 @@ public class MP_Player : MonoBehaviour
 
     private void OnDestroy()
     {
-        list.Remove(Id);
+        List.Remove(Id);
     }
 
     public static void Spawn(ushort id, string username)
@@ -41,7 +43,7 @@ public class MP_Player : MonoBehaviour
         player.textAboveHead.text = player.name;
        
         
-        list.Add(id, player);
+        List.Add(id, player);
     }
 
     [MessageHandler((ushort)ServerToClient.playerSpawned)]

@@ -1889,6 +1889,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6994f96f971daf948904c3b90fabd985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  racePlacement: 0
+  checkpointsPassedThrough: 
+  nextCheckpointIndex: 0
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5
@@ -1933,11 +1936,12 @@ MonoBehaviour:
   maxXAngle: 5
   minZAngle: -2.5
   maxZAngle: 2.5
-  GearOne: {fileID: 11400000, guid: 90a437f4aceb858a88b37e3c5f580a50, type: 2}
-  GearTwo: {fileID: 11400000, guid: 7123d7238e809b1d2a6ba9d5cbc32395, type: 2}
+  GearOne: {fileID: 11400000, guid: 6b5fa18e4ddd6fe70946a9bf7d060a1a, type: 2}
+  GearTwo: {fileID: 11400000, guid: af9fe344355cbae6cb90dae45d05f8ef, type: 2}
   gearText: 1st Gear
   horsePower: 500
   _terminalVelocity: 250
+  momentumModifier: 0
   tireGripCurve:
     serializedVersion: 2
     m_Curve:

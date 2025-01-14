@@ -7,7 +7,7 @@ public class GameStateManager : MonoBehaviour
 {
   // Every 0.25 seconds, calculate Race placements
   // RECALCULATE RACE PLACEMENTS AT END OF RACE
-  private static readonly float RACEPLACEMENTSTICK = 0.25f;
+  private static readonly float RACEPLACEMENTSTICK = 0.1f;
   private PlayerVehicleController _player;
   public static GameStateManager Instance { get { return instance; } }
 
@@ -40,7 +40,6 @@ public class GameStateManager : MonoBehaviour
   private List<A_VehicleController> vehicles = new List<A_VehicleController>();
   public Vector3[] levelCheckpointLocations;
 
-  private Dictionary<float, A_VehicleController> distPlayerDict = new();
 
   private void Awake()
   {
@@ -54,7 +53,7 @@ public class GameStateManager : MonoBehaviour
     inputManager.Init();
 
     _lapChecker?.Init(this);
-    if (_lapChecker) levelCheckpointLocations = _lapChecker.checkPointLocations;
+    if (_lapChecker != null) levelCheckpointLocations = _lapChecker.checkPointLocations;
     _uiController?.init(_player);
     cam = Camera.main.gameObject.GetComponentInParent<CameraFollower3D>();
     cam?.Init(inputManager);
@@ -65,33 +64,38 @@ public class GameStateManager : MonoBehaviour
 
     vehicles.Add(_player);
 
+    int vehiclesToPosition = 1;
+
+
     //VehicleAIController[] ais = FindObjectsByType<VehicleAIController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     for (int i = 0; i < _aiControllers.Length; i++)
     {
-      if (NavigationTracks.Length > 0)
+      if (_aiControllers[i].enabled)
       {
-        _aiControllers[i].Init(NavigationTracks);
+        if (NavigationTracks.Length > 0)
+        {
+          _aiControllers[i].Init(NavigationTracks);
+        }
+        else
+        {
+          _aiControllers[i].Init();
+        }
+        vehicles.Add(_aiControllers[i]);
+        vehiclesToPosition++;
       }
-      else
-      {
-        _aiControllers[i].Init();
-      }
-      vehicles.Add(_aiControllers[i]);
     }
-    // Set checkpoints passed through.
 
-    for (int i = 0; i < levelCheckpointLocations.Length; i++)
+    // Set checkpoints passed through.
+    int checkpointsArrLength = levelCheckpointLocations.Length;
+    for (int i = 0; i < vehicles.Count; i++)
     {
-      vehicles[i].checkpointsPassedThrough = new bool[levelCheckpointLocations.Length];
+      vehicles[i].checkpointsPassedThrough = new bool[checkpointsArrLength];
       // Set all to false
-      for (int k = 0; i < levelCheckpointLocations.Length; i++)
+      for (int k = 0; k < checkpointsArrLength; k++)
       {
         vehicles[i].checkpointsPassedThrough[k] = false;
       }
     }
-
-    // Only doing one, MP Server will handle multiple players
-    int vehiclesToPosition = 1 + _aiControllers.Length;
 
     for (int i = 0; i < vehiclesToPosition; i++)
     {
@@ -105,22 +109,62 @@ public class GameStateManager : MonoBehaviour
 
   IEnumerator calculateVehiclePlacements()
   {
+    // Starting logic
+    Dictionary<float, A_VehicleController> distPlayerDict = new();
+    float[] vehicleRaceProgressionCalc = new float[vehicles.Count];
+
+    // Last index is distance of nth - 0th index
+    float[] distancesBetweenCheckpoints = new float[levelCheckpointLocations.Length];
+    // Calculate distanes between checkpoints
+    for (int i = 0; i < levelCheckpointLocations.Length; i++)
+    {
+      int nextIndex = i + 1;
+      if (nextIndex == levelCheckpointLocations.Length) nextIndex = 0;
+      distancesBetweenCheckpoints[i] = Vector3.Distance(levelCheckpointLocations[i], levelCheckpointLocations[nextIndex]);
+    }
+
+    float checkpointFraction = 1f / levelCheckpointLocations.Length;
+    float[] progressions = new float[vehicles.Count];
+
     while (true)
     {
       distPlayerDict.Clear();
-      float[] distances = new float[vehicles.Count];
+      // Calculate Distances and progression
       for (int i = 0; i < vehicles.Count; i++)
       {
         float distToNextCheckpoint = Vector3.Distance(vehicles[i].transform.position, levelCheckpointLocations[vehicles[i].nextCheckpointIndex]);
-        distances[i] = distToNextCheckpoint;
-        distPlayerDict.Add(distToNextCheckpoint, vehicles[i]);
+
+        float distProgression = (distToNextCheckpoint / distancesBetweenCheckpoints[vehicles[i].nextCheckpointIndex]);
+
+        float roundedProgression = (vehicles[i].nextCheckpointIndex - 1) * checkpointFraction;
+
+        float particleProgression = distProgression * checkpointFraction;
+
+        float progression = roundedProgression + particleProgression;
+
+        distPlayerDict.Add(progression, vehicles[i]);
+        progressions[i] = progression;
       }
-      //distances.sort();
-      for (int i = 0; i < vehicles.Count; i++)
+
+      // Sort distances and input placements based on that
+      //
+      int zeroIndexLn = vehicles.Count - 1;
+      SortingAlgorithms.QuickSort(progressions, 0, zeroIndexLn);
+      // ^ sorts lowest to highest, but 1st place should be highest progression number
+      // Traverse array backwards
+
+      int count = 0;
+      for (int i = progressions.Length - 1; i >= 0; i--)
       {
-        A_VehicleController v = distPlayerDict[distances[i]];
-        v.racePlacement = i;
+        count++;
+
+        A_VehicleController vRef = distPlayerDict[progressions[i]];
+
+        vRef.racePlacement = count;
+
+        print($"i {i}, val {progressions[i]}");
       }
+
       yield return new WaitForSeconds(RACEPLACEMENTSTICK);
     }
 

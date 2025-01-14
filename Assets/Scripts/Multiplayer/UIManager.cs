@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
 
     private bool advancedOpen = false;
 
-    private List<(string username, ushort id)> connectedPlayers = new List<(string, ushort)>();
+    private List<(string username, ushort id, bool isReady)> connectedPlayers = new List<(string, ushort, bool)>();
     
     private void Awake()
     {
@@ -97,7 +97,7 @@ public class UIManager : MonoBehaviour
 
     public void AddPlayer(string username, ushort id)
     {
-        connectedPlayers.Add((username, id));
+        connectedPlayers.Add((username, id, false));
         UpdatePartyMembersText();
     }
     
@@ -112,8 +112,36 @@ public class UIManager : MonoBehaviour
         string playerInfo = $"Connected Players: {connectedPlayers.Count}/4\n";
         foreach (var player in connectedPlayers)
         {
-            playerInfo += $"{player.username} ({player.id})\n";
+            string readyStatus = player.isReady ? "[READY]" : "[UNREADY]";
+            playerInfo += $"{player.username} ({player.id}) {readyStatus}\n";
         }
         partyMembersText.text = playerInfo.TrimEnd();
     }
+
+    public void ReadyUpClicked()
+    {
+        Message message = Message.Create(MessageSendMode.Reliable, (ushort)ClientToServerId.readyUp);
+        message.AddBool(true); // add toggling ready? maybe
+        NetworkManager.Singleton.Client.Send(message);
+    }
+
+    [MessageHandler((ushort)ServerToClient.playerReady)]
+    private static void HandlePlayerReady(Message message)
+    {
+        ushort playerId = message.GetUShort();
+        bool isReady = message.GetBool();
+
+        UIManager.Singleton.UpdateReadyState(playerId, isReady);
+    }
+    
+    public void UpdateReadyState(ushort playerId, bool isReady)
+    {
+        int index = connectedPlayers.FindIndex(player => player.id == playerId);
+        if (index != -1)
+        {
+            connectedPlayers[index] = (connectedPlayers[index].username, connectedPlayers[index].id, isReady);
+            UpdatePartyMembersText();
+        }
+    }
+
 }

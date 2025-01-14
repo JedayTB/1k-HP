@@ -38,6 +38,7 @@ public class CustomCarPhysics : MonoBehaviour
 
   [HideInInspector] public float horsePower;
   public float _terminalVelocity = 250f;
+  public float TerminalVelocity { get => _terminalVelocity; }
   private Vector3 cachedLocalVelocity;
   private VehicleGearSpecs currentGear;
   [SerializeField] private float momentumModifier;
@@ -85,7 +86,10 @@ public class CustomCarPhysics : MonoBehaviour
 
     _transform = transform;
     currentGear = GearOne;
+
     horsePower = GearOne.HorsePower;
+    _terminalVelocity = GearTwo.MaxSpeed;
+
     halfTireLength = wheels.Length / 2;
 
     foreach (var tire in wheels)
@@ -329,8 +333,6 @@ else
         bumpDir.Normalize();
 
         RigidBody.AddForce(1* RigidBody.mass * bumpDir );
-
-        print("Buump Wall");
         _rigidBody.velocity = newVelocity;
     }
     #endregion

@@ -6,11 +6,14 @@ using UnityEngine;
 public enum ServerToClient : ushort
 {
     playerSpawned = 1,
+    playerReady = 2,
+    startGame = 3,
 }
 
 public enum ClientToServerId : ushort
 {
     name = 1,
+    readyUp = 2,
 }
 
 public class NetworkManager : MonoBehaviour
@@ -84,7 +87,7 @@ public class NetworkManager : MonoBehaviour
         private void PlayerLeft(object sender, ClientDisconnectedEventArgs e)
         {
             UIManager.Singleton.RemovePlayer(e.Id);
-            Destroy(MP_Player.list[e.Id].gameObject);
+            Destroy(MP_Player.List[e.Id].gameObject);
         }
 
         private void DidDisconnect(object sender, EventArgs e)
