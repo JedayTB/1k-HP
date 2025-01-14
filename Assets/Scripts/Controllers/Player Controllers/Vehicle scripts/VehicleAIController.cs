@@ -165,7 +165,7 @@ public class VehicleAIController : A_VehicleController
         _currentTrackOption++;
         break;
       case 1: // Optimal          -1, 0, 1
-        //_currentTrackOption += Random.Range(-1, 2);
+        _currentTrackOption += Random.Range(-1, 2);
         break;
       case 2: // Wide track       // 1, 2
         _currentTrackOption -= Random.Range(1, 3);
