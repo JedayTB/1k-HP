@@ -30,6 +30,7 @@ public class UIController : MonoBehaviour
   private float nextCheckpointAngle;
   private bool _menuIsOpen = false;
   [SerializeField] private float _resetFreezeDuration = 1.5f;
+  [SerializeField] private float _sliderLerpSpeed = 2.5f;
 
   public Image lightningCrossHair;
   public Image HookshotCrosshair;
@@ -58,10 +59,9 @@ public class UIController : MonoBehaviour
     {
       _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
     }
-    if (_player._abilityGauge > 0)
+    if (_player._canUseAbility)
     {
       _AbilityGaugeSlider.gameObject.SetActive(true);
-      _AbilityGaugeSlider.value = _player._abilityGauge;
     }
     else
     {
@@ -74,7 +74,7 @@ public class UIController : MonoBehaviour
     rotateSpeedometreLine();
 
     _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
-    _playerNitroSlider.value = _player._nitroChargeAmounts;
+    _playerNitroSlider.value = LerpAndEasings.ExponentialDecay(_playerNitroSlider.value, _player._nitroChargeAmounts, _sliderLerpSpeed, Time.deltaTime);
     GearText.text = _player.VehiclePhysics.gearText;
   }
   private void AdjustAngleToCheckpoint()

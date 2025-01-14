@@ -15,7 +15,7 @@ public class DynamicCameraManager : MonoBehaviour
   }
   public void MoveToLocation(int characterCamPosIndex)
   {
-    Debug.Log($"{this.gameObject.name} is moving to index {characterCamPosIndex}\n Pos{_cameraPositions[characterCamPosIndex].position}");
+    //Debug.Log($"{this.gameObject.name} is moving to index {characterCamPosIndex}\n Pos{_cameraPositions[characterCamPosIndex].position}");
     Transform newTransform = _cameraPositions[characterCamPosIndex];
 
     cameraPositionIndex = characterCamPosIndex;
@@ -23,7 +23,7 @@ public class DynamicCameraManager : MonoBehaviour
     // To fix camera panning if switching between locations 
     // Before pan was finished
     StopAllCoroutines();
-    StartCoroutine(PanCameraToLocation(panTime, newTransform));
+    StartCoroutine(PanCameraToLocationLocal(panTime, newTransform));
   }
 
   IEnumerator PanCameraToLocation(float panTime, Transform newTransform)
@@ -43,6 +43,28 @@ public class DynamicCameraManager : MonoBehaviour
       progress = LerpAndEasings.ExponentialDecay(progress, 1f, 5, Time.deltaTime);
 
       _camera.transform.position = Vector3.Slerp(cameraStartPos, destPos, progress);
+      _camera.transform.rotation = Quaternion.Slerp(cameraStartRotation, destRot, progress);
+
+      yield return null;
+    }
+  }IEnumerator PanCameraToLocationLocal(float panTime, Transform newTransform)
+  {
+    float count = 0;
+    Vector3 cameraStartPos = _camera.transform.localPosition;
+    Quaternion cameraStartRotation = _camera.transform.rotation;
+
+    Vector3 destPos = newTransform.localPosition;
+    Quaternion destRot = newTransform.rotation;
+
+    float progress = 0;
+
+    while (count < panTime)
+    {
+      count += Time.deltaTime;
+
+      progress = LerpAndEasings.ExponentialDecay(progress, 1f, 5, Time.deltaTime);
+
+      _camera.transform.localPosition = Vector3.Slerp(cameraStartPos, destPos, progress);
       _camera.transform.rotation = Quaternion.Slerp(cameraStartRotation, destRot, progress);
 
       yield return null;

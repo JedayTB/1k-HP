@@ -38,8 +38,10 @@ public class CustomCarPhysics : MonoBehaviour
 
   [HideInInspector] public float horsePower;
   public float _terminalVelocity = 250f;
+  public float TerminalVelocity { get => _terminalVelocity; }
   private Vector3 cachedLocalVelocity;
   private VehicleGearSpecs currentGear;
+  [SerializeField] private float momentumModifier;
 
   [Header("Steering Setup")]
 
@@ -58,6 +60,13 @@ public class CustomCarPhysics : MonoBehaviour
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
 
+  [Header("RigidBody mod Settings")]
+  [Tooltip("The minimum angluar drag the car will experience For steering mechanics")]
+  [SerializeField] private float minimumAngularDrag = 0.05f;
+  [Tooltip("The maximum angular drag the car will experience For steering mechanics")]
+
+  [SerializeField] private float maximumAngularDrag = 0.5f;
+
   [Header("Ground Stick Setup")]
   [Tooltip("The amount of speed to stop sticking to the ground")]
   [SerializeField] private float thresholdToJump = 145f;
@@ -66,6 +75,7 @@ public class CustomCarPhysics : MonoBehaviour
   private Vector3 setGroundPos;
   [SerializeField] private float lastGroundedXAngle;
   bool doStickGround;
+
   #endregion
 
   #region Public use Methods
@@ -76,7 +86,10 @@ public class CustomCarPhysics : MonoBehaviour
 
     _transform = transform;
     currentGear = GearOne;
+
     horsePower = GearOne.HorsePower;
+    _terminalVelocity = GearTwo.MaxSpeed;
+
     halfTireLength = wheels.Length / 2;
 
     foreach (var tire in wheels)
@@ -205,7 +218,25 @@ public class CustomCarPhysics : MonoBehaviour
     float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / currentGear.MaxSpeed);
 
     float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
+    //To Resist turning at higher speeds
+    Vector3 momentumDir = transform.forward;
 
+    float angleoffsetFromMomentum = Mathf.Abs(Vector3.SignedAngle(wheels[0].transform.forward, momentumDir, Vector3.up) + Vector3.SignedAngle(wheels[1].transform.forward, momentumDir, Vector3.up) / 2);
+    float speedModifier = 1 - normalizedSpeed;
+
+    momentumModifier = 1f;
+    /*
+if(angleoffsetFromMomentum != 0)
+{
+    momentumModifier = angleoffsetFromMomentum * speedModifier;
+}
+else
+{
+    momentumModifier = 1f;
+}*/
+
+
+    
     for (int i = 0; i < wheels.Length; i++)
     {
       wheels[i].raycastDown(_groundLayers, _raycastDistance);
@@ -214,7 +245,7 @@ public class CustomCarPhysics : MonoBehaviour
       {
         wheels[i].applyTireSuspensionForces();
 
-        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, _throttleInput);
+        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, momentumModifier, _throttleInput);
 
         if (isDrifting)
         {
@@ -231,7 +262,7 @@ public class CustomCarPhysics : MonoBehaviour
 
     _rigidBody.velocity = cachedLocalVelocity;
 
-    //checkIfGrounded();
+    checkIfGrounded();
     ClampLocalRotation();
   }
   private void ClampLocalRotation()
@@ -292,5 +323,28 @@ public class CustomCarPhysics : MonoBehaviour
     }
     doStickGround = true;
   }
-  #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("PLAYER"))
+        {
+            Debug.Log("we hit a wall");
+            float hitVelocity = getSpeed();
+            Vector3 newVelocity = Vector3.zero;
+            ContactPoint cpoint = collision.GetContact(0);
+
+            if (gameObject.CompareTag("Vehicle"))
+            {
+                print(cpoint.point);
+            }
+
+            Vector3 bumpDir = transform.position - cpoint.point;
+            bumpDir.y = 1;
+            bumpDir.Normalize();
+
+            RigidBody.AddForce(100 * hitVelocity * RigidBody.mass * bumpDir);
+            _rigidBody.velocity = newVelocity;
+        }
+    }
+    #endregion
 }

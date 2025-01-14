@@ -1,12 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum LapSetType
-{
-  useVehicleTransform,
-  useRespawnCubePos,
-  useRespawnCubeTransform
-}
 [RequireComponent(typeof(BoxCollider))]
 public class lapCheckpoint : MonoBehaviour
 {
@@ -14,18 +8,14 @@ public class lapCheckpoint : MonoBehaviour
   public int checkPointNumber;
   public bool passedCheckpoint = false;
   private BoxCollider _BC;
-  private CheckFinishedLap lapPassed;
   [SerializeField] private Transform respawnPoint;
   HashSet<A_VehicleController> _vehiclesPassedThroughCheckpoint;
 
-  [SerializeField] private LapSetType _respawnPointSetType = LapSetType.useRespawnCubePos;
-
-  public void Init(int checkPointNumber, CheckFinishedLap lapLogic)
+  public void Init(int checkPointNumber)
   {
     _BC = GetComponent<BoxCollider>();
     _BC.isTrigger = true;
     this.checkPointNumber = checkPointNumber;
-    lapPassed = lapLogic;
 
     _vehiclesPassedThroughCheckpoint = new HashSet<A_VehicleController>();
   }
@@ -35,7 +25,9 @@ public class lapCheckpoint : MonoBehaviour
   }
   void OnTriggerEnter(Collider other)
   {
-    var vehicle = other.GetComponentInParent<A_VehicleController>();
+
+    var vehicle = other.gameObject.transform.parent.parent.gameObject.GetComponent<A_VehicleController>();
+    //var vehicle = other.GetComponentInParent<A_VehicleController>();
 
     if (vehicle != null)
     {
@@ -43,10 +35,9 @@ public class lapCheckpoint : MonoBehaviour
       {
         _vehiclesPassedThroughCheckpoint.Add(vehicle);
 
-        passedCheckpoint = true;
+        vehicle.checkpointsPassedThrough[checkPointNumber] = true;
 
-
-        lapPassed?.Invoke();
+        GameStateManager.Instance._lapChecker.checkIfVehicleFinishedlap(vehicle);
         setVehicleRespawn(vehicle);
 
       }
@@ -56,26 +47,7 @@ public class lapCheckpoint : MonoBehaviour
   }
   void setVehicleRespawn(A_VehicleController vehicle)
   {
-    switch (_respawnPointSetType)
-    {
-      case LapSetType.useVehicleTransform:
-        vehicle?.setNewRespawnPosition();
-        break;
-
-      case LapSetType.useRespawnCubePos:
-        vehicle?.setNewRespawnPosition(respawnPoint.position);
-        break;
-
-      case LapSetType.useRespawnCubeTransform:
-        vehicle?.setNewRespawnPosition(respawnPoint);
-        break;
-
-      default:
-        Debug.LogError("We're fucked");
-        break;
-    }
-
-
+    vehicle?.setNewRespawnPosition(respawnPoint);
   }
 }
 

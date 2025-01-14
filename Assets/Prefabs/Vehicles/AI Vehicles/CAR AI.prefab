@@ -101,6 +101,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
   _decaySpeed: 7.5
   isDebugging: 0
+  forwardAccTime: 0
+  backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
 --- !u!1 &194598049365718252
@@ -204,6 +206,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
   _decaySpeed: 7.5
   isDebugging: 0
+  forwardAccTime: 0
+  backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
 --- !u!1 &562353251753676056
@@ -355,11 +359,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDrifting: 0
   _isDebuging: 1
-  _useGroundCheck: 0
   _raycastDistance: 5
   _worldGeometryLayers:
     serializedVersion: 2
     m_Bits: 8
+  _forwardRaycastDistance: 4
   isUsingNitro: 0
   isBreaking: 0
   MaxNitroChargeAmounts: 4
@@ -369,7 +373,8 @@ MonoBehaviour:
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
   _nitroSpeedMultiplier: 2.5
-  _abilityGauge: 100
+  _canUseAbility: 0
+  dbgString: 
   _steeringPosition: {x: 0, y: 0, z: 0}
   SteerPathingClock: 0.01
   _debugOptions: 1
@@ -399,6 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isUsingNitro: 0
+  isDrifting: 0
   _raycastDistance: 1.5
   _groundLayers:
     serializedVersion: 2
@@ -408,51 +414,15 @@ MonoBehaviour:
   - {fileID: 5921485350325466169}
   - {fileID: 3753230268447649944}
   - {fileID: 1709498449036955898}
-  driftAudio: {fileID: 0}
+  minXAngle: -10
+  maxXAngle: 10
+  minZAngle: -15
+  maxZAngle: 15
+  GearOne: {fileID: 11400000, guid: 90a437f4aceb858a88b37e3c5f580a50, type: 2}
+  GearTwo: {fileID: 11400000, guid: 7123d7238e809b1d2a6ba9d5cbc32395, type: 2}
+  gearText: 1st Gear
+  horsePower: 0
   _terminalVelocity: 500
-  Acceleration: 3500
-  torqueCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0021189898
-      value: 0.20341182
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.40353432
-      value: 0.65526056
-      inSlope: 0.18047336
-      outSlope: 0.18047336
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.2091468
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6842849
-      value: 0.65248495
-      inSlope: -0.19248967
-      outSlope: -0.19248967
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.46538776
-    - serializedVersion: 3
-      time: 1.0002539
-      value: 0.10291323
-      inSlope: 1.487456
-      outSlope: 1.487456
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.37411734
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   tireGripCurve:
     serializedVersion: 2
     m_Curve:
@@ -486,12 +456,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  tireTurnModifier: 1
+  minimumModifier: 0.25
   wheelbase: 1
   turnRadius: 6
   rearTrack: 2
-  _rotationAngleTimeToZero: 1.5
-  _tireGripHackFix: 90
-  isDrifting: 0
+  minimumAngularDrag: 0.05
+  maximumAngularDrag: 0.5
+  thresholdToJump: 145
+  groundCheckDistance: 4
+  lastGroundedXAngle: 0
 --- !u!114 &2643251588687572955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -764,6 +738,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
   _decaySpeed: 7.5
   isDebugging: 0
+  forwardAccTime: 0
+  backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
 --- !u!1 &3599157978605375151
@@ -899,6 +875,8 @@ MonoBehaviour:
   _wheelSpecs: {fileID: 11400000, guid: d0b7b78a1831efb408e8fca4a20bf037, type: 2}
   _decaySpeed: 7.5
   isDebugging: 0
+  forwardAccTime: 0
+  backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
 --- !u!1 &4709706336814223691
