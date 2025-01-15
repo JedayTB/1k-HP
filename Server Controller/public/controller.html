@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>1k HP Server Control Panel</title>
+    <link rel="stylesheet" href="toolbar.css" />
+  </head>
+  <body>
+    <header id="titlebar">
+      <div class="draggable">
+        <div class="title">
+          <div id="titleHover" (click)="toggleDropdown()">
+            <span
+              style="
+                font-family: coolvetica;
+                color: #cccccc;
+                font-size: 2em;
+                padding-left: 7px;
+              "
+              >{{ titleToolbar }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="16"
+                width="16"
+                viewBox="0 0 512 512"
+                style="padding-right: 7px"
+              >
+                <path
+                  *ngIf="dropdownOpen; else dropDownElse"
+                  fill="#cccccc"
+                  d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"
+                />
+                <ng-template #dropDownElse>
+                  <path
+                    fill="#cccccc"
+                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                  />
+                </ng-template></svg
+            ></span>
+          </div>
+          <div class="dropdown" *ngIf="dropdownOpen">
+            <button class="dropdownButton"><span>About</span></button>
+            <button class="dropdownButton"><span>Settings</span></button>
+            <button class="dropdownButton" (click)="onQuit()">
+              <span>Exit</span>
+            </button>
+          </div>
+        </div>
+        <div class="controls">
+          <button (click)="onMini()" class="button minimize">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="16"
+              width="14"
+              viewBox="0 0 448 512"
+            >
+              <path
+                fill="#ffffff"
+                d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"
+              />
+            </svg>
+          </button>
+          <button (click)="onQuit()" class="button close">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="16"
+              width="16"
+              viewBox="0 0 384 512"
+            >
+              <path
+                fill="#ffffff"
+                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <h1>1k HP Server Control Panel</h1>
+    <button onclick="console.log('Start Server')">Start Server</button>
+    <button onclick="console.log('Stop Server')">Stop Server</button>
+    <p>Connected Players: Syncing...</p>
+  </body>
+</html>
