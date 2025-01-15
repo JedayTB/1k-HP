@@ -325,7 +325,7 @@ else
   }
 
     private void OnCollisionEnter(Collision collision)
-    {
+    {//
         if (!collision.gameObject.CompareTag("PLAYER"))
         {
             Debug.Log("we hit a wall");
