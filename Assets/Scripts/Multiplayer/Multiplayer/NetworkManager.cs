@@ -8,6 +8,8 @@ public enum ServerToClient : ushort
     playerSpawned = 1,
     playerReady = 2,
     startGame = 3,
+    countdown = 4,
+    loadLevel = 5,
 }
 
 public enum ClientToServerId : ushort
