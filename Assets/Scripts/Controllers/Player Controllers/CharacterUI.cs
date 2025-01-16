@@ -17,6 +17,7 @@ public class CharacterUI : MonoBehaviour
   [SerializeField] private KeyCode _confirmKey;
   [SerializeField] private KeyCode _cancelKey;
   [SerializeField] private TextMeshProUGUI _confirmCharText;
+  [SerializeField] private TextMeshProUGUI _selectedCharacterText;
 
   [Space(15)]
   [SerializeField] private GameObject[] _characterButtons;
@@ -25,12 +26,12 @@ public class CharacterUI : MonoBehaviour
 
 
 
-
   // Start is called before the first frame update
   void Start()
   {
     string yuh = _selectedCharacter.ToString();
-    print(yuh);
+    _selectedCharacterText.text = "Null";
+    _selectedCharacterText.gameObject.SetActive(false);
   }
 
   // Update is called once per frame
@@ -41,8 +42,14 @@ public class CharacterUI : MonoBehaviour
       _confirmCharText.text = "Play as " + _selectedCharacter.ToString() + "?";
       _animator.SetBool("MenuIsOpen", true);
     }
-  }
 
+  }
+  public void setSelectedCharacterText(string characterName)
+  {
+    _selectedCharacterText.gameObject.SetActive(true);
+
+    _selectedCharacterText.text = $"Select {characterName}? [Enter]";
+  }
   public void SelectCharacter(string characterName)
   {
 
