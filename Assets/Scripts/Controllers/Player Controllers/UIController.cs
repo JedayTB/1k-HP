@@ -83,6 +83,7 @@ public class UIController : MonoBehaviour
     int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
     // Effectively forward facing angle
     float playerYRot = _player.transform.rotation.eulerAngles.y;
+    Vector3 target = GameStateManager.Instance.levelCheckpointLocations[index];
 
     Vector3 playerToNextCheckpointDir = GameStateManager.Instance.levelCheckpointLocations[index] - _player.transform.position;
     playerToNextCheckpointDir.Normalize();
@@ -94,6 +95,16 @@ public class UIController : MonoBehaviour
 
     nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
     debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
+  /*
+     int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
+    // Effectively forward facing angle
+    Vector3 plForward = _player.transform.forward;
+    Vector3 target = GameStateManager.Instance.levelCheckpointLocations[index];
+
+    nextCheckpointAngle = Vector3.SignedAngle(plForward, target, Vector3.up);
+    
+    nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
+  */
   }
 
   private void rotateSpeedometreLine()

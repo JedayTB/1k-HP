@@ -236,7 +236,7 @@ else
 }*/
 
 
-    
+
     for (int i = 0; i < wheels.Length; i++)
     {
       wheels[i].raycastDown(_groundLayers, _raycastDistance);
@@ -324,8 +324,8 @@ else
     doStickGround = true;
   }
 
-    private void OnCollisionEnter(Collision collision)
-    {//
+  private void OnCollisionEnter(Collision collision)
+  {/*
         if (!collision.gameObject.CompareTag("PLAYER"))
         {
             Debug.Log("we hit a wall");
@@ -345,6 +345,8 @@ else
             RigidBody.AddForce(100 * hitVelocity * RigidBody.mass * bumpDir);
             _rigidBody.velocity = newVelocity;
         }
-    }
-    #endregion
+        */
+  }
+
+  #endregion
 }
