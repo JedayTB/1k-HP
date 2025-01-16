@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 
 struct characterStats
@@ -23,7 +24,8 @@ public class CharacterStatsController : MonoBehaviour
   private float highestMaxSpeed = float.MinValue;
   private float highestHandling = float.MinValue;
   private float highestNitroChargeAmounts = int.MinValue;
-
+  [SerializeField] private AnimationCurve SliderAnimCurve;
+  [SerializeField] private float sliderAnimTime = 0.75f;
   private Dictionary<string, characterStats> NameToStat = new();
 
   void Start()
@@ -73,9 +75,33 @@ public class CharacterStatsController : MonoBehaviour
   {
     characterStats charStat = NameToStat[characterName];
     // Should put in quick Lerp but idgaf rn
-    horsePowerSlider.value = charStat.HorsePower;
-    NitroChargeAmountSlider.value = charStat.NitroChargeAmounts;
-    handlingSlider.value = charStat.Handling;
+    StopAllCoroutines();
+    StartCoroutine(lerpSliderValues(sliderAnimTime, charStat));
+  }
+  IEnumerator lerpSliderValues(float animTime, characterStats charStat){
+    float count = 0f;
+    float progress = 0f;
+
+    float startHP =  horsePowerSlider.value;
+    float startnitroChargeAmt = NitroChargeAmountSlider.value;
+    float startHandling = handlingSlider.value;
+
+    float endHp = charStat.HorsePower;
+    float endNitro= charStat.NitroChargeAmounts;
+    float endHandling = charStat.Handling;
+    
+    while(count < animTime){
+      count += Time.deltaTime;
+      progress = count / animTime;
+
+      float lerpVal = SliderAnimCurve.Evaluate(progress);
+      
+      horsePowerSlider.value = Mathf.Lerp(startHP, endHp, lerpVal);
+       NitroChargeAmountSlider.value = Mathf.Lerp(startnitroChargeAmt, endNitro, lerpVal);
+      handlingSlider.value = Mathf.Lerp(startHandling, endHandling, lerpVal);
+
+      yield return null;
+    }
   }
 }
 
