@@ -342,7 +342,7 @@ else
             bumpDir.y = 1;
             bumpDir.Normalize();
 
-            RigidBody.AddForce(100 * hitVelocity * RigidBody.mass * bumpDir);
+            RigidBody.AddForce(35 * hitVelocity * RigidBody.mass * bumpDir);
             _rigidBody.velocity = newVelocity;
         }
         */

@@ -144,4 +144,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    [MessageHandler((ushort)ServerToClient.startGame)]
+    private static void StartGame(Message message)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MP_JapanLevel");
+    }
+
 }
