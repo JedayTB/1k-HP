@@ -346,6 +346,11 @@ else
             _rigidBody.velocity = newVelocity;
         }
         */
+    foreach (var wheel in wheels)
+    {
+      wheel.forwardAccTime = 0f;
+      wheel.backwardAccTime = 0f;
+    }
   }
 
   #endregion
