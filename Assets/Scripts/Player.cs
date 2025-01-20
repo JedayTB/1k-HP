@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     {
         List.Remove(Id);
     }
+    
+    [SerializeField] private Transform[] japanSpawnPoints;
 
     public static void Spawn(ushort id, string username)
     {
@@ -48,12 +50,13 @@ public class Player : MonoBehaviour
         CheckAllReady();
     }
 
-    private void CheckAllReady()
+    private static void CheckAllReady()
     {
         if (List.Count > 0 && List.Values.All(x => x.IsReady))
         {
-            //NetworkManager.Singleton.StartGame();
-        }
+            Debug.Log("All players are ready! Starting countdown...");
+            GameLogic.Singleton.StartCoroutine(GameLogic.Singleton.CountdownToStartGame());
+        } else Debug.Log("Not all players are ready.");
     }
     
     private static void NotifyClientsAboutReadyState(ushort id, bool isReady)
@@ -97,10 +100,16 @@ public class Player : MonoBehaviour
 
         if (List.TryGetValue(fromClientId, out Player player))
         {
+            Debug.Log($"Player {fromClientId} ({player.Username}) is now {(isReady ? "READY" : "NOT READY")}");
+            
             player.SetReady(isReady);
             NotifyClientsAboutReadyState(fromClientId, isReady);
+            
+            CheckAllReady();
         }
     }
+    
+    
     
     #endregion
 }

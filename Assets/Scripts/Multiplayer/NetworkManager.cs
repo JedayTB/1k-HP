@@ -11,12 +11,15 @@ public enum ServerToClient : ushort
     playerSpawned = 1,
     playerReady = 2,
     startGame = 3,
+    countdown = 4,
+    loadLevel = 5,
 }
 
 public enum ClientToServerId : ushort
 {
     name = 1,
     readyUp = 2,
+    sceneLoaded = 3,
 }
 
 public class NetworkManager : MonoBehaviour
@@ -105,5 +108,21 @@ public class NetworkManager : MonoBehaviour
         Message message = Message.Create(MessageSendMode.Reliable, (ushort)ServerToClient.startGame);
         Server.SendToAll(message);
         Debug.Log("ALl players ready, Starting game!!!!!!!!");
+    }
+    
+    [MessageHandler((ushort)ClientToServerId.sceneLoaded)]
+    private static void OnClientLoadedScene(ushort fromClientId, Message message)
+    {
+        Debug.Log($"Client {fromClientId} has loaded the scene.");
+        
+        if (AllClientsLoadedScene())
+        {
+            GameLogic.Singleton.SyncPlayersToGameSpawnPoints();
+        }
+    }
+
+    private static bool AllClientsLoadedScene()
+    {
+        return true; // Replace with actual logic to track client if needed
     }
 }
