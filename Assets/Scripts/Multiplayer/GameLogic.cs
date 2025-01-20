@@ -14,11 +14,14 @@ public class GameLogic : MonoBehaviour
         get => _singleton;
         private set
         {
-            if(_singleton == null)
+            if (_singleton == null)
+            {
                 _singleton = value;
+                DontDestroyOnLoad(value);
+            }
             else if (_singleton != value)
             {
-                Debug.Log($"{nameof(GameLogic)} instance already exists, destroying object!");
+                NetworkManager.Singleton.mpDebug($"{nameof(GameLogic)} instance already exists, destroying object!");
                 Destroy(value);
             }
         }
@@ -41,7 +44,7 @@ public class GameLogic : MonoBehaviour
         for (int i = 10; i > 0; i--)
         {
             NotifyCountdown(i);
-            Debug.Log($"Game starting in {i} seconds...");
+            NetworkManager.Singleton.mpDebug($"Game starting in {i} seconds...");
             yield return new WaitForSeconds(1f);
         }
         
@@ -61,7 +64,20 @@ public class GameLogic : MonoBehaviour
         message.AddString("MP_JapanLevel");
         NetworkManager.Singleton.Client.Send(message);
 
-        Debug.Log("Switching to game level: MP_JapanLevel");
+        NetworkManager.Singleton.mpDebug("Switching to game level: MP_JapanLevel");
         
+    }
+
+    private void AddMPComponent()
+    {
+        foreach (MP_Player player in MP_Player.List.Values)
+        {
+            if (player.gameObject.GetComponent<MP_Player>() == null)
+            {
+                player.gameObject.AddComponent<MP_Player>();
+
+                NetworkManager.Singleton.mpDebug($"Added MP_Player script to {player.gameObject.name}");
+            }
+        }
     }
 }

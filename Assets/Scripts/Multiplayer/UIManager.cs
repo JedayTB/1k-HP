@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
                 _singleton = value;
             else if (_singleton != value)
             {
-                Debug.Log($"{nameof(UIManager)} instance already exists, destroying object!");
+                NetworkManager.Singleton.mpDebug($"{nameof(UIManager)} instance already exists, destroying object!");
                 Destroy(value);
             }
         }
@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
     [Header("Information Menu")]
     [SerializeField] private GameObject lobbyUI;
     [SerializeField] private TMP_Text partyMembersText;
+    [SerializeField] private TMP_Text countdownText;
         
     [Header("Options")]
     [SerializeField] private GameObject advancedOptionsUI;
@@ -123,6 +124,8 @@ public class UIManager : MonoBehaviour
         Message message = Message.Create(MessageSendMode.Reliable, (ushort)ClientToServerId.readyUp);
         message.AddBool(true); // add toggling ready? maybe
         NetworkManager.Singleton.Client.Send(message);
+        
+        NetworkManager.Singleton.mpDebug("<color=grey>[</color><color=teal>NETWORKING</color><color=grey>]</color> - Ready message sent to server");
     }
 
     [MessageHandler((ushort)ServerToClient.playerReady)]
@@ -147,7 +150,38 @@ public class UIManager : MonoBehaviour
     [MessageHandler((ushort)ServerToClient.startGame)]
     private static void StartGame(Message message)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MP_JapanLevel");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MP_CityLevel");
+    }
+
+    [MessageHandler((ushort)ServerToClient.countdown)]
+    private static void StartCountdown(Message message)
+    {
+        int seconds = message.GetInt();
+        NetworkManager.Singleton.mpDebug($"Countdown: {seconds} seconds remaining...");
+        
+        if (Singleton != null && Singleton.countdownText != null)
+        {
+            Singleton.countdownText.text = $"Game starts in {seconds} seconds!";
+        }
+    }
+    
+    [MessageHandler((ushort)ServerToClient.loadLevel)]
+    private static void HandleLoadLevel(Message message)
+    {
+        string levelName = message.GetString();
+        NetworkManager.Singleton.mpDebug($"Loading level: {levelName}");
+        
+        UnityEngine.SceneManagement.SceneManager.LoadScene(levelName);
+        
+        NotifyServerSceneLoaded();
+    }
+    
+    private static void NotifyServerSceneLoaded()
+    {
+        Message message = Message.Create(MessageSendMode.Reliable, (ushort)ClientToServerId.sceneLoaded);
+        NetworkManager.Singleton.Client.Send(message);
+
+        NetworkManager.Singleton.mpDebug("Notified server that the scene has been loaded.");
     }
 
 }

@@ -29,11 +29,11 @@ public class MP_Player : MonoBehaviour
     {
         MP_Player player;
 
-        Debug.Log($"Local ID: ${id} | Singleton ID: ${NetworkManager.Singleton.Client.Id}");
+        NetworkManager.Singleton.mpDebug($"Local ID: ${id} | Singleton ID: ${NetworkManager.Singleton.Client.Id}");
         player = Instantiate((id == NetworkManager.Singleton.Client.Id ? GameLogic.Singleton.LocalPlayerPrefab : GameLogic.Singleton.PlayerPrefab), NetworkManager.Singleton.playerLobbySpawns[id - 1].position, Quaternion.identity).GetComponent<MP_Player>();
         player.IsLocal = id == NetworkManager.Singleton.Client.Id;
 
-        Debug.Log("Is player local? " + player.IsLocal);
+        NetworkManager.Singleton.mpDebug("Is player local? " + player.IsLocal);
  
 
         player.Id = id;
