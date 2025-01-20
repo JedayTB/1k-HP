@@ -19,21 +19,27 @@ public class VehicleAIController : A_VehicleController
   [SerializeField] private float _reachedTargetDistance = 6f;
   [SerializeField] private float _reverseThreshold = 25f;
   [SerializeField] private float _turningThreshold = 15;
-  [SerializeField] private int _currentWaypointIndex = 0;
-  [SerializeField] private int _respawnWaypointIndex = 0;
+  private int _currentWaypointIndex = 0;
+  private int _respawnWaypointIndex = 0;
 
   [Header("Advanced Steering Parametres")]
 
   [SerializeField] private float _angleThresholdOfDrift = 25f;
+  [SerializeField] private Transform[] raycastPositions;
+
+  [Header("Raycast specifics")]
+  [SerializeField] private float raycastLength = 6f;
+  [SerializeField] private LayerMask steerAwayFromLayers;
 
 
   private float yAngleToTarget;
 
+  /*
   [Header("Steering Weights")]
   [SerializeField] private float _middleTrackWeight = 50f;
   [SerializeField] private float _optimalTrackWeight = 25f;
   [SerializeField] private float _wideTrackWeight = 35f;
-
+  */
 
 
   private float[] weights;
@@ -101,18 +107,103 @@ public class VehicleAIController : A_VehicleController
   }
   IEnumerator SteerPathing(float waitTime)
   {
+    float[] distancesFromCentre = new float[raycastPositions.Length];
     while (true)
     {
       if (_singleTarget == false) updateTarget();
 
-      if (_driveVehicle) steerVehicleToDestination();
-
+      if (_driveVehicle)
+      {
+        steerVehicleToDestination();
+        avoidCollisions(distancesFromCentre);
+      }
       yield return new WaitForSeconds(waitTime);
     }
 
 
   }
+  private void avoidCollisions(float[] distancesFromCentre)
+  {
+    Transform tempTransform;
+    float averagedSteerAwayDirection = 0f;
+    int amtOfRaycastsHitting = 0;
+    for (int i = 0; i < distancesFromCentre.Length; i++)
+    {
+      tempTransform = raycastPositions[i];
+      bool hitCollider = Physics.Raycast(tempTransform.position, tempTransform.forward, out RaycastHit hit, raycastLength, steerAwayFromLayers);
 
+      if (GameStateManager.Instance.UseDebug) Debug.DrawRay(tempTransform.position, tempTransform.forward * raycastLength, hitCollider ? Color.red : Color.green);
+
+      //Find out how far left / right it is from origin
+      if (hitCollider)
+      {
+        distancesFromCentre[i] = transform.InverseTransformDirection(hit.point).x;
+        amtOfRaycastsHitting++;
+      }
+      else
+      {
+        distancesFromCentre[i] = 0f;
+      }
+
+      averagedSteerAwayDirection += distancesFromCentre[i];
+    }
+    // This is if all raycasts are hitting 
+    if (amtOfRaycastsHitting == distancesFromCentre.Length) _throttleInput = -1;
+
+    if (averagedSteerAwayDirection != 0) _turningInput = averagedSteerAwayDirection;
+  }
+  private void steerVehicleToDestination()
+  {
+    _throttleInput = 0f;
+    _turningInput = 0f;
+    yAngleToTarget = 0f;
+
+    float distanceToTarget = Vector3.Distance(transform.position, _steeringPosition);
+
+    if (distanceToTarget > _reachedTargetDistance)
+    {
+      //Keep driving
+
+      Vector3 dirToTarget = (_steeringPosition - transform.position).normalized;
+
+      //Calculates wether target is positive on local Z axis or negative
+      //Negative value is behind, pos is infront
+      float frontBackCheck = Vector3.Dot(transform.forward, dirToTarget);
+
+      if (frontBackCheck > 0)
+      {
+        _throttleInput = 1f;
+      }
+      else
+      {
+        //Go forward if the distance is further then reverse threshold
+        _throttleInput = distanceToTarget > _reverseThreshold ? 1 : -1;
+      }
+
+
+      yAngleToTarget = Vector3.SignedAngle(transform.forward, dirToTarget, Vector3.up);
+
+
+      // Set _turningInput Values below.
+
+
+      if (Mathf.Abs(yAngleToTarget) > _angleThresholdOfDrift)
+      {
+
+        _vehiclePhysics.driftVehicle(true);
+        //Find a way to make the AI's counter steer
+        // Might as well be fucking impossible.
+        _turningInput = calculateTurnAmount(yAngleToTarget, _angleThresholdOfDrift);
+      }
+      else
+      {
+        _vehiclePhysics.endedDrifting(true);
+        _turningInput = calculateTurnAmount(yAngleToTarget, _turningThreshold);
+      }
+
+    }
+    _vehiclePhysics.setInputs(_throttleInput, _turningInput);
+  }
   private void updateTarget()
   {
     float distanceToTarget = Vector3.Distance(transform.position, _steeringPosition);
@@ -187,58 +278,7 @@ public class VehicleAIController : A_VehicleController
 
     return steerPos;
   }
-  private void steerVehicleToDestination()
-  {
-    _throttleInput = 0f;
-    _turningInput = 0f;
-    yAngleToTarget = 0f;
 
-    float distanceToTarget = Vector3.Distance(transform.position, _steeringPosition);
-
-    if (distanceToTarget > _reachedTargetDistance)
-    {
-      //Keep driving
-
-      Vector3 dirToTarget = (_steeringPosition - transform.position).normalized;
-
-      //Calculates wether target is positive on local Z axis or negative
-      //Negative value is behind, pos is infront
-      float frontBackCheck = Vector3.Dot(transform.forward, dirToTarget);
-
-      if (frontBackCheck > 0)
-      {
-        _throttleInput = 1f;
-      }
-      else
-      {
-        //Go forward if the distance is further then reverse threshold
-        _throttleInput = distanceToTarget > _reverseThreshold ? 1 : -1;
-      }
-
-
-      yAngleToTarget = Vector3.SignedAngle(transform.forward, dirToTarget, Vector3.up);
-
-
-      // Set _turningInput Values below.
-
-
-      if (Mathf.Abs(yAngleToTarget) > _angleThresholdOfDrift)
-      {
-
-        _vehiclePhysics.driftVehicle(true);
-        //Find a way to make the AI's counter steer
-        // Might as well be fucking impossible.
-        _turningInput = calculateTurnAmount(yAngleToTarget, _angleThresholdOfDrift);
-      }
-      else
-      {
-        _vehiclePhysics.endedDrifting(true);
-        _turningInput = calculateTurnAmount(yAngleToTarget, _turningThreshold);
-      }
-
-    }
-    _vehiclePhysics.setInputs(_throttleInput, _turningInput);
-  }
   private float calculateTurnAmount(float angleToTarget, float threshold)
   {
     float turningAmount = Mathf.Clamp(angleToTarget / threshold, -1, 1);

@@ -343,6 +343,10 @@ Transform:
   - {fileID: 419033507858008528}
   - {fileID: 3902228041117947843}
   - {fileID: 1797295324730401084}
+  - {fileID: 6388911622199309630}
+  - {fileID: 5427774730413674477}
+  - {fileID: 910243901554384343}
+  - {fileID: 2091127851307307452}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5002868429707847814
@@ -357,6 +361,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a497d04d66a2a06479909636a5710a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  racePlacement: 0
+  checkpointsPassedThrough: 
+  nextCheckpointIndex: 0
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5
@@ -374,6 +381,7 @@ MonoBehaviour:
   _nitroTimeLength: 1
   _nitroSpeedMultiplier: 2.5
   _canUseAbility: 0
+  currentAbility: 0
   dbgString: 
   _steeringPosition: {x: 0, y: 0, z: 0}
   SteerPathingClock: 0.01
@@ -385,12 +393,16 @@ MonoBehaviour:
   _reachedTargetDistance: 4
   _reverseThreshold: 25
   _turningThreshold: 15
-  _currentWaypointIndex: 0
-  _respawnWaypointIndex: 0
   _angleThresholdOfDrift: 25
-  _middleTrackWeight: 50
-  _optimalTrackWeight: 25
-  _wideTrackWeight: 35
+  raycastPositions:
+  - {fileID: 6388911622199309630}
+  - {fileID: 5427774730413674477}
+  - {fileID: 910243901554384343}
+  - {fileID: 2091127851307307452}
+  raycastLength: 6
+  steerAwayFromLayers:
+    serializedVersion: 2
+    m_Bits: 264
 --- !u!114 &2118189843144686473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +435,7 @@ MonoBehaviour:
   gearText: 1st Gear
   horsePower: 0
   _terminalVelocity: 500
+  momentumModifier: 0
   tireGripCurve:
     serializedVersion: 2
     m_Curve:
@@ -742,6 +755,37 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
+--- !u!1 &3595462214575349686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5427774730413674477}
+  m_Layer: 7
+  m_Name: Raycast pos (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5427774730413674477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3595462214575349686}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5, y: 0, z: 2.072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5204440868227184434}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3599157978605375151
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,6 +1214,68 @@ Transform:
   - {fileID: 1693272113341390851}
   m_Father: {fileID: 737955352540412844}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6824441528823337260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 910243901554384343}
+  m_Layer: 7
+  m_Name: Raycast pos (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &910243901554384343
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824441528823337260}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0, z: 2.072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5204440868227184434}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7757639381422608905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2091127851307307452}
+  m_Layer: 7
+  m_Name: Raycast pos (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2091127851307307452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7757639381422608905}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.5, y: 0, z: 2.072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5204440868227184434}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8342124462542632744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,6 +1310,37 @@ Transform:
   - {fileID: 6784147693891163081}
   - {fileID: 1053137164196434538}
   - {fileID: 4727326772305271211}
+  m_Father: {fileID: 5204440868227184434}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8370617599130036583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6388911622199309630}
+  m_Layer: 7
+  m_Name: Raycast pos (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6388911622199309630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370617599130036583}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 0, z: 2.072}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 5204440868227184434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &648603965622410503
