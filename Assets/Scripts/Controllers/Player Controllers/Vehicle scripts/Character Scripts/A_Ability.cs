@@ -8,19 +8,19 @@ public abstract class A_Ability : MonoBehaviour
   {
     Debug.Log("Generic ability used");
   }
-    protected virtual void Awake()
-    {
-        onAbility = AbilityUsed;
-    }
+  protected virtual void Awake()
+  {
+    onAbility = AbilityUsed;
+  }
 
-    private void OnEnable()
-    {
-        print($"{this.name} ability actoin enlisted");
-        vehicle.enlistAbilityAction(onAbility);
-    }
+  private void OnEnable()
+  {
+    //        print($"{this.name} ability actoin enlisted");
+    vehicle.enlistAbilityAction(onAbility);
+  }
 
-    private void OnDisable()
-    {
-        vehicle.delistAbilityAction(onAbility);
-    }
+  private void OnDisable()
+  {
+    vehicle.delistAbilityAction(onAbility);
+  }
 }

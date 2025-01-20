@@ -9,28 +9,46 @@ public class UIController : MonoBehaviour
   private PlayerVehicleController _player;
   [SerializeField] private GameObject _pauseMenu;
   // Menu's
+  [Header("Sub-Menu's")]
   [SerializeField] private CanvasGroup _playMenu;
   [SerializeField] private CanvasGroup _winMenuGP;
   [SerializeField] private CanvasGroup _winMenuLS;
 
+
+  [Header("Rect Transforms")]
+  [SerializeField] private RectTransform _spedometerLinePivot;
+  [SerializeField] private RectTransform nextCheckpointCompas;
+
+  //Abbility Specific
+  [SerializeField] private RectTransform abilityCircle;
+  //
+  [SerializeField] private AnimationCurve circleAnimCurve;
+  [SerializeField] private RectTransform chilliOilSprite;
+  [SerializeField] private RectTransform hookshotSprite;
+  [SerializeField] private RectTransform lightningSprite;
+  [SerializeField] private RectTransform bubbleGumSprite;
+
+  [Header("Sliders")]
+  // Slider's 
+  [SerializeField] private Slider _playerNitroSlider;
+
+  [SerializeField] private float _sliderLerpSpeed = 2.5f;
+  [SerializeField] private Slider _builtUpNitroSlider;
   // Text
+  [Header("Text fields")]
   [SerializeField] private TextMeshProUGUI _nextMapName;
   [SerializeField] private TextMeshProUGUI _countdownText;
   [SerializeField] private TextMeshProUGUI GearText;
   // Rect transforms 
-  [SerializeField] private RectTransform _spedometerLinePivot;
-  [SerializeField] private RectTransform nextCheckpointCompas;
-  // Slider's 
-  [SerializeField] private Slider _playerNitroSlider;
-  [SerializeField] private Slider _builtUpNitroSlider;
-  [SerializeField] private Slider _AbilityGaugeSlider;
+
+
+
   // Misc
   [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
+  [SerializeField] private float abilityCircleAnimTime = 0.75f;
 
   private float nextCheckpointAngle;
   private bool _menuIsOpen = false;
-  [SerializeField] private float _resetFreezeDuration = 1.5f;
-  [SerializeField] private float _sliderLerpSpeed = 2.5f;
 
   public Image lightningCrossHair;
   public Image HookshotCrosshair;
@@ -59,14 +77,7 @@ public class UIController : MonoBehaviour
     {
       _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
     }
-    if (_player._canUseAbility)
-    {
-      _AbilityGaugeSlider.gameObject.SetActive(true);
-    }
-    else
-    {
-      _AbilityGaugeSlider.gameObject.SetActive(false);
-    }
+
     if (GameStateManager.Instance.levelCheckpointLocations.Length != 0)
     {
       AdjustAngleToCheckpoint();
@@ -95,16 +106,16 @@ public class UIController : MonoBehaviour
 
     nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
     debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
-  /*
-     int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
-    // Effectively forward facing angle
-    Vector3 plForward = _player.transform.forward;
-    Vector3 target = GameStateManager.Instance.levelCheckpointLocations[index];
+    /*
+       int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
+      // Effectively forward facing angle
+      Vector3 plForward = _player.transform.forward;
+      Vector3 target = GameStateManager.Instance.levelCheckpointLocations[index];
 
-    nextCheckpointAngle = Vector3.SignedAngle(plForward, target, Vector3.up);
-    
-    nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
-  */
+      nextCheckpointAngle = Vector3.SignedAngle(plForward, target, Vector3.up);
+
+      nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
+    */
   }
 
   private void rotateSpeedometreLine()
@@ -118,6 +129,8 @@ public class UIController : MonoBehaviour
       _spedometerLinePivot.rotation = Quaternion.Euler(0, 0, spedometerZRot);
     }
   }
+
+
   public void setPlayScreen(bool val)
   {
     _playMenu.gameObject.SetActive(val);
@@ -191,11 +204,9 @@ public class UIController : MonoBehaviour
     winScreen.gameObject.SetActive(true);
     winScreen.alpha = 0;
 
-    print("what is happenijng");
 
     while (count < time)
     {
-      print("please");
       count += Time.deltaTime;
       float progress = count / time;
       winScreen.alpha = progress;
@@ -230,5 +241,82 @@ public class UIController : MonoBehaviour
 
     _playMenu.alpha = 1;
     _countdownText.gameObject.SetActive(false);
+  }
+
+  public void playerGotAbility(addedAbility abilityAdded)
+  {
+    SpritesOnAbility(abilityAdded, true);
+    Vector3 startScale = new(0.25f, 0.25f, 0.25f);
+    Vector3 endScale = Vector3.one;
+    StartCoroutine(abilityGainedAnim(startScale, Vector3.one));
+  }
+  public void playerUsedAbility(addedAbility abilityUsed)
+  {
+    Vector3 startScale = Vector3.one;
+    Vector3 endScale = new(0.25f, 0.25f, 0.25f);
+    StartCoroutine(abilityUsedAnim(abilityUsed, startScale, endScale));
+  }
+  IEnumerator abilityGainedAnim(Vector3 startScale, Vector3 endScale)
+  {
+    float timeCount = 0f;
+    float progress;
+
+    abilityCircle.gameObject.SetActive(true);
+    abilityCircle.transform.localScale = startScale;
+
+    while (timeCount < abilityCircleAnimTime)
+    {
+      timeCount += Time.deltaTime;
+      progress = circleAnimCurve.Evaluate(timeCount / abilityCircleAnimTime);
+
+      abilityCircle.transform.localScale = Vector3.LerpUnclamped(startScale, endScale, progress);
+      yield return null;
+    }
+  }
+
+  IEnumerator abilityUsedAnim(addedAbility abilityUsed, Vector3 startScale, Vector3 endScale)
+  {
+    float timeCount = 0f;
+    float progress;
+    float scaleMultiplier;
+
+    abilityCircle.transform.localScale = startScale;
+
+    while (timeCount < abilityCircleAnimTime)
+    {
+      timeCount += Time.deltaTime;
+
+      progress = timeCount / abilityCircleAnimTime;
+      scaleMultiplier = circleAnimCurve.Evaluate(progress);
+      abilityCircle.transform.localScale = Vector3.LerpUnclamped(startScale, endScale, scaleMultiplier);
+      yield return null;
+    }
+
+    SpritesOnAbility(abilityUsed, false);
+    abilityCircle.gameObject.SetActive(true);
+  }
+  private void SpritesOnAbility(addedAbility ability, bool val)
+  {
+    // Reset sprites
+    bubbleGumSprite.gameObject.SetActive(false);
+    chilliOilSprite.gameObject.SetActive(false);
+    lightningSprite.gameObject.SetActive(false);
+    hookshotSprite.gameObject.SetActive(false);
+
+    switch (ability)
+    {
+      case addedAbility.Bubblegum:
+        bubbleGumSprite.gameObject.SetActive(val);
+        break;
+      case addedAbility.ChilliOil:
+        chilliOilSprite.gameObject.SetActive(val);
+        break;
+      case addedAbility.Hookshot:
+        hookshotSprite.gameObject.SetActive(val);
+        break;
+      case addedAbility.Lightning:
+        lightningSprite.gameObject.SetActive(val);
+        break;
+    }
   }
 }

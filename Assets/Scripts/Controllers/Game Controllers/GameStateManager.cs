@@ -15,7 +15,7 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] public LapChecker _lapChecker;
   [SerializeField] private LapTimer _lapTimer;
   [SerializeField] private waypointGizmos[] NavigationTracks;
-  [SerializeField] private UIController _uiController;
+  [SerializeField] public UIController _uiController;
   [SerializeField] private VehicleAIController[] _aiControllers;
   [SerializeField] private GameObject[] _playerVehicles;
   [SerializeField] private Transform[] _startLocations;

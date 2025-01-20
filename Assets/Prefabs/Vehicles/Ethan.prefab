@@ -13564,6 +13564,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5628243253250619376}
     m_Modifications:
+    - target: {fileID: 40426686262950969, guid: 23da8d40a60e6e7dd8444b59cc42f482,
+        type: 3}
+      propertyPath: vehicle
+      value: 
+      objectReference: {fileID: 8540114896043581459}
     - target: {fileID: 3868300344107223828, guid: 23da8d40a60e6e7dd8444b59cc42f482,
         type: 3}
       propertyPath: m_Name
@@ -13628,34 +13633,8 @@ PrefabInstance:
     - {fileID: 1821024114440153887, guid: 23da8d40a60e6e7dd8444b59cc42f482, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3868300344107223828, guid: 23da8d40a60e6e7dd8444b59cc42f482,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9184693836802421499}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23da8d40a60e6e7dd8444b59cc42f482, type: 3}
---- !u!1 &3572891566168312609 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3868300344107223828, guid: 23da8d40a60e6e7dd8444b59cc42f482,
-    type: 3}
-  m_PrefabInstance: {fileID: 304981822238605365}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9184693836802421499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3572891566168312609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b74904362a04e095fb563b3809866028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vehicle: {fileID: 0}
-  prototypeChilli: {fileID: 0}
-  throwPower: 500
-  ChilliOilLaunchLocations: []
 --- !u!4 &7970683437594441090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7684844120079873463, guid: 23da8d40a60e6e7dd8444b59cc42f482,
