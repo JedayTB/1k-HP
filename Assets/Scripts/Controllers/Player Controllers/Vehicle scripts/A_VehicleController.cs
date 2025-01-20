@@ -52,8 +52,10 @@ public abstract class A_VehicleController : MonoBehaviour
   [SerializeField] protected float _nitroTimeLength = 1f;
   [SerializeField] protected float _nitroSpeedMultiplier = 2.5f;
 
+  // Ability stuff
   private AbilityAction onAbilityUsed;
   public bool _canUseAbility;
+  [HideInInspector] public addedAbility currentAbility;
 
   #endregion
   public virtual void Init()
@@ -138,8 +140,9 @@ public abstract class A_VehicleController : MonoBehaviour
     if (_canUseAbility)
     {
       onAbilityUsed?.Invoke();
+      GameStateManager.Instance._uiController.playerUsedAbility(currentAbility);
     }
-    else
+    else if (_canUseAbility == false && GameStateManager.Instance.UseDebug)
     {
       Debug.Log("No ability to use");
     }

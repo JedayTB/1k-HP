@@ -15,7 +15,7 @@ public class Collectables : MonoBehaviour
     }
     public virtual void onPickup(A_VehicleController vehicle)
     {
-        Debug.Log($"{this.name} got picked up. Disabling object");
+//        Debug.Log($"{this.name} got picked up. Disabling object");
         StartCoroutine(respawnClock());
     }
     protected virtual IEnumerator respawnClock(){
