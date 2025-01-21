@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class CarVisualController : MonoBehaviour
 {
@@ -14,6 +14,8 @@ public class CarVisualController : MonoBehaviour
   [SerializeField] public Transform[] _wheelModels;
   [SerializeField] protected List<TrailRenderer> _trails;
   [SerializeField] protected ParticleSystem[] driftParticles;
+  [SerializeField] protected DecalProjector blobProjector;
+    [SerializeField] protected LayerMask playerLayer;
   protected CustomCarPhysics _vehiclePhysics;
   protected CustomWheels[] PhysicsWheels;
   protected Rigidbody _rb;
@@ -62,6 +64,7 @@ public class CarVisualController : MonoBehaviour
     emitDriftParticles(useDriftParticles);
     activateTrails(useTrails);
 
+    BlobProjection();
   }
   protected void offsetTireWithSuspension(Transform visualWheel, int index)
   {
@@ -103,5 +106,14 @@ public class CarVisualController : MonoBehaviour
 
     wheel.localRotation = rotation;
   }
-
+  
+  private void BlobProjection()
+    {
+        RaycastHit hit;
+        Physics.Raycast(transform.position, Vector3.down, out hit, 10000, playerLayer);
+        float yDifference = hit.distance;
+        Vector3 newPivot = new Vector3(0, -yDifference, 0);
+        blobProjector.pivot = newPivot;
+        print(hit.collider.transform.name);
+    }
 }
