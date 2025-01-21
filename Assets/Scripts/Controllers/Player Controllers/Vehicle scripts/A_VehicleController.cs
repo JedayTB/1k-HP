@@ -17,8 +17,8 @@ public abstract class A_VehicleController : MonoBehaviour
   protected Vector3 _respawnPosition;
   protected Quaternion _respawnRotation;
 
-  protected float _throttleInput;
-  protected float _turningInput;
+  public float _throttleInput;
+  public float _turningInput;
   // Race placement things
   public int racePlacement;
   [HideInInspector] public bool[] checkpointsPassedThrough;

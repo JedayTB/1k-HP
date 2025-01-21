@@ -96,15 +96,16 @@ public class UIController : MonoBehaviour
     float playerYRot = _player.transform.rotation.eulerAngles.y;
     Vector3 target = GameStateManager.Instance.levelCheckpointLocations[index];
 
-    Vector3 playerToNextCheckpointDir = GameStateManager.Instance.levelCheckpointLocations[index] - _player.transform.position;
+    Vector3 playerToNextCheckpointDir = target - _player.transform.forward;
     playerToNextCheckpointDir.Normalize();
 
     // Use X and Z values because we're in 3d!;
-    nextCheckpointAngle = Mathf.Rad2Deg * Mathf.Atan2(playerToNextCheckpointDir.z, playerToNextCheckpointDir.x) - 90f;
+    nextCheckpointAngle = Mathf.Rad2Deg * Mathf.Atan2(playerToNextCheckpointDir.x, playerToNextCheckpointDir.z) - 90f;
 
     nextCheckpointAngle = Mathf.DeltaAngle(nextCheckpointAngle, playerYRot);
 
     nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
+
     debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
     /*
        int index = GameStateManager.Instance.nextPlayerCheckpointPosition;

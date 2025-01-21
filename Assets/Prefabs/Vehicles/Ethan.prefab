@@ -1847,6 +1847,7 @@ GameObject:
   - component: {fileID: 6928586186077690643}
   - component: {fileID: 7870606891512930732}
   - component: {fileID: 2729438703981736934}
+  - component: {fileID: 6975127384533497105}
   m_Layer: 7
   m_Name: Ethan
   m_TagString: Vehicle
@@ -1909,6 +1910,7 @@ MonoBehaviour:
   _nitroTimeLength: 1
   _nitroSpeedMultiplier: 2.5
   _canUseAbility: 0
+  currentAbility: 0
 --- !u!114 &3986474952390110900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2015,6 +2017,10 @@ MonoBehaviour:
   driftParticles:
   - {fileID: 7800612584760760934}
   - {fileID: 6305048334615268662}
+  blobProjector: {fileID: 6975127384533497105}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!54 &6928586186077690643
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2154,6 +2160,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6975127384533497105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4446781413359444397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 35ed1bbbebe35614a97450b0acba7a73, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_DecalLayerMask: 1
+  m_ScaleMode: 0
+  m_Offset: {x: -0.08914221, y: -4.61, z: 0.091868125}
+  m_Size: {x: 3.59, y: 1, z: 7.6}
+  m_FadeFactor: 1
 --- !u!1 &4775619355580563099
 GameObject:
   m_ObjectHideFlags: 0
