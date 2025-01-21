@@ -22,14 +22,16 @@ public class VehicleAIController : A_VehicleController
   private int _currentWaypointIndex = 0;
   private int _respawnWaypointIndex = 0;
 
-  [Header("Advanced Steering Parametres")]
-
+    [Header("Advanced Steering Parametres")]
+    public float averagedSteerAwayDirection;
   [SerializeField] private float _angleThresholdOfDrift = 25f;
   [SerializeField] private Transform[] raycastPositions;
 
   [Header("Raycast specifics")]
   [SerializeField] private float raycastLength = 6f;
+    [SerializeField] private float reverseRaycastLengthMultiplier = 1.5f;
   [SerializeField] private LayerMask steerAwayFromLayers;
+
 
 
   private float yAngleToTarget;
@@ -107,7 +109,7 @@ public class VehicleAIController : A_VehicleController
   }
   IEnumerator SteerPathing(float waitTime)
   {
-    float[] distancesFromCentre = new float[raycastPositions.Length];
+    
     while (true)
     {
       if (_singleTarget == false) updateTarget();
@@ -115,19 +117,21 @@ public class VehicleAIController : A_VehicleController
       if (_driveVehicle)
       {
         steerVehicleToDestination();
-        avoidCollisions(distancesFromCentre);
-      }
+        avoidCollisions();
+        _vehiclePhysics.setInputs(_throttleInput, _turningInput);
+       }
       yield return new WaitForSeconds(waitTime);
     }
 
 
   }
-  private void avoidCollisions(float[] distancesFromCentre)
+  private void avoidCollisions()
   {
     Transform tempTransform;
-    float averagedSteerAwayDirection = 0f;
     int amtOfRaycastsHitting = 0;
-    for (int i = 0; i < distancesFromCentre.Length; i++)
+    float dist = 0f;
+        averagedSteerAwayDirection = 0f;
+    for (int i = 0; i < raycastPositions.Length; i++)
     {
       tempTransform = raycastPositions[i];
       bool hitCollider = Physics.Raycast(tempTransform.position, tempTransform.forward, out RaycastHit hit, raycastLength, steerAwayFromLayers);
@@ -137,18 +141,23 @@ public class VehicleAIController : A_VehicleController
       //Find out how far left / right it is from origin
       if (hitCollider)
       {
-        distancesFromCentre[i] = transform.InverseTransformDirection(hit.point).x;
+        dist = transform.InverseTransformDirection(hit.point).x;
         amtOfRaycastsHitting++;
       }
       else
       {
-        distancesFromCentre[i] = 0f;
+           dist = 0f;
       }
 
-      averagedSteerAwayDirection += distancesFromCentre[i];
+      averagedSteerAwayDirection += dist;
+            averagedSteerAwayDirection = Mathf.Clamp(averagedSteerAwayDirection, -1, 1);
     }
-    // This is if all raycasts are hitting 
-    if (amtOfRaycastsHitting == distancesFromCentre.Length) _throttleInput = -1;
+        // This is if all raycasts are hitting 
+        if (amtOfRaycastsHitting >= raycastPositions.Length / 2) {
+            _throttleInput = -1;
+            averagedSteerAwayDirection *= -1;
+            print("REVERSING!?");
+        } 
 
     if (averagedSteerAwayDirection != 0) _turningInput = averagedSteerAwayDirection;
   }
@@ -190,19 +199,18 @@ public class VehicleAIController : A_VehicleController
       if (Mathf.Abs(yAngleToTarget) > _angleThresholdOfDrift)
       {
 
-        _vehiclePhysics.driftVehicle(true);
+        //_vehiclePhysics.driftVehicle(true);
         //Find a way to make the AI's counter steer
         // Might as well be fucking impossible.
         _turningInput = calculateTurnAmount(yAngleToTarget, _angleThresholdOfDrift);
       }
       else
       {
-        _vehiclePhysics.endedDrifting(true);
+        //_vehiclePhysics.endedDrifting(true);
         _turningInput = calculateTurnAmount(yAngleToTarget, _turningThreshold);
       }
 
     }
-    _vehiclePhysics.setInputs(_throttleInput, _turningInput);
   }
   private void updateTarget()
   {
@@ -217,10 +225,6 @@ public class VehicleAIController : A_VehicleController
       _steeringPosition = getPosInsideWaypoint(_currentTrackOption);
     }
 
-    if (_debugOptions)
-    {
-      Debug.DrawRay(transform.position, _steeringPosition - transform.position, Color.green);
-    }
   }
   private void updateWaypointIndex()
   {

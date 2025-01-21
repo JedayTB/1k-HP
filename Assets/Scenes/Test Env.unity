@@ -534,7 +534,7 @@ PrefabInstance:
     - target: {fileID: 3097150923252005119, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
@@ -548,13 +548,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
+      propertyPath: raycastLength
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
+        type: 3}
       propertyPath: _circuitedpath
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
       propertyPath: _reachedTargetDistance
-      value: 6
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5204440868227184434, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
@@ -1251,7 +1256,7 @@ PrefabInstance:
     - target: {fileID: 3097150923252005119, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
@@ -1265,13 +1270,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
+      propertyPath: raycastLength
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
+        type: 3}
       propertyPath: _circuitedpath
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
       propertyPath: _reachedTargetDistance
-      value: 6
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5204440868227184434, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
@@ -1593,7 +1603,7 @@ Transform:
   m_GameObject: {fileID: 1489618212}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32, y: 0, z: -2.1}
+  m_LocalPosition: {x: 41.74, y: 0, z: 9.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1607,125 +1617,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: wheelbase
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: turnRadius
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[0].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[1].inSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[0].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[1].inWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[1].outSlope
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[0].outWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[1].outWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[0].tangentMode
-      value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 2118189843144686473, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: tireGripCurve.m_Curve.Array.data[1].tangentMode
-      value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 2643251588687572955, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3097150923252005119, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
       propertyPath: m_Name
       value: CAR AI
-      objectReference: {fileID: 0}
-    - target: {fileID: 3097150923252005119, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: _driveVehicle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: _circuitedpath
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
-        type: 3}
-      propertyPath: _reachedTargetDistance
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5204440868227184434, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
@@ -2038,7 +1933,7 @@ Transform:
   m_GameObject: {fileID: 1688461829}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.818943, y: 0, z: -2.1}
+  m_LocalPosition: {x: 38.78, y: 0, z: -12.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2069,7 +1964,7 @@ Transform:
   m_GameObject: {fileID: 1698707234}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.719961, y: 0, z: -2.1}
+  m_LocalPosition: {x: 39.02, y: 0, z: -21.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2491,6 +2386,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2789937858167578823, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 21.25
+      objectReference: {fileID: 0}
     - target: {fileID: 3046223726211593196, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2550,6 +2450,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMin.x
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879835989918715039, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 24.484728
       objectReference: {fileID: 0}
     - target: {fileID: 3968965248592421796, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
@@ -2616,6 +2521,11 @@ PrefabInstance:
       propertyPath: _aiControllers.Array.data[2]
       value: 
       objectReference: {fileID: 324313989}
+    - target: {fileID: 6389127372560332819, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 18.377003
+      objectReference: {fileID: 0}
     - target: {fileID: 6479983322303168501, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
       propertyPath: circuit
