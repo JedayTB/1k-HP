@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
-
 public class VehicleAIController : A_VehicleController
 {
-  #region AI Variables
+
+  #region AI Variables 
   [Header("AI Basic setup")]
   public string dbgString;
   [SerializeField] private Vector3 _steeringPosition;
@@ -26,6 +26,7 @@ public class VehicleAIController : A_VehicleController
     public float averagedSteerAwayDirection;
   [SerializeField] private float _angleThresholdOfDrift = 25f;
   [SerializeField] private Transform[] raycastPositions;
+  public float averagedSteerAwayDirection;
 
   [Header("Raycast specifics")]
   [SerializeField] private float raycastLength = 6f;
@@ -133,6 +134,7 @@ public class VehicleAIController : A_VehicleController
         averagedSteerAwayDirection = 0f;
     for (int i = 0; i < raycastPositions.Length; i++)
     {
+      float distFromCentre = 0f;
       tempTransform = raycastPositions[i];
       bool hitCollider = Physics.Raycast(tempTransform.position, tempTransform.forward, out RaycastHit hit, raycastLength, steerAwayFromLayers);
 
@@ -263,7 +265,7 @@ public class VehicleAIController : A_VehicleController
         _currentTrackOption += Random.Range(-1, 2);
         break;
       case 2: // Wide track       // 1, 2
-       _currentTrackOption -= Random.Range(1, 3);
+        _currentTrackOption -= Random.Range(1, 3);
         break;
     }
   }
