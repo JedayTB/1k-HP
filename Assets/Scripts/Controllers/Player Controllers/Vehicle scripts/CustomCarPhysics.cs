@@ -293,9 +293,9 @@ else
     bool isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundCheckDistance, _groundLayers);
     Debug.DrawRay(transform.position, -transform.up * _raycastDistance, isGrounded == true ? Color.green : Color.red);
     // Not enough speed to jump
-    if (isGrounded == false && _rigidBody.velocity.magnitude < thresholdToJump)
+    if (isGrounded == false && _rigidBody.velocity.magnitude < thresholdToJump && doStickGround)
     {
-      if (doStickGround) stickToGround();
+      stickToGround();
     }
     else
     {
@@ -306,6 +306,7 @@ else
   {
     Physics.Raycast(transform.position, Vector3.down, out RaycastHit GroundHit, _groundLayers);
     setGroundPos = GroundHit.point;
+    if (setGroundPos == Vector3.zero) return;
     transform.position = setGroundPos;
     Vector3 rot = transform.rotation.eulerAngles;
     rot.x = lastGroundedXAngle;
@@ -345,12 +346,12 @@ else
             RigidBody.AddForce(35 * hitVelocity * RigidBody.mass * bumpDir);
             _rigidBody.velocity = newVelocity;
         }
-        */
     foreach (var wheel in wheels)
     {
       wheel.forwardAccTime = 0f;
       wheel.backwardAccTime = 0f;
     }
+    */
   }
 
   #endregion

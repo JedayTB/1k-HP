@@ -6,15 +6,15 @@ public class VehicleAIController : A_VehicleController
   #region AI Variables 
   [Header("AI Basic setup")]
   public string dbgString;
-  [SerializeField] private Vector3 _steeringPosition;
-  [SerializeField] protected float SteerPathingClock = 0.15f;
-  [SerializeField] private bool _debugOptions = true;
+  private Vector3 _steeringPosition;
+  [SerializeField] protected float SteerPathingClock = 0.01f;
+  private bool _debugOptions = true;
   [SerializeField] private bool _singleTarget = false;
   [SerializeField] private bool _driveVehicle = true;
   [SerializeField] private bool _circuitedpath = true;
 
   [Header("Steering parametres")]
-  [SerializeField] private waypointGizmos[] _NavigationTracks;
+  private waypointGizmos[] _NavigationTracks;
   private int waypointsArrayLength;
   [SerializeField] private float _reachedTargetDistance = 6f;
   [SerializeField] private float _reverseThreshold = 25f;
@@ -22,15 +22,16 @@ public class VehicleAIController : A_VehicleController
   private int _currentWaypointIndex = 0;
   private int _respawnWaypointIndex = 0;
 
-    [Header("Advanced Steering Parametres")]
-    public float averagedSteerAwayDirection;
+  [Header("Advanced Steering Parametres")]
+  public float averagedSteerAwayDirection;
   [SerializeField] private float _angleThresholdOfDrift = 25f;
   [SerializeField] private Transform[] raycastPositions;
-  public float averagedSteerAwayDirection;
+  //public float averagedSteerAwayDirection;
 
   [Header("Raycast specifics")]
-  [SerializeField] private float raycastLength = 6f;
-    [SerializeField] private float reverseRaycastLengthMultiplier = 1.5f;
+
+  [SerializeField] private float rayHitStrength;
+  [SerializeField] private float maxEffectiveDistanceForSteering = 25f;
   [SerializeField] private LayerMask steerAwayFromLayers;
 
 
@@ -42,10 +43,11 @@ public class VehicleAIController : A_VehicleController
   [SerializeField] private float _middleTrackWeight = 50f;
   [SerializeField] private float _optimalTrackWeight = 25f;
   [SerializeField] private float _wideTrackWeight = 35f;
+
+  private float[] weights;
   */
 
 
-  private float[] weights;
   private int _currentTrackOption;
 
   #endregion
@@ -61,6 +63,7 @@ public class VehicleAIController : A_VehicleController
     _vehicleVisualController.Init();
     transform.position += new Vector3(1, 1, 1);
 
+    rayHitStrength = 1f / raycastPositions.Length;
     StartCoroutine(SteerPathing(SteerPathingClock));
   }
 
@@ -107,10 +110,16 @@ public class VehicleAIController : A_VehicleController
   protected override void Update()
   {
     base.Update();
+    if (_driveVehicle == false)
+    {
+
+      _vehiclePhysics.setInputs(0, 0);
+      VehiclePhysics.RigidBody.velocity = Vector3.zero;
+    }
   }
   IEnumerator SteerPathing(float waitTime)
   {
-    
+
     while (true)
     {
       if (_singleTarget == false) updateTarget();
@@ -120,7 +129,7 @@ public class VehicleAIController : A_VehicleController
         steerVehicleToDestination();
         avoidCollisions();
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);
-       }
+      }
       yield return new WaitForSeconds(waitTime);
     }
 
@@ -130,38 +139,42 @@ public class VehicleAIController : A_VehicleController
   {
     Transform tempTransform;
     int amtOfRaycastsHitting = 0;
-    float dist = 0f;
-        averagedSteerAwayDirection = 0f;
+    averagedSteerAwayDirection = 0f;
+
     for (int i = 0; i < raycastPositions.Length; i++)
     {
-      float distFromCentre = 0f;
       tempTransform = raycastPositions[i];
-      bool hitCollider = Physics.Raycast(tempTransform.position, tempTransform.forward, out RaycastHit hit, raycastLength, steerAwayFromLayers);
-
-      if (GameStateManager.Instance.UseDebug) Debug.DrawRay(tempTransform.position, tempTransform.forward * raycastLength, hitCollider ? Color.red : Color.green);
-
+      bool hitACollider = Physics.Raycast(tempTransform.position, tempTransform.forward, out RaycastHit hit, maxEffectiveDistanceForSteering, steerAwayFromLayers);
+      if (GameStateManager.Instance.UseDebug) Debug.DrawRay(tempTransform.position, tempTransform.forward * maxEffectiveDistanceForSteering, hitACollider ? Color.red : Color.green);
       //Find out how far left / right it is from origin
-      if (hitCollider)
+      if (hitACollider)
       {
-        dist = transform.InverseTransformDirection(hit.point).x;
-        amtOfRaycastsHitting++;
-      }
-      else
-      {
-           dist = 0f;
+        float hitDist = Vector3.Distance(transform.position, hit.point);
+        if (hitDist < maxEffectiveDistanceForSteering)
+        {
+          float steerAwayStrength = Mathf.Max(1 - (hitDist / maxEffectiveDistanceForSteering), 0.1f);
+          averagedSteerAwayDirection += rayHitStrength * -Mathf.Sign(raycastPositions[i].localPosition.x) * steerAwayStrength;
+
+          amtOfRaycastsHitting++;
+        }
       }
 
-      averagedSteerAwayDirection += dist;
-            averagedSteerAwayDirection = Mathf.Clamp(averagedSteerAwayDirection, -1, 1);
+      averagedSteerAwayDirection = Mathf.Clamp(averagedSteerAwayDirection, -1, 1);
     }
-        // This is if all raycasts are hitting 
-        if (amtOfRaycastsHitting >= raycastPositions.Length / 2) {
-            _throttleInput = -1;
-            averagedSteerAwayDirection *= -1;
-            print("REVERSING!?");
-        } 
+    // This is if all raycasts are hitting 
+    // 0.66 so it only reverses if over a third of the
+    // raycast's are hitting
 
+    if ((float)amtOfRaycastsHitting >= (float)(raycastPositions.Length * 0.85f))
+    {
+      _throttleInput = -1;
+      _turningInput *= -1;
+    }
+
+    if (amtOfRaycastsHitting == 0) averagedSteerAwayDirection = 0f;
     if (averagedSteerAwayDirection != 0) _turningInput = averagedSteerAwayDirection;
+
+    dbgString = $"Turn inp: {_turningInput} Throttle: {_throttleInput} steerawayInp {averagedSteerAwayDirection}";
   }
   private void steerVehicleToDestination()
   {
@@ -221,15 +234,59 @@ public class VehicleAIController : A_VehicleController
     //Reached target
     if (distanceToTarget < _reachedTargetDistance)
     {
-
-      updateWaypointIndex();
       updateTrackOption();
+      updateWaypointIndex();
       _steeringPosition = getPosInsideWaypoint(_currentTrackOption);
     }
 
   }
   private void updateWaypointIndex()
   {
+    /*
+    //Find closest waypoint on track
+    float lowestDistance = float.MaxValue;
+    int setNextInd = -1;
+    // Do 10 iterations and pick closest waypoint
+    int negIndCount = _currentWaypointIndex - 1;
+    int indCount = _currentWaypointIndex + 1;
+    int count = 0;
+
+    var track = _NavigationTracks[_currentTrackOption].getWaypoints();
+    int trackLn = track.Length;
+
+    Vector3 waypointPos;
+    while (count < 10)
+    {
+      count++;
+      int useIndex;
+      // Clamp to avoid out of bounds nonsense
+      negIndCount = Mathf.Clamp(negIndCount, 0, trackLn);
+
+      indCount = Mathf.Clamp(indCount, 0, trackLn);
+      // Even
+      if (count % 2 == 0)
+      {
+        waypointPos = track[indCount].position;
+        useIndex = indCount;
+        indCount++;
+      }
+      //Odd
+      else
+      {
+        waypointPos = track[negIndCount].position;
+        useIndex = negIndCount;
+        negIndCount--;
+      }
+      float dist = Vector3.Distance(transform.position, waypointPos);
+
+      if (dist < lowestDistance)
+      {
+        lowestDistance = dist;
+        setNextInd = useIndex;
+      }
+    }
+    _currentWaypointIndex = setNextInd;
+    */
     //  If got to the end of a path
     //  Without a circuit
     if ((_currentWaypointIndex + 1) == waypointsArrayLength && _circuitedpath == false)
@@ -248,26 +305,26 @@ public class VehicleAIController : A_VehicleController
     //  No condition. Just go to the next waypoint
     else
     {
-      _currentWaypointIndex++;
+      _currentTrackOption++;
       _currentWaypointIndex = Mathf.Clamp(_currentWaypointIndex, 0, waypointsArrayLength);
-
-      //Debug.Log($"Waypoint index updated {_currentWaypointIndex}, Time {Time.time}");
     }
   }
   private void updateTrackOption()
   {
-    switch (_currentTrackOption)
+    int shortestAngleInd = int.MaxValue;
+    float smallestYAngleDiff = float.MaxValue;
+    for (int i = 0; i < _NavigationTracks.Length; i++)
     {
-      case 0: // Middle track
-        _currentTrackOption++;
-        break;
-      case 1: // Optimal          -1, 0, 1
-        _currentTrackOption += Random.Range(-1, 2);
-        break;
-      case 2: // Wide track       // 1, 2
-        _currentTrackOption -= Random.Range(1, 3);
-        break;
+      Vector3 waypointPosition = _NavigationTracks[i].getWaypoints()[_currentWaypointIndex].position;
+      float yAngleToTarget = Vector3.SignedAngle(transform.forward, waypointPosition, Vector3.up);
+
+      if (yAngleToTarget < smallestYAngleDiff)
+      {
+        shortestAngleInd = i;
+        smallestYAngleDiff = yAngleToTarget;
+      }
     }
+    _currentTrackOption = shortestAngleInd;
   }
   private Vector3 getPosInsideWaypoint(int trackOption)
   {
@@ -288,11 +345,7 @@ public class VehicleAIController : A_VehicleController
   private float calculateTurnAmount(float angleToTarget, float threshold)
   {
     float turningAmount = Mathf.Clamp(angleToTarget / threshold, -1, 1);
-
-    dbgString = $"Turn Amount {turningAmount}";
-
     return turningAmount;
-
   }
   private void OnDrawGizmos()
   {

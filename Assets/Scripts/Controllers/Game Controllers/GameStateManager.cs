@@ -78,10 +78,6 @@ public class GameStateManager : MonoBehaviour
         {
           _aiControllers[i].Init(NavigationTracks);
         }
-        else
-        {
-          _aiControllers[i].Init();
-        }
         vehicles.Add(_aiControllers[i]);
         vehiclesToPosition++;
       }

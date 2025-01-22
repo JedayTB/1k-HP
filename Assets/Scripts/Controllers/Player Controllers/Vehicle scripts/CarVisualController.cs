@@ -114,6 +114,6 @@ public class CarVisualController : MonoBehaviour
         float yDifference = hit.distance;
         Vector3 newPivot = new Vector3(0, -yDifference, 0);
         blobProjector.pivot = newPivot;
-        print(hit.collider.transform.name);
+//        print(hit.collider.transform.name);
     }
 }
