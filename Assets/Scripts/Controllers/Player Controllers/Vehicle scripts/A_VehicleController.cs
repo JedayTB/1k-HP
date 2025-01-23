@@ -21,6 +21,7 @@ public abstract class A_VehicleController : MonoBehaviour
   public float _turningInput;
   // Race placement things
   public int racePlacement;
+  [HideInInspector] public float raceProgression = 0f;
   [HideInInspector] public bool[] checkpointsPassedThrough;
   [HideInInspector] public int nextCheckpointIndex = 0;
   //

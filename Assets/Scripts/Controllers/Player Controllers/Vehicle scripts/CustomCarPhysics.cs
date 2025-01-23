@@ -245,6 +245,7 @@ else
       {
         wheels[i].applyTireSuspensionForces();
 
+        //wheels[i].applyTireGroundStickForce();
         wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, momentumModifier, _throttleInput);
 
         if (isDrifting)
@@ -262,7 +263,7 @@ else
 
     _rigidBody.velocity = cachedLocalVelocity;
 
-    checkIfGrounded();
+    //checkIfGrounded();
     ClampLocalRotation();
   }
   private void ClampLocalRotation()

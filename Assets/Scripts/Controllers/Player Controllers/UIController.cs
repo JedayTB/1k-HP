@@ -69,6 +69,14 @@ public class UIController : MonoBehaviour
   }
   void Update()
   {
+    if (Input.GetKey(KeyCode.O))
+    {
+      Time.timeScale = 5f;
+    }
+    else if (Input.GetKey(KeyCode.P))
+    {
+      Time.timeScale = 1f;
+    }
     if (Input.GetKeyUp(_pauseMenuKey))
     {
       menuOpenClose();
