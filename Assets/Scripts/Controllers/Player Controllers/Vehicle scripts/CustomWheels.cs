@@ -320,6 +320,28 @@ public class CustomWheels : MonoBehaviour
     _vehicleRB.AddForceAtPosition(springDir * force, forceApplicationPoint);
     
   }
-  #endregion
+    public void applyTireGroundStickForce()
+    {
+
+        //World space direction of the spring force
+        Vector3 springDir = -_tireTransform.up;
+
+        //World space velocity of this tire
+        Vector3 tireWorldVelocity = _vehicleRB.GetPointVelocity(transform.position);
+
+        suspensionOffset = _wheelSpecs.springRestDistance - rayCastHit.distance;
+
+        //Calculate velocity along the spring direction
+        //springDir is a unit vector, this returns the magnitude of tireWorldVel
+        //as projected onto springDir
+
+        float vel = Vector3.Dot(springDir, tireWorldVelocity);
+
+        float force = (suspensionOffset * (_wheelSpecs.springStrength / 2)) - (vel * _wheelSpecs.springDamping);
+
+        _vehicleRB.AddForceAtPosition(springDir * force, forceApplicationPoint);
+
+    }
+    #endregion
 }
 
