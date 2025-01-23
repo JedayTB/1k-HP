@@ -14,7 +14,7 @@ public class VehicleAIController : A_VehicleController
   [SerializeField] private bool _circuitedpath = true;
 
   [Header("Steering parametres")]
-  private waypointGizmos[] _NavigationTracks;
+  [SerializeField] private waypointGizmos[] _NavigationTracks;
   private int waypointsArrayLength;
   [SerializeField] private float _reachedTargetDistance = 6f;
   [SerializeField] private float _reverseThreshold = 25f;
@@ -63,7 +63,7 @@ public class VehicleAIController : A_VehicleController
     _vehicleVisualController.Init();
     transform.position += new Vector3(1, 1, 1);
 
-    rayHitStrength = 1f / raycastPositions.Length;
+        rayHitStrength = 1f / raycastPositions.Length;
     StartCoroutine(SteerPathing(SteerPathingClock));
   }
 
@@ -126,8 +126,8 @@ public class VehicleAIController : A_VehicleController
 
       if (_driveVehicle)
       {
-        steerVehicleToDestination();
-        avoidCollisions();
+        float turnAmtToDriveTarget = steerVehicleToDestination();
+        avoidCollisions(turnAmtToDriveTarget);
         _vehiclePhysics.setInputs(_throttleInput, _turningInput);
       }
       yield return new WaitForSeconds(waitTime);
@@ -135,7 +135,7 @@ public class VehicleAIController : A_VehicleController
 
 
   }
-  private void avoidCollisions()
+  private void avoidCollisions(float turnAmtToDriveTarget)
   {
     Transform tempTransform;
     int amtOfRaycastsHitting = 0;
@@ -167,8 +167,10 @@ public class VehicleAIController : A_VehicleController
 
     if ((float)amtOfRaycastsHitting >= (float)(raycastPositions.Length * 0.85f))
     {
-      _throttleInput = -1;
-      _turningInput *= -1;
+       float newTurn = turnAmtToDriveTarget < 0 ? -1 : 1;
+       averagedSteerAwayDirection = newTurn;
+
+      _throttleInput = -1; 
     }
 
     if (amtOfRaycastsHitting == 0) averagedSteerAwayDirection = 0f;
@@ -176,7 +178,7 @@ public class VehicleAIController : A_VehicleController
 
     dbgString = $"Turn inp: {_turningInput} Throttle: {_throttleInput} steerawayInp {averagedSteerAwayDirection}";
   }
-  private void steerVehicleToDestination()
+  private float steerVehicleToDestination()
   {
     _throttleInput = 0f;
     _turningInput = 0f;
@@ -224,9 +226,10 @@ public class VehicleAIController : A_VehicleController
         //_vehiclePhysics.endedDrifting(true);
         _turningInput = calculateTurnAmount(yAngleToTarget, _turningThreshold);
       }
-
+      
     }
-  }
+        return _turningInput;
+    }
   private void updateTarget()
   {
     float distanceToTarget = Vector3.Distance(transform.position, _steeringPosition);
@@ -305,7 +308,7 @@ public class VehicleAIController : A_VehicleController
     //  No condition. Just go to the next waypoint
     else
     {
-      _currentTrackOption++;
+      _currentWaypointIndex++;
       _currentWaypointIndex = Mathf.Clamp(_currentWaypointIndex, 0, waypointsArrayLength);
     }
   }
@@ -313,8 +316,10 @@ public class VehicleAIController : A_VehicleController
   {
     int shortestAngleInd = int.MaxValue;
     float smallestYAngleDiff = float.MaxValue;
-    for (int i = 0; i < _NavigationTracks.Length; i++)
+        
+    for (int i = 0; i < _NavigationTracks.Length -1; i++)
     {
+            
       Vector3 waypointPosition = _NavigationTracks[i].getWaypoints()[_currentWaypointIndex].position;
       float yAngleToTarget = Vector3.SignedAngle(transform.forward, waypointPosition, Vector3.up);
 
@@ -329,7 +334,6 @@ public class VehicleAIController : A_VehicleController
   private Vector3 getPosInsideWaypoint(int trackOption)
   {
     Vector3 steerPos;
-
     float circleRadius = _NavigationTracks[trackOption].circleRadius;
 
     Vector3 waypointPos = _NavigationTracks[trackOption].getWaypoints()[_currentWaypointIndex].position;
