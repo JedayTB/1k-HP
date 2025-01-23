@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+  public AudioSource countdownTimerSound;
   public string debugStr;
   private PlayerVehicleController _player;
   [SerializeField] private GameObject _pauseMenu;
@@ -223,6 +224,7 @@ public class UIController : MonoBehaviour
   {
     _playMenu.alpha = 0;
     float count = time;
+    countdownTimerSound.Play();
 
     while (count > 0)
     {
