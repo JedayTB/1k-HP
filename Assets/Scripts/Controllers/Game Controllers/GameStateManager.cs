@@ -68,6 +68,7 @@ public class GameStateManager : MonoBehaviour
 
     int vehiclesToPosition = 1;
 
+    _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
 
     //VehicleAIController[] ais = FindObjectsByType<VehicleAIController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     for (int i = 0; i < _aiControllers.Length; i++)
@@ -80,6 +81,8 @@ public class GameStateManager : MonoBehaviour
         }
         vehicles.Add(_aiControllers[i]);
         vehiclesToPosition++;
+
+        _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition; 
       }
     }
 
@@ -206,4 +209,12 @@ public class GameStateManager : MonoBehaviour
     _uiController.setWinScreen(true, isGP);
 
   }
+
+  public void UnfreezeAIs()
+    {
+        foreach (VehicleAIController ai in _aiControllers)
+        {
+            ai.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
+        }
+    }
 }
