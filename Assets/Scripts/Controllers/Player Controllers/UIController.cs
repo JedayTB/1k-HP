@@ -232,7 +232,7 @@ public class UIController : MonoBehaviour
   {
     _playMenu.alpha = 0;
     float count = time;
-    countdownTimerSound.Play();
+    //countdownTimerSound.Play();
 
     while (count > 0)
     {
@@ -252,6 +252,8 @@ public class UIController : MonoBehaviour
 
     _playMenu.alpha = 1;
     _countdownText.gameObject.SetActive(false);
+    _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
+    GameStateManager.Instance.UnfreezeAIs();
   }
 
   public void playerGotAbility(addedAbility abilityAdded)
