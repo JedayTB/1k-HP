@@ -47,11 +47,7 @@ public class CameraFollower3D : MonoBehaviour
   public void Init(InputManager inputManager)
   {
 
-    _camera = Camera.main;
-    _target = GameStateManager.Player.transform;
-    _pivot = _target.Find("camera pivot");
-    _desiredLocation = _pivot.Find("camera target");
-
+        _camera = Camera.main;
     _transform = transform;
     _pivot.transform.localRotation = Quaternion.identity;
     Cursor.lockState = CursorLockMode.Locked;
@@ -225,5 +221,15 @@ public class CameraFollower3D : MonoBehaviour
     return currentEulerRotation;
   }
 
+    public void setTarget(Transform target, bool player)
+    {
+        _target = target;
 
+        if (player)
+        {
+            _pivot = _target.Find("camera pivot");
+            _desiredLocation = _pivot.Find("camera target");
+            transform.position = _desiredLocation.position;
+        }
+    }
 }

@@ -116,6 +116,7 @@ public class UIController : MonoBehaviour
     nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
 
     debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
+        print(target);
     /*
        int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
       // Effectively forward facing angle
@@ -231,8 +232,16 @@ public class UIController : MonoBehaviour
   public IEnumerator CountDown(float time)
   {
     _playMenu.alpha = 0;
+        _countdownText.alpha = 0;
     float count = time;
     //countdownTimerSound.Play();
+
+    while (PreRaceCamera.cutSceneIsHappening) // the worst thing i've ever written what a bandaid fix im sorry im gonna kill myself
+        {
+            yield return null;
+        }
+
+        _countdownText.alpha = 1;
 
     while (count > 0)
     {
