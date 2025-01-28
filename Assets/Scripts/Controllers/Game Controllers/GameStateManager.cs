@@ -80,7 +80,7 @@ public class GameStateManager : MonoBehaviour
     //VehicleAIController[] ais = FindObjectsByType<VehicleAIController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     for (int i = 0; i < _aiControllers.Length; i++)
     {
-      if (_aiControllers[i].enabled)
+      if (_aiControllers[i].gameObject.activeSelf)
       {
         if (NavigationTracks.Length > 0)
         {
@@ -105,6 +105,7 @@ public class GameStateManager : MonoBehaviour
       }
     }
 
+    // Set Vehicles position
     for (int i = 0; i < vehiclesToPosition; i++)
     {
       vehicles[i].transform.SetPositionAndRotation(_startLocations[i].position, _startLocations[i].rotation);
@@ -112,7 +113,6 @@ public class GameStateManager : MonoBehaviour
     }
 
     StartCoroutine(calculateVehiclePlacements());
-
 
     _musicManager?.startMusic();
     Debug.Log("GSM has Finished Intializing!");
@@ -122,7 +122,7 @@ public class GameStateManager : MonoBehaviour
   {
     // Starting logic
     Dictionary<float, A_VehicleController> distPlayerDict = new();
-    float[] vehicleRaceProgressionCalc = new float[vehicles.Count];
+    
 
     // Last index is distance of nth - 0th index
     float[] distancesBetweenCheckpoints = new float[levelCheckpointLocations.Length];
@@ -188,7 +188,17 @@ public class GameStateManager : MonoBehaviour
   }
   public void setVehicleNextCheckpoint(A_VehicleController vehicle, int index)
   {
-    nextPlayerCheckpointPosition = index;
+    var pl = vehicle.GetComponent<PlayerVehicleController>();
+    if (pl != null)
+    {
+      nextPlayerCheckpointPosition = index;
+      pl.nextCheckpointIndex++;
+    }
+    else
+    {
+      // Don't think this matters... But Set it in case!
+      vehicle.nextCheckpointIndex++;
+    }
   }
   public void onPlayerWin()
   {
@@ -222,6 +232,9 @@ public class GameStateManager : MonoBehaviour
     foreach (VehicleAIController ai in _aiControllers)
     {
       ai.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
+      // Just to reset velocity calculations
+      ai.VehiclePhysics.RigidBody.velocity = Vector3.zero;
+      ai.VehiclePhysics.setInputs(0, 0);
     }
   }
 }
