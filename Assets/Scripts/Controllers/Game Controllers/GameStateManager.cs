@@ -8,9 +8,14 @@ public class GameStateManager : MonoBehaviour
   // Every 0.25 seconds, calculate Race placements
   // RECALCULATE RACE PLACEMENTS AT END OF RACE
   private static readonly float RACEPLACEMENTSTICK = 0.1f;
+
   private PlayerVehicleController _player;
+  public A_Ability[] Abilitieslist;
+
   public static GameStateManager Instance { get { return instance; } }
 
+  public bool UseDebug = true;
+  [Header("Game Logic Objects")]
   [SerializeField] private CameraFollower3D cam;
   [SerializeField] public LapChecker _lapChecker;
   [SerializeField] private LapTimer _lapTimer;
@@ -22,13 +27,16 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private PostProcessing _postProcessing;
   [SerializeField] private MusicManager _musicManager;
 
+
+  [Header("Cursor Sprites")]
+  public Texture2D lightningCursor;
+  public Texture2D hookshotCursor;
+
+  [Header("Misc")]
   public static readonly float musicVolumeLevel = 0.5f;
 
-  public bool UseDebug = true;
   public int nextPlayerCheckpointPosition = 0;
   private static GameStateManager instance;
-
-  public A_Ability[] Abilitieslist;
 
   private InputManager inputManager;
 
@@ -40,8 +48,7 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private TextMeshProUGUI _lapTimesText;
 
   private List<A_VehicleController> vehicles = new List<A_VehicleController>();
-  public Vector3[] levelCheckpointLocations;
-
+  [HideInInspector] public Vector3[] levelCheckpointLocations;
 
   private void Awake()
   {
@@ -82,7 +89,7 @@ public class GameStateManager : MonoBehaviour
         vehicles.Add(_aiControllers[i]);
         vehiclesToPosition++;
 
-        _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition; 
+        _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
       }
     }
 
@@ -211,10 +218,10 @@ public class GameStateManager : MonoBehaviour
   }
 
   public void UnfreezeAIs()
+  {
+    foreach (VehicleAIController ai in _aiControllers)
     {
-        foreach (VehicleAIController ai in _aiControllers)
-        {
-            ai.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
-        }
+      ai.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
     }
+  }
 }

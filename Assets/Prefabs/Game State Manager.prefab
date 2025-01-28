@@ -1397,6 +1397,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625de75fe6388b4478b447a7ad0f6e6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Abilitieslist:
+  - {fileID: 4390524634779250500, guid: 1fa9f9a4b0176a0a9bdfafc26476758a, type: 3}
+  - {fileID: 40426686262950969, guid: 23da8d40a60e6e7dd8444b59cc42f482, type: 3}
+  - {fileID: 4659784052428588677, guid: 6aac7d83e90636f8a876ba153acc19e3, type: 3}
+  - {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc, type: 3}
+  UseDebug: 1
   cam: {fileID: 0}
   _lapChecker: {fileID: 0}
   _lapTimer: {fileID: 1856795309123257200}
@@ -1420,13 +1426,9 @@ MonoBehaviour:
   - {fileID: 7047727161722418333}
   _postProcessing: {fileID: 0}
   _musicManager: {fileID: 0}
-  UseDebug: 1
+  lightningCursor: {fileID: 2800000, guid: d935b665e7dfb38598ecf8e8b1c132a0, type: 3}
+  hookshotCursor: {fileID: 2800000, guid: d935b665e7dfb38598ecf8e8b1c132a0, type: 3}
   nextPlayerCheckpointPosition: 0
-  Abilitieslist:
-  - {fileID: 4390524634779250500, guid: 1fa9f9a4b0176a0a9bdfafc26476758a, type: 3}
-  - {fileID: 40426686262950969, guid: 23da8d40a60e6e7dd8444b59cc42f482, type: 3}
-  - {fileID: 4659784052428588677, guid: 6aac7d83e90636f8a876ba153acc19e3, type: 3}
-  - {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc, type: 3}
   _lapTimesText: {fileID: 161902357188795642}
   levelCheckpointLocations: []
 --- !u!1 &5712904508971779679
