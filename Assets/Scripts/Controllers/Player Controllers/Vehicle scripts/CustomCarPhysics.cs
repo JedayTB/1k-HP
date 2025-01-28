@@ -32,7 +32,7 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] VehicleGearSpecs GearOne;
   [SerializeField] VehicleGearSpecs GearTwo;
   // Only for UI display
-  [HideInInspector] public string gearText = "1st Gear";
+  [HideInInspector] public string gearText = "Low";
 
   [Header("Acceleration setup")]
 
@@ -124,7 +124,7 @@ public class CustomCarPhysics : MonoBehaviour
     if (delta != 0)
     {
       currentGear = delta > 0 ? GearTwo : GearOne;
-      gearText = delta > 0 ? "2nd Gear" : "1st Gear";
+      gearText = delta > 0 ? "High" : "Low";
       horsePower = currentGear.HorsePower;
 
       foreach (var wheel in wheels)

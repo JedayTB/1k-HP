@@ -5,7 +5,6 @@ public class CameraFollower3D : MonoBehaviour
   private Transform _transform;
   [SerializeField] private Camera _camera;
   [Header("Basic Params")]
-  [SerializeField] private bool isDebugging = true;
   [SerializeField] private Transform _target;
   [SerializeField] private Transform _desiredLocation;
   [SerializeField] private Transform _pivot;
@@ -47,7 +46,7 @@ public class CameraFollower3D : MonoBehaviour
   public void Init(InputManager inputManager)
   {
 
-        _camera = Camera.main;
+    _camera = Camera.main;
     _transform = transform;
     _pivot.transform.localRotation = Quaternion.identity;
     Cursor.lockState = CursorLockMode.Locked;
@@ -146,7 +145,8 @@ public class CameraFollower3D : MonoBehaviour
     bool hitCollider = Physics.SphereCast
     (_desiredLocation.transform.position, cameraCollisionRadius, direction, out hit, Mathf.Abs(_targetZPosition), collisionLayers);
 
-    Debug.DrawRay(_desiredLocation.transform.position, direction * Mathf.Abs(_targetZPosition), hitCollider == true ? Color.green : Color.red);
+    //Debug.DrawRay(_desiredLocation.transform.position, direction * Mathf.Abs(_targetZPosition), hitCollider == true ? Color.green : Color.red);
+
 
     if (hitCollider)
     {
@@ -221,15 +221,15 @@ public class CameraFollower3D : MonoBehaviour
     return currentEulerRotation;
   }
 
-    public void setTarget(Transform target, bool player)
-    {
-        _target = target;
+  public void setTarget(Transform target, bool player)
+  {
+    _target = target;
 
-        if (player)
-        {
-            _pivot = _target.Find("camera pivot");
-            _desiredLocation = _pivot.Find("camera target");
-            transform.position = _desiredLocation.position;
-        }
+    if (player)
+    {
+      _pivot = _target.Find("camera pivot");
+      _desiredLocation = _pivot.Find("camera target");
+      transform.position = _desiredLocation.position;
     }
+  }
 }

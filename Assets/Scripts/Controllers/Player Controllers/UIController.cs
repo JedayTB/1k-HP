@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Unity.Mathematics;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -103,30 +104,18 @@ public class UIController : MonoBehaviour
     int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
     // Effectively forward facing angle
     float playerYRot = _player.transform.rotation.eulerAngles.y;
-    Vector3 target = GameStateManager.Instance.levelCheckpointLocations[index];
+    Vector3 delta = GameStateManager.Instance.levelCheckpointLocations[index] - _player.transform.position;
 
-    Vector3 playerToNextCheckpointDir = target - _player.transform.forward;
-    playerToNextCheckpointDir.Normalize();
-
-    // Use X and Z values because we're in 3d!;
-    nextCheckpointAngle = Mathf.Rad2Deg * Mathf.Atan2(playerToNextCheckpointDir.x, playerToNextCheckpointDir.z) - 90f;
-
-    nextCheckpointAngle = Mathf.DeltaAngle(nextCheckpointAngle, playerYRot);
+    nextCheckpointAngle = -Vector3.Angle(_player.transform.forward, delta);
+    //math.degrees(math.acos(dot / _player.transform.position.magnitude * target.magnitude));
 
     nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
 
-    debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
-        print(target);
-    /*
-       int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
-      // Effectively forward facing angle
-      Vector3 plForward = _player.transform.forward;
-      Vector3 target = GameStateManager.Instance.levelCheckpointLocations[index];
-
-      nextCheckpointAngle = Vector3.SignedAngle(plForward, target, Vector3.up);
-
-      nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
-    */
+    if (GameStateManager.Instance.UseDebug)
+    {
+      Debug.DrawRay(_player.transform.position, delta, Color.white);
+      debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
+    }
   }
 
   private void rotateSpeedometreLine()
@@ -232,16 +221,16 @@ public class UIController : MonoBehaviour
   public IEnumerator CountDown(float time)
   {
     _playMenu.alpha = 0;
-        _countdownText.alpha = 0;
+    _countdownText.alpha = 0;
     float count = time;
     //countdownTimerSound.Play();
 
     while (PreRaceCamera.cutSceneIsHappening) // the worst thing i've ever written what a bandaid fix im sorry im gonna kill myself
-        {
-            yield return null;
-        }
+    {
+      yield return null;
+    }
 
-        _countdownText.alpha = 1;
+    _countdownText.alpha = 1;
 
     while (count > 0)
     {
