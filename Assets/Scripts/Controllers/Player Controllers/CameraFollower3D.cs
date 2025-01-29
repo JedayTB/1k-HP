@@ -48,7 +48,7 @@ public class CameraFollower3D : MonoBehaviour
 
     _camera = Camera.main;
     _transform = transform;
-    _pivot.transform.localRotation = Quaternion.identity;
+    //_pivot.transform.localRotation = Quaternion.identity;
     Cursor.lockState = CursorLockMode.Locked;
     Cursor.visible = false;
     defaultZPosition = _desiredLocation.localPosition.z;
