@@ -232,4 +232,13 @@ public class CameraFollower3D : MonoBehaviour
       transform.position = _desiredLocation.position;
     }
   }
+
+    private void OnEnable()
+    {
+        _target = GameStateManager.Player.transform;
+
+        _pivot = _target.Find("camera pivot");
+        _desiredLocation = _pivot.Find("camera target");
+        transform.position = _desiredLocation.position;
+    }
 }

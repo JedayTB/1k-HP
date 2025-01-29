@@ -44,7 +44,7 @@ public class CameraShake : MonoBehaviour
 
         Vector3 velocity = GameStateManager.Player.VehiclePhysics.getVelocity();
         float velocitymag = velocity.magnitude;
-        float amountToShake = velocitymag - 130; // only do it after they reach 80kmh
+        float amountToShake = velocitymag - 100; // only do it after they reach 100kmh
         amountToShake = (int)amountToShake / 10; // only increase shake intensity every 10 kmph
         amountToShake = (float)amountToShake / _intensityDivision; // this just scales the shake way down so it's not insanely aggresive
 

@@ -15,6 +15,7 @@ public class PreRaceCamera : MonoBehaviour
      
     void Start()
     {
+
         StartCoroutine(CameraLerp());
     }
 
@@ -24,7 +25,7 @@ public class PreRaceCamera : MonoBehaviour
         {
             StopAllCoroutines();
             cutSceneIsHappening = false;
-            cam.setTarget(GameStateManager.Player.transform, true);
+            cam.enabled = true;
         }
     }
 
@@ -32,9 +33,11 @@ public class PreRaceCamera : MonoBehaviour
     {
         float currentDuration = 0.0001f;
         transform.position = initialLocations[transformIndex].position;
+        transform.rotation = initialLocations[transformIndex].rotation;
         Vector3 startPosition = transform.position;
+        Quaternion startRotation = transform.rotation;
         float progress = 0;
-        cam.setTarget(lookAtLocations[transformIndex], false);
+        //cam.setTarget(lookAtLocations[transformIndex], false);
 
         while (progress < 1)
         {
@@ -42,6 +45,7 @@ public class PreRaceCamera : MonoBehaviour
             currentDuration += Time.deltaTime;
 
             transform.position = Vector3.Lerp(startPosition, endLocations[transformIndex].position, progress);
+            transform.rotation = Quaternion.Lerp(startRotation, endLocations[transformIndex].rotation, progress);
 
             yield return null;
         }
@@ -54,7 +58,7 @@ public class PreRaceCamera : MonoBehaviour
         }
         else
         {
-            cam.setTarget(GameStateManager.Player.transform, true);
+            cam.enabled = true;
             cutSceneIsHappening = false;
         }
     }
