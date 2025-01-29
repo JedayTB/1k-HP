@@ -68,14 +68,9 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] private float maximumAngularDrag = 0.5f;
 
   [Header("Ground Stick Setup")]
-  [Tooltip("The amount of speed to stop sticking to the ground")]
-  [SerializeField] private float thresholdToJump = 145f;
-  [Tooltip("Distance from above the ground the car is considered 'grounded'. (How far until groundStick is applies)")]
-  [SerializeField] private float groundCheckDistance = 4f;
-  private Vector3 setGroundPos;
-  [SerializeField] private float lastGroundedXAngle;
-  bool doStickGround;
-
+  private static float groundCheckDistance = 1.5f;
+  private static float additionalGravity = 2f;
+  private static float GravConstant = 9.806f;
   #endregion
 
   #region Public use Methods
@@ -111,7 +106,6 @@ public class CustomCarPhysics : MonoBehaviour
 
       tire.init(_rigidBody, leftAckAngle, rightAckAngle);
     }
-    StartCoroutine(delayGroundCheck(3.5f));
   }
 
   public void setInputs(float throttleAmt, float turningAmt)
@@ -263,7 +257,7 @@ else
 
     _rigidBody.velocity = cachedLocalVelocity;
 
-    //checkIfGrounded();
+    stickToGround();
     ClampLocalRotation();
   }
   private void ClampLocalRotation()
@@ -275,7 +269,6 @@ else
 
     transform.localRotation = Quaternion.Euler(localEulerAngles);
   }
-
   public static float ClampAngle(float current, float min, float max)
   {
     float dtAngle = Mathf.Abs(((min - max) + 180) % 360 - 180);
@@ -288,46 +281,27 @@ else
     return current;
   }
 
-  private void checkIfGrounded()
-  {
 
-    bool isGrounded = Physics.Raycast(transform.position, -transform.up, out RaycastHit hit, groundCheckDistance, _groundLayers);
-    Debug.DrawRay(transform.position, -transform.up * _raycastDistance, isGrounded == true ? Color.green : Color.red);
-    // Not enough speed to jump
-    if (isGrounded == false && _rigidBody.velocity.magnitude < thresholdToJump && doStickGround)
-    {
-      stickToGround();
-    }
-    else
-    {
-      lastGroundedXAngle = transform.rotation.eulerAngles.x;
-    }
-  }
   private void stickToGround()
   {
-    Physics.Raycast(transform.position, Vector3.down, out RaycastHit GroundHit, _groundLayers);
-    setGroundPos = GroundHit.point;
-    if (setGroundPos == Vector3.zero) return;
-    transform.position = setGroundPos;
-    Vector3 rot = transform.rotation.eulerAngles;
-    rot.x = lastGroundedXAngle;
+    bool isGrounded = Physics.Raycast(transform.position, -transform.up, groundCheckDistance, _groundLayers);
+    if (GameStateManager.Instance.UseDebug) Debug.DrawRay(transform.position, -transform.up * groundCheckDistance, isGrounded == true ? Color.green : Color.red);
 
-    transform.rotation = Quaternion.Euler(rot);
-    StartCoroutine(delayGroundCheck(1.5f));
-  }
-  public IEnumerator delayGroundCheck(float delayTime)
-  {
-    float timeCount = 0;
-    while (timeCount < delayTime)
+    float curentAngDrag = isGrounded ? minimumAngularDrag : maximumAngularDrag;
+    _rigidBody.angularDrag = LerpAndEasings.ExponentialDecay(_rigidBody.angularDrag, curentAngDrag, 5f, Time.deltaTime);
+
+    if (isGrounded == false)
     {
-      timeCount += Time.deltaTime;
-      yield return null;
+      Vector3 extraGravStrength = (additionalGravity * GravConstant) * Vector3.down;
+      _rigidBody.AddForce(extraGravStrength, ForceMode.Acceleration);
+
+      print($"Adding extra grav, Strength {extraGravStrength}");
     }
-    doStickGround = true;
   }
 
   private void OnCollisionEnter(Collision collision)
-  {/*
+  {
+    /*
         if (!collision.gameObject.CompareTag("PLAYER"))
         {
             Debug.Log("we hit a wall");

@@ -109,7 +109,6 @@ public abstract class A_VehicleController : MonoBehaviour
 
     _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
     _vehiclePhysics.RigidBody.angularVelocity = Vector3.zero;
-    _vehiclePhysics.delayGroundCheck(3.5f);
   }
   public virtual void enlistAbilityAction(AbilityAction action)
   {

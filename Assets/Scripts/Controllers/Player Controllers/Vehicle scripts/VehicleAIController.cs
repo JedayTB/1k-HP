@@ -257,7 +257,7 @@ public class VehicleAIController : A_VehicleController
       }
 
     }
-
+    Destroy(raycastDirTr.gameObject);
   }
   private float steerVehicleToDestination()
   {
