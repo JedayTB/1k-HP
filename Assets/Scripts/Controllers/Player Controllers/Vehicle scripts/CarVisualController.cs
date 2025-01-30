@@ -28,7 +28,7 @@ public class CarVisualController : MonoBehaviour
   {
     _vehiclePhysics = GetComponent<CustomCarPhysics>();
     PhysicsWheels = _vehiclePhysics.WheelArray;
-    _rb = GetComponent<Rigidbody>();
+    _rb = _vehiclePhysics.RigidBody;
 
     createbaseTireRestHeights();
   }

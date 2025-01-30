@@ -313,10 +313,6 @@ MonoBehaviour:
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5
-  _worldGeometryLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  _forwardRaycastDistance: 4
   isUsingNitro: 0
   isBreaking: 0
   MaxNitroChargeAmounts: 4
@@ -401,6 +397,7 @@ MonoBehaviour:
   rearTrack: 0
   minimumAngularDrag: 0.05
   maximumAngularDrag: 0.5
+  headOnCollisionThreshold: 0.8
 --- !u!114 &7312018781602798775
 MonoBehaviour:
   m_ObjectHideFlags: 0

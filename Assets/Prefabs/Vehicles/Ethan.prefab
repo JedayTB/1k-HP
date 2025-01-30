@@ -921,7 +921,7 @@ Transform:
   m_GameObject: {fileID: 1982744843496464257}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.065705754, z: 0, w: 0.9978391}
-  m_LocalPosition: {x: 1, y: 0, z: 2.499999}
+  m_LocalPosition: {x: 0.95799994, y: 0, z: 2.841}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1481,7 +1481,7 @@ Transform:
   m_GameObject: {fileID: 3435010819695260767}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.047248784, z: 0, w: 0.9988832}
-  m_LocalPosition: {x: -1, y: 0, z: 2.499999}
+  m_LocalPosition: {x: -1.042, y: 0, z: 2.841}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1899,10 +1899,6 @@ MonoBehaviour:
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5
-  _worldGeometryLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  _forwardRaycastDistance: 4
   isUsingNitro: 0
   isBreaking: 0
   MaxNitroChargeAmounts: 4
@@ -1987,6 +1983,8 @@ MonoBehaviour:
   rearTrack: 2
   minimumAngularDrag: 0.05
   maximumAngularDrag: 0.2
+  headOnCollisionThreshold: 0.85
+  upDownThreshold: -0.2
 --- !u!114 &7371111997208422806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7774,7 +7772,7 @@ Transform:
   m_GameObject: {fileID: 7057800182896604579}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.332, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.9219935}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal.Internal;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
@@ -71,8 +73,14 @@ public class CustomCarPhysics : MonoBehaviour
   private static float groundCheckDistance = 1.5f;
   private static float additionalGravity = 2f;
   private static float GravConstant = 9.806f;
-  #endregion
 
+  [Header("Collisoin Bump Properties")]
+  [SerializeField] private float headOnCollisionThreshold = 0.85f;
+  [SerializeField] private float upDownThreshold = -0.2f;
+
+  #endregion
+  
+  
   #region Public use Methods
   public void Init()
   {
@@ -281,39 +289,57 @@ public class CustomCarPhysics : MonoBehaviour
       float speedGravMultiplier = Mathf.Lerp(1, 2, _rigidBody.velocity.y / 25f);
       Vector3 extraGravStrength = (additionalGravity * GravConstant * speedGravMultiplier) * Vector3.down;
       _rigidBody.AddForce(extraGravStrength, ForceMode.Acceleration);
+
       //if (GameStateManager.Instance.UseDebug) print($"Ex Grav {extraGravStrength}: y vel mult = {speedGravMultiplier}");
     }
   }
 
   private void OnCollisionEnter(Collision collision)
   {
-    /*
-        if (!collision.gameObject.CompareTag("PLAYER"))
-        {
-            Debug.Log("we hit a wall");
-            float hitVelocity = getSpeed();
-            Vector3 newVelocity = Vector3.zero;
-            ContactPoint cpoint = collision.GetContact(0);
-
-            if (gameObject.CompareTag("Vehicle"))
-            {
-                print(cpoint.point);
-            }
-
-            Vector3 bumpDir = transform.position - cpoint.point;
-            bumpDir.y = 1;
-            bumpDir.Normalize();
-
-            RigidBody.AddForce(35 * hitVelocity * RigidBody.mass * bumpDir);
-            _rigidBody.velocity = newVelocity;
-        }
-    foreach (var wheel in wheels)
+    if (!collision.gameObject.CompareTag("PLAYER"))
     {
-      wheel.forwardAccTime = 0f;
-      wheel.backwardAccTime = 0f;
-    }
-    */
-  }
+      ContactPoint cpoint = collision.GetContact(0);
 
+      calculateCollisionForce(cpoint);
+    }
+  }
+  private void calculateCollisionForce(ContactPoint cp)
+  {
+    Vector3 localPoint = transform.InverseTransformDirection(cp.point);
+    Vector3 directionToPoint = (localPoint - transform.position).normalized;
+
+    
+    Vector3 updownEthanSuckMe = localPoint.normalized;
+    updownEthanSuckMe.x = 0f;
+    updownEthanSuckMe.z = 0f;
+
+    float upDot = Vector3.Dot(transform.up.normalized, updownEthanSuckMe);
+    
+    if(upDot > upDownThreshold)
+    {
+      float forwardDot = Vector3.Dot(transform.forward.normalized, directionToPoint);
+
+      //Debug.Log("position of the contact " + cp.point);
+
+      float force = cp.impulse.magnitude;
+
+      string exInfo = "";
+
+      /*if(forwardDot > headOnCollisionThreshold){
+        _rigidBody.velocity = Vector3.zero;
+        foreach (var wheel in wheels)
+        {
+          wheel.forwardAccTime = 0f;
+          wheel.backwardAccTime = 0f;
+        } 
+        exInfo = "Came to full stop!";
+      } */
+
+      Debug.Log($"Y Local {directionToPoint.y} Up Down Dot {upDot} Foward Dot {forwardDot} Force {force} {exInfo}");
+      }else{
+        // I dunno, play sfx?
+      }
+    
+  }
   #endregion
 }

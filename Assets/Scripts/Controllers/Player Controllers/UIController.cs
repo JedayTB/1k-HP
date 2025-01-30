@@ -60,6 +60,8 @@ public class UIController : MonoBehaviour
   private float maxSpeed = 320f;
   private float rotationDif = 194;
 
+  private float counter = 3f;
+
   public void init(PlayerVehicleController PLAYER)
   {
     _player = PLAYER;
@@ -84,6 +86,10 @@ public class UIController : MonoBehaviour
     if (Input.GetKeyUp(_pauseMenuKey))
     {
       menuOpenClose();
+    }
+    if (Input.GetKeyDown(KeyCode.Space) && GameStateManager.Instance.UseDebug)
+    {
+      counter = 0;
     }
 
     if (_player.isDrifting)
@@ -227,7 +233,6 @@ public class UIController : MonoBehaviour
   {
     _playMenu.alpha = 0;
     _countdownText.alpha = 0;
-    float count = time;
     //countdownTimerSound.Play();
 
     while (PreRaceCamera.cutSceneIsHappening) // the worst thing i've ever written what a bandaid fix im sorry im gonna kill myself
@@ -237,16 +242,16 @@ public class UIController : MonoBehaviour
 
     _countdownText.alpha = 1;
 
-    while (count > 0)
+    while (counter > 0)
     {
-      count -= Time.deltaTime;
-      _countdownText.text = (count + 0.5f).ToString("0");
+      counter -= Time.deltaTime;
+      _countdownText.text = (counter + 0.5f).ToString("0");
 
-      if (count < 2 && count > 1) // highschool ass if statement man what am i doing
+      if (counter < 2 && counter > 1) // highschool ass if statement man what am i doing
       {
         _countdownText.fontSize = 100;
       }
-      else if (count <= 1)
+      else if (counter <= 1)
       {
         _countdownText.fontSize = 130;
       }
