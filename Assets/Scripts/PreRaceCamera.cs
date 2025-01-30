@@ -69,14 +69,12 @@ public class PreRaceCamera : MonoBehaviour
                 transform.position = Vector3.Lerp(startPosition, endLocations[transformIndex].position, progress);
                 transform.rotation = Quaternion.Lerp(startRotation, endLocations[transformIndex].rotation, progress);
 
-                print(progress);
                 cachedProgress = progress;
                 yield return null;
             }
         }
 
         transformIndex++;
-        print(transformIndex);
         if (transformIndex == endLocations.Count - 1)
         {
             StartCoroutine(CameraLerp(true));
