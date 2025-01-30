@@ -288,14 +288,13 @@ else
     if (GameStateManager.Instance.UseDebug) Debug.DrawRay(transform.position, -transform.up * groundCheckDistance, isGrounded == true ? Color.green : Color.red);
 
     float curentAngDrag = isGrounded ? minimumAngularDrag : maximumAngularDrag;
-    _rigidBody.angularDrag = LerpAndEasings.ExponentialDecay(_rigidBody.angularDrag, curentAngDrag, 5f, Time.deltaTime);
+    _rigidBody.angularDrag = LerpAndEasings.ExponentialDecay(_rigidBody.angularDrag, curentAngDrag, 10f, Time.deltaTime);
 
     if (isGrounded == false)
     {
-      Vector3 extraGravStrength = (additionalGravity * GravConstant) * Vector3.down;
+      float speedGravMultiplier = Mathf.Lerp(1, 2, _rigidBody.velocity.y / 60f);
+      Vector3 extraGravStrength = (additionalGravity * GravConstant * speedGravMultiplier) * Vector3.down;
       _rigidBody.AddForce(extraGravStrength, ForceMode.Acceleration);
-
-      print($"Adding extra grav, Strength {extraGravStrength}");
     }
   }
 
