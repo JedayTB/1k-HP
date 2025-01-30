@@ -113,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 657588637621834656}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.23429066, y: -8.326248, z: 24.056189}
+  m_LocalPosition: {x: 0.23429066, y: -8.897248, z: 24.056189}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -150,7 +150,7 @@ Transform:
   m_GameObject: {fileID: 754533078343851895}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.571, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -405,7 +405,7 @@ Transform:
   m_GameObject: {fileID: 2423453775783241313}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.571, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -838,7 +838,7 @@ Transform:
   m_GameObject: {fileID: 3918438409765711097}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.571, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1387,7 +1387,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6994f96f971daf948904c3b90fabd985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _throttleInput: 0
+  _turningInput: 0
   racePlacement: 0
+  raceProgression: 0
   checkpointsPassedThrough: 
   nextCheckpointIndex: 0
   isDrifting: 0
@@ -1477,13 +1480,10 @@ MonoBehaviour:
   tireTurnModifier: 1
   minimumModifier: 0.25
   wheelbase: 2
-  turnRadius: 9
+  turnRadius: 15
   rearTrack: 2
   minimumAngularDrag: 0.05
   maximumAngularDrag: 0.5
-  thresholdToJump: 145
-  groundCheckDistance: 4
-  lastGroundedXAngle: 0
 --- !u!114 &5385889746810218508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1526,7 +1526,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7077487187611724851}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 300
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1653,7 +1653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 35ed1bbbebe35614a97450b0acba7a73, type: 2}
+  m_Material: {fileID: 2100000, guid: 31d0dcc6f2dd4e4408d18036a2c93862, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 0.9
   m_StartAngleFade: 180
@@ -1826,7 +1826,7 @@ Transform:
   m_GameObject: {fileID: 7881133929380905480}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.558, z: -0.679}
+  m_LocalPosition: {x: 0, y: -0.012999937, z: -0.679}
   m_LocalScale: {x: 1, y: 1, z: 0.8193909}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2202,7 +2202,7 @@ PrefabInstance:
     - target: {fileID: 3764045809782818163, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.571
       objectReference: {fileID: 0}
     - target: {fileID: 3764045809782818163, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
         type: 3}
@@ -2356,7 +2356,7 @@ PrefabInstance:
     - target: {fileID: 4485815751126356312, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.571
       objectReference: {fileID: 0}
     - target: {fileID: 4485815751126356312, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
@@ -2520,7 +2520,7 @@ PrefabInstance:
     - target: {fileID: 400104907761204893, guid: 6aac7d83e90636f8a876ba153acc19e3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.571
       objectReference: {fileID: 0}
     - target: {fileID: 400104907761204893, guid: 6aac7d83e90636f8a876ba153acc19e3,
         type: 3}
@@ -2609,7 +2609,7 @@ PrefabInstance:
     - target: {fileID: 7684844120079873463, guid: 23da8d40a60e6e7dd8444b59cc42f482,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.571
       objectReference: {fileID: 0}
     - target: {fileID: 7684844120079873463, guid: 23da8d40a60e6e7dd8444b59cc42f482,
         type: 3}

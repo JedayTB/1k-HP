@@ -172,6 +172,36 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 3986474952390110900, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      propertyPath: wheels.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986474952390110900, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      propertyPath: _groundLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986474952390110900, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      propertyPath: wheels.Array.data[0]
+      value: 
+      objectReference: {fileID: 84962309}
+    - target: {fileID: 3986474952390110900, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      propertyPath: wheels.Array.data[1]
+      value: 
+      objectReference: {fileID: 495366043}
+    - target: {fileID: 3986474952390110900, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      propertyPath: wheels.Array.data[2]
+      value: 
+      objectReference: {fileID: 660704365}
+    - target: {fileID: 3986474952390110900, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      propertyPath: wheels.Array.data[3]
+      value: 
+      objectReference: {fileID: 1895632489}
     - target: {fileID: 4446781413359444397, guid: 927046883a284024692337c63f770fb4,
         type: 3}
       propertyPath: m_Name
@@ -231,6 +261,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Constraints
       value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 8540114896043581459, guid: 927046883a284024692337c63f770fb4,
+        type: 3}
+      propertyPath: _worldGeometryLayers.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -401,6 +436,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 82518244}
   m_CullTransparentMesh: 1
+--- !u!114 &84962309 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2175526449159157206, guid: 927046883a284024692337c63f770fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 66525680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &140531677
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,7 +634,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -873,6 +920,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279386939}
   m_CullTransparentMesh: 1
+--- !u!114 &287336589 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8474824526611576442, guid: bf24ad39c6691e54fa0a6419264654a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 681692087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &333745826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,6 +1538,18 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &495366043 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7903311167190477084, guid: 927046883a284024692337c63f770fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 66525680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &508814160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1702,6 +1773,11 @@ PrefabInstance:
       propertyPath: _trails.Array.data[1]
       value: 
       objectReference: {fileID: 514414733}
+    - target: {fileID: 6915140656729906311, guid: 6abe94e0db3a9c642a05ec4382d39092,
+        type: 3}
+      propertyPath: _worldGeometryLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7077487187611724851, guid: 6abe94e0db3a9c642a05ec4382d39092,
         type: 3}
       propertyPath: m_Name
@@ -1763,6 +1839,11 @@ PrefabInstance:
         type: 3}
       propertyPath: wheels.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8404700184827373560, guid: 6abe94e0db3a9c642a05ec4382d39092,
+        type: 3}
+      propertyPath: _groundLayers.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8404700184827373560, guid: 6abe94e0db3a9c642a05ec4382d39092,
         type: 3}
@@ -2240,6 +2321,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d5fce78ccc3004db7dd5c1945bff58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &608445143 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1897339307590397757, guid: bf24ad39c6691e54fa0a6419264654a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 681692087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &611750107
 GameObject:
   m_ObjectHideFlags: 0
@@ -2375,6 +2468,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 611750107}
   m_CullTransparentMesh: 1
+--- !u!114 &660704365 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2053133649919926467, guid: 927046883a284024692337c63f770fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 66525680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &681692087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2388,6 +2493,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hoku
       objectReference: {fileID: 0}
+    - target: {fileID: 1550702500918941150, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: _worldGeometryLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2254422543436797512, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_Volume
@@ -2398,6 +2508,36 @@ PrefabInstance:
       propertyPath: MinDistance
       value: 0.86073035
       objectReference: {fileID: 0}
+    - target: {fileID: 3266831930664757789, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: wheels.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266831930664757789, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: _groundLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266831930664757789, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: wheels.Array.data[0]
+      value: 
+      objectReference: {fileID: 881151567}
+    - target: {fileID: 3266831930664757789, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: wheels.Array.data[1]
+      value: 
+      objectReference: {fileID: 608445143}
+    - target: {fileID: 3266831930664757789, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: wheels.Array.data[2]
+      value: 
+      objectReference: {fileID: 287336589}
+    - target: {fileID: 3266831930664757789, guid: bf24ad39c6691e54fa0a6419264654a4,
+        type: 3}
+      propertyPath: wheels.Array.data[3]
+      value: 
+      objectReference: {fileID: 1465442618}
     - target: {fileID: 7199422364950319069, guid: bf24ad39c6691e54fa0a6419264654a4,
         type: 3}
       propertyPath: m_Constraints
@@ -3392,6 +3532,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &881151567 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3144524238216588713, guid: bf24ad39c6691e54fa0a6419264654a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 681692087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &981504831 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3927766063190910522, guid: 1d979d4f4a87653479ca4e2226488c8a,
@@ -4186,6 +4338,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2d5fce78ccc3004db7dd5c1945bff58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1465442618 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7994983016796505166, guid: bf24ad39c6691e54fa0a6419264654a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 681692087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1496400316
 GameObject:
   m_ObjectHideFlags: 0
@@ -4626,7 +4790,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631070985}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5466,6 +5630,18 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1895632489 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2052704930392583272, guid: 927046883a284024692337c63f770fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 66525680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c0ab22727519446b19160fcc58bbdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1897621667
 GameObject:
   m_ObjectHideFlags: 0

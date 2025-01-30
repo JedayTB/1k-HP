@@ -69,7 +69,6 @@ public abstract class A_VehicleController : MonoBehaviour
 
     _respawnPosition = transform.position;
     _respawnRotation = transform.rotation;
-
   }
   //  For inherited script's that take input
   //  Since you can't inherit a method with new params
@@ -87,7 +86,7 @@ public abstract class A_VehicleController : MonoBehaviour
       buildNitro();
     }
 
-    _vehicleVisualController.Process();
+    if (_vehicleVisualController.gameObject.activeSelf) _vehicleVisualController?.Process();
 
   }
   #region Public use Methods

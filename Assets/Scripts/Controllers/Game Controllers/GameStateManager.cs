@@ -7,15 +7,17 @@ public class GameStateManager : MonoBehaviour
 {
   // Every 0.25 seconds, calculate Race placements
   // RECALCULATE RACE PLACEMENTS AT END OF RACE
-  private static readonly float RACEPLACEMENTSTICK = 0.1f;
+  private static readonly float RACEPLACEMENTSTICK = 0.15f;
 
-  private PlayerVehicleController _player;
+  [SerializeField] private PlayerVehicleController _player;
   public A_Ability[] Abilitieslist;
 
   public static GameStateManager Instance { get { return instance; } }
 
   public bool UseDebug = true;
-  [Header("Game Logic Objects")]
+
+  [
+    Header("Game Logic Objects")]
   [SerializeField] private CameraFollower3D cam;
   [SerializeField] public LapChecker _lapChecker;
   [SerializeField] private LapTimer _lapTimer;
@@ -42,7 +44,7 @@ public class GameStateManager : MonoBehaviour
 
   public static PlayerVehicleController Player; // Singleton var
 
-  public static int _newCharacter = 2;
+  public static int _newCharacter = 1;
 
   // UI Stuff
   [SerializeField] private TextMeshProUGUI _lapTimesText;
@@ -53,9 +55,11 @@ public class GameStateManager : MonoBehaviour
   private void Awake()
   {
     instance = this;
-    var tempPlayer = Instantiate(_playerVehicles[_newCharacter], _startLocations[0].transform.position, _startLocations[0].transform.rotation);
-
-    _player = tempPlayer.GetComponent<PlayerVehicleController>();
+    if (_player == null)
+    {
+      var tempPlayer = Instantiate(_playerVehicles[_newCharacter]);
+      _player = tempPlayer.GetComponent<PlayerVehicleController>();
+    }
     Player = _player;
 
     inputManager = this.gameObject.AddComponent<InputManager>();

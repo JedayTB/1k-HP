@@ -1,7 +1,6 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using Unity.Mathematics;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -115,11 +114,13 @@ public class UIController : MonoBehaviour
 
     nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
 
+    /*
     if (GameStateManager.Instance.UseDebug)
     {
       Debug.DrawRay(_player.transform.position, delta, Color.white);
       debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
     }
+    */
   }
 
   private void rotateSpeedometreLine()

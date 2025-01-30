@@ -2,61 +2,65 @@ using UnityEngine;
 
 public class MotorcycleVisualController : CarVisualController
 {
-    [Header("Motorcycle Specific ")]
-    [SerializeField] private Vector3 rollDirection = Vector3.zero;
-    [SerializeField] private Transform ModelParentTransform;
-    Vector3 cachedModelLocalRotation;
-    [SerializeField] private float _maxVisualizeLean;
-    [SerializeField] private float _minVisualizeLean;
-    [SerializeField] private float _leanCircle;
+  [Header("Motorcycle Specific ")]
+  [SerializeField] private Vector3 rollDirection = Vector3.zero;
+  [SerializeField] private Transform ModelParentTransform;
+  Vector3 cachedModelLocalRotation;
+  [SerializeField] private float _maxVisualizeLean;
+  [SerializeField] private float _minVisualizeLean;
+  [SerializeField] private float _leanCircle;
 
-    private float wheelBase;
-    private float turnRadius;
-    public override void Init()
-    {
-        base.Init();
-        wheelBase = _vehiclePhysics.wheelbase;
-        turnRadius = _vehiclePhysics.turnRadius;
+  private float wheelBase;
+  private float turnRadius;
 
-        _leanCircle = Mathf.Rad2Deg * Mathf.Atan(wheelBase / turnRadius);
-    }
+  public override void Init()
+  {
+    base.Init();
+    wheelBase = _vehiclePhysics.wheelbase;
+    turnRadius = _vehiclePhysics.turnRadius;
 
-    // Update is called once per frame
-    void Update()
-    {
-        float wheelVelOne = _rb.GetPointVelocity(PhysicsWheels[0].transform.position).z;
-        float wheelVelTwo = _rb.GetPointVelocity(PhysicsWheels[1].transform.position).z;
+    _leanCircle = Mathf.Rad2Deg * Mathf.Atan(wheelBase / turnRadius);
+  }
 
-        SpinWheels(_wheelModels[0], wheelVelOne);
-        SpinWheels(_wheelModels[1], wheelVelTwo);
+  // Update is called once per frame
+  void Update()
+  {
+    float wheelVelOne = _rb.GetPointVelocity(PhysicsWheels[0].transform.position).z;
+    float wheelVelTwo = _rb.GetPointVelocity(PhysicsWheels[1].transform.position).z;
 
-        offsetTireWithSuspension(_wheelContainers[0], 0);
-        offsetTireWithSuspension(_wheelContainers[1], 1);
+    SpinWheels(_wheelModels[0], wheelVelOne);
+    SpinWheels(_wheelModels[1], wheelVelTwo);
 
-        applyModelRoll(_vehiclePhysics.WheelArray[0]);
-        
-        bool useDriftParticles = _vehiclePhysics.isDrifting;
-        bool useTrails = _vehiclePhysics.isUsingNitro;
+    TurnWheels(_wheelContainers[0], 0);
+    TurnWheels(_wheelContainers[1], 0);
 
-        emitDriftParticles(useDriftParticles);
-        activateTrails(useTrails);
-    }
-    // No need to ease roll. 
-    // calculation is already based off an eased value
-    void applyModelRoll(CustomWheels wheel)
-    {
-        cachedModelLocalRotation = ModelParentTransform.localRotation.eulerAngles;
+    offsetTireWithSuspension(_wheelContainers[0], 0);
+    offsetTireWithSuspension(_wheelContainers[1], 1);
 
-        //Use LeftAckermanAngle because Motorcycle only has 1 steering wheel
+    applyModelRoll(_vehiclePhysics.WheelArray[0]);
 
-        float turnProgress01 = wheel.SteeringAngle / wheel.LeftAckermanAngle;
+    bool useDriftParticles = _vehiclePhysics.isDrifting;
+    bool useTrails = _vehiclePhysics.isUsingNitro;
 
-        float zRoll = turnProgress01 * _leanCircle;
+    emitDriftParticles(useDriftParticles);
+    activateTrails(useTrails);
+  }
+  // No need to ease roll. 
+  // calculation is already based off an eased value
+  void applyModelRoll(CustomWheels wheel)
+  {
+    cachedModelLocalRotation = ModelParentTransform.localRotation.eulerAngles;
 
-        zRoll = Mathf.Clamp(zRoll, _minVisualizeLean, _maxVisualizeLean) * -1;
-        Vector3 zrollVec = rollDirection * zRoll;
-        cachedModelLocalRotation = zrollVec;
-        ModelParentTransform.localRotation = Quaternion.Euler(cachedModelLocalRotation);
-    }
+    //Use LeftAckermanAngle because Motorcycle only has 1 steering wheel
+
+    float turnProgress01 = wheel.SteeringAngle / wheel.LeftAckermanAngle;
+
+    float zRoll = turnProgress01 * _leanCircle;
+
+    zRoll = Mathf.Clamp(zRoll, _minVisualizeLean, _maxVisualizeLean) * -1;
+    Vector3 zrollVec = rollDirection * zRoll;
+    cachedModelLocalRotation = zrollVec;
+    ModelParentTransform.localRotation = Quaternion.Euler(cachedModelLocalRotation);
+  }
 
 }

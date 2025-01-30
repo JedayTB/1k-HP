@@ -215,32 +215,18 @@ public class CustomCarPhysics : MonoBehaviour
     //To Resist turning at higher speeds
     Vector3 momentumDir = transform.forward;
 
-    float angleoffsetFromMomentum = Mathf.Abs(Vector3.SignedAngle(wheels[0].transform.forward, momentumDir, Vector3.up) + Vector3.SignedAngle(wheels[1].transform.forward, momentumDir, Vector3.up) / 2);
     float speedModifier = 1 - normalizedSpeed;
-
-    momentumModifier = 1f;
-    /*
-if(angleoffsetFromMomentum != 0)
-{
-    momentumModifier = angleoffsetFromMomentum * speedModifier;
-}
-else
-{
-    momentumModifier = 1f;
-}*/
-
 
 
     for (int i = 0; i < wheels.Length; i++)
     {
       wheels[i].raycastDown(_groundLayers, _raycastDistance);
-
       if (wheels[i].TireIsGrounded)
       {
         wheels[i].applyTireSuspensionForces();
 
         //wheels[i].applyTireGroundStickForce();
-        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, momentumModifier, _throttleInput);
+        wheels[i].applyTireAcceleration(horsePower, currentGear.AxleEfficiency, tireGrip, _throttleInput);
 
         if (isDrifting)
         {
@@ -285,16 +271,17 @@ else
   private void stickToGround()
   {
     bool isGrounded = Physics.Raycast(transform.position, -transform.up, groundCheckDistance, _groundLayers);
-    if (GameStateManager.Instance.UseDebug) Debug.DrawRay(transform.position, -transform.up * groundCheckDistance, isGrounded == true ? Color.green : Color.red);
+    //if (GameStateManager.Instance.UseDebug) Debug.DrawRay(transform.position, -transform.up * groundCheckDistance, isGrounded == true ? Color.green : Color.red);
 
     float curentAngDrag = isGrounded ? minimumAngularDrag : maximumAngularDrag;
     _rigidBody.angularDrag = LerpAndEasings.ExponentialDecay(_rigidBody.angularDrag, curentAngDrag, 10f, Time.deltaTime);
 
     if (isGrounded == false)
     {
-      float speedGravMultiplier = Mathf.Lerp(1, 2, _rigidBody.velocity.y / 60f);
+      float speedGravMultiplier = Mathf.Lerp(1, 2, _rigidBody.velocity.y / 25f);
       Vector3 extraGravStrength = (additionalGravity * GravConstant * speedGravMultiplier) * Vector3.down;
       _rigidBody.AddForce(extraGravStrength, ForceMode.Acceleration);
+      //if (GameStateManager.Instance.UseDebug) print($"Ex Grav {extraGravStrength}: y vel mult = {speedGravMultiplier}");
     }
   }
 

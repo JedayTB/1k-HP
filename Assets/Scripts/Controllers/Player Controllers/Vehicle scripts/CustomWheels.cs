@@ -175,11 +175,13 @@ public class CustomWheels : MonoBehaviour
     {
       forceApplicationPoint = applyForcesAtWheelPoint ? rayCastHit.point : transform.position;
     }
+    /*
     if (GameStateManager.Instance.UseDebug)
     {
       Color rayColour = tireIsGrounded ? Color.green : Color.red;
       Debug.DrawRay(transform.position, -transform.up * raycastDistance, rayColour);
     }
+    */
   }
 
 
@@ -266,7 +268,7 @@ public class CustomWheels : MonoBehaviour
   /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
   /// <param name="throttle">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float momentumModifier, float throttle)
+  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float throttle)
   {
     float accelerationTime = _throttleInput > 0f ? forwardAccTime : backwardAccTime;
 
