@@ -30,8 +30,6 @@ public abstract class A_VehicleController : MonoBehaviour
   [Header("I_VehicleController member's")]
   [SerializeField] protected bool _isDebuging = true;
   [SerializeField] protected float _raycastDistance = 5f;
-  [SerializeField] protected LayerMask _worldGeometryLayers;
-  [SerializeField] protected float _forwardRaycastDistance = 4f; // idk if you wanted this here but this is where i put it >:(
 
   [HideInInspector] public bool isUsingNitro = false;
 

@@ -239,6 +239,7 @@ public class GameStateManager : MonoBehaviour
       // Just to reset velocity calculations
       ai.VehiclePhysics.RigidBody.velocity = Vector3.zero;
       ai.VehiclePhysics.setInputs(0, 0);
+
     }
   }
 }
