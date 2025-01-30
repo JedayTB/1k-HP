@@ -6,7 +6,7 @@ public class CameraFollower3D : MonoBehaviour
   [SerializeField] private Camera _camera;
   [Header("Basic Params")]
   [SerializeField] private Transform _target;
-  [SerializeField] private Transform _desiredLocation;
+  [SerializeField] public Transform _desiredLocation;
   [SerializeField] private Transform _pivot;
   [SerializeField] private float smoothSpeed = 0.25f;
 
@@ -53,7 +53,12 @@ public class CameraFollower3D : MonoBehaviour
     Cursor.visible = false;
     defaultZPosition = _desiredLocation.localPosition.z;
     _inputManager = inputManager;
-  }
+    _target = GameStateManager.Player.transform;
+
+    _pivot = _target.Find("camera pivot");
+    _desiredLocation = _pivot.Find("camera target");
+    transform.position = _desiredLocation.position;
+    }
 
   private void Update()
   {
@@ -235,10 +240,6 @@ public class CameraFollower3D : MonoBehaviour
 
     private void OnEnable()
     {
-        _target = GameStateManager.Player.transform;
-
-        _pivot = _target.Find("camera pivot");
-        _desiredLocation = _pivot.Find("camera target");
-        transform.position = _desiredLocation.position;
+        
     }
 }

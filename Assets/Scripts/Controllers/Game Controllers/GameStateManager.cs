@@ -122,7 +122,7 @@ public class GameStateManager : MonoBehaviour
   {
     // Starting logic
     Dictionary<float, A_VehicleController> distPlayerDict = new();
-    
+
 
     // Last index is distance of nth - 0th index
     float[] distancesBetweenCheckpoints = new float[levelCheckpointLocations.Length];

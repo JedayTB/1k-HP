@@ -47,6 +47,8 @@ public class UIController : MonoBehaviour
 
   // Misc
   [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
+  private Vector3 abilityGaugeMinScale = new Vector3(0.01f, 0.01f, 0.01f);
+  private Vector3 abilityGaugeMaxScale;
   [SerializeField] private float abilityCircleAnimTime = 0.75f;
 
   private float nextCheckpointAngle;
@@ -65,6 +67,8 @@ public class UIController : MonoBehaviour
     _playerNitroSlider.maxValue = _player.MaxNitroChargeAmounts;
     _builtUpNitroSlider.maxValue = 1f;
     cachedLocation = _player.transform.position;
+
+    abilityGaugeMaxScale = abilityCircle.transform.localScale;
 
     StartCoroutine(CountDown(3));
   }
@@ -257,14 +261,16 @@ public class UIController : MonoBehaviour
   public void playerGotAbility(addedAbility abilityAdded)
   {
     SpritesOnAbility(abilityAdded, true);
-    Vector3 startScale = new(0.25f, 0.25f, 0.25f);
-    Vector3 endScale = Vector3.one;
-    StartCoroutine(abilityGainedAnim(startScale, Vector3.one));
+    Vector3 startScale = abilityGaugeMinScale;
+    Vector3 endScale = abilityGaugeMaxScale;
+
+    StartCoroutine(abilityGainedAnim(startScale, endScale));
   }
   public void playerUsedAbility(addedAbility abilityUsed)
   {
-    Vector3 startScale = Vector3.one;
-    Vector3 endScale = new(0.25f, 0.25f, 0.25f);
+    Vector3 startScale = abilityGaugeMaxScale;
+    Vector3 endScale = abilityGaugeMinScale;
+
     StartCoroutine(abilityUsedAnim(abilityUsed, startScale, endScale));
   }
   IEnumerator abilityGainedAnim(Vector3 startScale, Vector3 endScale)

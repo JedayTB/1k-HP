@@ -15,8 +15,8 @@ public class PreRaceCamera : MonoBehaviour
      
     void Start()
     {
-
-        StartCoroutine(CameraLerp());
+        endLocations[3] = cam._desiredLocation;
+        StartCoroutine(CameraLerp(false));
     }
 
     private void Update()
@@ -29,7 +29,7 @@ public class PreRaceCamera : MonoBehaviour
         }
     }
 
-    private IEnumerator CameraLerp()
+    private IEnumerator CameraLerp(bool ease)
     {
         float currentDuration = 0.0001f;
         transform.position = initialLocations[transformIndex].position;
@@ -37,24 +37,53 @@ public class PreRaceCamera : MonoBehaviour
         Vector3 startPosition = transform.position;
         Quaternion startRotation = transform.rotation;
         float progress = 0;
+        float cachedProgress = 0;
         //cam.setTarget(lookAtLocations[transformIndex], false);
 
-        while (progress < 1)
+        if (!ease)
         {
-            progress = currentDuration / lerpDuration;
-            currentDuration += Time.deltaTime;
+            while (progress < 1)
+            {
+                progress = currentDuration / lerpDuration;
+                currentDuration += Time.deltaTime;
 
-            transform.position = Vector3.Lerp(startPosition, endLocations[transformIndex].position, progress);
-            transform.rotation = Quaternion.Lerp(startRotation, endLocations[transformIndex].rotation, progress);
+                transform.position = Vector3.Lerp(startPosition, endLocations[transformIndex].position, progress);
+                transform.rotation = Quaternion.Lerp(startRotation, endLocations[transformIndex].rotation, progress);
 
-            yield return null;
+                yield return null;
+            }
+        }
+        else
+        {
+            while (progress < 1)
+            {
+                progress = 1 - Mathf.Pow(1 - currentDuration / lerpDuration, 2);
+
+                if (progress < cachedProgress)
+                {
+                    progress = 1;
+                }
+
+                currentDuration += Time.deltaTime;
+
+                transform.position = Vector3.Lerp(startPosition, endLocations[transformIndex].position, progress);
+                transform.rotation = Quaternion.Lerp(startRotation, endLocations[transformIndex].rotation, progress);
+
+                print(progress);
+                cachedProgress = progress;
+                yield return null;
+            }
         }
 
         transformIndex++;
-
-        if (transformIndex < endLocations.Count)
+        print(transformIndex);
+        if (transformIndex == endLocations.Count - 1)
         {
-            StartCoroutine(CameraLerp());
+            StartCoroutine(CameraLerp(true));
+        }
+        else if (transformIndex < endLocations.Count)
+        {
+            StartCoroutine(CameraLerp(false));
         }
         else
         {

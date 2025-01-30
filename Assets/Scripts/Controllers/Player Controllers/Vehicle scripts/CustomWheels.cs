@@ -175,7 +175,7 @@ public class CustomWheels : MonoBehaviour
     {
       forceApplicationPoint = applyForcesAtWheelPoint ? rayCastHit.point : transform.position;
     }
-    if (isDebugging)
+    if (GameStateManager.Instance.UseDebug)
     {
       Color rayColour = tireIsGrounded ? Color.green : Color.red;
       Debug.DrawRay(transform.position, -transform.up * raycastDistance, rayColour);
@@ -266,7 +266,7 @@ public class CustomWheels : MonoBehaviour
   /// <param name="accelerationAmount">Vehicles acceleratoin force</param>
   /// <param name="throttle">Available torque the engine has. Calculated in  VehiclePhysics</param>
 
-  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float momentumModifier,float throttle)
+  public void applyTireAcceleration(float horsePower, float efficiency, float tireGrip, float momentumModifier, float throttle)
   {
     float accelerationTime = _throttleInput > 0f ? forwardAccTime : backwardAccTime;
 
@@ -288,7 +288,7 @@ public class CustomWheels : MonoBehaviour
     Vector3 dir = _tireTransform.forward;
     dir.y = 0;
     dir.Normalize();
-    
+
     Vector3 accelerationDirection = 0.5f * (engineForce / 4) * accelerationTime * tireGrip * dir;
 
     accelerationDirection *= throttle;
@@ -318,30 +318,30 @@ public class CustomWheels : MonoBehaviour
     float force = (suspensionOffset * _wheelSpecs.springStrength) - (vel * _wheelSpecs.springDamping);
 
     _vehicleRB.AddForceAtPosition(springDir * force, forceApplicationPoint);
-    
+
   }
-    public void applyTireGroundStickForce()
-    {
+  public void applyTireGroundStickForce()
+  {
 
-        //World space direction of the spring force
-        Vector3 springDir = -_tireTransform.up;
+    //World space direction of the spring force
+    Vector3 springDir = -_tireTransform.up;
 
-        //World space velocity of this tire
-        Vector3 tireWorldVelocity = _vehicleRB.GetPointVelocity(transform.position);
+    //World space velocity of this tire
+    Vector3 tireWorldVelocity = _vehicleRB.GetPointVelocity(transform.position);
 
-        suspensionOffset = _wheelSpecs.springRestDistance - rayCastHit.distance;
+    suspensionOffset = _wheelSpecs.springRestDistance - rayCastHit.distance;
 
-        //Calculate velocity along the spring direction
-        //springDir is a unit vector, this returns the magnitude of tireWorldVel
-        //as projected onto springDir
+    //Calculate velocity along the spring direction
+    //springDir is a unit vector, this returns the magnitude of tireWorldVel
+    //as projected onto springDir
 
-        float vel = Vector3.Dot(springDir, tireWorldVelocity);
+    float vel = Vector3.Dot(springDir, tireWorldVelocity);
 
-        float force = (suspensionOffset * (_wheelSpecs.springStrength / 2)) - (vel * _wheelSpecs.springDamping);
+    float force = (suspensionOffset * (_wheelSpecs.springStrength / 2)) - (vel * _wheelSpecs.springDamping);
 
-        _vehicleRB.AddForceAtPosition(springDir * force, forceApplicationPoint);
+    _vehicleRB.AddForceAtPosition(springDir * force, forceApplicationPoint);
 
-    }
-    #endregion
+  }
+  #endregion
 }
 
