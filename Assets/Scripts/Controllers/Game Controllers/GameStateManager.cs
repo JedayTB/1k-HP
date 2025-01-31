@@ -16,8 +16,7 @@ public class GameStateManager : MonoBehaviour
 
   public bool UseDebug = true;
 
-  [
-    Header("Game Logic Objects")]
+  [Header("Game Logic Objects")]
   [SerializeField] private CameraFollower3D cam;
   [SerializeField] public LapChecker _lapChecker;
   [SerializeField] private LapTimer _lapTimer;
@@ -28,6 +27,7 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private Transform[] _startLocations;
   [SerializeField] private PostProcessing _postProcessing;
   [SerializeField] private MusicManager _musicManager;
+  [SerializeField] private GameObject MPTestPre;
 
 
   [Header("Cursor Sprites")]
@@ -45,6 +45,7 @@ public class GameStateManager : MonoBehaviour
   public static PlayerVehicleController Player; // Singleton var
 
   public static int _newCharacter = 2;
+  
 
   // UI Stuff
   [SerializeField] private TextMeshProUGUI _lapTimesText;
@@ -57,7 +58,7 @@ public class GameStateManager : MonoBehaviour
     instance = this;
     if (_player == null)
     {
-      var tempPlayer = Instantiate(_playerVehicles[_newCharacter]);
+      var tempPlayer = Instantiate(MPTestPre ? MPTestPre : _playerVehicles[_newCharacter]);
       _player = tempPlayer.GetComponent<PlayerVehicleController>();
     }
     Player = _player;

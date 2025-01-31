@@ -5,6 +5,7 @@ using Riptide;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MP_Player : MonoBehaviour
 {
@@ -25,35 +26,77 @@ public class MP_Player : MonoBehaviour
         List.Remove(Id);
     }
 
-    public static void Spawn(ushort id, string username)
+    public static void Spawn(ushort id, string username, Vector3 position)
     {
-        MP_Player player;
+        GameObject playerPrefab = SceneManager.GetActiveScene().name == "MP_JapanLevel" ? GameLogic.Singleton.LocalPlayerPrefab : GameLogic.Singleton.PlayerPrefab;
 
-        NetworkManager.Singleton.mpDebug($"Local ID: ${id} | Singleton ID: ${NetworkManager.Singleton.Client.Id}");
-        player = Instantiate((id == NetworkManager.Singleton.Client.Id ? GameLogic.Singleton.LocalPlayerPrefab : GameLogic.Singleton.PlayerPrefab), NetworkManager.Singleton.playerLobbySpawns[id - 1].position, Quaternion.identity).GetComponent<MP_Player>();
-        player.IsLocal = id == NetworkManager.Singleton.Client.Id;
-
-        NetworkManager.Singleton.mpDebug("Is player local? " + player.IsLocal);
- 
-
+        MP_Player player = Instantiate(playerPrefab, position, Quaternion.identity).GetComponent<MP_Player>();
+        
         player.Id = id;
         player.username = username;
 
         player.name = $"{id}_{username}";
-        player.textAboveHead.text = player.name;
-       
-        
-        List.Add(id, player);
+
+        NetworkManager.Singleton.mpDebug($"Spawned {username} (ID: {id}) at {position} on client.");
+
+        if (player.GetComponent<MP_Player>())
+        {
+            NetworkManager.Singleton.mpDebug($"Player {username} has a MP_Player");
+        } else NetworkManager.Singleton.mpDebug($"Player {username} has NO MP_Player");
+
+        if(!List.ContainsKey(id)) List.Add(id, player);
+    }
+    
+    private void FixedUpdate()
+    {
+        if (IsLocal)
+        {
+            SendPositionUpdate();
+        }
+    }
+
+    private void SendPositionUpdate()
+    {
+        Message message = Message.Create(MessageSendMode.Unreliable, (ushort)ClientToServerId.playerPosition);
+        message.AddVector3(transform.position);
+        NetworkManager.Singleton.Client.Send(message);
     }
 
     [MessageHandler((ushort)ServerToClient.playerSpawned)]
-    private static void SpawnPlayer(Message message)
+    private static void HandlePlayerSpawned(Message message)
     {
-        Spawn(message.GetUShort(), message.GetString());
+        ushort playerId = message.GetUShort();
+        string username = message.GetString();
+        Vector3 position = message.GetVector3();
+
+        NetworkManager.Singleton.mpDebug($"Received spawn message for Player {username} (ID: {playerId}) at {position}");
+
+        if (List.ContainsKey(playerId))
+        {
+            List[playerId].transform.position = position;
+            NetworkManager.Singleton.mpDebug($"Updated existing player {username} position.");
+        }
+        else
+        {
+            Spawn(playerId, username, position);
+            NetworkManager.Singleton.mpDebug($"Spawned new player {username} at {position}");
+        }
     }
-
-    private static void DespawnPlayer()
+    
+    [MessageHandler((ushort)ServerToClient.playerPosition)]
+    private static void HandlePlayerPosition(Message message) 
     {
+        ushort playerId = message.GetUShort();
+        Vector3 newPosition = message.GetVector3();
 
+        if (List.ContainsKey(playerId))
+        {
+            MP_Player player = List[playerId];
+
+            if (!player.IsLocal)
+            {
+                player.transform.position = Vector3.Lerp(player.transform.position, newPosition, Time.deltaTime * 10f);
+            }
+        }
     }
 }

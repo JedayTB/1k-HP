@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Riptide;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -121,7 +122,7 @@ public class UIManager : MonoBehaviour
     message.AddBool(true); // add toggling ready? maybe
     NetworkManager.Singleton.Client.Send(message);
 
-    NetworkManager.Singleton.mpDebug("<color=grey>[</color><color=teal>NETWORKING</color><color=grey>]</color> - Ready message sent to server");
+    NetworkManager.Singleton.mpDebug("Ready message sent to server");
   }
 
   [MessageHandler((ushort)ServerToClient.playerReady)]
@@ -179,5 +180,4 @@ public class UIManager : MonoBehaviour
 
     NetworkManager.Singleton.mpDebug("Notified server that the scene has been loaded.");
   }
-
 }
