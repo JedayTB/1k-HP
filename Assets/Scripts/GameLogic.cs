@@ -70,6 +70,7 @@ public class GameLogic : MonoBehaviour
     
     public void SyncPlayersToGameSpawnPoints()
     {
+        Debug.Log("Syncing all players to new spawn points...");
         Transform[] spawnPoints = GameLogic.Singleton.gameSpawns;
 
         int index = 0;
@@ -77,8 +78,8 @@ public class GameLogic : MonoBehaviour
         {
             Transform spawnPoint = spawnPoints[index % spawnPoints.Length];
             player.transform.position = spawnPoint.position;
+            Debug.Log($"Sent updated position for {player.Username} at {spawnPoint.position}");
             index++;
-            Debug.Log($"Spawning Player {player.Id} at {spawnPoint.position}");
         }
     }
 }

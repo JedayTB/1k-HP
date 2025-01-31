@@ -24,7 +24,11 @@ public class Player : MonoBehaviour
     public static void Spawn(ushort id, string username)
     {
         foreach (Player otherPlayer in List.Values)
+        {
             otherPlayer.SendSpawned(id);
+            
+            SendExistingPlayerToNewPlayer(id, otherPlayer);
+        }
         
         Player player = Instantiate(GameLogic.Singleton.PlayerPrefab, new Vector3(0f,1f,0f), Quaternion.identity).GetComponent<Player>();
         player.name = $"{id}_{username}";
@@ -34,14 +38,18 @@ public class Player : MonoBehaviour
         player.SendSpawned();
         List.Add(id, player);
 
-        print(List.ToArray());
+        Debug.Log($"Player {username} (ID: {id}) spawned on the server.");
     }
-    void printArr(IEnumerable obj)
+    
+    private static void SendExistingPlayerToNewPlayer(ushort newPlayerId, Player existingPlayer)
     {
-        foreach(var b in obj)
-        {
-            print(b);
-        }
+        Message message = Message.Create(MessageSendMode.Reliable, (ushort)ServerToClient.playerSpawned);
+        message.AddUShort(existingPlayer.Id);
+        message.AddString(existingPlayer.Username);
+        message.AddVector3(existingPlayer.transform.position);
+        NetworkManager.Singleton.Server.Send(message, newPlayerId);
+        
+        Debug.Log($"Sent existing player {existingPlayer.Id} to new player {newPlayerId}");
     }
 
     public void SetReady(bool isReady)
@@ -64,6 +72,19 @@ public class Player : MonoBehaviour
         Message message = Message.Create(MessageSendMode.Reliable, (ushort)ServerToClient.playerReady);
         message.AddUShort(id);
         message.AddBool(isReady);
+        NetworkManager.Singleton.Server.SendToAll(message);
+    }
+    
+    private void Update()
+    {
+        SendPositionUpdate();
+    }
+
+    private void SendPositionUpdate()
+    {
+        Message message = Message.Create(MessageSendMode.Unreliable, (ushort)ServerToClient.playerPosition);
+        message.AddUShort(Id);
+        message.AddVector3(transform.position);
         NetworkManager.Singleton.Server.SendToAll(message);
     }
     
@@ -109,7 +130,15 @@ public class Player : MonoBehaviour
         }
     }
     
-    
+    [MessageHandler((ushort)ClientToServerId.playerPosition)]
+    private static void HandlePlayerPosition(ushort fromClientId, Message message)
+    {
+        if (List.ContainsKey(fromClientId))
+        {
+            Player player = List[fromClientId];
+            player.transform.position = message.GetVector3();
+        }
+    }
     
     #endregion
 }

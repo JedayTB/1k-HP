@@ -13,6 +13,7 @@ public enum ServerToClient : ushort
     startGame = 3,
     countdown = 4,
     loadLevel = 5,
+    playerPosition = 6
 }
 
 public enum ClientToServerId : ushort
@@ -20,6 +21,7 @@ public enum ClientToServerId : ushort
     name = 1,
     readyUp = 2,
     sceneLoaded = 3,
+    playerPosition = 4
 }
 
 public class NetworkManager : MonoBehaviour
