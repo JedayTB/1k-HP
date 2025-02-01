@@ -15,8 +15,8 @@ public class PreRaceCamera : MonoBehaviour
      
     void Start()
     {
-        endLocations[3] = cam._desiredLocation;
-        StartCoroutine(CameraLerp(false));
+        endLocations[0] = cam._desiredLocation;
+        StartCoroutine(CameraLerp(true)); // temp for just this build
     }
 
     private void Update()

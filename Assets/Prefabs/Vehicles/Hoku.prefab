@@ -398,6 +398,7 @@ MonoBehaviour:
   minimumAngularDrag: 0.05
   maximumAngularDrag: 0.5
   headOnCollisionThreshold: 0.8
+  upDownThreshold: -0.2
 --- !u!114 &7312018781602798775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,7 +579,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608705978403913832}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
