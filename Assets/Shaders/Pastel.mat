@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CharSelectSky
+  m_Name: Pastel
   m_Shader: {fileID: -6465566751694194690, guid: 9792225b846bf3840a96e8705c940135,
     type: 3}
   m_Parent: {fileID: 0}
@@ -45,16 +45,16 @@ Material:
     - _AnimationSpeed: 0.2
     - _CloudTexScale: 1.22
     - _DistanceFadePower: 1.91
-    - _NadirBlendPower: 0.1
+    - _NadirBlendPower: 0.26
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ZenithBlendPower: 0.64
     m_Colors:
     - _AnimationDir: {r: 1, g: 0.25, b: 0, a: 0}
     - _CloudColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
-    - _HorizionColor: {r: 0.21698111, g: 0, b: 0, a: 0}
-    - _NadirColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 0}
-    - _ZenithColor: {r: 0.43867922, g: 0.4716981, b: 1, a: 1}
+    - _HorizionColor: {r: 0.94117653, g: 0.95294124, b: 0.74509805, a: 1}
+    - _NadirColor: {r: 0.007843138, g: 0.5019608, b: 0.56078434, a: 1}
+    - _ZenithColor: {r: 0.011764707, g: 0.76470596, b: 0.6039216, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5469701210968648491
 MonoBehaviour:
