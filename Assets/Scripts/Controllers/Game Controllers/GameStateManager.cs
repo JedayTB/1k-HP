@@ -150,7 +150,7 @@ public class GameStateManager : MonoBehaviour
       {
         float distToNextCheckpoint = Vector3.Distance(vehicles[i].transform.position, levelCheckpointLocations[vehicles[i].nextCheckpointIndex]);
 
-        float distProgression = (distToNextCheckpoint / distancesBetweenCheckpoints[vehicles[i].nextCheckpointIndex]);
+        float distProgression = distToNextCheckpoint / distancesBetweenCheckpoints[vehicles[i].nextCheckpointIndex];
 
         float roundedProgression = (vehicles[i].nextCheckpointIndex - 1) * checkpointFraction;
 
