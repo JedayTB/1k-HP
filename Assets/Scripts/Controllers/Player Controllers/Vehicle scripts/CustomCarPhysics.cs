@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering.Universal.Internal;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
@@ -79,8 +77,8 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] private float upDownThreshold = -0.2f;
 
   #endregion
-  
-  
+
+
   #region Public use Methods
   public void Init()
   {
@@ -308,14 +306,14 @@ public class CustomCarPhysics : MonoBehaviour
     Vector3 localPoint = transform.InverseTransformDirection(cp.point);
     Vector3 directionToPoint = (localPoint - transform.position).normalized;
 
-    
+
     Vector3 updownEthanSuckMe = localPoint.normalized;
     updownEthanSuckMe.x = 0f;
     updownEthanSuckMe.z = 0f;
 
     float upDot = Vector3.Dot(transform.up.normalized, updownEthanSuckMe);
-    
-    if(upDot > upDownThreshold)
+
+    if (upDot > upDownThreshold)
     {
       float forwardDot = Vector3.Dot(transform.forward.normalized, directionToPoint);
 
@@ -336,10 +334,12 @@ public class CustomCarPhysics : MonoBehaviour
       } */
 
       //Debug.Log($"Y Local {directionToPoint.y} Up Down Dot {upDot} Foward Dot {forwardDot} Force {force} {exInfo}");
-      }else{
-        // I dunno, play sfx?
-      }
-    
+    }
+    else
+    {
+      // I dunno, play sfx?
+    }
+
   }
   #endregion
 }

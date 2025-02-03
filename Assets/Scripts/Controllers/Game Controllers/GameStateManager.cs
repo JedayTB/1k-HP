@@ -12,9 +12,12 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private PlayerVehicleController _player;
   public A_Ability[] Abilitieslist;
 
+  private static GameStateManager instance;
   public static GameStateManager Instance { get { return instance; } }
 
   public bool UseDebug = true;
+  [Header("Game Logic Values")]
+  public int LapsToFinishRace = 3;
 
   [Header("Game Logic Objects")]
   [SerializeField] private CameraFollower3D cam;
@@ -34,18 +37,20 @@ public class GameStateManager : MonoBehaviour
   public Texture2D lightningCursor;
   public Texture2D hookshotCursor;
 
+  [Header("Race Placements and debug")]
+  [SerializeField] string[] vehicleDbgInfo;
+  public int nextPlayerCheckpointPosition = 0;
+
+
   [Header("Misc")]
   public static readonly float musicVolumeLevel = 0.5f;
-
-  public int nextPlayerCheckpointPosition = 0;
-  private static GameStateManager instance;
 
   private InputManager inputManager;
 
   public static PlayerVehicleController Player; // Singleton var
 
   public static int _newCharacter = 2;
-  
+
 
   // UI Stuff
   [SerializeField] private TextMeshProUGUI _lapTimesText;
@@ -128,7 +133,6 @@ public class GameStateManager : MonoBehaviour
     // Starting logic
     Dictionary<float, A_VehicleController> distPlayerDict = new();
 
-
     // Last index is distance of nth - 0th index
     float[] distancesBetweenCheckpoints = new float[levelCheckpointLocations.Length];
     // Calculate distanes between checkpoints
@@ -141,6 +145,7 @@ public class GameStateManager : MonoBehaviour
 
     float checkpointFraction = 1f / levelCheckpointLocations.Length;
     float[] progressions = new float[vehicles.Count];
+    vehicleDbgInfo = new string[vehicles.Count];
 
     while (true)
     {
@@ -148,6 +153,7 @@ public class GameStateManager : MonoBehaviour
       // Calculate Distances and progression
       for (int i = 0; i < vehicles.Count; i++)
       {
+
         float distToNextCheckpoint = Vector3.Distance(vehicles[i].transform.position, levelCheckpointLocations[vehicles[i].nextCheckpointIndex]);
 
         float distProgression = distToNextCheckpoint / distancesBetweenCheckpoints[vehicles[i].nextCheckpointIndex];
@@ -156,7 +162,19 @@ public class GameStateManager : MonoBehaviour
 
         float particleProgression = distProgression * checkpointFraction;
 
-        float progression = roundedProgression + particleProgression;
+        int amtOfLapsPassed = vehicles[i].lapsPassed;
+
+        float progression = (roundedProgression + particleProgression) + (float)amtOfLapsPassed;
+
+
+        if (UseDebug)
+        {
+          Vector3 dir = levelCheckpointLocations[vehicles[i].nextCheckpointIndex] - vehicles[i].transform.position;
+          Debug.DrawRay(vehicles[i].transform.position, dir, Color.white, RACEPLACEMENTSTICK);
+          vehicleDbgInfo[i] = $"{vehicles[i].name}: nxt chckpnt ind {vehicles[i].nextCheckpointIndex}: Place {vehicles[i].racePlacement} Laps {amtOfLapsPassed}\n"
+            + $"prog {progression}: round prog {roundedProgression}: part prog {particleProgression}: dist prog {distProgression}:\n"
+            + $"Next chkpnt dist {distToNextCheckpoint}";
+        }
 
         distPlayerDict.Add(progression, vehicles[i]);
         progressions[i] = progression;
@@ -166,13 +184,11 @@ public class GameStateManager : MonoBehaviour
       //
       int zeroIndexLn = vehicles.Count - 1;
       SortingAlgorithms.QuickSort(progressions, 0, zeroIndexLn);
-      // ^ sorts lowest to highest, but 1st place should be highest progression number
-      // Traverse array backwards
 
-      int count = 0;
-      for (int i = progressions.Length - 1; i >= 0; i--)
+      int count = zeroIndexLn;
+      for (int i = 0; i < progressions.Length; i++)
       {
-        count++;
+        count = i + 1;
 
         A_VehicleController vRef = distPlayerDict[progressions[i]];
 
@@ -193,16 +209,25 @@ public class GameStateManager : MonoBehaviour
   }
   public void setVehicleNextCheckpoint(A_VehicleController vehicle, int index)
   {
+
     var pl = vehicle.GetComponent<PlayerVehicleController>();
     if (pl != null)
     {
       nextPlayerCheckpointPosition = index;
-      pl.nextCheckpointIndex++;
+      pl.nextCheckpointIndex = index;
     }
     else
     {
       // Don't think this matters... But Set it in case!
-      vehicle.nextCheckpointIndex++;
+      vehicle.nextCheckpointIndex = index;
+    }
+  }
+  public void setVehicleLapCount(A_VehicleController vehicle)
+  {
+    vehicle.lapsPassed++;
+    for (int i = 0; i < vehicle.checkpointsPassedThrough.Length; i++)
+    {
+      vehicle.checkpointsPassedThrough[i] = false;
     }
   }
   public void onPlayerWin()

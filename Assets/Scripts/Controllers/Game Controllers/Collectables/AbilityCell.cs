@@ -52,7 +52,7 @@ public class AbilityCell : Collectables
         abilityObj = vehicle.gameObject.GetComponentInChildren<BubblegumController>(true);
         adAB = addedAbility.Bubblegum;
         break;
-      case AbilityCellType.Hookshot:
+      case AbilityCellType. Hookshot:
         abilityObj = vehicle.gameObject.GetComponentInChildren<HookshotController>(true);
         adAB = addedAbility.Hookshot;
         break;

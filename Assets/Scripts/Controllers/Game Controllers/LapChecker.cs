@@ -11,7 +11,7 @@ public class LapChecker : MonoBehaviour
   private LapTimer _lapTimer;
 
   private GameStateManager _gsm;
-  public int lapCount = 0;
+  public int lapsCompleted = 0;
 
 
   public void Init(GameStateManager gsm)
@@ -34,39 +34,48 @@ public class LapChecker : MonoBehaviour
 
     for (int i = 0; i < _checkpoints.Length; i++)
     {
-      nextPos = i;
-      _gsm.setVehicleNextCheckpoint(vehicle, nextPos++);
-      if (vehicle.checkpointsPassedThrough[i] != true) return;
+      if (vehicle.checkpointsPassedThrough[i] == false)
+      {
+        return;
+      }
+      nextPos = i + 1;
+
+      if (nextPos == _checkpoints.Length || nextPos > _checkpoints.Length)
+      {
+        nextPos = 0;
+      }
+      _gsm.setVehicleNextCheckpoint(vehicle, nextPos);
     }
     // If here is reached, lap was finished
     _gsm.setVehicleNextCheckpoint(vehicle, 0);
-    // Change to see if its 1st place
-    // need further logic if player isn't first place 
-    // and still wants to drive
-    if (vehicle is PlayerVehicleController) onLapFinished();
+
+    onLapFinished(vehicle);
+
+    _gsm.setVehicleLapCount(vehicle);
+
   }
-  void onLapFinished()
+  void onLapFinished(A_VehicleController vehicleFinished)
   {
-    lapCount++;
+    // Need to make sure this doesnt get triggered
+    // everytime a vehicle finishes a lap, only while (true)
+
+    //if(vehicleFinished.lapsPassed == lapsCompleted++;
 
     foreach (var checkpoint in _checkpoints)
     {
-      checkpoint.passedCheckpoint = false;
-      checkpoint.resetHashset();
+      checkpoint._vehiclesPassedThroughCheckpoint.Remove(vehicleFinished);
     }
-    _lapTimer?.endLap();
-    Debug.Log($"Finished lap: {lapCount}");
-    if (lapCount >= lapsToWin)
+    if (vehicleFinished is PlayerVehicleController) _lapTimer?.endLap();
+
+    Debug.Log($"Finished lap: {lapsCompleted}");
+
+    if (lapsCompleted >= GameStateManager.Instance.LapsToFinishRace)
     {
       onRaceFinish();
     }
   }
   void onRaceFinish()
   {
-    foreach (var ps in raceFinishParticles)
-    {
-      ps.Play();
-    }
     _gsm.onPlayerWin();
   }
 

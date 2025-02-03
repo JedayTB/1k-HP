@@ -19,11 +19,17 @@ public abstract class A_VehicleController : MonoBehaviour
 
   public float _throttleInput;
   public float _turningInput;
-  // Race placement things
+  /////////////////////////////
+  ///                       ///
+  ///  Race progressions    ///
+  ///                       ///
+  /////////////////////////////
   public int racePlacement;
+
   [HideInInspector] public float raceProgression = 0f;
-  [HideInInspector] public bool[] checkpointsPassedThrough;
-  [HideInInspector] public int nextCheckpointIndex = 0;
+  public bool[] checkpointsPassedThrough;
+  public int nextCheckpointIndex = 0;
+  public int lapsPassed = 0;
   //
   [HideInInspector] public bool isDrifting;
 

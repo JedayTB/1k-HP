@@ -32,6 +32,11 @@ public class CustomWheels : MonoBehaviour
   public float backwardAccTime = 0f;
 
   [SerializeField] private float _leftAckermanAngle, _rightAckermanAngle;
+
+  [Header("Debug Visible")]
+  [SerializeField] private Vector3 acceleration;
+
+  // For use in visual controller
   private float suspensionOffset;
   public float SuspensionOffset { get => suspensionOffset; }
   public float LeftAckermanAngle { get => _leftAckermanAngle; }
@@ -181,8 +186,8 @@ public class CustomWheels : MonoBehaviour
       Color rayColour = tireIsGrounded ? Color.green : Color.red;
       Debug.DrawRay(transform.position, -transform.up * raycastDistance, rayColour);
     }
-    
-    
+
+
   }
 
 
@@ -291,10 +296,21 @@ public class CustomWheels : MonoBehaviour
     Vector3 dir = _tireTransform.forward;
     dir.y = 0;
     dir.Normalize();
-
+    /* Divid engine force by amt of wheels */
     Vector3 accelerationDirection = 0.5f * (engineForce / 4) * accelerationTime * tireGrip * dir;
 
-    accelerationDirection *= throttle;
+    if (throttle != 0)
+    {
+      accelerationDirection *= throttle;
+    }
+    else
+    {
+      accelerationDirection = Vector3.zero;
+    }
+
+
+    acceleration = transform.InverseTransformDirection(accelerationDirection.normalized);
+
 
     _vehicleRB.AddForceAtPosition(accelerationDirection, forceApplicationPoint);
   }

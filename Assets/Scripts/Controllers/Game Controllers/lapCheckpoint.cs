@@ -6,10 +6,9 @@ public class lapCheckpoint : MonoBehaviour
 {
 
   public int checkPointNumber;
-  public bool passedCheckpoint = false;
   private BoxCollider _BC;
   [SerializeField] private Transform respawnPoint;
-  HashSet<A_VehicleController> _vehiclesPassedThroughCheckpoint;
+  public HashSet<A_VehicleController> _vehiclesPassedThroughCheckpoint;
 
   public void Init(int checkPointNumber)
   {
