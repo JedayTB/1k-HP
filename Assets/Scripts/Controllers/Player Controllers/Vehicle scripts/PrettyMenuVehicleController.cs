@@ -18,7 +18,12 @@ public class PrettyMenuVehicleController : MonoBehaviour
   {
     //cam = Camera.main;
     var veh = GetComponent<A_VehicleController>();
-    veh.Init();
+    
+    if(veh != false){
+      veh.Init();
+      veh.enabled = false;
+    }
+    
 
     ccp = GetComponent<CustomCarPhysics>();
     cvc = GetComponent<CarVisualController>();
@@ -26,7 +31,7 @@ public class PrettyMenuVehicleController : MonoBehaviour
     ccp.Init();
     cvc.Init();
 
-    veh.enabled = false;
+    
   }
 
   void Update()

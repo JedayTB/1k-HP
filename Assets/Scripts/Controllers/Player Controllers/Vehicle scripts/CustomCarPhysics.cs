@@ -323,7 +323,7 @@ public class CustomCarPhysics : MonoBehaviour
 
       float force = cp.impulse.magnitude;
 
-      string exInfo = "";
+      //string exInfo = "";
 
       /*if(forwardDot > headOnCollisionThreshold){
         _rigidBody.velocity = Vector3.zero;
@@ -335,7 +335,7 @@ public class CustomCarPhysics : MonoBehaviour
         exInfo = "Came to full stop!";
       } */
 
-      Debug.Log($"Y Local {directionToPoint.y} Up Down Dot {upDot} Foward Dot {forwardDot} Force {force} {exInfo}");
+      //Debug.Log($"Y Local {directionToPoint.y} Up Down Dot {upDot} Foward Dot {forwardDot} Force {force} {exInfo}");
       }else{
         // I dunno, play sfx?
       }

@@ -175,12 +175,13 @@ public class CustomWheels : MonoBehaviour
     {
       forceApplicationPoint = applyForcesAtWheelPoint ? rayCastHit.point : transform.position;
     }
-    
-    if (GameStateManager.Instance.UseDebug)
+    //GameStateManager.Instance.UseDebug
+    if (true)
     {
       Color rayColour = tireIsGrounded ? Color.green : Color.red;
       Debug.DrawRay(transform.position, -transform.up * raycastDistance, rayColour);
     }
+    
     
   }
 
