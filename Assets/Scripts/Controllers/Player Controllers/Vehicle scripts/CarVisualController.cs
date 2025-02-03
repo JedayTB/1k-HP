@@ -94,6 +94,7 @@ public class CarVisualController : MonoBehaviour
   public void SpinWheels(Transform wheel, float wheelvelocity)
   {
     Vector3 rotation = spinWheelDirection * wheelvelocity;
+    wheel.Rotate(rotation);
   }
   public void TurnWheels(Transform wheel, float rotationAngle)
   {

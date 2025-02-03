@@ -18,7 +18,7 @@ public class PrettyMenuVehicleController : MonoBehaviour
   {
     //cam = Camera.main;
     var veh = GetComponent<A_VehicleController>();
-    
+
     if(veh != false){
       veh.Init();
       veh.enabled = false;
