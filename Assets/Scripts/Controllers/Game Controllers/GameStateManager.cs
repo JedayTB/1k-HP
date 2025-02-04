@@ -156,7 +156,7 @@ public class GameStateManager : MonoBehaviour
 
         float distToNextCheckpoint = Vector3.Distance(vehicles[i].transform.position, levelCheckpointLocations[vehicles[i].nextCheckpointIndex]);
 
-        float distProgression = distToNextCheckpoint / distancesBetweenCheckpoints[vehicles[i].nextCheckpointIndex];
+        float distProgression = Mathf.Clamp01(1 - (distToNextCheckpoint / distancesBetweenCheckpoints[vehicles[i].nextCheckpointIndex]));
 
         float roundedProgression = (vehicles[i].nextCheckpointIndex - 1) * checkpointFraction;
 
@@ -185,10 +185,10 @@ public class GameStateManager : MonoBehaviour
       int zeroIndexLn = vehicles.Count - 1;
       SortingAlgorithms.QuickSort(progressions, 0, zeroIndexLn);
 
-      int count = zeroIndexLn;
+      int count;
       for (int i = 0; i < progressions.Length; i++)
       {
-        count = i + 1;
+        count = zeroIndexLn - i + 1;
 
         A_VehicleController vRef = distPlayerDict[progressions[i]];
 

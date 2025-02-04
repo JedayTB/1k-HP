@@ -47,19 +47,21 @@ public class LapChecker : MonoBehaviour
       _gsm.setVehicleNextCheckpoint(vehicle, nextPos);
     }
     // If here is reached, lap was finished
-    _gsm.setVehicleNextCheckpoint(vehicle, 0);
-
     onLapFinished(vehicle);
-
-    _gsm.setVehicleLapCount(vehicle);
 
   }
   void onLapFinished(A_VehicleController vehicleFinished)
   {
-    // Need to make sure this doesnt get triggered
-    // everytime a vehicle finishes a lap, only while (true)
+    _gsm.setVehicleLapCount(vehicleFinished);
+    _gsm.setVehicleNextCheckpoint(vehicleFinished, 0);
 
-    //if(vehicleFinished.lapsPassed == lapsCompleted++;
+    // So that only 1 vehicle can increment lapsCompleted
+    // That vehile will always be the one that finishes a lap,
+    // and has a lap count thats the same as the completed amount.
+    if (vehicleFinished.lapsPassed == lapsCompleted)
+    {
+      lapsCompleted++;
+    }
 
     foreach (var checkpoint in _checkpoints)
     {
