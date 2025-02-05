@@ -14,6 +14,8 @@ public class LapChecker : MonoBehaviour
   public int lapsCompleted = 0;
 
 
+
+
   public void Init(GameStateManager gsm)
   {
     _gsm = gsm;

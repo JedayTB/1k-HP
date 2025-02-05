@@ -9,12 +9,18 @@ public class waypointGizmos : MonoBehaviour
   [SerializeField] private bool showWaypoint = true;
   [SerializeField] public float circleRadius = 6f;
 
-
   [Space(15)]
   [SerializeField] private bool autoRefreshWaypoints = true;
   [SerializeField] private bool circuit = true;
 
   [SerializeField] private Transform[] Waypoints;
+  [Header("Angle Settings")]
+  [SerializeField] private float[] angleBetweenWaypoints;
+  [SerializeField] private bool easyButtonHack = false;
+  void OnValidate()
+  {
+    calculateAnglesBetweenWaypoints();
+  }
 
   public Transform[] getWaypoints()
   {
@@ -24,6 +30,19 @@ public class waypointGizmos : MonoBehaviour
   private void Awake()
   {
     RefreshWaypoints();
+  }
+
+  private void calculateAnglesBetweenWaypoints()
+  {
+    angleBetweenWaypoints = new float[Waypoints.Length];
+    for (int i = 0; i < angleBetweenWaypoints.Length; i++)
+    {
+      // If got to end of array, do angles between last and first waypoint 
+      int nextIndex = i + 1 == Waypoints.Length ? 0 : i + 1;
+      float angle = Vector3.Angle(Waypoints[i].position, Waypoints[nextIndex].position);
+      angleBetweenWaypoints[i] = angle;
+    }
+
   }
   private void RefreshWaypoints()
   {

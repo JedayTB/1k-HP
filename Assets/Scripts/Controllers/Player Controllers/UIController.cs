@@ -18,7 +18,6 @@ public class UIController : MonoBehaviour
 
   [Header("Rect Transforms")]
   [SerializeField] private RectTransform _spedometerLinePivot;
-  [SerializeField] private RectTransform nextCheckpointCompas;
 
   //Abbility Specific
   [SerializeField] private RectTransform abilityCircle;
