@@ -8,12 +8,15 @@ public class CameraFollower3D : MonoBehaviour
   [SerializeField] private Transform _target;
   [SerializeField] public Transform _desiredLocation;
   [SerializeField] private Transform _pivot;
-  [SerializeField] private float smoothSpeed = 0.25f;
 
-  [Tooltip("lower the smooth speed,faster the camera follows target")]
-  [SerializeField] private float _minSmoothSpeed = 0.15f;
-  [Tooltip("Higher smooth speed, slower the camera follows target")]
-  [SerializeField] private float _maxSmoothSpeed = 0.25f;
+  /// Camera smoothing
+  private float smoothSpeed = 0.25f;
+  // Lower number is faster
+  private static float fastestSmoothSpeed = 0.05f;
+  private static float slowestSmoothSpeed = 0.1f;
+
+
+
 
   [Header("Camera Collision")]
   [SerializeField] private LayerMask collisionLayers;
@@ -58,8 +61,8 @@ public class CameraFollower3D : MonoBehaviour
     _desiredLocation = _pivot.Find("camera target");
     transform.position = _desiredLocation.position;
     defaultZPosition = _desiredLocation.localPosition.z;
-    
-    }
+
+  }
 
   private void Update()
   {
@@ -71,22 +74,24 @@ public class CameraFollower3D : MonoBehaviour
   private void lerpSmoothSpeed()
   {
     float playerSpeed = GameStateManager.Player.VehiclePhysics.getSpeed();
+
     Vector3 playerVelocity = GameStateManager.Player.VehiclePhysics.getVelocity();
     playerVelocity = transform.InverseTransformDirection(playerVelocity);
-    float playerTerminalVelocity = GameStateManager.Player.VehiclePhysics._terminalVelocity;
 
-    if (playerVelocity.z < 0)
+    float playerTerminalVelocity = GameStateManager.Player.VehiclePhysics._terminalVelocity;
+    float progress = Mathf.Clamp01(playerSpeed / playerTerminalVelocity);
+
+    progress = LerpAndEasings.easeInOutQuad(progress);
+
+    if (playerVelocity.z < 4f)
     {
-      smoothSpeed = LerpAndEasings.ExponentialDecay(smoothSpeed, 0.01f, 4, Time.deltaTime);
+      smoothSpeed = 0f;
     }
     else
     {
-      float progress = playerSpeed / playerTerminalVelocity;
-
-      smoothSpeed = Mathf.Lerp(_maxSmoothSpeed, _minSmoothSpeed, progress);
+      smoothSpeed = Mathf.Lerp(slowestSmoothSpeed, fastestSmoothSpeed, progress);
 
     }
-
   }
   void FixedUpdate()
   {
@@ -135,6 +140,7 @@ public class CameraFollower3D : MonoBehaviour
     Vector3 targetPosition = _desiredLocation.position;
 
     _transform.position = Vector3.SmoothDamp(_transform.position, targetPosition, ref _currentVelocity, smoothSpeed);
+
     _transform.LookAt(_target);
 
     // Make sure camera doesn't go inside walls
@@ -239,8 +245,8 @@ public class CameraFollower3D : MonoBehaviour
     }
   }
 
-    private void OnEnable()
-    {
-        
-    }
+  private void OnEnable()
+  {
+
+  }
 }
