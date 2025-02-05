@@ -85,7 +85,7 @@ public class CameraFollower3D : MonoBehaviour
 
     if (playerVelocity.z < 4f)
     {
-      smoothSpeed = 0f;
+            smoothSpeed = LerpAndEasings.ExponentialDecay(smoothSpeed, 0f, 5f, Time.deltaTime);
     }
     else
     {
