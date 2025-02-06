@@ -3857,6 +3857,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NitroTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 044b5e74c3afd1c46b2232d30a36151d, type: 3}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NormalTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 6a7d95ad57eaf8e49a19eb7f687737c0, type: 3}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
       propertyPath: _maxSpawnRate
       value: 70
       objectReference: {fileID: 0}
@@ -3867,6 +3882,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
+      propertyPath: particleTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 6a7d95ad57eaf8e49a19eb7f687737c0, type: 3}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
       propertyPath: _maxSpeedThreshold
       value: 320
       objectReference: {fileID: 0}
@@ -3875,10 +3895,75 @@ PrefabInstance:
       propertyPath: _minSpeedThreshold
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NormalSpeedLinesColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NormalSpeedLinesColor.b
+      value: 0.0627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NormalSpeedLinesColor.g
+      value: 0.0627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NormalSpeedLinesColor.r
+      value: 0.0627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NitroSpeedLinesColor.ctime0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NitroSpeedLinesColor.key0.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NitroSpeedLinesColor.key1.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NitroSpeedLinesColor.key1.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NitroSpeedLinesColor.key1.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: NitroSpeedLinesColor.key1.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_InitialEventNameOverriden
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_NamedObject.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
+      value: 1.38
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
@@ -3887,13 +3972,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
+      propertyPath: m_PropertySheet.m_NamedObject.m_Array.Array.data[0].m_Name
+      value: Sprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_NamedObject.m_Array.Array.data[0].m_Value
+      value: 
+      objectReference: {fileID: 2800000, guid: 6a7d95ad57eaf8e49a19eb7f687737c0, type: 3}
+    - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Overridden
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.atime1
-      value: 64186
+      value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
@@ -3903,6 +3998,11 @@ PrefabInstance:
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.ctime1
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.ctime2
       value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
@@ -3928,7 +4028,7 @@ PrefabInstance:
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.key1.a
-      value: 0.53333336
+      value: 0.12156863
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
@@ -3943,7 +4043,17 @@ PrefabInstance:
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.key1.r
-      value: 0.16981131
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.key2.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_PropertySheet.m_NamedObject.m_Array.Array.data[0].m_Overridden
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
@@ -3953,7 +4063,7 @@ PrefabInstance:
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_PropertySheet.m_Gradient.m_Array.Array.data[0].m_Value.m_NumAlphaKeys
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
@@ -4035,7 +4145,8 @@ PrefabInstance:
       propertyPath: _shakeDuration
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6486418014570533598, guid: 3fd5a6ac2df161f44bddfa4499c1372b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
