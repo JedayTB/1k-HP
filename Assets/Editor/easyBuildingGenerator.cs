@@ -4,17 +4,22 @@ using UnityEditor;
 [CustomEditor(typeof(easyBuildingBuilder))]
 public class easyBuildingGenerator : Editor
 {
-    easyBuildingBuilder builder;
-    private void Awake()
+  easyBuildingBuilder builder;
+  private void Awake()
+  {
+    builder = (easyBuildingBuilder)target;
+  }
+  public override void OnInspectorGUI()
+  {
+    base.OnInspectorGUI();
+    if (GUILayout.Button("Create Building"))
     {
-        builder = (easyBuildingBuilder)target;
+      builder.createBuilding();
     }
-    public override void OnInspectorGUI()
+    if (GUILayout.Button("Delete Buildings"))
     {
-        base.OnInspectorGUI();
-        if (GUILayout.Button("Create Building"))
-        {
-            builder.createBuilding();
-        }
+      builder.deleteBuildings();
     }
+
+  }
 }

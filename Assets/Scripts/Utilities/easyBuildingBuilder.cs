@@ -25,14 +25,18 @@ public class easyBuildingBuilder : MonoBehaviour
 
     spawnedBuildings = new GameObject[spawnLocations.Length];
 
+
     for (int i = 0; i < spawnLocations.Length; i++)
     {
-      rndIndex = UnityEngine.Random.Range(0, spawnLocations.Length);
-      //Debug.Log($"rnd index {rndIndex}, ln {spawnLocations.Length}");
-      var tempBL = Instantiate(buildingsList[rndIndex].gameObject);
+      rndIndex = UnityEngine.Random.Range(0, buildingsList.Length - 1);
+
+
+      GameObject tempBL = Instantiate(buildingsList[rndIndex]);
 
       tempBL.transform.parent = WorldGeoTransform;
       tempBL.transform.position = spawnLocations[i].position;
+
+      //tempBL.layer = GameStateManager.Instance.CarPhysicsLayer;
       //tempBL.transform.rotation = spawnLocations[rndIndex].rotation;
 
       spawnedBuildings[i] = tempBL;
@@ -44,7 +48,17 @@ public class easyBuildingBuilder : MonoBehaviour
 
     for (int i = 0; i < spawnedBuildings.Length; i++)
     {
-      if (spawnedBuildings[i].gameObject != null) DestroyImmediate(spawnedBuildings[i].gameObject);
+      if (spawnedBuildings[i] != null)
+      {
+        spawnedBuildings[i].transform.parent = this.transform;
+        DestroyImmediate(spawnedBuildings[i].gameObject);
+      }
+      else
+      {
+        Debug.Log($"item at index {i} is null. Breaking for loop");
+        break;
+      }
+
     }
 
     spawnedBuildings = new GameObject[0];

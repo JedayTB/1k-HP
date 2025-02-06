@@ -43,6 +43,7 @@ public class GameStateManager : MonoBehaviour
 
 
   [Header("Misc")]
+  public LayerMask CarPhysicsLayer;
   public static readonly float musicVolumeLevel = 0.5f;
 
   private InputManager inputManager;
