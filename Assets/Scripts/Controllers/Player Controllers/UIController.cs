@@ -108,7 +108,7 @@ public class UIController : MonoBehaviour
     nextCheckpointAngle = -Vector3.Angle(_player.transform.forward, delta);
     //math.degrees(math.acos(dot / _player.transform.position.magnitude * target.magnitude));
 
-    nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
+    //nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
 
     /*
     if (GameStateManager.Instance.UseDebug)

@@ -105,6 +105,7 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 16.699245
   _rightAckermanAngle: 16.699245
+  acceleration: {x: 0, y: 0, z: 0}
 --- !u!1 &198871725301281455
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,6 +247,7 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
+  acceleration: {x: 0, y: 0, z: 0}
 --- !u!1 &608705978403913832
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +312,7 @@ MonoBehaviour:
   raceProgression: 0
   checkpointsPassedThrough: 
   nextCheckpointIndex: 0
+  lapsPassed: 0
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5
@@ -399,6 +402,8 @@ MonoBehaviour:
   maximumAngularDrag: 0.5
   headOnCollisionThreshold: 0.8
   upDownThreshold: -0.2
+  collisionPoint: {x: 0, y: 0, z: 0}
+  collisionRayDistance: 2.5
 --- !u!114 &7312018781602798775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1504,6 +1509,7 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
+  acceleration: {x: 0, y: 0, z: 0}
 --- !u!1 &6744016181782553220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,6 +1733,7 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 16.699245
   _rightAckermanAngle: 16.699245
+  acceleration: {x: 0, y: 0, z: 0}
 --- !u!1 &8292972363102720243
 GameObject:
   m_ObjectHideFlags: 0

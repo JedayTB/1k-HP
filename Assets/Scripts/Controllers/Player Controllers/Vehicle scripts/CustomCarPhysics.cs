@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
@@ -75,6 +76,8 @@ public class CustomCarPhysics : MonoBehaviour
   [Header("Collisoin Bump Properties")]
   [SerializeField] private float headOnCollisionThreshold = 0.85f;
   [SerializeField] private float upDownThreshold = -0.2f;
+    [SerializeField] private Vector3 collisionPoint;
+    [SerializeField] private float collisionRayDistance = 1;
 
   #endregion
 
@@ -207,12 +210,14 @@ public class CustomCarPhysics : MonoBehaviour
 
     }
 
-  }
+        Debug.DrawRay(transform.position, transform.forward, Color.green);
+
+    }
 
 
-  #region Physics Simulations
+    #region Physics Simulations
 
-  void FixedUpdate()
+    void FixedUpdate()
   {
     float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
     float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / currentGear.MaxSpeed);
@@ -298,16 +303,17 @@ public class CustomCarPhysics : MonoBehaviour
     {
       ContactPoint cpoint = collision.GetContact(0);
 
-      calculateCollisionForce(cpoint);
+      NewCollisionBump(cpoint);
     }
   }
+
+    // keeping this here for now as a just in case
   private void calculateCollisionForce(ContactPoint cp)
   {
     Vector3 localPoint = transform.InverseTransformDirection(cp.point);
-    Vector3 directionToPoint = (localPoint - transform.position).normalized;
+    Vector3 directionToPoint = (cp.point - transform.position).normalized;
 
-
-    Vector3 updownEthanSuckMe = localPoint.normalized;
+        Vector3 updownEthanSuckMe = localPoint.normalized;
     updownEthanSuckMe.x = 0f;
     updownEthanSuckMe.z = 0f;
 
@@ -316,14 +322,18 @@ public class CustomCarPhysics : MonoBehaviour
     if (upDot > upDownThreshold)
     {
       float forwardDot = Vector3.Dot(transform.forward.normalized, directionToPoint);
+            
 
-      //Debug.Log("position of the contact " + cp.point);
+      Debug.Log("position of the contact " + cp.point);
+            collisionPoint = cp.point;
+            Debug.DrawLine(transform.position, cp.point, Color.red);
+            Debug.DrawRay(transform.position, directionToPoint, Color.magenta);
 
       float force = cp.impulse.magnitude;
 
-      //string exInfo = "";
+      string exInfo = "";
 
-      /*if(forwardDot > headOnCollisionThreshold){
+      if(forwardDot > headOnCollisionThreshold){
         _rigidBody.velocity = Vector3.zero;
         foreach (var wheel in wheels)
         {
@@ -331,9 +341,16 @@ public class CustomCarPhysics : MonoBehaviour
           wheel.backwardAccTime = 0f;
         } 
         exInfo = "Came to full stop!";
-      } */
+                _rigidBody.AddForce(transform.right * 1000000f);
+                print(_rigidBody.velocity);
 
-      //Debug.Log($"Y Local {directionToPoint.y} Up Down Dot {upDot} Foward Dot {forwardDot} Force {force} {exInfo}");
+            }
+            else
+            {
+                _rigidBody.AddForce(new Vector3(5000, 5000, 5000));
+            }
+
+      Debug.Log($"Y Local {directionToPoint.y} Up Down Dot {upDot} Foward Dot {forwardDot} Force {force} {exInfo}");
     }
     else
     {
@@ -341,5 +358,30 @@ public class CustomCarPhysics : MonoBehaviour
     }
 
   }
+
+    private void NewCollisionBump(ContactPoint contactPoint)
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(transform.position, transform.forward);
+        float contactForce = contactPoint.impulse.magnitude / 2;
+
+        Physics.Raycast(ray, out hit, collisionRayDistance);
+        //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
+
+        if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
+        {
+            Debug.Log("STOP NOW!");
+            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
+
+            _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
+        }
+        else
+        {
+            Debug.Log("WE ARE skidding");
+            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
+
+            _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
+        }
+    }
   #endregion
 }
