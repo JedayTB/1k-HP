@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class waypointGizmos : MonoBehaviour
@@ -38,19 +37,19 @@ public class waypointGizmos : MonoBehaviour
     //angleBetweenWaypoints = new float[Waypoints.Length];
     for (int i = 0; i < angleBetweenWaypoints.Length; i++)
     {
-            // If got to end of array, do angles between last and first waypoint 
-            Waypoints[i].rotation = Quaternion.identity;
+      // If got to end of array, do angles between last and first waypoint 
+      Waypoints[i].rotation = Quaternion.identity;
       int nextIndex = i + 1 == Waypoints.Length ? 0 : i + 1;
-            float angle = 0f;
-            //float angle = Vector3.SignedAngle(Waypoints[i].position, Waypoints[nextIndex].position, Vector3.up);
+      float angle = 0f;
+      //float angle = Vector3.SignedAngle(Waypoints[i].position, Waypoints[nextIndex].position, Vector3.up);
 
 
-            Vector3 delta =  Waypoints[nextIndex].position - Waypoints[i].position;
+      Vector3 delta = Waypoints[nextIndex].position - Waypoints[i].position;
 
-            angle = Vector3.Angle(Waypoints[i].forward, delta);
-            angleBetweenWaypoints[i] = angle;
+      angle = Vector3.Angle(Waypoints[i].forward, delta);
+      angleBetweenWaypoints[i] = angle;
     }
-        Debug.Log("Finished Calculating Angles");
+    //Debug.Log("Finished Calculating Angles");
 
   }
   private void RefreshWaypoints()
