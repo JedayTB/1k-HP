@@ -1899,6 +1899,7 @@ MonoBehaviour:
   raceProgression: 0
   checkpointsPassedThrough: 
   nextCheckpointIndex: 0
+  lapsPassed: 0
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5
@@ -1988,6 +1989,8 @@ MonoBehaviour:
   maximumAngularDrag: 0.2
   headOnCollisionThreshold: 0.85
   upDownThreshold: -0.2
+  collisionPoint: {x: 0, y: 0, z: 0}
+  collisionRayDistance: 2.5
 --- !u!114 &7371111997208422806
 MonoBehaviour:
   m_ObjectHideFlags: 0

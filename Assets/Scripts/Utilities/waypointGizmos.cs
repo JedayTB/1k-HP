@@ -35,7 +35,7 @@ public class waypointGizmos : MonoBehaviour
 
   private void calculateAnglesBetweenWaypoints()
   {
-    angleBetweenWaypoints = new float[Waypoints.Length];
+    //angleBetweenWaypoints = new float[Waypoints.Length];
     for (int i = 0; i < angleBetweenWaypoints.Length; i++)
     {
             // If got to end of array, do angles between last and first waypoint 
