@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
@@ -209,10 +208,7 @@ public class CustomCarPhysics : MonoBehaviour
       }
 
     }
-
-        Debug.DrawRay(transform.position, transform.forward, Color.green);
-
-    }
+  }
 
 
     #region Physics Simulations
@@ -370,14 +366,14 @@ public class CustomCarPhysics : MonoBehaviour
 
         if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
         {
-            Debug.Log("STOP NOW!");
+            //Debug.Log("STOP NOW!");
             //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
 
             _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
         }
         else
         {
-            Debug.Log("WE ARE skidding");
+            //Debug.Log("WE ARE skidding");
             //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
 
             _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);

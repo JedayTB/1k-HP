@@ -181,12 +181,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95a4eaa5c789004d88788c16f419de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vehicle: {fileID: 0}
   crosshair: {fileID: 0}
   _lr: {fileID: 0}
   selfCollider: {fileID: 0}
   VehicleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   _maxLightningDistance: 50
   cubeSize: 0.5
   lightningFadeoutTime: 1.1
