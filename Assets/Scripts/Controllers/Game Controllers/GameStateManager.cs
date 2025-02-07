@@ -50,7 +50,7 @@ public class GameStateManager : MonoBehaviour
 
   public static PlayerVehicleController Player; // Singleton var
 
-  public static int _newCharacter = 2;
+  public static int _newCharacter = 1;
 
 
   // UI Stuff
@@ -77,7 +77,6 @@ public class GameStateManager : MonoBehaviour
     _uiController?.init(_player);
     cam = Camera.main.gameObject.GetComponentInParent<CameraFollower3D>();
     cam?.Init(inputManager);
-    _postProcessing?.Init();
 
     // breaks at this one for some reason, had to move everything else up to stop them from not being called
     _player?.Init(inputManager);
@@ -88,7 +87,10 @@ public class GameStateManager : MonoBehaviour
 
     _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
 
-    //VehicleAIController[] ais = FindObjectsByType<VehicleAIController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+    if (_aiControllers.Length == 0)
+    {
+      VehicleAIController[] ais = FindObjectsByType<VehicleAIController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+    }
     for (int i = 0; i < _aiControllers.Length; i++)
     {
       if (_aiControllers[i].gameObject.activeSelf)
@@ -99,7 +101,6 @@ public class GameStateManager : MonoBehaviour
         }
         vehicles.Add(_aiControllers[i]);
         vehiclesToPosition++;
-
         _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
       }
     }
@@ -122,7 +123,7 @@ public class GameStateManager : MonoBehaviour
       vehicles[i].transform.SetPositionAndRotation(_startLocations[i].position, _startLocations[i].rotation);
       vehicles[i].setNewRespawnPosition(_startLocations[i]);
     }
-
+    _postProcessing?.init();
     StartCoroutine(calculateVehiclePlacements());
 
     _musicManager?.startMusic();

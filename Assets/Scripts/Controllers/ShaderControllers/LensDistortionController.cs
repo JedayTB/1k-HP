@@ -2,49 +2,52 @@ using UnityEngine;
 
 public class LensDistortionController : MonoBehaviour
 {
-    #region  readonly
-    private static readonly int _lensSize = Shader.PropertyToID("_CIrcleMaskSize");
-    private static readonly int _distortionIntensity = Shader.PropertyToID("_LensDistortionStrength");
-    private readonly float MaxCircleClipSize = 2f;
-    private readonly float MinCircleClipSize = 2f;
-    private readonly float MinLensDistortionStrength = 0f;
-    private readonly float MaxLensDistortionStrength = -0.15f;
-    #endregion
+  #region  readonly
+  private static readonly int _lensSize = Shader.PropertyToID("_CIrcleMaskSize");
+  private static readonly int _distortionIntensity = Shader.PropertyToID("_LensDistortionStrength");
+  private readonly float MaxCircleClipSize = 2f;
+  private readonly float MinCircleClipSize = 2f;
+  private readonly float MinLensDistortionStrength = 0f;
+  private readonly float MaxLensDistortionStrength = -0.15f;
+  #endregion
 
-    //Can't read only because Unity doesn't serilize
-    [SerializeField] private float _maxDistortionSpeed = 350f;
-    [SerializeField] private float _minSpeedForDistortion = 135f;
-    [SerializeField] private Material lensDistortionMat;
+  //Can't read only because Unity doesn't serilize
+  [SerializeField] private float _maxDistortionSpeed = 350f;
+  [SerializeField] private float _minSpeedForDistortion = 135f;
+  [SerializeField] private Material lensDistortionMat;
 
-    float distortionMultiplier;
-    float playerVelocity;
-    float effectiveLensDistortion;
-    
-    private void Awake()
+  float distortionMultiplier;
+  float playerVelocity;
+  float effectiveLensDistortion;
+
+  private void Awake()
+  {
+    lensDistortionMat.SetFloat(_lensSize, 2f);
+    lensDistortionMat.SetFloat(_distortionIntensity, 0f);
+  }
+  private void OnDisable()
+  {
+    lensDistortionMat.SetFloat(_lensSize, 2f);
+    lensDistortionMat.SetFloat(_distortionIntensity, 0f);
+  }
+  private void Update()
+  {
+    playerVelocity = GameStateManager.Player.VehiclePhysics.getSpeed();
+
+    if (playerVelocity > _minSpeedForDistortion)
     {
-        lensDistortionMat.SetFloat(_lensSize, 2f);
-        lensDistortionMat.SetFloat(_distortionIntensity, 0f);
+      distortionMultiplier = Mathf.Clamp01(playerVelocity / _maxDistortionSpeed + _minSpeedForDistortion);
+
+      effectiveLensDistortion = MaxLensDistortionStrength * distortionMultiplier;
+
+      lensDistortionMat.SetFloat(_distortionIntensity, effectiveLensDistortion);
+
     }
-    private void OnDisable(){
-        lensDistortionMat.SetFloat(_lensSize, 2f);
-        lensDistortionMat.SetFloat(_distortionIntensity, 0f);
-    }
-    private void Update()
+    else
     {
-        playerVelocity = GameStateManager.Player.VehiclePhysics.getSpeed();
-
-        if (playerVelocity > _minSpeedForDistortion)
-        {
-            distortionMultiplier = Mathf.Clamp01(playerVelocity / _maxDistortionSpeed);
-
-            effectiveLensDistortion = MaxLensDistortionStrength * distortionMultiplier;
-
-            lensDistortionMat.SetFloat(_distortionIntensity, effectiveLensDistortion);
-
-        }else{
-            lensDistortionMat.SetFloat(_distortionIntensity, 0f);
-        }
+      lensDistortionMat.SetFloat(_distortionIntensity, 0f);
     }
+  }
 
 
 }

@@ -46,9 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: {fileID: 4380758925006888476}
-  intensityChange: 0
-  _physicsRef: {fileID: 0}
-  maxDistortion: -0.4
+  setThresholdInStart: 1
+  thresholdForEffects: 0
+  decaySpeed: 4
+  maxChromaticAberration: 0.7
+  maxMotionBlur: 0.35
+  motionBlurClamp: 0.03
 --- !u!114 &4380758925006888476
 MonoBehaviour:
   m_ObjectHideFlags: 0

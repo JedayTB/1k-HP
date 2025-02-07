@@ -4,87 +4,73 @@ using UnityEngine.Rendering.Universal;
 
 public class PostProcessing : MonoBehaviour
 {
-    public Volume volume;
-    private Bloom bloom;
-    private MotionBlur motionBlur;
-    private LensDistortion lensDistortion; // we need to have a reference to each type of effect :(
+  private MotionBlur motionBlur;
+  private ChromaticAberration chromaticAberration;
 
-    public float intensityChange;
+  private float playerTerminalVelocity;
+  private float currentPlayerSpeed;
+  private float normalizedPlayerSpeed;
 
-    public CustomCarPhysics _physicsRef;
+  [Header("Basic setup")]
+  public Volume volume;
+  [SerializeField] private bool setThresholdInStart = true;
+  [SerializeField] private float thresholdForEffects;
+  [SerializeField] private float decaySpeed = 4f;
 
-    public float maxDistortion = -.3f;
+  [Header("Chromatic Abberation Setup")]
+  [SerializeField][Range(0, 1)] private float maxChromaticAberration = 1f;
+  private float chromaticAbberationSetAmount;
 
-    public void Init()
+
+  [Header("Motion Blue Setup")]
+  [SerializeField][Range(0, 1)] private float maxMotionBlur = 0.75f;
+  [SerializeField][Range(0f, 0.2f)] private float motionBlurClamp = 0.05f;
+
+  private float motionBlurSetAmount;
+  public void init()
+  {
+    playerTerminalVelocity = GameStateManager.Player.VehiclePhysics.TerminalVelocity;
+    if (setThresholdInStart == true) thresholdForEffects = GameStateManager.Player.VehiclePhysics.GearOne.MaxSpeed;
+
+
+    volume.profile.TryGet<MotionBlur>(out motionBlur);
+    volume.profile.TryGet<ChromaticAberration>(out chromaticAberration);
+    motionBlur.intensity.max = 5f;
+
+  }
+  private void Start()
+  {
+    init();
+  }
+
+  void Update()
+  {
+    currentPlayerSpeed = GameStateManager.Player.VehiclePhysics.getSpeed();
+    if (motionBlur != null || chromaticAberration != null)
     {
-        _physicsRef = GameStateManager.Player.VehiclePhysics;
+      if (currentPlayerSpeed > thresholdForEffects)
+      {
+        // Extra bit at the end is cuz...
+        // past threshold (lets say 80), the value is already above 0. 
+        // So, to normalize the value, just add the minimum to get a lower value 
+        normalizedPlayerSpeed = Mathf.Clamp01(currentPlayerSpeed / playerTerminalVelocity + thresholdForEffects);
+
+        chromaticAbberationSetAmount = LerpAndEasings.ExponentialDecay(chromaticAbberationSetAmount, maxChromaticAberration * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
+        motionBlurSetAmount = LerpAndEasings.ExponentialDecay(motionBlurSetAmount, maxMotionBlur * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
+
+        chromaticAberration.intensity.value = chromaticAbberationSetAmount;
+        motionBlur.intensity.value = motionBlurSetAmount;
+      }
+      else
+      {
+        chromaticAberration.intensity.value = 0f;
+        motionBlur.intensity.value = 0f;
+      }
     }
-
-    void Start()
-    {
-        /*
-        volume.profile.TryGet(out bloom); // gotta set it here since we can't do it from editor >:(
-        volume.profile.TryGet(out motionBlur);
-        volume.profile.TryGet(out lensDistortion);
-        motionBlur.intensity.max = 5f;
-        */
-    }
-
-    void Update()
-    {
-        //bloom.intensity.value = intensityChange;
-        //motionBlur.intensity.value = intensityChange;
-
-        //float vel = _physicsRef.getSpeed();
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (lensDistortion.active)
-            {
-                lensDistortion.active = false;
-            }
-            else if (!lensDistortion.active) 
-            {
-                lensDistortion.active = true;
-            }
-
-            print("poopy");
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            lensDistortion.intensity.value -= 0.05f;
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            lensDistortion.intensity.value += 0.05f;
-        }
-
-
-        //applyDistortion();
-        //clampDistortion();
-    }
-
-    private void applyDistortion()
-    {
-        float carVel = _physicsRef.getSpeed();
-
-        float distortionChange = -(carVel / 250);
-        lensDistortion.intensity.value = distortionChange;
-    }
-
-    private void clampDistortion()
-    {
-        if (lensDistortion.intensity.value < maxDistortion)
-        {
-            lensDistortion.intensity.value = maxDistortion;
-        }
-
-        print(lensDistortion.intensity.value);
-    }
-
-    private void cameraFOVChange()
-    {
-
-    }
+  }
+  void OnDisable()
+  {
+    chromaticAberration.intensity.value = 0f;
+    motionBlur.intensity.value = 0f;
+  }
 }

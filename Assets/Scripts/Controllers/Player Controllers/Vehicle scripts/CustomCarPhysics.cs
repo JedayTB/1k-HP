@@ -29,12 +29,15 @@ public class CustomCarPhysics : MonoBehaviour
   [Header("Gears")]
   // Gear specifics
 
-  [SerializeField] VehicleGearSpecs GearOne;
-  [SerializeField] VehicleGearSpecs GearTwo;
+  [SerializeField] public VehicleGearSpecs GearOne;
+  [SerializeField] public VehicleGearSpecs GearTwo;
   // Only for UI display
   [HideInInspector] public string gearText = "Low";
 
   [Header("Acceleration setup")]
+
+  private static float driftTireWeightMultiplier = 0.35f;
+  private static float tireGripWhileDrifting = 0.1f;
 
   [HideInInspector] public float horsePower;
   public float _terminalVelocity = 250f;
@@ -75,8 +78,8 @@ public class CustomCarPhysics : MonoBehaviour
   [Header("Collisoin Bump Properties")]
   [SerializeField] private float headOnCollisionThreshold = 0.85f;
   [SerializeField] private float upDownThreshold = -0.2f;
-    [SerializeField] private Vector3 collisionPoint;
-    [SerializeField] private float collisionRayDistance = 1;
+  [SerializeField] private Vector3 collisionPoint;
+  [SerializeField] private float collisionRayDistance = 1;
 
   #endregion
 
@@ -211,9 +214,9 @@ public class CustomCarPhysics : MonoBehaviour
   }
 
 
-    #region Physics Simulations
+  #region Physics Simulations
 
-    void FixedUpdate()
+  void FixedUpdate()
   {
     float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
     float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / currentGear.MaxSpeed);
@@ -237,7 +240,7 @@ public class CustomCarPhysics : MonoBehaviour
 
         if (isDrifting)
         {
-          wheels[i].applyTireSlideOnDrift(0.1f, 1f);
+          wheels[i].applyTireSlideOnDrift(tireGripWhileDrifting, driftTireWeightMultiplier);
         }
         else
         {
@@ -303,13 +306,13 @@ public class CustomCarPhysics : MonoBehaviour
     }
   }
 
-    // keeping this here for now as a just in case
+  // keeping this here for now as a just in case
   private void calculateCollisionForce(ContactPoint cp)
   {
     Vector3 localPoint = transform.InverseTransformDirection(cp.point);
     Vector3 directionToPoint = (cp.point - transform.position).normalized;
 
-        Vector3 updownEthanSuckMe = localPoint.normalized;
+    Vector3 updownEthanSuckMe = localPoint.normalized;
     updownEthanSuckMe.x = 0f;
     updownEthanSuckMe.z = 0f;
 
@@ -318,33 +321,34 @@ public class CustomCarPhysics : MonoBehaviour
     if (upDot > upDownThreshold)
     {
       float forwardDot = Vector3.Dot(transform.forward.normalized, directionToPoint);
-            
+
 
       Debug.Log("position of the contact " + cp.point);
-            collisionPoint = cp.point;
-            Debug.DrawLine(transform.position, cp.point, Color.red);
-            Debug.DrawRay(transform.position, directionToPoint, Color.magenta);
+      collisionPoint = cp.point;
+      Debug.DrawLine(transform.position, cp.point, Color.red);
+      Debug.DrawRay(transform.position, directionToPoint, Color.magenta);
 
       float force = cp.impulse.magnitude;
 
       string exInfo = "";
 
-      if(forwardDot > headOnCollisionThreshold){
+      if (forwardDot > headOnCollisionThreshold)
+      {
         _rigidBody.velocity = Vector3.zero;
         foreach (var wheel in wheels)
         {
           wheel.forwardAccTime = 0f;
           wheel.backwardAccTime = 0f;
-        } 
+        }
         exInfo = "Came to full stop!";
-                _rigidBody.AddForce(transform.right * 1000000f);
-                print(_rigidBody.velocity);
+        _rigidBody.AddForce(transform.right * 1000000f);
+        print(_rigidBody.velocity);
 
-            }
-            else
-            {
-                _rigidBody.AddForce(new Vector3(5000, 5000, 5000));
-            }
+      }
+      else
+      {
+        _rigidBody.AddForce(new Vector3(5000, 5000, 5000));
+      }
 
       Debug.Log($"Y Local {directionToPoint.y} Up Down Dot {upDot} Foward Dot {forwardDot} Force {force} {exInfo}");
     }
@@ -355,29 +359,29 @@ public class CustomCarPhysics : MonoBehaviour
 
   }
 
-    private void NewCollisionBump(ContactPoint contactPoint)
+  private void NewCollisionBump(ContactPoint contactPoint)
+  {
+    RaycastHit hit;
+    Ray ray = new Ray(transform.position, transform.forward);
+    float contactForce = contactPoint.impulse.magnitude / 2;
+
+    Physics.Raycast(ray, out hit, collisionRayDistance);
+    //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
+
+    if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
     {
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position, transform.forward);
-        float contactForce = contactPoint.impulse.magnitude / 2;
+      //Debug.Log("STOP NOW!");
+      //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
 
-        Physics.Raycast(ray, out hit, collisionRayDistance);
-        //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
-
-        if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
-        {
-            //Debug.Log("STOP NOW!");
-            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
-
-            _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
-        }
-        else
-        {
-            //Debug.Log("WE ARE skidding");
-            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
-
-            _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
-        }
+      _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
     }
+    else
+    {
+      //Debug.Log("WE ARE skidding");
+      //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
+
+      _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
+    }
+  }
   #endregion
 }

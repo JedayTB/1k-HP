@@ -5592,6 +5592,7 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
+  acceleration: {x: 0, y: 0, z: 0}
 --- !u!1 &2601365838908154942
 GameObject:
   m_ObjectHideFlags: 0
@@ -5780,6 +5781,7 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 16.699245
   _rightAckermanAngle: 16.699245
+  acceleration: {x: 0, y: 0, z: 0}
 --- !u!1 &2744386546838215139
 GameObject:
   m_ObjectHideFlags: 0
@@ -5987,8 +5989,8 @@ MonoBehaviour:
   maxXAngle: 2
   minZAngle: 0
   maxZAngle: 0
-  GearOne: {fileID: 11400000, guid: 90a437f4aceb858a88b37e3c5f580a50, type: 2}
-  GearTwo: {fileID: 11400000, guid: 7123d7238e809b1d2a6ba9d5cbc32395, type: 2}
+  GearOne: {fileID: 11400000, guid: 719219701b15d3b4eae42e64e4a984c4, type: 2}
+  GearTwo: {fileID: 11400000, guid: 0c0cfc28f4c08d2c3ac839c1c680300e, type: 2}
   gearText: 1st Gear
   horsePower: 500
   _terminalVelocity: 250
@@ -6035,6 +6037,8 @@ MonoBehaviour:
   maximumAngularDrag: 0.5
   headOnCollisionThreshold: 0.8
   upDownThreshold: -0.2
+  collisionPoint: {x: 0, y: 0, z: 0}
+  collisionRayDistance: 1
 --- !u!114 &4616093695550561742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11475,6 +11479,7 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 16.699245
   _rightAckermanAngle: 16.699245
+  acceleration: {x: 0, y: 0, z: 0}
 --- !u!1 &5621946238869139088
 GameObject:
   m_ObjectHideFlags: 0
@@ -12343,3 +12348,4 @@ MonoBehaviour:
   backwardAccTime: 0
   _leftAckermanAngle: 0
   _rightAckermanAngle: 0
+  acceleration: {x: 0, y: 0, z: 0}

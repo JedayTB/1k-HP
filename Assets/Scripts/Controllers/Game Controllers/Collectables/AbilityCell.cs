@@ -52,7 +52,7 @@ public class AbilityCell : Collectables
         abilityObj = vehicle.gameObject.GetComponentInChildren<BubblegumController>(true);
         adAB = addedAbility.Bubblegum;
         break;
-      case AbilityCellType. Hookshot:
+      case AbilityCellType.Hookshot:
         abilityObj = vehicle.gameObject.GetComponentInChildren<HookshotController>(true);
         adAB = addedAbility.Hookshot;
         break;
@@ -65,13 +65,14 @@ public class AbilityCell : Collectables
         adAB = addedAbility.ChilliOil;
         break;
       default:
-        Debug.LogError("Your a dipshit and broke ability add system. to ethan arr");
+        Debug.LogError("Your a dipshit and broke ability add system. to ethan arr (myself)");
         break;
     }
     vehicle.currentAbility = adAB;
     abilityObj.vehicle = vehicle;
     abilityObj.gameObject.SetActive(true);
-    GameStateManager.Instance._uiController.playerGotAbility(adAB);
+    if (vehicle is PlayerVehicleController) GameStateManager.Instance._uiController.playerGotAbility(adAB);
+    if (vehicle is VehicleAIController) vehicle.GetComponent<VehicleAIController>().addAbilityToVehicle(adAB);
   }
 
   public override void onPickup(A_VehicleController vehicle)

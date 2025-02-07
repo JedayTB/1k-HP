@@ -354,8 +354,8 @@ MonoBehaviour:
   maxXAngle: 2
   minZAngle: 0
   maxZAngle: 0
-  GearOne: {fileID: 11400000, guid: 90a437f4aceb858a88b37e3c5f580a50, type: 2}
-  GearTwo: {fileID: 11400000, guid: 7123d7238e809b1d2a6ba9d5cbc32395, type: 2}
+  GearOne: {fileID: 11400000, guid: 719219701b15d3b4eae42e64e4a984c4, type: 2}
+  GearTwo: {fileID: 11400000, guid: 0c0cfc28f4c08d2c3ac839c1c680300e, type: 2}
   gearText: 1st Gear
   horsePower: 500
   _terminalVelocity: 250
@@ -1871,6 +1871,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4390524634779250500, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
+        type: 3}
+      propertyPath: vehicle
+      value: 
+      objectReference: {fileID: 1550702500918941150}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1940,10 +1945,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4659784052428588677, guid: 6aac7d83e90636f8a876ba153acc19e3,
+        type: 3}
+      propertyPath: vehicle
+      value: 
+      objectReference: {fileID: 1550702500918941150}
+    - target: {fileID: 4659784052428588677, guid: 6aac7d83e90636f8a876ba153acc19e3,
+        type: 3}
+      propertyPath: _selfCollider
+      value: 
+      objectReference: {fileID: 7607092511218858885}
     - target: {fileID: 8777901552204802562, guid: 6aac7d83e90636f8a876ba153acc19e3,
         type: 3}
       propertyPath: m_Name
       value: HookshotAbilty
+      objectReference: {fileID: 0}
+    - target: {fileID: 8777901552204802562, guid: 6aac7d83e90636f8a876ba153acc19e3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2155,10 +2175,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8317410215298301749}
     m_Modifications:
+    - target: {fileID: 40426686262950969, guid: 23da8d40a60e6e7dd8444b59cc42f482,
+        type: 3}
+      propertyPath: vehicle
+      value: 
+      objectReference: {fileID: 1550702500918941150}
     - target: {fileID: 3868300344107223828, guid: 23da8d40a60e6e7dd8444b59cc42f482,
         type: 3}
       propertyPath: m_Name
       value: ChilliOIlAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868300344107223828, guid: 23da8d40a60e6e7dd8444b59cc42f482,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7684844120079873463, guid: 23da8d40a60e6e7dd8444b59cc42f482,
         type: 3}
@@ -2376,6 +2406,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
+      propertyPath: _lr
+      value: 
+      objectReference: {fileID: 4369878781454194673}
+    - target: {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc,
+        type: 3}
+      propertyPath: vehicle
+      value: 
+      objectReference: {fileID: 1550702500918941150}
+    - target: {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc,
+        type: 3}
       propertyPath: selfCollider
       value: 
       objectReference: {fileID: 7607092511218858885}
@@ -2389,11 +2429,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightningAbility
       objectReference: {fileID: 0}
+    - target: {fileID: 9016920133683394238, guid: 88e316216ae01aebe873ae8e6619d3cc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88e316216ae01aebe873ae8e6619d3cc, type: 3}
+--- !u!120 &4369878781454194673 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 5097784503232199652, guid: 88e316216ae01aebe873ae8e6619d3cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 8798373849436351509}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4925473231814557005 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4485815751126356312, guid: 88e316216ae01aebe873ae8e6619d3cc,

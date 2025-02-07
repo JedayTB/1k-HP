@@ -234,7 +234,8 @@ public class CustomWheels : MonoBehaviour
   /// tire slide attempts to make the car stay in the Z direction of it's tires.
   /// </summary>
   /// <param name="tireGrip"> The amount of grip the tire has</param>
-  public void applyTireSlideOnDrift(float tireGrip, float tireMass)
+  /// <param name="tireMassMultiplier"> Value between 0 - 1 that changes mass to use o ftire </param>
+  public void applyTireSlideOnDrift(float tireGrip, float tireMassMultiplier)
   {
     // world space direction of the steering force
     Vector3 steeringDir = _tireTransform.right;
@@ -264,9 +265,9 @@ public class CustomWheels : MonoBehaviour
     // Quick ternary for tire driting
 
 
-    Vector3 steerForce = tireMass * desiredAcceleration * steeringDir;
-
+    Vector3 steerForce = (_wheelSpecs.tireMass * tireMassMultiplier) * desiredAcceleration * steeringDir;
     _vehicleRB.AddForceAtPosition(steerForce, forceApplicationPoint);
+
   }
   /// <summary>
   /// Apply force in  the local Z axis of the tire. 

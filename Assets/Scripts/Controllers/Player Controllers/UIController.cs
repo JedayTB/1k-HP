@@ -41,9 +41,6 @@ public class UIController : MonoBehaviour
   [SerializeField] private TextMeshProUGUI GearText;
   [SerializeField] private TextMeshProUGUI playerPlacementText;
 
-  // Rect transforms 
-
-
 
   // Misc
   [SerializeField] private KeyCode _pauseMenuKey = KeyCode.Escape;
@@ -86,10 +83,10 @@ public class UIController : MonoBehaviour
     }
 
     if (_player.isDrifting) _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
-    
 
-    if (GameStateManager.Instance.levelCheckpointLocations.Length != 0) AdjustAngleToCheckpoint();
-    
+
+    //if (GameStateManager.Instance.levelCheckpointLocations.Length != 0) AdjustAngleToCheckpoint();
+
     rotateSpeedometreLine();
 
     _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
@@ -108,8 +105,8 @@ public class UIController : MonoBehaviour
     nextCheckpointAngle = -Vector3.Angle(_player.transform.forward, delta);
     //math.degrees(math.acos(dot / _player.transform.position.magnitude * target.magnitude));
 
-    //nextCheckpointCompas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
-
+    //nextCheckpoint//Compas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
+    //
     /*
     if (GameStateManager.Instance.UseDebug)
     {
