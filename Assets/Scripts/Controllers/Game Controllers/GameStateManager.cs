@@ -50,7 +50,7 @@ public class GameStateManager : MonoBehaviour
 
   public static PlayerVehicleController Player; // Singleton var
 
-  public static int _newCharacter = 1;
+  public static int _newCharacter = 2;
 
 
   // UI Stuff
