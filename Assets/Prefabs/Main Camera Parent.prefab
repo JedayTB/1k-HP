@@ -415,6 +415,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lens Distortion Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 3520866014053219693, guid: bf55dd625f5be7fe88ce0149c5bfe265,
+        type: 3}
+      propertyPath: _maxDistortionSpeed
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3520866014053219693, guid: bf55dd625f5be7fe88ce0149c5bfe265,
+        type: 3}
+      propertyPath: _minSpeedForDistortion
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3520866014053219693, guid: bf55dd625f5be7fe88ce0149c5bfe265,
+        type: 3}
+      propertyPath: MaxLensDistortionStrength
+      value: -0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 5052529747039280954, guid: bf55dd625f5be7fe88ce0149c5bfe265,
         type: 3}
       propertyPath: m_LocalPosition.x

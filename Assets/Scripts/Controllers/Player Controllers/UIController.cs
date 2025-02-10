@@ -55,7 +55,7 @@ public class UIController : MonoBehaviour
   public Image HookshotCrosshair;
 
   private Vector3 cachedLocation;
-  private float maxSpeed = 320f;
+  private float maxSpeed = 200f;
   private float rotationDif = 194;
 
   private float counter = 3f;

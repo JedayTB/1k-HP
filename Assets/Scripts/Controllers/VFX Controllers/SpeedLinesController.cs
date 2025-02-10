@@ -86,7 +86,7 @@ public class SpeedLinesController : MonoBehaviour
     // Normal for speed
     if (playerSpeed > _minSpeedThreshold)
     {
-      lerpByValue = Mathf.Clamp01(playerSpeed / _maxSpeedThreshold + _minSpeedThreshold);
+      lerpByValue = Mathf.Clamp01((_minSpeedThreshold - playerSpeed) / (_minSpeedThreshold - _maxSpeedThreshold));
       _currentRadiusSize = Mathf.Lerp(_maxRadiusSize, _minRadiusSize, lerpByValue);
       _currentSpawnRate = Mathf.Lerp(_minSpawnRate, _maxSpawnRate, lerpByValue);
 
@@ -95,8 +95,10 @@ public class SpeedLinesController : MonoBehaviour
     }
     else
     {
+      // No speed lines
       speedLinesOBJ.SetFloat(RadiusID, 0f);
       speedLinesOBJ.SetFloat(ParticleSpawnRateID, 0f);
+
 
       if (playerIsInNitro)
       {

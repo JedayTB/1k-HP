@@ -7,8 +7,8 @@ public class LensDistortionController : MonoBehaviour
   private static readonly int _distortionIntensity = Shader.PropertyToID("_LensDistortionStrength");
   private readonly float MaxCircleClipSize = 2f;
   private readonly float MinCircleClipSize = 2f;
-  private readonly float MinLensDistortionStrength = 0f;
-  private readonly float MaxLensDistortionStrength = -0.15f;
+  [SerializeField][Range(0, -.15f)] private float MinLensDistortionStrength = 0f;
+  [SerializeField][Range(0, -.15f)] private float MaxLensDistortionStrength = -0.9f;
   #endregion
 
   //Can't read only because Unity doesn't serilize
@@ -36,7 +36,7 @@ public class LensDistortionController : MonoBehaviour
 
     if (playerVelocity > _minSpeedForDistortion)
     {
-      distortionMultiplier = Mathf.Clamp01(playerVelocity / _maxDistortionSpeed + _minSpeedForDistortion);
+      distortionMultiplier = Mathf.Clamp01((_minSpeedForDistortion - playerVelocity) / (_minSpeedForDistortion - _maxDistortionSpeed));
 
       effectiveLensDistortion = MaxLensDistortionStrength * distortionMultiplier;
 
