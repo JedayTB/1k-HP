@@ -11,8 +11,7 @@ public class MainMenuUI : MonoBehaviour
     private TMP_Dropdown presetDropdown;
 
     [SerializeField]
-    private TMP_Dropdown textureDropdown,
-        aaDropdown,
+    private TMP_Dropdown aaDropdown,
         fpsDropdown;
 
     public void StartButton()
@@ -41,8 +40,6 @@ public class MainMenuUI : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(presetDropdown.value, true); // set in Edit > Project Settings > Quality
     }
-
-    public void ChangeTexture() { } // placebo
 
     public void ChangeAA()
     {
