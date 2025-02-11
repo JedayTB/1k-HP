@@ -4,9 +4,9 @@ using TMPro;
 public enum CharacterNames
 {
   None,
-  Mimi,
-  Hoku,
-  Ethan,
+  AzureAce,
+  Chopper,
+  SunScorch,
   Cindy
 }
 
@@ -56,13 +56,13 @@ public class CharacterUI : MonoBehaviour
     switch (characterName)
     {
       case "Mimi":
-        _selectedCharacter = CharacterNames.Mimi;
+        _selectedCharacter = CharacterNames.AzureAce;
         break;
       case "Hoku":
-        _selectedCharacter = CharacterNames.Hoku;
+        _selectedCharacter = CharacterNames.Chopper;
         break;
       case "Ethan":
-        _selectedCharacter = CharacterNames.Ethan;
+        _selectedCharacter = CharacterNames.SunScorch;
         break;
       case "Cindy":
         _selectedCharacter = CharacterNames.Cindy;
