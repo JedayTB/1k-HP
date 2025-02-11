@@ -126,7 +126,6 @@ public class GameStateManager : MonoBehaviour
     _postProcessing?.init();
     StartCoroutine(calculateVehiclePlacements());
 
-    _musicManager?.startMusic();
     Debug.Log("GSM has Finished Intializing!");
   }
 

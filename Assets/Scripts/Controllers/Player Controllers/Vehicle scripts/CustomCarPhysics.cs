@@ -63,6 +63,7 @@ public class CustomCarPhysics : MonoBehaviour
   [Tooltip("Distance between back Wheels")]
   [SerializeField] private float rearTrack = 2f;
 
+
   [Header("RigidBody mod Settings")]
   [Tooltip("The minimum angluar drag the car will experience For steering mechanics")]
   [SerializeField] private float minimumAngularDrag = 0.05f;
@@ -81,7 +82,7 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] private Vector3 collisionPoint;
   [SerializeField] private float collisionRayDistance = 1;
 
-    private float collisionCooldown = 0;
+  private float collisionCooldown = 0;
 
   #endregion
 
@@ -366,7 +367,7 @@ public class CustomCarPhysics : MonoBehaviour
     RaycastHit hit;
     Ray ray = new Ray(transform.position, transform.forward);
     float contactForce = contactPoint.impulse.magnitude / 2;
-        collisionPoint = contactPoint.point;
+    collisionPoint = contactPoint.point;
 
     Physics.Raycast(ray, out hit, collisionRayDistance);
     //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
@@ -380,13 +381,13 @@ public class CustomCarPhysics : MonoBehaviour
     }
     else
     {
-            //Debug.Log("WE ARE skidding");
-            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
+      //Debug.Log("WE ARE skidding");
+      //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
 
-            contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
+      contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
 
       _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
-            Debug.Log("applying force at " + contactPoint.point);
+      Debug.Log("applying force at " + contactPoint.point);
 
     }
   }

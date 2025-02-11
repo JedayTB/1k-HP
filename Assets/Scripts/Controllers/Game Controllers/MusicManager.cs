@@ -9,27 +9,35 @@ public class MusicManager : MonoBehaviour
   public static readonly string characterSelectSceneName = "CharacterSelect";
   public static readonly string levelSelectScenename = "LevelSelect";
 
+  private static MusicManager instance;
+
+  public bool startMusicInAwake = false;
+  public bool startMusicInStartFunction = false;
+  public bool isForMenuMusic = false;
+
+
   [SerializeField] private AudioSource musicSource;
   public float fadeInTime = 5f;
   public static float minVolumeForFadeIn = 0.0f;
-  public bool startMusicInAwake = false;
-  public bool isForMenuMusic = false;
+
   public void startMusic()
   {
-    if (musicSource == null)
+    if (instance == null)
     {
-      Debug.LogWarning("Forgot to attach Audio Source");
-      musicSource = GetComponent<AudioSource>();
-      if (musicSource == null) Debug.LogError($"{this.name} is fucked. Can't grab Audio Manager");
-      return;
-    }
+      instance = this;
+      if (isForMenuMusic)
+      {
+        DontDestroyOnLoad(this.gameObject);
+      }
 
-    if (isForMenuMusic)
-    {
-      DontDestroyOnLoad(this.gameObject);
+      SceneManager.activeSceneChanged += sceneChangedLogic;
+      StartCoroutine(fadeInVolume(fadeInTime, GameStateManager.musicVolumeLevel));
     }
-    SceneManager.activeSceneChanged += sceneChangedLogic;
-    StartCoroutine(fadeInVolume(fadeInTime, GameStateManager.musicVolumeLevel));
+    else
+    {
+      Debug.Log($"{this.name} killed self because instance isnt null");
+      Destroy(this.gameObject);
+    }
   }
 
   private void sceneChangedLogic(Scene replaced, Scene next)
@@ -37,28 +45,36 @@ public class MusicManager : MonoBehaviour
     // If need to debug.. Replaced scene never has a name (idfk either)
     if (isForMenuMusic)
     {
+      bool dontDestroySelf = next.name == mainMenuSceneName || next.name == characterSelectSceneName || next.name == levelSelectScenename;
 
-      if (isForMenuMusic)
+      if (dontDestroySelf == true)
       {
-
-        bool dontDestroySelf = next.name == mainMenuSceneName || next.name == characterSelectSceneName || next.name == levelSelectScenename;
-
-        if (dontDestroySelf == true)
-        {
-        }
-        else
-        {
-
-          Destroy(this.gameObject);
-        }
+      }
+      else
+      {
+        instance = null;
+        Debug.Log($"{this.name} killed self, because it's not a menu.");
+        Destroy(this.gameObject);
       }
     }
   }
-
+  private void OnDisable()
+  {
+    instance = null;
+  }
+  private void Start()
+  {
+    if (startMusicInStartFunction) startMusic();
+  }
   private void Awake()
   {
     if (startMusicInAwake) startMusic();
   }
+  private void OnDestroy()
+  {
+    SceneManager.activeSceneChanged -= sceneChangedLogic;
+  }
+
   IEnumerator fadeInVolume(float fadeInTime, float maxFadeInVolume)
   {
     float count = 0f;
@@ -74,9 +90,4 @@ public class MusicManager : MonoBehaviour
       yield return null;
     }
   }
-  private void OnDestroy()
-  {
-    SceneManager.activeSceneChanged -= sceneChangedLogic;
-  }
-
 }

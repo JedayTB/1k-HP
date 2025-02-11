@@ -4,6 +4,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PostProcessing : MonoBehaviour
 {
+  public bool isForGamePlay;
   private MotionBlur motionBlur;
   private ChromaticAberration chromaticAberration;
 
@@ -33,39 +34,36 @@ public class PostProcessing : MonoBehaviour
     if (setThresholdInStart == true) thresholdForEffects = GameStateManager.Player.VehiclePhysics.GearOne.MaxSpeed;
 
 
-    volume.profile.TryGet<MotionBlur>(out motionBlur);
-    volume.profile.TryGet<ChromaticAberration>(out chromaticAberration);
+    volume.profile.TryGet(out motionBlur);
+    volume.profile.TryGet(out chromaticAberration);
+    
     motionBlur.intensity.max = 5f;
 
-  }
-  private void Start()
-  {
-    init();
   }
 
   void Update()
   {
+    if(isForGamePlay == true){
     currentPlayerSpeed = GameStateManager.Player.VehiclePhysics.getSpeed();
-    if (motionBlur != null || chromaticAberration != null)
+
+    if (currentPlayerSpeed > thresholdForEffects)
     {
-      if (currentPlayerSpeed > thresholdForEffects)
-      {
-        // Extra bit at the end is cuz...
-        // past threshold (lets say 80), the value is already above 0. 
-        // So, to normalize the value, just add the minimum to get a lower value 
-        normalizedPlayerSpeed = Mathf.Clamp01((thresholdForEffects - currentPlayerSpeed) / (playerTerminalVelocity - thresholdForEffects));
+      // Extra bit at the end is cuz...
+      // past threshold (lets say 80), the value is already above 0. 
+      // So, to normalize the value, just add the minimum to get a lower value 
+      normalizedPlayerSpeed = Mathf.Clamp01(currentPlayerSpeed / playerTerminalVelocity + thresholdForEffects);
 
-        chromaticAbberationSetAmount = LerpAndEasings.ExponentialDecay(chromaticAbberationSetAmount, maxChromaticAberration * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
-        motionBlurSetAmount = LerpAndEasings.ExponentialDecay(motionBlurSetAmount, maxMotionBlur * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
+      chromaticAbberationSetAmount = LerpAndEasings.ExponentialDecay(chromaticAbberationSetAmount, maxChromaticAberration * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
+      motionBlurSetAmount = LerpAndEasings.ExponentialDecay(motionBlurSetAmount, maxMotionBlur * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
 
-        chromaticAberration.intensity.value = chromaticAbberationSetAmount;
-        motionBlur.intensity.value = motionBlurSetAmount;
-      }
-      else
-      {
-        chromaticAberration.intensity.value = 0f;
-        motionBlur.intensity.value = 0f;
-      }
+      chromaticAberration.intensity.value = chromaticAbberationSetAmount;
+      motionBlur.intensity.value = motionBlurSetAmount;
+    }
+    else
+    {
+      chromaticAberration.intensity.value = 0f;
+      motionBlur.intensity.value = 0f;
+    }
     }
   }
   void OnDisable()
