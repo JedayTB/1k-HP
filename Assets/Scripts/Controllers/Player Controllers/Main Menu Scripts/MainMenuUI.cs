@@ -37,14 +37,17 @@ public class MainMenuUI : MonoBehaviour
 
     #region Video Settings
 
-    public void ChangePreset() { }
+    public void ChangePreset()
+    {
+        QualitySettings.SetQualityLevel(presetDropdown.value, true); // set in Edit > Project Settings > Quality
+    }
 
-    public void ChangeTexture() { }
+    public void ChangeTexture() { } // placebo
 
     public void ChangeAA()
     {
         int[] aaLevels = { 0, 2, 4, 8 };
-        QualitySettings.SetQualityLevel(aaLevels[aaDropdown.value], true);
+        QualitySettings.antiAliasing = aaLevels[aaDropdown.value];
     }
 
     public void ChangeFPS()
