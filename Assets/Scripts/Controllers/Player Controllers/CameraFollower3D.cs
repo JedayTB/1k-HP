@@ -62,6 +62,7 @@ public class CameraFollower3D : MonoBehaviour
     transform.position = _desiredLocation.position;
     defaultZPosition = _desiredLocation.localPosition.z;
 
+        
   }
 
   private void Update()
