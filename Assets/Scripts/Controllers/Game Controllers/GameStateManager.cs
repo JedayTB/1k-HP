@@ -18,6 +18,7 @@ public class GameStateManager : MonoBehaviour
   public bool UseDebug = true;
   [Header("Game Logic Values")]
   public int LapsToFinishRace = 3;
+  public static float countdownTime = 3;
 
   [Header("Game Logic Objects")]
   [SerializeField] private CameraFollower3D cam;

@@ -26,7 +26,6 @@ public class lapCheckpoint : MonoBehaviour
   {
 
     var vehicle = other.gameObject.transform.parent.parent.gameObject.GetComponent<A_VehicleController>();
-    //var vehicle = other.GetComponentInParent<A_VehicleController>();
 
     if (vehicle != null)
     {

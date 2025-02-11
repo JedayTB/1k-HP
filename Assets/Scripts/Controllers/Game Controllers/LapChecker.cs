@@ -5,15 +5,11 @@ public class LapChecker : MonoBehaviour
   [SerializeField] private lapCheckpoint[] _checkpoints;
 
   [SerializeField] private int lapsToWin = 3;
-  [SerializeField] private ParticleSystem[] raceFinishParticles;
-
 
   private LapTimer _lapTimer;
 
   private GameStateManager _gsm;
   public int lapsCompleted = 0;
-
-
 
 
   public void Init(GameStateManager gsm)
@@ -27,7 +23,6 @@ public class LapChecker : MonoBehaviour
     {
       _checkpoints[i].Init(i);
     }
-
   }
 
   public void checkIfVehicleFinishedlap(A_VehicleController vehicle)
@@ -47,23 +42,37 @@ public class LapChecker : MonoBehaviour
         nextPos = 0;
       }
       _gsm.setVehicleNextCheckpoint(vehicle, nextPos);
+
     }
-    // If here is reached, lap was finished
+
+    // if got here and didn't return, needs to pass first checkpoint one more time!
+    if (vehicle.needsToPassFirstTwice == false)
+    {
+      vehicle.needsToPassFirstTwice = true;
+      // index 0 is always first checkpoint
+      vehicle.checkpointsPassedThrough[0] = false;
+      _checkpoints[0]._vehiclesPassedThroughCheckpoint.Remove(vehicle);
+      return;
+    }
+
     onLapFinished(vehicle);
+    vehicle.needsToPassFirstTwice = false;
 
   }
   void onLapFinished(A_VehicleController vehicleFinished)
   {
+    if (vehicleFinished.lapsPassed == lapsCompleted)
+    {
+      lapsCompleted++;
+    }
+
     _gsm.setVehicleLapCount(vehicleFinished);
     _gsm.setVehicleNextCheckpoint(vehicleFinished, 0);
 
     // So that only 1 vehicle can increment lapsCompleted
     // That vehile will always be the one that finishes a lap,
     // and has a lap count thats the same as the completed amount.
-    if (vehicleFinished.lapsPassed == lapsCompleted)
-    {
-      lapsCompleted++;
-    }
+
 
     foreach (var checkpoint in _checkpoints)
     {
@@ -72,17 +81,20 @@ public class LapChecker : MonoBehaviour
     if (vehicleFinished is PlayerVehicleController) _lapTimer?.endLap();
 
     Debug.Log($"Finished lap: {lapsCompleted}");
-
+    // Because, vehicle needs to pass 1st checkpoint twice to technically end the lap
+    // and when a lap is finished, it resets all checkpoints.
+    // Meaning player passes through 1st checkpoint, finishes lap, then 1st checlkpoint is set as not passed through.
+    // Shitty code. by yours truly, Ethan Arrazola
+    vehicleFinished.checkpointsPassedThrough[0] = true;
+    _checkpoints[0]._vehiclesPassedThroughCheckpoint.Add(vehicleFinished);
     if (lapsCompleted >= GameStateManager.Instance.LapsToFinishRace)
     {
-      onRaceFinish();
+      _gsm.onPlayerWin();
     }
   }
-  void onRaceFinish()
-  {
-    _gsm.onPlayerWin();
-  }
 
+
+  // Helper methods
   void OnDrawGizmos()
   {
     _checkpoints = GetComponentsInChildren<lapCheckpoint>();
@@ -91,6 +103,7 @@ public class LapChecker : MonoBehaviour
       _checkpoints[i].name = $"Checkpoint {i + 1}";
     }
   }
+
   public Vector3[] checkPointLocations
   {
     get

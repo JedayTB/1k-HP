@@ -30,6 +30,7 @@ public abstract class A_VehicleController : MonoBehaviour
   public bool[] checkpointsPassedThrough;
   public int nextCheckpointIndex = 0;
   public int lapsPassed = 0;
+  public bool needsToPassFirstTwice = false;
   //
   [HideInInspector] public bool isDrifting;
 

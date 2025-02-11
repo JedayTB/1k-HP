@@ -69,7 +69,7 @@ public class UIController : MonoBehaviour
 
     abilityGaugeMaxScale = abilityCircle.transform.localScale;
 
-    StartCoroutine(CountDown(3));
+    StartCoroutine(CountDown(GameStateManager.countdownTime));
   }
   void Update()
   {
