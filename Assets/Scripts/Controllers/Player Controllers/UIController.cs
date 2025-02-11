@@ -318,12 +318,6 @@ public class UIController : MonoBehaviour
       case addedAbility.Bubblegum:
         bubbleGumSprite.gameObject.SetActive(val);
         break;
-      case addedAbility.ChilliOil:
-        chilliOilSprite.gameObject.SetActive(val);
-        break;
-      case addedAbility.Hookshot:
-        hookshotSprite.gameObject.SetActive(val);
-        break;
       case addedAbility.Lightning:
         lightningSprite.gameObject.SetActive(val);
         break;

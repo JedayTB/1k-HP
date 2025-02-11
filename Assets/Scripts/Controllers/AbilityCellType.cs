@@ -1,10 +1,6 @@
 public enum AbilityCellType
 {
-  // Because I'm a dipshit in 
-  // AbilityCell.GetRandomAbility. - E.Arr
+  Bubblegum = 0,
+  Lightning = 1,
   RandomAbility,
-  Bubblegum = 1,
-  Lightning = 3,
-  Hookshot = 2,
-  ChilliOil = 0,
 }

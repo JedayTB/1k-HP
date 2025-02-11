@@ -166,12 +166,7 @@ public class VehicleAIController : A_VehicleController
         case aiState.bubbleAbility:
           bubbleAbilityLogic();
           break;
-        case aiState.chilliOilAbility:
-          chilliOilAbilityLogic();
-          break;
-        case aiState.HookshotAbility:
-          hookshotAbilityLogic();
-          break;
+        
         case aiState.LightningAbility:
           lightningAbilityLogic();
           break;
@@ -188,12 +183,7 @@ public class VehicleAIController : A_VehicleController
       case addedAbility.Bubblegum:
         switchToBubbleState();
         break;
-      case addedAbility.ChilliOil:
-        switchToChilliOilState();
-        break;
-      case addedAbility.Hookshot:
-        switchToHookshotState();
-        break;
+      
       case addedAbility.Lightning:
         switchToLightningState();
         break;
@@ -204,14 +194,7 @@ public class VehicleAIController : A_VehicleController
   {
 
   }
-  public void switchToChilliOilState()
-  {
 
-  }
-  public void switchToHookshotState()
-  {
-
-  }
   public void switchToLightningState()
   {
 
@@ -224,14 +207,7 @@ public class VehicleAIController : A_VehicleController
   {
     generalDrivingLogic();
   }
-  private void chilliOilAbilityLogic()
-  {
-    generalDrivingLogic();
-  }
-  private void hookshotAbilityLogic()
-  {
-    generalDrivingLogic();
-  }
+  
   private void lightningAbilityLogic()
   {
     generalDrivingLogic();

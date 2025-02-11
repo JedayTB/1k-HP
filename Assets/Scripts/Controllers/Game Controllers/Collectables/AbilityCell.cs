@@ -2,10 +2,8 @@ using UnityEngine;
 
 public enum addedAbility
 {
-  ChilliOil = 0,
-  Bubblegum = 1,
-  Hookshot = 2,
-  Lightning = 3,
+  Bubblegum = 0,
+  Lightning = 1,
   fucked
 }
 public class AbilityCell : Collectables
@@ -26,12 +24,24 @@ public class AbilityCell : Collectables
 
   private A_Ability GetRandomAbiltiy(A_VehicleController vehicle, ref AbilityCellType typeAdded)
   {
-    A_Ability[] abilList = vehicle.GetComponentsInChildren<A_Ability>(true);
-    int rndIndex = Random.Range(0, abilList.Length);
+    var abilList = GameStateManager.Instance.Abilitieslist;
+    float rnd = Random.Range(0, 1f);
+    int index = 0;
 
-    typeAdded = (AbilityCellType)rndIndex;
-    print($"rndAbilFunc: random index {rndIndex}, type casted to {typeAdded}");
-    return abilList[rndIndex];
+    if (rnd > 0.51f)
+    {
+      // Bubble gum
+      index = (int)AbilityCellType.Bubblegum;
+    }
+    else
+    {
+      // Lightning
+      index = (int)AbilityCellType.Lightning;
+    }
+    typeAdded = (AbilityCellType)index;
+
+    print($"rndAbilFunc: random index {index}, type casted to {typeAdded}");
+    return abilList[index];
   }
 
   private void AddAbilityToPlayer(A_VehicleController vehicle)
@@ -52,17 +62,9 @@ public class AbilityCell : Collectables
         abilityObj = vehicle.gameObject.GetComponentInChildren<BubblegumController>(true);
         adAB = addedAbility.Bubblegum;
         break;
-      case AbilityCellType.Hookshot:
-        abilityObj = vehicle.gameObject.GetComponentInChildren<HookshotController>(true);
-        adAB = addedAbility.Hookshot;
-        break;
       case AbilityCellType.Lightning:
         abilityObj = vehicle.gameObject.GetComponentInChildren<LightningController>(true);
         adAB = addedAbility.Lightning;
-        break;
-      case AbilityCellType.ChilliOil:
-        abilityObj = vehicle.gameObject.GetComponentInChildren<ChilliOilController>(true);
-        adAB = addedAbility.ChilliOil;
         break;
       default:
         Debug.LogError("Your a dipshit and broke ability add system. to ethan arr (myself)");
