@@ -6855,6 +6855,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 554343035243212297, guid: 5c006a723b842d6818ad45a82286f50b,
+        type: 3}
+      propertyPath: startMusicInAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 554343035243212297, guid: 5c006a723b842d6818ad45a82286f50b,
+        type: 3}
+      propertyPath: startMusicInStartFunction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4052248900315456695, guid: 5c006a723b842d6818ad45a82286f50b,
         type: 3}
       propertyPath: m_Volume
