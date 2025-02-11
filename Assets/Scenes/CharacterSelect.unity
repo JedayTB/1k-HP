@@ -1990,12 +1990,14 @@ MonoBehaviour:
   raceProgression: 0
   checkpointsPassedThrough: 
   nextCheckpointIndex: 0
+  lapsPassed: 0
+  needsToPassFirstTwice: 0
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5
   isUsingNitro: 0
   isBreaking: 0
-  MaxNitroChargeAmounts: 4
+  MaxNitroChargeAmounts: 5
   _builtUpNitroAmount: 0
   _nitroChargeAmounts: 2
   _nitroIncrementThresholdValue: 0
@@ -2524,7 +2526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3369878, g: 0.91521806, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4158,7 +4160,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.991
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5126,7 +5128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3369878, g: 0.91521806, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5252,12 +5254,14 @@ MonoBehaviour:
   raceProgression: 0
   checkpointsPassedThrough: 
   nextCheckpointIndex: 0
+  lapsPassed: 0
+  needsToPassFirstTwice: 0
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5
   isUsingNitro: 0
   isBreaking: 0
-  MaxNitroChargeAmounts: 4
+  MaxNitroChargeAmounts: 2
   _builtUpNitroAmount: 0
   _nitroChargeAmounts: 2
   _nitroIncrementThresholdValue: 0
@@ -5496,7 +5500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3369878, g: 0.91521806, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6274,6 +6278,8 @@ MonoBehaviour:
   raceProgression: 0
   checkpointsPassedThrough: 
   nextCheckpointIndex: 0
+  lapsPassed: 0
+  needsToPassFirstTwice: 0
   isDrifting: 0
   _isDebuging: 1
   _raycastDistance: 5

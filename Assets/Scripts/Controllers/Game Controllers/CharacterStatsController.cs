@@ -31,7 +31,7 @@ public class CharacterStatsController : MonoBehaviour
   void Start()
   {
     charStats = new characterStats[CharactersList.Length];
-    
+
     for (int i = 0; i < CharactersList.Length; i++)
     {
       var vehicle = CharactersList[i];
@@ -78,26 +78,28 @@ public class CharacterStatsController : MonoBehaviour
     StopAllCoroutines();
     StartCoroutine(lerpSliderValues(sliderAnimTime, charStat));
   }
-  IEnumerator lerpSliderValues(float animTime, characterStats charStat){
+  IEnumerator lerpSliderValues(float animTime, characterStats charStat)
+  {
     float count = 0f;
     float progress = 0f;
 
-    float startHP =  horsePowerSlider.value;
+    float startHP = horsePowerSlider.value;
     float startnitroChargeAmt = NitroChargeAmountSlider.value;
     float startHandling = handlingSlider.value;
 
     float endHp = charStat.HorsePower;
-    float endNitro= charStat.NitroChargeAmounts;
+    float endNitro = charStat.NitroChargeAmounts;
     float endHandling = charStat.Handling;
-    
-    while(count < animTime){
+
+    while (count < animTime)
+    {
       count += Time.deltaTime;
       progress = count / animTime;
 
       float lerpVal = SliderAnimCurve.Evaluate(progress);
-      
+
       horsePowerSlider.value = Mathf.Lerp(startHP, endHp, lerpVal);
-       NitroChargeAmountSlider.value = Mathf.Lerp(startnitroChargeAmt, endNitro, lerpVal);
+      NitroChargeAmountSlider.value = Mathf.Lerp(startnitroChargeAmt, endNitro, lerpVal);
       handlingSlider.value = Mathf.Lerp(startHandling, endHandling, lerpVal);
 
       yield return null;
