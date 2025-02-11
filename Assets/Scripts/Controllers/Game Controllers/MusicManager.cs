@@ -10,12 +10,10 @@ public class MusicManager : MonoBehaviour
   public static readonly string levelSelectScenename = "LevelSelect";
 
   [SerializeField] private AudioSource musicSource;
-
   public float fadeInTime = 5f;
   public static float minVolumeForFadeIn = 0.0f;
   public bool startMusicInAwake = false;
   public bool isForMenuMusic = false;
-
   public void startMusic()
   {
     if (musicSource == null)
