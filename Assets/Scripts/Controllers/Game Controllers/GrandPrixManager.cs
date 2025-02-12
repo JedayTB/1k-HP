@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GrandPrixManager
 {
-    public static int GameMode = 0; // 0 is Grand Prix, 1 is Level Select
+    public static int GameMode = 1; // 0 is Grand Prix, 1 is Level Select
     public static string[] LevelOrder = {"CityLevel", "PastelLevel"};
     public static string[] LevelDisplayNames = { "City", "Pastel City"};
     public static int[] RacePlacements = { 0, 0 };
