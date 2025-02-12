@@ -256,35 +256,19 @@ public class UIController : MonoBehaviour
     SpritesOnAbility(abilityAdded, true);
     Vector3 startScale = abilityGaugeMinScale;
     Vector3 endScale = abilityGaugeMaxScale;
-
-    StartCoroutine(abilityGainedAnim(startScale, endScale));
+    abilityCircle.gameObject.SetActive(true);
+    StartCoroutine(abilityAnim(abilityAdded, startScale, endScale, true));
   }
   public void playerUsedAbility(addedAbility abilityUsed)
   {
     Vector3 startScale = abilityGaugeMaxScale;
     Vector3 endScale = abilityGaugeMinScale;
 
-    StartCoroutine(abilityUsedAnim(abilityUsed, startScale, endScale));
-  }
-  IEnumerator abilityGainedAnim(Vector3 startScale, Vector3 endScale)
-  {
-    float timeCount = 0f;
-    float progress;
-
-    abilityCircle.gameObject.SetActive(true);
-    abilityCircle.transform.localScale = startScale;
-
-    while (timeCount < abilityCircleAnimTime)
-    {
-      timeCount += Time.deltaTime;
-      progress = circleAnimCurve.Evaluate(timeCount / abilityCircleAnimTime);
-
-      abilityCircle.transform.localScale = Vector3.LerpUnclamped(startScale, endScale, progress);
-      yield return null;
-    }
+    StartCoroutine(abilityAnim(addedAbility.fucked, startScale, endScale, false));
   }
 
-  IEnumerator abilityUsedAnim(addedAbility abilityUsed, Vector3 startScale, Vector3 endScale)
+
+  IEnumerator abilityAnim(addedAbility abilityUsed, Vector3 startScale, Vector3 endScale, bool enableVal)
   {
     float timeCount = 0f;
     float progress;
@@ -302,16 +286,14 @@ public class UIController : MonoBehaviour
       yield return null;
     }
 
-    SpritesOnAbility(abilityUsed, false);
-    abilityCircle.gameObject.SetActive(true);
+    SpritesOnAbility(abilityUsed, enableVal);
+    abilityCircle.gameObject.SetActive(enableVal);
   }
   private void SpritesOnAbility(addedAbility ability, bool val)
   {
     // Reset sprites
     bubbleGumSprite.gameObject.SetActive(false);
-    chilliOilSprite.gameObject.SetActive(false);
     lightningSprite.gameObject.SetActive(false);
-    hookshotSprite.gameObject.SetActive(false);
 
     switch (ability)
     {

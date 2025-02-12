@@ -468,6 +468,6 @@ public class VehicleAIController : A_VehicleController
   }
   private void OnDisable()
   {
-    Destroy(raycastDirTr.gameObject);
+    if(raycastDirTr != null) Destroy(raycastDirTr.gameObject);
   }
 }

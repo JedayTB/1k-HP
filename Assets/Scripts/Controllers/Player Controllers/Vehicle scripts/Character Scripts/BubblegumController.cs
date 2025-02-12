@@ -15,7 +15,7 @@ public class BubblegumController : A_Ability
   }
   private void OnEnable()
   {
-    _bubble.SetActive(false);
+    //_bubble.SetActive(false);
     print("Bubble gum added");
     vehicle.enlistAbilityAction(onAbility);
   }

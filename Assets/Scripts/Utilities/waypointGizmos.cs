@@ -17,10 +17,6 @@ public class waypointGizmos : MonoBehaviour
   [Header("Angle Settings")]
   [SerializeField] private float[] angleBetweenWaypoints;
   [SerializeField] private bool easyButtonHack = false;
-  void OnValidate()
-  {
-    calculateAnglesBetweenWaypoints();
-  }
 
   public Transform[] getWaypoints()
   {

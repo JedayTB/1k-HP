@@ -53,7 +53,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: ee64b4c798e3605fb8cd73e644b03ebd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,11 +183,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vehicle: {fileID: 0}
   crosshair: {fileID: 0}
-  _lr: {fileID: 0}
+  _lr: {fileID: 5097784503232199652}
   selfCollider: {fileID: 0}
   VehicleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   _maxLightningDistance: 50
   cubeSize: 0.5
   lightningFadeoutTime: 1.1

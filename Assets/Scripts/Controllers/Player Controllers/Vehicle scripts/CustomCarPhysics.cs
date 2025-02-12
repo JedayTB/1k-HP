@@ -387,7 +387,7 @@ public class CustomCarPhysics : MonoBehaviour
       contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
 
       _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
-      Debug.Log("applying force at " + contactPoint.point);
+      //Debug.Log("applying force at " + contactPoint.point);
 
     }
   }
