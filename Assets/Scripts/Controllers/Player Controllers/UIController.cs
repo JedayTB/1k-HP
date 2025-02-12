@@ -159,7 +159,7 @@ public class UIController : MonoBehaviour
 
   private void menuOpenClose()
   {
-    Debug.LogWarning("Configure to use Input System instead of keycode");
+    Debug.LogWarning("Configure Menu to use Input System instead of keycode");
 
     if (_menuIsOpen == true)
     {

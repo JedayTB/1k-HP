@@ -9,16 +9,7 @@ public class BubblegumController : A_Ability
   [SerializeField] private float _speedIncreaseAmt = 1.5f;
   [SerializeField] private float _driftChargeIncreaseAmt = 1.4f;
   [SerializeField] GameObject _bubble;
-  private void Awake()
-  {
-    onAbility = new AbilityAction(AbilityUsed);
-  }
-  private void OnEnable()
-  {
-    //_bubble.SetActive(false);
-    print("Bubble gum added");
-    vehicle.enlistAbilityAction(onAbility);
-  }
+
   public override void AbilityUsed()
   {
     print("Used bubblegum!");
@@ -41,16 +32,13 @@ public class BubblegumController : A_Ability
     }
     _bubble.SetActive(false);
     print("bubble func ended");
+
     vehicle._builtUpNitroAmount /= _driftChargeIncreaseAmt;
     vehicle.VehiclePhysics.horsePower /= _speedIncreaseAmt;
 
     gameObject.SetActive(false);
   }
 
-  private void OnDisable()
-  {
-    vehicle.delistAbilityAction(onAbility);
-  }
   //Should be from the capsule
   void OnTriggerEnter(Collider other)
   {

@@ -36,7 +36,6 @@ public class GameStateManager : MonoBehaviour
 
   [Header("Cursor Sprites")]
   public Texture2D lightningCursor;
-  public Texture2D hookshotCursor;
 
   [Header("Race Placements and debug")]
   [SerializeField] string[] vehicleDbgInfo;

@@ -4,12 +4,12 @@ using UnityEngine.UI;
 
 public class LightningController : A_Ability
 {
-
   [Header("Lightning Ability variables")]
   [SerializeField] private Image crosshair;
   [SerializeField] private LineRenderer _lr;
   [SerializeField] private Collider selfCollider;
   [SerializeField] private LayerMask VehicleLayer;
+
   [SerializeField] private float _maxLightningDistance = 50f;
   [SerializeField] private float cubeSize = 0.5f;
   [SerializeField] private float lightningFadeoutTime = 1.1f;
@@ -22,17 +22,31 @@ public class LightningController : A_Ability
 
   // InputManager inputManager
   // Update is called once per frame
-  void Awake()
+  private void initializeLightning()
   {
     selfColliderID = selfCollider.GetInstanceID();
     UIController uiCont = FindAnyObjectByType<UIController>();
     crosshair = uiCont.lightningCrossHair;
     crosshair.gameObject.SetActive(false);
-    onAbility = AbilityUsed;
+
     bubbleLayer = LayerMask.NameToLayer("Bubble");
 
     resetLightning();
-    print(bubbleLayer);
+    Debug.Log("Lightning Ability started");
+  }
+  protected override void Awake()
+  {
+    base.Awake();
+    initializeLightning();
+  }
+
+  protected override void OnDisable()
+  {
+    base.OnDisable();
+    Debug.Log("Reset Lightning abilitty");
+    _canUseAbility = false;
+    resetCrosshair();
+    resetLightning();
   }
   void resetLightning()
   {
@@ -58,7 +72,7 @@ public class LightningController : A_Ability
     _canUseAbility = true;
     crosshair.gameObject.SetActive(false);
     CursorController.setNewCursor(GameStateManager.Instance.lightningCursor);
-    print("Start looking for target");
+    Debug.Log("Lightning started. Start looking for target");
   }
   private void resetCrosshair()
   {
@@ -94,44 +108,12 @@ public class LightningController : A_Ability
 
       yield return null;
     }
-    StartCoroutine(fadeoutLightning(lightningFadeoutTime));
-    onVehicleHit();
-  }
-  /// <summary>
-  /// Last function called before disabled
-  /// </summary>
-  /// <param name="lightningFadeoutTime"></param>
-  /// <returns></returns>
-  IEnumerator fadeoutLightning(float lightningFadeoutTime)
-  {
-    float count = 0f;
-
-    Material lightningMat = _lr.material;
-    float opacity = lightningMat.color.a;
-
-    float smoothedProgress;
-
-    Color currentColor = lightningMat.color;
-    while (count < lightningFadeoutTime)
-    {
-      count += Time.deltaTime;
-
-      smoothedProgress = count / lightningFadeoutTime;
-      smoothedProgress = LerpAndEasings.ExponentialDecay(smoothedProgress, 1, 7, Time.deltaTime);
-
-      opacity = Mathf.Lerp(opacity, 0f, smoothedProgress);
-
-      currentColor.a = opacity;
-
-      lightningMat.color = currentColor;
-
-      _lr.material = lightningMat;
-      yield return null;
-    }
-    Destroy(lightningMat);
     _lr.positionCount = 0;
+    onVehicleHit();
+    // No more lightnign if you hit them, or tried to!
     gameObject.SetActive(false);
   }
+
   ///
   /// Update loop methods
   ///
@@ -140,6 +122,7 @@ public class LightningController : A_Ability
     if (_canUseAbility)
     {
       getAbiliyTarget();
+      positionCrosshairOnTarget();
     }
   }
 
@@ -152,38 +135,51 @@ public class LightningController : A_Ability
     if (GameStateManager.Instance.UseDebug) Debug.DrawRay(aimray.origin, aimray.direction * _maxLightningDistance);
 
     RaycastHit hitInfo;
-    Physics.Raycast(aimray.origin, aimray.direction, out hitInfo, _maxLightningDistance, VehicleLayer);
+    bool hitsomething = Physics.Raycast(aimray.origin, aimray.direction, out hitInfo, _maxLightningDistance, VehicleLayer);
 
 
-    if (hitInfo.collider != null && hitInfo.collider.GetInstanceID() != selfColliderID)
+    if (hitsomething == true && hitInfo.collider.GetInstanceID() != selfColliderID)
     {
       //beautiful code
       //print($"{hitInfo.collider.gameObject.transform.parent.parent.name} id {hitInfo.collider.GetInstanceID()}");
       A_VehicleController vehicleTarget = hitInfo.collider.gameObject.transform.parent.parent.gameObject.GetComponent<A_VehicleController>();
+
       if (vehicleTarget != null) lightningTarget = vehicleTarget;
-    }
-
-    if (lightningTarget != null)
-    {
-      Vector2 UIMove = Camera.main.WorldToScreenPoint(lightningTarget.transform.position);
-      crosshair.transform.position = UIMove;
-      crosshair.gameObject.SetActive(true);
-
-      float distanceToTarget = Vector3.Distance(transform.position, lightningTarget.transform.position);
-      if (distanceToTarget > _maxLightningDistance)
-      {
-        lightningTarget = null;
-        crosshair.gameObject.SetActive(false);
-      }
-
     }
     else
     {
-      crosshair.gameObject.SetActive(false);
+      return;
     }
 
-  }
+    float distanceToTarget = Vector3.Distance(transform.position, lightningTarget.transform.position);
 
+    if (distanceToTarget > _maxLightningDistance)
+    {
+      lightningTarget = null;
+      crosshair.gameObject.SetActive(false);
+    }
+  }
+  private void positionCrosshairOnTarget()
+  {
+    if (lightningTarget != null)
+    {
+      /*
+      float frontbackcheck = Vector3.Dot(transform.forward, lightningTarget.transform.position);
+      if (frontbackcheck < 0)
+      {
+        crosshair.gameObject.SetActive(false);
+        return;
+      }
+      */
+      Vector2 UIMove = Camera.main.WorldToScreenPoint(lightningTarget.transform.position);
+      crosshair.transform.position = UIMove;
+      crosshair.gameObject.SetActive(true);
+    }
+    else if (lightningTarget == null)
+    {
+      crosshair.gameObject.SetActive(false);
+    }
+  }
   private void strikeLightning()
   {
     if (lightningTarget != null)
@@ -194,7 +190,6 @@ public class LightningController : A_Ability
 
       bool hitVehicle = Physics.BoxCast(Camera.main.transform.position, boxSize, lightningDir, out RaycastHit hit,
                                        Quaternion.identity, _maxLightningDistance, VehicleLayer);
-
       Debug.Log(hit.collider.gameObject.layer);
 
       int layerNum = hit.collider.gameObject.layer;

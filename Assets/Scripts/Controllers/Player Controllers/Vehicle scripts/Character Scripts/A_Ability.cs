@@ -4,6 +4,7 @@ public abstract class A_Ability : MonoBehaviour
 {
   public A_VehicleController vehicle;
   public AbilityAction onAbility;
+
   public virtual void AbilityUsed()
   {
     Debug.Log("Generic ability used");
@@ -13,13 +14,13 @@ public abstract class A_Ability : MonoBehaviour
     onAbility = AbilityUsed;
   }
 
-  private void OnEnable()
+  protected virtual void OnEnable()
   {
-    //        print($"{this.name} ability actoin enlisted");
+    print($"{this.name} ability action enlisted");
     vehicle.enlistAbilityAction(onAbility);
   }
 
-  private void OnDisable()
+  protected virtual void OnDisable()
   {
     vehicle.delistAbilityAction(onAbility);
   }
