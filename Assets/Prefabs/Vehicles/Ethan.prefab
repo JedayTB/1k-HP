@@ -1231,6 +1231,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2410172443389278772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 725470198946572031}
+  m_Layer: 7
+  m_Name: camera lookat
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &725470198946572031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410172443389278772}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6223466052732272584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2679289150369488983
 GameObject:
   m_ObjectHideFlags: 0
@@ -1942,7 +1973,6 @@ MonoBehaviour:
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
-  _nitroSpeedMultiplier: 2.5
   currentAbility: 0
 --- !u!114 &3986474952390110900
 MonoBehaviour:
@@ -1975,6 +2005,7 @@ MonoBehaviour:
   GearTwo: {fileID: 11400000, guid: af9fe344355cbae6cb90dae45d05f8ef, type: 2}
   gearText: 1st Gear
   horsePower: 500
+  currentTopSpeed: 0
   momentumModifier: 0
   tireGripCurve:
     serializedVersion: 2
@@ -13536,6 +13567,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3589143237251000908}
+  - {fileID: 725470198946572031}
   m_Father: {fileID: 5628243253250619376}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9168599934576038205
