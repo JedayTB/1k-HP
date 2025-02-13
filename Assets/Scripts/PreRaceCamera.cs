@@ -6,26 +6,34 @@ public class PreRaceCamera : MonoBehaviour
 {
     [SerializeField] private List<Transform> initialLocations = new List<Transform>();
     [SerializeField] private List<Transform> endLocations = new List<Transform>();
-    [SerializeField] private List<Transform> lookAtLocations = new List<Transform>();
+    [SerializeField] private List<float> lerpSpeeds = new List<float>(); // these set how long each shot should take
     [SerializeField] private float lerpDuration = 2f;
     [SerializeField] private CameraFollower3D cam;
+    [SerializeField] private bool isLevelSelect = false;
 
     private int transformIndex = 0;
     public static bool cutSceneIsHappening = true;
      
     void Start()
     {
-        endLocations[0] = cam._desiredLocation;
-        StartCoroutine(CameraLerp(true)); // temp for just this build
+        cutSceneIsHappening = true;
+        if (!isLevelSelect)
+        {
+            endLocations[endLocations.Count - 1] = cam._desiredLocation;
+        }
+        StartCoroutine(CameraLerp(false));
     }
 
     private void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && cutSceneIsHappening)
+        if (!isLevelSelect)
         {
-            StopAllCoroutines();
-            cutSceneIsHappening = false;
-            cam.enabled = true;
+            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && cutSceneIsHappening)
+            {
+                StopAllCoroutines();
+                cutSceneIsHappening = false;
+                cam.enabled = true;
+            }
         }
     }
 
@@ -44,7 +52,7 @@ public class PreRaceCamera : MonoBehaviour
         {
             while (progress < 1)
             {
-                progress = currentDuration / lerpDuration;
+                progress = currentDuration / lerpSpeeds[transformIndex];
                 currentDuration += Time.deltaTime;
 
                 transform.position = Vector3.Lerp(startPosition, endLocations[transformIndex].position, progress);
@@ -57,7 +65,7 @@ public class PreRaceCamera : MonoBehaviour
         {
             while (progress < 1)
             {
-                progress = 1 - Mathf.Pow(1 - currentDuration / lerpDuration, 2);
+                progress = 1 - Mathf.Pow(1 - currentDuration / lerpSpeeds[transformIndex], 2);
 
                 if (progress < cachedProgress)
                 {
@@ -75,18 +83,31 @@ public class PreRaceCamera : MonoBehaviour
         }
 
         transformIndex++;
-        if (transformIndex == endLocations.Count - 1)
+        if (isLevelSelect)
         {
-            StartCoroutine(CameraLerp(true));
-        }
-        else if (transformIndex < endLocations.Count)
-        {
+            if (transformIndex == endLocations.Count)
+            {
+                transformIndex = 0;
+            }
+
             StartCoroutine(CameraLerp(false));
+
         }
         else
         {
-            cam.enabled = true;
-            cutSceneIsHappening = false;
+            if (transformIndex == endLocations.Count - 1)
+            {
+                StartCoroutine(CameraLerp(true));
+            }
+            else if (transformIndex < endLocations.Count)
+            {
+                StartCoroutine(CameraLerp(false));
+            }
+            else
+            {
+                cam.enabled = true;
+                cutSceneIsHappening = false;
+            }
         }
     }
 }

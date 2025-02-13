@@ -69,6 +69,7 @@ public class UIController : MonoBehaviour
 
     abilityGaugeMaxScale = abilityCircle.transform.localScale;
 
+    PreRaceCamera.cutSceneIsHappening = true;
     StartCoroutine(CountDown(GameStateManager.countdownTime));
   }
   void Update()
