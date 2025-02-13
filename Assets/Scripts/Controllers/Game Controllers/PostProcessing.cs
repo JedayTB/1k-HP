@@ -54,7 +54,7 @@ public class PostProcessing : MonoBehaviour
         // past threshold (lets say 80), the value is already above 0. 
         // So, to normalize the value, just add the minimum to get a lower value 
         normalizedPlayerSpeed = Mathf.Clamp01((thresholdForEffects - currentPlayerSpeed) / (thresholdForEffects - playerTerminalVelocity));
-        Debug.Log($"Post processing progress {normalizedPlayerSpeed}");
+//        Debug.Log($"Post processing progress {normalizedPlayerSpeed}");
         chromaticAbberationSetAmount = LerpAndEasings.ExponentialDecay(chromaticAbberationSetAmount, maxChromaticAberration * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
         motionBlurSetAmount = LerpAndEasings.ExponentialDecay(motionBlurSetAmount, maxMotionBlur * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
 

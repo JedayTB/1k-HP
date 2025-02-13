@@ -45,10 +45,8 @@ public class VehicleAIController : A_VehicleController
   [SerializeField] private float maxEffectiveDistanceForSteering = 25f;
   [SerializeField] private float frontalRCDivisor = 0.5f;
   [SerializeField] private LayerMask steerAwayFromLayers;
+
   private int amtFrontalChecks = 0;
-
-
-
   private float yAngleToTarget;
 
   /*
@@ -59,7 +57,6 @@ public class VehicleAIController : A_VehicleController
 
   private float[] weights;
   */
-
 
   private int _currentTrackOption;
 
@@ -76,7 +73,6 @@ public class VehicleAIController : A_VehicleController
     _vehicleVisualController.Init();
 
     setRaycastVariables();
-
     StartCoroutine(AILogic(SteerPathingClock));
   }
 
@@ -129,7 +125,6 @@ public class VehicleAIController : A_VehicleController
   public void changeAIState(aiState newState)
   {
     Debug.Log($"AI State has been changed to {newState}");
-
   }
   #endregion
 
@@ -166,7 +161,6 @@ public class VehicleAIController : A_VehicleController
         case aiState.bubbleAbility:
           bubbleAbilityLogic();
           break;
-        
         case aiState.LightningAbility:
           lightningAbilityLogic();
           break;
@@ -183,7 +177,7 @@ public class VehicleAIController : A_VehicleController
       case addedAbility.Bubblegum:
         switchToBubbleState();
         break;
-      
+
       case addedAbility.Lightning:
         switchToLightningState();
         break;
@@ -192,12 +186,16 @@ public class VehicleAIController : A_VehicleController
   }
   public void switchToBubbleState()
   {
-
+    useCharacterAbility();
+    currentState = aiState.bubbleAbility;
+    Debug.Log($"{this.name} has or tried to use Ability (Bubble)");
   }
 
   public void switchToLightningState()
   {
-
+    useCharacterAbility();
+    currentState = aiState.LightningAbility;
+    Debug.Log($"{this.name} has or tried to use Ability (Lightning)");
   }
 
   #endregion
@@ -207,7 +205,7 @@ public class VehicleAIController : A_VehicleController
   {
     generalDrivingLogic();
   }
-  
+
   private void lightningAbilityLogic()
   {
     generalDrivingLogic();
@@ -468,6 +466,6 @@ public class VehicleAIController : A_VehicleController
   }
   private void OnDisable()
   {
-    if(raycastDirTr != null) Destroy(raycastDirTr.gameObject);
+    if (raycastDirTr != null) Destroy(raycastDirTr.gameObject);
   }
 }

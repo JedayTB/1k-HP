@@ -20,6 +20,8 @@ public class LightningController : A_Ability
   [SerializeField] private A_VehicleController lightningTarget;
   [SerializeField] private int selfColliderID;
 
+  private Vector3 AimVec;
+  private AbilityState state;
   // InputManager inputManager
   // Update is called once per frame
   private void initializeLightning()
@@ -28,10 +30,11 @@ public class LightningController : A_Ability
     UIController uiCont = FindAnyObjectByType<UIController>();
     crosshair = uiCont.lightningCrossHair;
     crosshair.gameObject.SetActive(false);
-
     bubbleLayer = LayerMask.NameToLayer("Bubble");
 
-    Debug.Log("Lightning Ability started");
+    state = vehicle is PlayerVehicleController ? AbilityState.UserIsPlayer : AbilityState.UserIsAI;
+
+    Debug.Log("Lightning Ability Initialized");
   }
   protected override void Awake()
   {
@@ -60,7 +63,6 @@ public class LightningController : A_Ability
   {
     if (_canUseAbility == false)
     {
-
       startAbility();
     }
     else if (_canUseAbility == true && lightningTarget != null)

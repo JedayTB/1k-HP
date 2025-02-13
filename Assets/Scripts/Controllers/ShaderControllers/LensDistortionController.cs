@@ -37,7 +37,7 @@ public class LensDistortionController : MonoBehaviour
     if (playerVelocity > _minSpeedForDistortion)
     {
       distortionMultiplier = Mathf.Clamp01((_minSpeedForDistortion - playerVelocity) / (_minSpeedForDistortion - _maxDistortionSpeed));
-      Debug.Log($"Lens distortion progress {distortionMultiplier}");
+      //Debug.Log($"Lens distortion progress {distortionMultiplier}");
 
       effectiveLensDistortion = MaxLensDistortionStrength * distortionMultiplier;
 
