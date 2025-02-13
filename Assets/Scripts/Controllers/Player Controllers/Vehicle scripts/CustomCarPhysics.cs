@@ -40,7 +40,7 @@ public class CustomCarPhysics : MonoBehaviour
   private static float tireGripWhileDrifting = 0.1f;
 
   [HideInInspector] public float horsePower;
-  public float _terminalVelocity = 250f;
+  public static readonly float _terminalVelocity = 200f;
   public float TerminalVelocity { get => _terminalVelocity; }
   private Vector3 cachedLocalVelocity;
   private VehicleGearSpecs currentGear;
@@ -97,7 +97,6 @@ public class CustomCarPhysics : MonoBehaviour
     currentGear = GearOne;
 
     horsePower = GearOne.HorsePower;
-    _terminalVelocity = GearTwo.MaxSpeed;
 
     halfTireLength = wheels.Length / 2;
 

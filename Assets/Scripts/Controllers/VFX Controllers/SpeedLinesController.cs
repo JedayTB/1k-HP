@@ -20,7 +20,7 @@ public class SpeedLinesController : MonoBehaviour
   [Header("Speed Thresholds")]
 
   [SerializeField] private float _minSpeedThreshold = 100f;
-  [SerializeField] private float _maxSpeedThreshold = 250f;
+  [SerializeField] private float _maxSpeedThreshold = CustomCarPhysics._terminalVelocity;
 
   [Header("Speed Line Spawn Rate")]
 

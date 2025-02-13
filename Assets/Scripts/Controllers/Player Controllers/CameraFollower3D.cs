@@ -62,7 +62,7 @@ public class CameraFollower3D : MonoBehaviour
     transform.position = _desiredLocation.position;
     defaultZPosition = _desiredLocation.localPosition.z;
 
-        
+
   }
 
   private void Update()
@@ -79,14 +79,14 @@ public class CameraFollower3D : MonoBehaviour
     Vector3 playerVelocity = GameStateManager.Player.VehiclePhysics.getVelocity();
     playerVelocity = transform.InverseTransformDirection(playerVelocity);
 
-    float playerTerminalVelocity = GameStateManager.Player.VehiclePhysics._terminalVelocity;
+    float playerTerminalVelocity = CustomCarPhysics._terminalVelocity;
     float progress = Mathf.Clamp01(playerSpeed / playerTerminalVelocity);
 
     progress = LerpAndEasings.easeInOutQuad(progress);
 
     if (playerVelocity.z < 4f)
     {
-            smoothSpeed = LerpAndEasings.ExponentialDecay(smoothSpeed, 0f, 5f, Time.deltaTime);
+      smoothSpeed = LerpAndEasings.ExponentialDecay(smoothSpeed, 0f, 5f, Time.deltaTime);
     }
     else
     {

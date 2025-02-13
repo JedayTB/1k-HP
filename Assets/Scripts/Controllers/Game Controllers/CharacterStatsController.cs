@@ -48,7 +48,7 @@ public class CharacterStatsController : MonoBehaviour
                               CharactersList[i].VehiclePhysics.WheelArray[1].RightAckermanAngle;
       handlingAverage /= 4;
 
-      if (CharactersList[i].VehiclePhysics.TerminalVelocity > highestMaxSpeed) highestMaxSpeed = CharactersList[i].VehiclePhysics.TerminalVelocity;
+      if (CharactersList[i].VehiclePhysics.GearTwo.MaxSpeed > highestMaxSpeed) highestMaxSpeed = CharactersList[i].VehiclePhysics.GearTwo.MaxSpeed;
       if (handlingAverage > highestHandling) highestHandling = handlingAverage;
       if (CharactersList[i].MaxNitroChargeAmounts > highestNitroChargeAmounts) highestNitroChargeAmounts = CharactersList[i].MaxNitroChargeAmounts;
       //
