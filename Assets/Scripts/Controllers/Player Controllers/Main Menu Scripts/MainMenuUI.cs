@@ -7,6 +7,18 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    [SerializeField]
+    private TMP_Text gameVersion;
+
+    [Header("General Settings Config")]
+    [SerializeField]
+    private GameObject pagePreMenu;
+
+    [SerializeField]
+    private GameObject pageMainMenu,
+        pageVideoSettings,
+        pageAudioSettings;
+
     [Header("Video Settings")]
     [SerializeField]
     private TMP_Dropdown presetDropdown;
@@ -24,14 +36,15 @@ public class MainMenuUI : MonoBehaviour
     private Slider musicVolumeSlider,
         sfxVolumeSlider;
 
+    private void Start()
+    {
+        gameVersion.text = "ver " + Application.version;
+        LoadAllSettings();
+    }
+
     public void StartButton()
     {
         animator.SetBool("MenuIsOpen", true);
-    }
-
-    public void OptionsButton()
-    {
-        // no options menu implemented yet
     }
 
     public void ExitButton()
@@ -62,18 +75,34 @@ public class MainMenuUI : MonoBehaviour
 
     private void LoadAllSettings()
     {
+        var preset = PlayerPrefs.GetInt("S-V-Preset");
+        var aa = PlayerPrefs.GetInt("S-V-AA");
+        var fps = PlayerPrefs.GetInt("S-V-FPS");
+        var vfx = PlayerPrefs.GetInt("S-V-VFX");
+
+        var masterVolume = PlayerPrefs.GetFloat("S-A-Master");
+        var musicVolume = PlayerPrefs.GetFloat("S-A-Music");
+        var sfxVolume = PlayerPrefs.GetFloat("S-A-SFX");
+
         // Video
-        presetDropdown.value = PlayerPrefs.GetInt("S-V-Preset");
-        aaDropdown.value = PlayerPrefs.GetInt("S-V-AA");
-        fpsDropdown.value = PlayerPrefs.GetInt("S-V-FPS");
-        vfxDropdown.value = PlayerPrefs.GetInt("S-V-VFX");
+        presetDropdown.value = preset;
+        aaDropdown.value = aa;
+        fpsDropdown.value = fps;
+        vfxDropdown.value = vfx;
 
         // Audio
-        masterVolumeSlider.value = PlayerPrefs.GetFloat("S-A-Master");
-        musicVolumeSlider.value = PlayerPrefs.GetFloat("S-A-Music");
-        sfxVolumeSlider.value = PlayerPrefs.GetFloat("S-A-SFX");
+        masterVolumeSlider.value = masterVolume;
+        musicVolumeSlider.value = musicVolume;
+        sfxVolumeSlider.value = sfxVolume;
 
-        ApplyAllSettings();
+        int[] aaLevels = { 0, 2, 4, 8 };
+        int[] fpsLevels = { 30, 60, 120, 144, 240, 0 };
+
+        QualitySettings.antiAliasing = aaLevels[aa];
+
+        QualitySettings.SetQualityLevel(preset, true);
+
+        Application.targetFrameRate = fpsLevels[fps];
     }
 
     public void ApplyAllSettings()
@@ -87,6 +116,55 @@ public class MainMenuUI : MonoBehaviour
 
         Application.targetFrameRate = fpsLevels[fpsDropdown.value];
     }
+
+    #region General Menu
+
+    public void selectSettingsButton(int index)
+    {
+        switch (index)
+        {
+            case 0: // video settings
+            {
+                pagePreMenu.SetActive(false);
+                pageVideoSettings.SetActive(true);
+                pageAudioSettings.SetActive(false);
+                return;
+            }
+            case 1: // audio settings
+            {
+                pagePreMenu.SetActive(false);
+                pageVideoSettings.SetActive(false);
+                pageAudioSettings.SetActive(true);
+                return;
+            }
+            case 2: // back button
+            {
+                pageMainMenu.SetActive(true);
+                pagePreMenu.SetActive(false);
+                pageVideoSettings.SetActive(false);
+                pageAudioSettings.SetActive(false);
+                return;
+            }
+            case 3: // main menu settings button to pre-page
+            {
+                pageMainMenu.SetActive(false);
+                pagePreMenu.SetActive(true);
+                pageVideoSettings.SetActive(false);
+                pageAudioSettings.SetActive(false);
+                return;
+            }
+            case 4: // audo/video settings menu to pre-page
+            {
+                pageMainMenu.SetActive(false);
+                pagePreMenu.SetActive(true);
+                pageVideoSettings.SetActive(false);
+                pageAudioSettings.SetActive(false);
+                return;
+            }
+        }
+    }
+
+    #endregion
 
     #region Video Settings
 
