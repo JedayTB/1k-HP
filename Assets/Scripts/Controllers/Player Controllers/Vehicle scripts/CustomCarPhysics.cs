@@ -308,59 +308,6 @@ public class CustomCarPhysics : MonoBehaviour
     }
   }
 
-  // keeping this here for now as a just in case
-  private void calculateCollisionForce(ContactPoint cp)
-  {
-    Vector3 localPoint = transform.InverseTransformDirection(cp.point);
-    Vector3 directionToPoint = (cp.point - transform.position).normalized;
-
-    Vector3 updownEthanSuckMe = localPoint.normalized;
-    updownEthanSuckMe.x = 0f;
-    updownEthanSuckMe.z = 0f;
-
-    float upDot = Vector3.Dot(transform.up.normalized, updownEthanSuckMe);
-
-    if (upDot > upDownThreshold)
-    {
-      float forwardDot = Vector3.Dot(transform.forward.normalized, directionToPoint);
-
-
-      Debug.Log("position of the contact " + cp.point);
-      collisionPoint = cp.point;
-      Debug.DrawLine(transform.position, cp.point, Color.red);
-      Debug.DrawRay(transform.position, directionToPoint, Color.magenta);
-
-      float force = cp.impulse.magnitude;
-
-      string exInfo = "";
-
-      if (forwardDot > headOnCollisionThreshold)
-      {
-        _rigidBody.velocity = Vector3.zero;
-        foreach (var wheel in wheels)
-        {
-          wheel.forwardAccTime = 0f;
-          wheel.backwardAccTime = 0f;
-        }
-        exInfo = "Came to full stop!";
-        _rigidBody.AddForce(transform.right * 1000000f);
-        print(_rigidBody.velocity);
-
-      }
-      else
-      {
-        _rigidBody.AddForce(new Vector3(5000, 5000, 5000));
-      }
-
-      Debug.Log($"Y Local {directionToPoint.y} Up Down Dot {upDot} Foward Dot {forwardDot} Force {force} {exInfo}");
-    }
-    else
-    {
-      // I dunno, play sfx?
-    }
-
-  }
-
   private void NewCollisionBump(ContactPoint contactPoint)
   {
     RaycastHit hit;
@@ -370,8 +317,10 @@ public class CustomCarPhysics : MonoBehaviour
 
     Physics.Raycast(ray, out hit, collisionRayDistance);
     //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
+    Vector3 orientaion = transform.rotation.eulerAngles;
+    orientaion.x = orientaion.x > 0 ? -90 : 90;
 
-    GameStateManager.Instance.spawnSkidParticles(contactPoint.point, transform.forward * -1, _rigidBody.velocity.magnitude / 4);
+    GameStateManager.Instance.spawnSkidParticles(contactPoint.point, orientaion, _rigidBody.velocity.magnitude / 4);
 
     if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
     {
