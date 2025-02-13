@@ -13729,40 +13729,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
-      propertyPath: _lr
+      propertyPath: vehicle
       value: 
-      objectReference: {fileID: 2525091835534933845}
+      objectReference: {fileID: 8540114896043581459}
     - target: {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
       propertyPath: selfCollider
       value: 
       objectReference: {fileID: 4261529624673848683}
-    - target: {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc,
-        type: 3}
-      propertyPath: VehicleLayer.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
     - target: {fileID: 9016920133683394238, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
       propertyPath: m_Name
       value: LightningAbility
-      objectReference: {fileID: 0}
-    - target: {fileID: 9016920133683394238, guid: 88e316216ae01aebe873ae8e6619d3cc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88e316216ae01aebe873ae8e6619d3cc, type: 3}
---- !u!120 &2525091835534933845 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 5097784503232199652, guid: 88e316216ae01aebe873ae8e6619d3cc,
-    type: 3}
-  m_PrefabInstance: {fileID: 7328511468610585777}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6626145195892413929 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4485815751126356312, guid: 88e316216ae01aebe873ae8e6619d3cc,

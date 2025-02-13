@@ -31,8 +31,6 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private Transform[] _startLocations;
   [SerializeField] private PostProcessing _postProcessing;
   [SerializeField] private MusicManager _musicManager;
-  [SerializeField] private GameObject MPTestPre;
-
 
   [Header("Cursor Sprites")]
   public Texture2D lightningCursor;
@@ -64,8 +62,7 @@ public class GameStateManager : MonoBehaviour
     instance = this;
     if (_player == null)
     {
-      var tempPlayer = Instantiate(MPTestPre ? MPTestPre : _playerVehicles[_newCharacter]);
-      _player = tempPlayer.GetComponent<PlayerVehicleController>();
+      _player = Instantiate(_playerVehicles[_newCharacter]).GetComponent<PlayerVehicleController>();
     }
     Player = _player;
 
