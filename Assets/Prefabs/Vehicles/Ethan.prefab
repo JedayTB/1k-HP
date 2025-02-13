@@ -716,6 +716,37 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1604193338462383905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7134391771664242019}
+  m_Layer: 7
+  m_Name: FrontOfCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7134391771664242019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604193338462383905}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.359}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5628243253250619376}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1698441799601106460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1877,6 +1908,7 @@ Transform:
   - {fileID: 1338132408766009621}
   - {fileID: 7889420040970606866}
   - {fileID: 6626145195892413929}
+  - {fileID: 7134391771664242019}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8540114896043581459
@@ -1988,6 +2020,7 @@ MonoBehaviour:
   upDownThreshold: -0.2
   collisionPoint: {x: 0, y: 0, z: 0}
   collisionRayDistance: 2.5
+  colliderFront: {fileID: 7134391771664242019}
 --- !u!114 &7371111997208422806
 MonoBehaviour:
   m_ObjectHideFlags: 0

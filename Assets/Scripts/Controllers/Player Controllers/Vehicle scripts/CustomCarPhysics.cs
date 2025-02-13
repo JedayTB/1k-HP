@@ -82,6 +82,8 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] private Vector3 collisionPoint;
   [SerializeField] private float collisionRayDistance = 1;
 
+    [SerializeField] private Transform colliderFront;
+
   private float collisionCooldown = 0;
 
   #endregion
@@ -310,6 +312,8 @@ public class CustomCarPhysics : MonoBehaviour
 
   private void NewCollisionBump(ContactPoint contactPoint)
   {
+    bool up = isItUp(contactPoint.point);
+
     RaycastHit hit;
     Ray ray = new Ray(transform.position, transform.forward);
     float contactForce = contactPoint.impulse.magnitude / 2;
@@ -322,24 +326,45 @@ public class CustomCarPhysics : MonoBehaviour
 
     GameStateManager.Instance.spawnSkidParticles(contactPoint.point, orientaion, _rigidBody.velocity.magnitude / 4);
 
-    if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
-    {
-      //Debug.Log("STOP NOW!");
-      //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
+    if (up)
+        {
+            if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
+            {
+                //Debug.Log("STOP NOW!");
+                //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
 
-      _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
-    }
-    else
-    {
-      //Debug.Log("WE ARE skidding");
-      //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
+                _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
+            }
+            else
+            {
+                //Debug.Log("WE ARE skidding");
+                //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
 
-      contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
+                contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
 
-      _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
-      //Debug.Log("applying force at " + contactPoint.point);
-      //
-    }
+                _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
+                //Debug.Log("applying force at " + contactPoint.point);
+                //
+            }
+        }  
   }
+
+
+    bool isItUp(Vector3 collisionPoint)
+    {
+        Vector3 directionToCollision = (collisionPoint - transform.position).normalized;
+        float upDownDot = Vector3.Dot(transform.forward, collisionPoint);
+
+        if (collisionPoint.y < colliderFront.position.y)
+        {
+            Debug.Log("it was below");
+            return false;
+        }
+        else
+        {
+            Debug.Log("it was not below");
+            return true;
+        }
+    }
   #endregion
 }
