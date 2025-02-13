@@ -28,7 +28,7 @@ public class AbilityCell : Collectables
     float rnd = Random.Range(0, 1f);
     int index = 0;
 
-    if (rnd > 0.51f)
+    if (rnd > 0.5f)
     {
       // Bubble gum
       index = (int)AbilityCellType.Bubblegum;

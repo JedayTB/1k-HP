@@ -59,9 +59,9 @@ public abstract class A_VehicleController : MonoBehaviour
   [SerializeField] protected float _nitroSpeedMultiplier = 2.5f;
 
   // Ability stuff
-  private AbilityAction onAbilityUsed;
-  public bool _canUseAbility;
+  protected AbilityAction onAbilityUsed;
   [HideInInspector] public addedAbility currentAbility;
+  protected Vector3 LightningAim;
 
   #endregion
   public virtual void Init()
@@ -117,12 +117,10 @@ public abstract class A_VehicleController : MonoBehaviour
   public virtual void enlistAbilityAction(AbilityAction action)
   {
     onAbilityUsed += action;
-    _canUseAbility = true;
   }
   public virtual void delistAbilityAction(AbilityAction action)
   {
     onAbilityUsed -= action;
-    _canUseAbility = false;
   }
   public virtual void setNewRespawnPosition(Transform newRespawn)
   {
@@ -141,16 +139,14 @@ public abstract class A_VehicleController : MonoBehaviour
   //Protected virtual methods
   public virtual void useCharacterAbility()
   {
-    if (_canUseAbility)
+    if (onAbilityUsed != null)
     {
       onAbilityUsed?.Invoke();
-      GameStateManager.Instance._uiController.playerUsedAbility(currentAbility);
     }
-    else if (_canUseAbility == false && GameStateManager.Instance.UseDebug)
+    else
     {
-      Debug.Log("No ability to use");
+      Debug.Log($"{this.name} has no ability to used. Forgot to enlist?");
     }
-
   }
 
 
