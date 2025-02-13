@@ -39,7 +39,7 @@ public class CustomCarPhysics : MonoBehaviour
   private static float driftTireWeightMultiplier = 0.35f;
   private static float tireGripWhileDrifting = 0.1f;
 
-  [HideInInspector] public float horsePower;
+  public float horsePower;
   public static readonly float _terminalVelocity = 200f;
   public float TerminalVelocity { get => _terminalVelocity; }
   private Vector3 cachedLocalVelocity;
@@ -144,7 +144,7 @@ public class CustomCarPhysics : MonoBehaviour
   }
   public float getSpeed()
   {
-    return _rigidBody.velocity.magnitude;
+    return Vector3.Dot(_transform.forward, _rigidBody.velocity);
   }
   public Vector3 getVelocity()
   {
@@ -252,6 +252,8 @@ public class CustomCarPhysics : MonoBehaviour
     }
     cachedLocalVelocity = _rigidBody.velocity;
     cachedLocalVelocity.z = Mathf.Clamp(cachedLocalVelocity.z, -currentGear.MaxSpeed, currentGear.MaxSpeed);
+    cachedLocalVelocity.y = Mathf.Clamp(cachedLocalVelocity.y, -currentGear.MaxSpeed, currentGear.MaxSpeed);
+    cachedLocalVelocity.x = Mathf.Clamp(cachedLocalVelocity.x, -currentGear.MaxSpeed, currentGear.MaxSpeed);
 
     _rigidBody.velocity = cachedLocalVelocity;
 
