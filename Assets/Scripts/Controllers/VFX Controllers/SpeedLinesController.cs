@@ -87,7 +87,7 @@ public class SpeedLinesController : MonoBehaviour
     if (playerSpeed > _minSpeedThreshold)
     {
       lerpByValue = Mathf.Clamp01((_minSpeedThreshold - playerSpeed) / (_minSpeedThreshold - _maxSpeedThreshold));
-      Debug.Log($"Spd Ln progress {lerpByValue}");
+      //Debug.Log($"Spd Ln progress {lerpByValue}");
 
       _currentRadiusSize = Mathf.Lerp(_maxRadiusSize, _minRadiusSize, lerpByValue);
       _currentSpawnRate = Mathf.Lerp(_minSpawnRate, _maxSpawnRate, lerpByValue);

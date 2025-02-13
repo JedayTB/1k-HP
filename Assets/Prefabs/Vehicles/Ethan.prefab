@@ -1911,7 +1911,6 @@ MonoBehaviour:
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
   _nitroSpeedMultiplier: 2.5
-  _canUseAbility: 0
   currentAbility: 0
 --- !u!114 &3986474952390110900
 MonoBehaviour:
@@ -1944,7 +1943,6 @@ MonoBehaviour:
   GearTwo: {fileID: 11400000, guid: af9fe344355cbae6cb90dae45d05f8ef, type: 2}
   gearText: 1st Gear
   horsePower: 500
-  _terminalVelocity: 200
   momentumModifier: 0
   tireGripCurve:
     serializedVersion: 2
@@ -1968,8 +1966,8 @@ MonoBehaviour:
       inWeight: 0.3960688
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.9936343
-      value: 0.06260058
+      time: 0.9870425
+      value: 0.13199756
       inSlope: 0.25508556
       outSlope: 0.25508556
       tangentMode: 0

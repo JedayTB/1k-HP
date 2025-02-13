@@ -221,7 +221,7 @@ public class CustomCarPhysics : MonoBehaviour
   void FixedUpdate()
   {
     float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-    float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / currentGear.MaxSpeed);
+    float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
 
     float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
     //To Resist turning at higher speeds
