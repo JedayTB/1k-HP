@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    #region Variables
     [SerializeField]
     private Animator animator;
 
@@ -35,6 +36,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField]
     private Slider musicVolumeSlider,
         sfxVolumeSlider;
+    #endregion
 
     private void Start()
     {
@@ -75,6 +77,28 @@ public class MainMenuUI : MonoBehaviour
 
     private void LoadAllSettings()
     {
+        if (
+            !PlayerPrefs.HasKey("S-V-Preset")
+            || !PlayerPrefs.HasKey("S-V-AA")
+            || !PlayerPrefs.HasKey("S-V-FPS")
+            || !PlayerPrefs.HasKey("S-V-VFX")
+            || !PlayerPrefs.HasKey("S-A-Master")
+            || !PlayerPrefs.HasKey("S-A-Music")
+            || !PlayerPrefs.HasKey("S-A-SFX")
+        )
+        {
+            // Video
+            PlayerPrefs.SetInt("S-V-Preset", 3);
+            PlayerPrefs.SetInt("S-V-AA", 1);
+            PlayerPrefs.SetInt("S-V-FPS", 6);
+            PlayerPrefs.SetInt("S-V-VFX", 0);
+
+            // Audio
+            PlayerPrefs.SetFloat("S-A-Master", 1f);
+            PlayerPrefs.SetFloat("S-A-Music", 1f);
+            PlayerPrefs.SetFloat("S-A-SFX", 1f);
+        }
+
         var preset = PlayerPrefs.GetInt("S-V-Preset");
         var aa = PlayerPrefs.GetInt("S-V-AA");
         var fps = PlayerPrefs.GetInt("S-V-FPS");
