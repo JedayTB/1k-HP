@@ -1929,6 +1929,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1332a9c6b14c4ce4786f7eb728b4d97d, type: 3}
+--- !u!114 &1247530793 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 479738255098032104, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+    type: 3}
+  m_PrefabInstance: {fileID: 1857560887}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1300963635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1866124007667396970, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
@@ -2858,6 +2870,11 @@ PrefabInstance:
       propertyPath: _lapChecker
       value: 
       objectReference: {fileID: 2015852995}
+    - target: {fileID: 6002353866368550233, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: _lapTimesText
+      value: 
+      objectReference: {fileID: 1247530793}
     - target: {fileID: 6002353866368550233, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
       propertyPath: _postProcessing
@@ -4336,12 +4353,10 @@ MonoBehaviour:
   - {fileID: 628979650}
   - {fileID: 628979648}
   - {fileID: 628979646}
-  lookAtLocations:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  lerpSpeeds: []
   lerpDuration: 2.5
   cam: {fileID: 174943163}
+  isLevelSelect: 0
 --- !u!1001 &2770671198009089455
 PrefabInstance:
   m_ObjectHideFlags: 0

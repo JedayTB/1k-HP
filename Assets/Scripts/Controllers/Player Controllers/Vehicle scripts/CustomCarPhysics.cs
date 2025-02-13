@@ -38,8 +38,9 @@ public class CustomCarPhysics : MonoBehaviour
 
   private static float driftTireWeightMultiplier = 0.35f;
   private static float tireGripWhileDrifting = 0.1f;
+  [HideInInspector] public float horsePower;
+  [HideInInspector] public float currentTopSpeed;
 
-  public float horsePower;
   public static readonly float _terminalVelocity = 200f;
   public float TerminalVelocity { get => _terminalVelocity; }
   private Vector3 cachedLocalVelocity;
@@ -68,7 +69,6 @@ public class CustomCarPhysics : MonoBehaviour
   [Tooltip("The minimum angluar drag the car will experience For steering mechanics")]
   [SerializeField] private float minimumAngularDrag = 0.05f;
   [Tooltip("The maximum angular drag the car will experience For steering mechanics")]
-
   [SerializeField] private float maximumAngularDrag = 0.5f;
 
   [Header("Ground Stick Setup")]
@@ -85,7 +85,6 @@ public class CustomCarPhysics : MonoBehaviour
   private float collisionCooldown = 0;
 
   #endregion
-
 
   #region Public use Methods
   public void Init()
@@ -133,11 +132,10 @@ public class CustomCarPhysics : MonoBehaviour
       currentGear = delta > 0 ? GearTwo : GearOne;
       gearText = delta > 0 ? "High" : "Low";
       horsePower = currentGear.HorsePower;
-
+      currentTopSpeed = currentGear.MaxSpeed;
       foreach (var wheel in wheels)
       {
-        wheel.forwardAccTime = 0f;
-        wheel.backwardAccTime = 0f;
+        wheel.setTimings(0.25f, 0.25f);
       }
     }
 
@@ -163,13 +161,19 @@ public class CustomCarPhysics : MonoBehaviour
   /// <param name="_nitroMultiplier">The amount that accelleration is multiplied by. EG 2f</param>
   /// <param name="nitroTiming">How long the nitro should last</param>
   /// <returns></returns>
-  public IEnumerator useNitro(float _nitroMultiplier, float nitroTiming)
+  public IEnumerator useNitro(float _nitroMultiplier, float nitroTiming, float NAccelTimgMult)
   {
-
     float count = 0f;
+    float pastTopSpeed = currentGear.MaxSpeed;
     horsePower = currentGear.HorsePower * _nitroMultiplier;
     isUsingNitro = true;
-    //Set invunerable to offroad / physicsMaterials below when implemented
+
+    currentTopSpeed *= _nitroMultiplier;
+    foreach (var w in WheelArray)
+    {
+      w.multiplyTimings(NAccelTimgMult, NAccelTimgMult);
+    }
+
     while (count <= nitroTiming)
     {
       count += Time.deltaTime;
@@ -178,6 +182,8 @@ public class CustomCarPhysics : MonoBehaviour
     }
     isUsingNitro = false;
     horsePower = currentGear.HorsePower;
+    currentTopSpeed = pastTopSpeed;
+
   }
 
   public void driftVehicle(bool isUsingDrift)
@@ -211,7 +217,6 @@ public class CustomCarPhysics : MonoBehaviour
       {
         wheels[i].TurnTire(tireTurnModifier);
       }
-
     }
   }
 
@@ -251,9 +256,9 @@ public class CustomCarPhysics : MonoBehaviour
       }
     }
     cachedLocalVelocity = _rigidBody.velocity;
-    cachedLocalVelocity.z = Mathf.Clamp(cachedLocalVelocity.z, -currentGear.MaxSpeed, currentGear.MaxSpeed);
-    cachedLocalVelocity.y = Mathf.Clamp(cachedLocalVelocity.y, -currentGear.MaxSpeed, currentGear.MaxSpeed);
-    cachedLocalVelocity.x = Mathf.Clamp(cachedLocalVelocity.x, -currentGear.MaxSpeed, currentGear.MaxSpeed);
+    cachedLocalVelocity.z = Mathf.Clamp(cachedLocalVelocity.z, -currentTopSpeed, currentTopSpeed);
+    cachedLocalVelocity.y = Mathf.Clamp(cachedLocalVelocity.y, -currentTopSpeed, currentTopSpeed);
+    cachedLocalVelocity.x = Mathf.Clamp(cachedLocalVelocity.x, -currentTopSpeed, currentTopSpeed);
 
     _rigidBody.velocity = cachedLocalVelocity;
 
@@ -339,8 +344,12 @@ public class CustomCarPhysics : MonoBehaviour
       contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
 
       _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
-      //Debug.Log("applying force at " + contactPoint.point);
-      //
+
+      foreach (var wheel in WheelArray)
+      {
+        wheel.multiplyTimings(0.5f, 0.5f);
+      }
+
     }
   }
   #endregion
