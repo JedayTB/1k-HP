@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.VFX;
 using TMPro;
 using UnityEngine;
 
@@ -41,6 +42,8 @@ public class GameStateManager : MonoBehaviour
 
 
   [Header("Misc")]
+  [SerializeField] private VisualEffect SkidParticlesPrototype;
+  private static readonly string skidParticlesVelocityID = "Velocity";
   public LayerMask CarPhysicsLayer;
   public static readonly float musicVolumeLevel = 0.5f;
 
@@ -122,7 +125,6 @@ public class GameStateManager : MonoBehaviour
     }
     _postProcessing?.init();
     StartCoroutine(calculateVehiclePlacements());
-
     Debug.Log("GSM has Finished Intializing!");
   }
 
@@ -265,5 +267,14 @@ public class GameStateManager : MonoBehaviour
       ai.VehiclePhysics.setInputs(0, 0);
 
     }
+  }
+  public void spawnSkidParticles(Vector3 positionOfHit, Vector3 orientation, float velocityOfHit)
+  {
+    var skidparticles = Instantiate(SkidParticlesPrototype);
+
+    Quaternion newRot = Quaternion.Euler(orientation);
+    skidparticles.transform.SetPositionAndRotation(positionOfHit, newRot);
+
+    skidparticles.SetFloat(skidParticlesVelocityID, velocityOfHit);
   }
 }

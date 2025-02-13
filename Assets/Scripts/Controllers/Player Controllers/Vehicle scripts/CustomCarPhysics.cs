@@ -372,6 +372,8 @@ public class CustomCarPhysics : MonoBehaviour
     Physics.Raycast(ray, out hit, collisionRayDistance);
     //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
 
+    GameStateManager.Instance.spawnSkidParticles(contactPoint.point, transform.forward * -1, _rigidBody.velocity.magnitude / 4);
+
     if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
     {
       //Debug.Log("STOP NOW!");
@@ -388,7 +390,7 @@ public class CustomCarPhysics : MonoBehaviour
 
       _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
       //Debug.Log("applying force at " + contactPoint.point);
-
+      //
     }
   }
   #endregion
