@@ -30,7 +30,7 @@ public class PostProcessing : MonoBehaviour
   private float motionBlurSetAmount;
   public void init()
   {
-    playerTerminalVelocity = GameStateManager.Player.VehiclePhysics.TerminalVelocity;
+    playerTerminalVelocity = GameStateManager.Player.VehiclePhysics.TerminalVelocity - 20f;
     if (setThresholdInStart == true) thresholdForEffects = GameStateManager.Player.VehiclePhysics.GearOne.MaxSpeed - 15f;
 
 
@@ -47,13 +47,14 @@ public class PostProcessing : MonoBehaviour
     {
       currentPlayerSpeed = GameStateManager.Player.VehiclePhysics.getSpeed();
 
+
       if (currentPlayerSpeed > thresholdForEffects)
       {
         // Extra bit at the end is cuz...
         // past threshold (lets say 80), the value is already above 0. 
         // So, to normalize the value, just add the minimum to get a lower value 
-        normalizedPlayerSpeed = Mathf.Clamp01(currentPlayerSpeed / playerTerminalVelocity + thresholdForEffects);
-
+        normalizedPlayerSpeed = Mathf.Clamp01((thresholdForEffects - currentPlayerSpeed) / (thresholdForEffects - playerTerminalVelocity));
+        Debug.Log($"Post processing progress {normalizedPlayerSpeed}");
         chromaticAbberationSetAmount = LerpAndEasings.ExponentialDecay(chromaticAbberationSetAmount, maxChromaticAberration * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
         motionBlurSetAmount = LerpAndEasings.ExponentialDecay(motionBlurSetAmount, maxMotionBlur * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
 

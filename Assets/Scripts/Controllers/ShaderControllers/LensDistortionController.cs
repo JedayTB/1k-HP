@@ -11,9 +11,9 @@ public class LensDistortionController : MonoBehaviour
   [SerializeField][Range(0, -.15f)] private float MaxLensDistortionStrength = -0.9f;
   #endregion
 
-  //Can't read only because Unity doesn't serilize
-  [SerializeField] private float _maxDistortionSpeed = 350f;
-  [SerializeField] private float _minSpeedForDistortion = 135f;
+  private static float _maxDistortionSpeed = 350f;
+  private static float _minSpeedForDistortion = 80f;
+
   [SerializeField] private Material lensDistortionMat;
 
   float distortionMultiplier;
@@ -37,6 +37,7 @@ public class LensDistortionController : MonoBehaviour
     if (playerVelocity > _minSpeedForDistortion)
     {
       distortionMultiplier = Mathf.Clamp01((_minSpeedForDistortion - playerVelocity) / (_minSpeedForDistortion - _maxDistortionSpeed));
+      Debug.Log($"Lens distortion progress {distortionMultiplier}");
 
       effectiveLensDistortion = MaxLensDistortionStrength * distortionMultiplier;
 
