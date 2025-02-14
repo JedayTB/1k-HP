@@ -70,10 +70,7 @@ public class PostProcessing : MonoBehaviour
   }
   void OnDisable()
   {
-    if(isForGamePlay == true){
-      chromaticAberration.intensity.value = 0f;
-      motionBlur.intensity.value = 0f;
-    }
-   
+    chromaticAberration.intensity.value = 0f;
+    motionBlur.intensity.value = 0f;
   }
 }

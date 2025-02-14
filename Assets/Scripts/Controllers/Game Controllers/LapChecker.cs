@@ -3,6 +3,9 @@ using UnityEngine;
 public class LapChecker : MonoBehaviour
 {
   [SerializeField] private lapCheckpoint[] _checkpoints;
+
+  [SerializeField] private int lapsToWin = 3;
+
   private LapTimer _lapTimer;
 
   private GameStateManager _gsm;
@@ -15,10 +18,7 @@ public class LapChecker : MonoBehaviour
 
     _checkpoints = GetComponentsInChildren<lapCheckpoint>();
     _lapTimer = FindObjectOfType<LapTimer>();
-    if (_lapTimer != null)
-    {
-      Debug.Log("Found Lap timer");
-    }
+
     for (int i = 0; i < _checkpoints.Length; i++)
     {
       _checkpoints[i].Init(i);
@@ -78,12 +78,7 @@ public class LapChecker : MonoBehaviour
     {
       checkpoint._vehiclesPassedThroughCheckpoint.Remove(vehicleFinished);
     }
-
-    if (vehicleFinished is PlayerVehicleController)
-    {
-      Debug.Log("Player finished a lap");
-      _lapTimer?.endLap();
-    }
+    if (vehicleFinished is PlayerVehicleController) _lapTimer?.endLap();
 
     Debug.Log($"Finished lap: {lapsCompleted}");
     // Because, vehicle needs to pass 1st checkpoint twice to technically end the lap

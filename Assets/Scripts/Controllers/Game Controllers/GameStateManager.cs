@@ -248,8 +248,6 @@ public class GameStateManager : MonoBehaviour
       count++;
     }
 
-    print(lapTimesStr);
-
     _lapTimesText.text = lapTimesStr;
 
     bool isGP = GrandPrixManager.GameMode == 0 ? true : false;

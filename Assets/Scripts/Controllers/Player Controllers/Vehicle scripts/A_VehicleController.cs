@@ -55,11 +55,8 @@ public abstract class A_VehicleController : MonoBehaviour
   public float _nitroIncrementThresholdValue = 0f;
   [Tooltip("Scale value for _nitroIncrementThresholdValue. Change based off of tightness of drift and character stats.")]
   [SerializeField] protected float _nitroIncreaseScaler = 0.75f;
-
   [SerializeField] protected float _nitroTimeLength = 1f;
-
-  protected static float _nitroSpeedMultiplier = 2.5f;
-  protected static float nitroAccelTimingMultiplier = 1.75f;
+  [SerializeField] protected float _nitroSpeedMultiplier = 2.5f;
 
   // Ability stuff
   protected AbilityAction onAbilityUsed;
@@ -155,11 +152,12 @@ public abstract class A_VehicleController : MonoBehaviour
 
   protected virtual void startNitroBoost()
   {
+
     if (_nitroChargeAmounts != 0)
     {
       _nitroChargeAmounts--;
       _builtUpNitroAmount -= 1;
-      StartCoroutine(_vehiclePhysics.useNitro(_nitroSpeedMultiplier, _nitroTimeLength, nitroAccelTimingMultiplier));
+      StartCoroutine(_vehiclePhysics.useNitro(_nitroSpeedMultiplier, _nitroTimeLength));
     }
   }
   protected void buildNitro()

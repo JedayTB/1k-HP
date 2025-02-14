@@ -42,6 +42,17 @@ public class CustomWheels : MonoBehaviour
   public float LeftAckermanAngle { get => _leftAckermanAngle; }
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
+  //Drag Variables
+  /*
+  private float dragForce;
+  private float airDensity = 1.225f;
+  private float frontalArea = 2.16f;
+  private float dragCoefficient = 0.3f;
+  private float rollingResistanceForce;
+  private float rrCoefficient = 0.15f;
+  */
+
+
   #region Public Physic's unrelated
   public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
   {
@@ -101,18 +112,27 @@ public class CustomWheels : MonoBehaviour
     _throttleInput = throttle;
     _turningInput = turning;
   }
-  public void setTimings(float forwardAccTime, float backwardAccTime)
-  {
-    this.forwardAccTime = forwardAccTime;
-    this.backwardAccTime = backwardAccTime;
-  }
 
-  public void multiplyTimings(float fwMult, float bckMult)
+  /*
+  public void moveTires(float steeringAngle)
   {
-    this.forwardAccTime *= fwMult;
-    this.backwardAccTime *= bckMult;
-  }
+    double turningRadius = wheelbase / Math.Tan(steeringAngle);s
+    velocity = _vehicleRB.velocity.magnitude;
+    double lateralAcceleration = Math.Pow(velocity, 2f) / turningRadius;
+    double lateralForce = mass * lateralAcceleration;
+    double gripForce = gripCoefficient * mass * Physics.gravity.y;
+    if (lateralForce > gripForce)
+    {
+      skid();
+    }
 
+  }
+  */
+
+  public void skid()
+  {
+
+  }
   void Update()
   {
     // Timing bs
@@ -129,6 +149,7 @@ public class CustomWheels : MonoBehaviour
     bool calcForward = tireIsGrounded && _throttleInput > 0f;
     bool calcBackward = tireIsGrounded && _throttleInput < 0f;
 
+
     if (SameAccelAsVelocity == false)
     {
       forwardAccTime = calcForward ? 1f : 0f;
@@ -141,6 +162,12 @@ public class CustomWheels : MonoBehaviour
       forwardAccTime = calcForward ? forwardAccTime + Time.deltaTime : 0f;
       backwardAccTime = calcBackward ? backwardAccTime + Time.deltaTime : 0f;
     }
+
+    // If the forward vector angle of the tire is past a certain threshold of the 
+    // Forward vector of the car, skid (lose traction)
+    // find a way to put speed into the calculation
+
+
 
   }
   #endregion

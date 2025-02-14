@@ -154,7 +154,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6305360230042747853}
   - {fileID: 2915219524040071732}
   m_Father: {fileID: 3592737505249724435}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -381,37 +380,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &2197093224231090046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6305360230042747853}
-  m_Layer: 7
-  m_Name: camera lookat
-  m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6305360230042747853
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2197093224231090046}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.471, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7424770736859135650}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2423453775783241313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,6 +1439,7 @@ MonoBehaviour:
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
+  _nitroSpeedMultiplier: 2.5
   currentAbility: 0
 --- !u!114 &8404700184827373560
 MonoBehaviour:
@@ -1503,7 +1472,6 @@ MonoBehaviour:
   GearTwo: {fileID: 11400000, guid: 1cce176e2cf98e53f966a56d87f7f24e, type: 2}
   gearText: 1st Gear
   horsePower: 500
-  currentTopSpeed: 0
   momentumModifier: 0
   tireGripCurve:
     serializedVersion: 2
