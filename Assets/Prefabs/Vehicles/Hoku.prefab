@@ -290,7 +290,6 @@ Transform:
   - {fileID: 1259965546898361459}
   - {fileID: 3029499071147502982}
   - {fileID: 4925473231814557005}
-  - {fileID: 7431231064936910529}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &1550702500918941150
@@ -402,7 +401,6 @@ MonoBehaviour:
   upDownThreshold: -0.2
   collisionPoint: {x: 0, y: 0, z: 0}
   collisionRayDistance: 2.5
-  colliderFront: {fileID: 7431231064936910529}
 --- !u!114 &7312018781602798775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,37 +716,6 @@ Transform:
   - {fileID: 7182874577180509111}
   - {fileID: 7762876015509653340}
   - {fileID: 6791588906220930562}
-  m_Father: {fileID: 8317410215298301749}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1894190319654369311
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7431231064936910529}
-  m_Layer: 7
-  m_Name: FrontOfCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7431231064936910529
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1894190319654369311}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.798, z: 1.774}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
   m_Father: {fileID: 8317410215298301749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1940994988830831349
