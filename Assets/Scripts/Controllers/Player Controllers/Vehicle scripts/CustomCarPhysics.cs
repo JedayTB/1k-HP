@@ -317,23 +317,23 @@ public class CustomCarPhysics : MonoBehaviour
     }
   }
 
-    private void NewCollisionBump(ContactPoint contactPoint)
-    {
-        bool up = isItUp(contactPoint.point);
+  private void NewCollisionBump(ContactPoint contactPoint)
+  {
+    bool up = isItUp(contactPoint.point);
 
-        RaycastHit hit;
-        Ray ray = new Ray(transform.position, transform.forward);
-        float contactForce = contactPoint.impulse.magnitude / 2;
-        collisionPoint = contactPoint.point;
+    RaycastHit hit;
+    Ray ray = new Ray(transform.position, transform.forward);
+    float contactForce = contactPoint.impulse.magnitude / 2;
+    collisionPoint = contactPoint.point;
 
-        Physics.Raycast(ray, out hit, collisionRayDistance);
-        //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
-        Vector3 orientaion = transform.rotation.eulerAngles;
-        orientaion.x = orientaion.x > 0 ? -90 : 90;
+    Physics.Raycast(ray, out hit, collisionRayDistance);
+    //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
+    Vector3 orientaion = transform.rotation.eulerAngles;
+    orientaion.x = orientaion.x > 0 ? -90 : 90;
 
-        GameStateManager.Instance.spawnSkidParticles(contactPoint.point, orientaion, _rigidBody.velocity.magnitude / 4);
+    GameStateManager.Instance.spawnSkidParticles(contactPoint.point, orientaion, _rigidBody.velocity.magnitude / 4);
 
-        if (up)
+    if (up)
         {
             if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
             {
@@ -349,16 +349,15 @@ public class CustomCarPhysics : MonoBehaviour
 
                 contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
 
-                _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
+      _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
 
-                foreach (var wheel in WheelArray)
-                {
-                    wheel.multiplyTimings(0.5f, 0.5f);
-                }
+      foreach (var wheel in WheelArray)
+      {
+        wheel.multiplyTimings(0.5f, 0.5f);
+      }
 
-            }
-        }
     }
+  }
 
 
     bool isItUp(Vector3 collisionPoint)
@@ -377,5 +376,5 @@ public class CustomCarPhysics : MonoBehaviour
             return true;
         }
     }
-    #endregion
+  #endregion
 }
