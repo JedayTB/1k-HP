@@ -322,6 +322,9 @@ public class CustomCarPhysics : MonoBehaviour
 
     GameStateManager.Instance.spawnSkidParticles(contactPoint.point, orientaion, _rigidBody.velocity.magnitude / 4);
 
+    // We take the dot product of the CAR'S down, which will account for it being rotated
+    // With that, the dot being 0 would be directly in front the car
+    // Positive dot = collision below, negative dot = collision above
     Vector3 dirToCollisionPoint = (contactPoint.point - transform.position).normalized;
     float upDownDot = Vector3.Dot(-transform.up, dirToCollisionPoint);
 

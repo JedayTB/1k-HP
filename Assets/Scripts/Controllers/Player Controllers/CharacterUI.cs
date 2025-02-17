@@ -12,7 +12,7 @@ public enum CharacterNames
 
 public class CharacterUI : MonoBehaviour
 {
-  [SerializeField] private CharacterNames _selectedCharacter;
+  [SerializeField] private CharacterNames _selectedCharacter = CharacterNames.AzureAce;
   [SerializeField] private Animator _animator;
   [SerializeField] private KeyCode _confirmKey;
   [SerializeField] private KeyCode _cancelKey;
@@ -30,8 +30,9 @@ public class CharacterUI : MonoBehaviour
   void Start()
   {
     string yuh = _selectedCharacter.ToString();
-    _selectedCharacterText.text = "Null";
-    _selectedCharacterText.gameObject.SetActive(false);
+        setSelectedCharacterText("Azure Ace");
+    //_selectedCharacterText.text = "Null";
+    //_selectedCharacterText.gameObject.SetActive(false);
   }
 
   // Update is called once per frame
@@ -39,8 +40,7 @@ public class CharacterUI : MonoBehaviour
   {
     if (Input.GetKeyDown(_confirmKey) && _selectedCharacter != CharacterNames.None)
     {
-      _confirmCharText.text = "Play as " + _selectedCharacter.ToString() + "?";
-      _animator.SetBool("MenuIsOpen", true);
+      
     }
 
   }
@@ -48,7 +48,7 @@ public class CharacterUI : MonoBehaviour
   {
     _selectedCharacterText.gameObject.SetActive(true);
 
-    _selectedCharacterText.text = $"Select {characterName}? [Enter]";
+    _selectedCharacterText.text = $"Select {characterName}?";
   }
   public void SelectCharacter(string characterName)
   {
