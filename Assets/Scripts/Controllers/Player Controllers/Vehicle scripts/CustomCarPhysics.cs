@@ -322,23 +322,29 @@ public class CustomCarPhysics : MonoBehaviour
 
     GameStateManager.Instance.spawnSkidParticles(contactPoint.point, orientaion, _rigidBody.velocity.magnitude / 4);
 
-    if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
+    Vector3 dirToCollisionPoint = (contactPoint.point - transform.position).normalized;
+    float upDownDot = Vector3.Dot(-transform.up, dirToCollisionPoint);
+
+    if (upDownDot < 0)
     {
-      //Debug.Log("STOP NOW!");
-      //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
+        if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
+        {
+            //Debug.Log("STOP NOW!");
+            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
 
-      _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
-    }
-    else
-    {
-      //Debug.Log("WE ARE skidding");
-      //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
+            _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
+        }
+        else
+        {
+            //Debug.Log("WE ARE skidding");
+            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
 
-      contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
+            contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
 
-      _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
-      //Debug.Log("applying force at " + contactPoint.point);
-      //
+            _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
+            //Debug.Log("applying force at " + contactPoint.point);
+            //
+        }
     }
   }
   #endregion
