@@ -36,7 +36,11 @@ public class CameraFollower3D : MonoBehaviour
   [SerializeField] private KeyCode _rearViewKey = KeyCode.Tab;
   [SerializeField] private bool _inverseCameraX = false;
   [SerializeField] private bool _inverseCameraY = false;
-  [SerializeField] private float _boostFOV = 90f;
+
+  // FOV things
+  private static float _boostFOV = 110f;
+  private static float fovDecaySpeed = 6.5f;
+  private float baseFov = 80f;
 
   private Vector3 _currentVelocity = Vector3.zero;
   private float _horizontalInput;
@@ -48,21 +52,24 @@ public class CameraFollower3D : MonoBehaviour
 
   public void Init(InputManager inputManager)
   {
-
     _camera = Camera.main;
+
+    baseFov = _camera.fieldOfView;
+
     _transform = transform;
     //_pivot.transform.localRotation = Quaternion.identity;
-    Cursor.lockState = CursorLockMode.Locked;
-    Cursor.visible = false;
+    CursorController.setDefaultCursor();
     _inputManager = inputManager;
-    _target = GameStateManager.Player.transform;
 
-    _pivot = _target.Find("camera pivot");
+    var pl = GameStateManager.Player.transform;
+
+    _pivot = pl.Find("camera pivot");
+
+    _target = _pivot.Find("camera lookat");
     _desiredLocation = _pivot.Find("camera target");
+
     transform.position = _desiredLocation.position;
     defaultZPosition = _desiredLocation.localPosition.z;
-
-
   }
 
   private void Update()
@@ -198,19 +205,18 @@ public class CameraFollower3D : MonoBehaviour
 
   private void ChangeFOV()
   {
-    if (GameStateManager.Player.VehiclePhysics.isUsingNitro && _camera.fieldOfView != 80)
-    {
-      _camera.fieldOfView = lerpFloat(_camera.fieldOfView, _boostFOV);
-    }
-    else if (!GameStateManager.Player.VehiclePhysics.isUsingNitro && _camera.fieldOfView != 60)
-    {
-      _camera.fieldOfView = lerpFloat(_camera.fieldOfView, 60f);
-    }
-  }
+    float targetFOV;
 
-  private float lerpFloat(float currentNum, float targetFOV)
-  {
-    return LerpAndEasings.ExponentialDecay(currentNum, targetFOV, 10f, Time.deltaTime);
+    if (GameStateManager.Player.VehiclePhysics.isUsingNitro == true)
+    {
+      targetFOV = _boostFOV;
+    }
+    else
+    {
+      targetFOV = baseFov;
+    }
+
+    _camera.fieldOfView = LerpAndEasings.ExponentialDecay(_camera.fieldOfView, targetFOV, fovDecaySpeed, Time.deltaTime);
   }
 
   private Vector3 lerpRotation(Vector3 currentEulerRotation)
