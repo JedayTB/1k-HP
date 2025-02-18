@@ -20,6 +20,7 @@ public class CustomCarPhysics : MonoBehaviour
   private int halfTireLength;
   private Rigidbody _rigidBody;
   public Rigidbody RigidBody { get => _rigidBody; }
+  [SerializeField] private Transform colliderFront;
 
   [Header("Angle Clamping")]
 
@@ -329,9 +330,6 @@ public class CustomCarPhysics : MonoBehaviour
 
     GameStateManager.Instance.spawnSkidParticles(contactPoint.point, orientaion, _rigidBody.velocity.magnitude / 4);
 
-    // We take the dot product of the CAR'S down, which will account for it being rotated
-    // With that, the dot being 0 would be directly in front the car
-    // Positive dot = collision below, negative dot = collision above
     Vector3 dirToCollisionPoint = (contactPoint.point - transform.position).normalized;
     float upDownDot = Vector3.Dot(-transform.up, dirToCollisionPoint);
 
@@ -350,40 +348,12 @@ public class CustomCarPhysics : MonoBehaviour
             //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
 
             contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
-        }
-      _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
 
-      foreach (var wheel in WheelArray)
-      {
-        wheel.multiplyTimings(0.5f, 0.5f);
-      }
-
-    }
-  }
-
-
-    bool isItUp(Vector3 collisionPoint)
-    {
-        Vector3 directionToCollision = (collisionPoint - transform.position).normalized;
-        float upDownDot = Vector3.Dot(transform.forward, collisionPoint);
-
-        if (collisionPoint.y < colliderFront.position.y)
-        {
-            Debug.Log("it was below");
-            return false;
-        }
-        else
-        {
-            Debug.Log("it was not below");
-            return true;
-        }
-         _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
+            _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
             //Debug.Log("applying force at " + contactPoint.point);
             //
-    }  
-}
-
-  
+        }
+    }
+  }
   #endregion
-
-
+}
