@@ -581,6 +581,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CAR AI
       objectReference: {fileID: 0}
+    - target: {fileID: 3097150923252005119, guid: 2d93fc48830bb0847a04224a12940ebb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3361125219029046106, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -4023,7 +4028,7 @@ PrefabInstance:
     - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: _maxSpawnRate
-      value: 70
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
@@ -4108,7 +4113,7 @@ PrefabInstance:
     - target: {fileID: 2557573246691894447, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: MaxLensDistortionStrength
-      value: -0.07
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}

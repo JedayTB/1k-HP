@@ -11,20 +11,23 @@ public class LensDistortionController : MonoBehaviour
   [SerializeField][Range(0, -.15f)] private float MaxLensDistortionStrength = -0.9f;
   #endregion
 
-  private static float _maxDistortionSpeed = 350f;
+  private static float _maxDistortionSpeed = 250f;
   private static float _minSpeedForDistortion = 80f;
 
   [SerializeField] private Material lensDistortionMat;
 
-  float distortionMultiplier;
+  [SerializeField] float distortionMultiplier;
   float playerVelocity;
-  float effectiveLensDistortion;
+  [SerializeField] float effectiveLensDistortion;
 
-  private void Awake()
+  void Start()
   {
     lensDistortionMat.SetFloat(_lensSize, 2f);
     lensDistortionMat.SetFloat(_distortionIntensity, 0f);
+    _maxDistortionSpeed = GameStateManager.Player.VehiclePhysics.GearTwo.MaxSpeed;
+    _minSpeedForDistortion = GameStateManager.Player.VehiclePhysics.GearOne.MaxSpeed - 15f;
   }
+  
   private void OnDisable()
   {
     lensDistortionMat.SetFloat(_lensSize, 2f);

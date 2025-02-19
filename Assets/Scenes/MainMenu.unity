@@ -2325,6 +2325,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hoku Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 4616093695550561742, guid: e162fc698889fc24fa2990eff4e010f7,
+        type: 3}
+      propertyPath: blobProjector
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5424381585200759942, guid: e162fc698889fc24fa2990eff4e010f7,
         type: 3}
       propertyPath: driveTarget
@@ -2380,7 +2385,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6834728273779397393, guid: e162fc698889fc24fa2990eff4e010f7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4090,6 +4096,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mimi Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2815166589183845889, guid: 4ba8db1744ae2a34e871400b821199bf,
+        type: 3}
+      propertyPath: blobProjector
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6661961367856170526, guid: 4ba8db1744ae2a34e871400b821199bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4145,7 +4156,8 @@ PrefabInstance:
       propertyPath: driveTarget
       value: 
       objectReference: {fileID: 508814161}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5029721572545889890, guid: 4ba8db1744ae2a34e871400b821199bf, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -7922,7 +7934,13 @@ PrefabInstance:
       propertyPath: driveTarget
       value: 
       objectReference: {fileID: 1336046087}
-    m_RemovedComponents: []
+    - target: {fileID: 7761002930067012867, guid: 617403f686e31d34888ad9cf5696dc4d,
+        type: 3}
+      propertyPath: blobProjector
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7868717790296105348, guid: 617403f686e31d34888ad9cf5696dc4d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -14023,7 +14041,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 45
   orthographic: 0
   orthographic size: 5
   m_Depth: -1

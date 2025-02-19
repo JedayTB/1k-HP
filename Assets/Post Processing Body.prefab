@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c05ba1cc21669443889a0d3ecc5ba28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isForGamePlay: 0
   volume: {fileID: 4380758925006888476}
   setThresholdInStart: 1
   thresholdForEffects: 0
   decaySpeed: 4
-  maxChromaticAberration: 0.7
-  maxMotionBlur: 0.35
+  maxChromaticAberration: 0.9
+  maxMotionBlur: 0.4
   motionBlurClamp: 0.03
 --- !u!114 &4380758925006888476
 MonoBehaviour:

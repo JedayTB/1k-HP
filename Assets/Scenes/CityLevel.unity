@@ -691,6 +691,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera Parent
       objectReference: {fileID: 0}
+    - target: {fileID: 2557573246691894447, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: _maxDistortionSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2557573246691894447, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: _minSpeedForDistortion
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 2557573246691894447, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: MaxLensDistortionStrength
+      value: -0.0861
+      objectReference: {fileID: 0}
     - target: {fileID: 4623124840920390270, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_LocalPosition.x
