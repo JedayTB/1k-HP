@@ -31,6 +31,7 @@ public class MusicManager : MonoBehaviour
       }
 
       SceneManager.activeSceneChanged += sceneChangedLogic;
+      musicSource.loop = true;
       StartCoroutine(fadeInVolume(fadeInTime, GameStateManager.musicVolumeLevel));
     }
     else
