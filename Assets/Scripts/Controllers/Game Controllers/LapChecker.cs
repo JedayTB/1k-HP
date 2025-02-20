@@ -82,6 +82,7 @@ public class LapChecker : MonoBehaviour
     if (vehicleFinished is PlayerVehicleController)
     {
       Debug.Log("Player finished a lap");
+            _gsm._uiController.currentLapText.text = $"Lap: {lapsCompleted+1}/{_gsm.LapsToFinishRace}";
       _lapTimer?.endLap();
     }
 
