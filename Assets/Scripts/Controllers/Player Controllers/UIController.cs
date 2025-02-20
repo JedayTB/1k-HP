@@ -96,27 +96,6 @@ public class UIController : MonoBehaviour
     GearText.text = _player.VehiclePhysics.gearText;
     playerPlacementText.text = $"{_player.racePlacement}";
   }
-  private void AdjustAngleToCheckpoint()
-  {
-
-    int index = GameStateManager.Instance.nextPlayerCheckpointPosition;
-    // Effectively forward facing angle
-    float playerYRot = _player.transform.rotation.eulerAngles.y;
-    Vector3 delta = GameStateManager.Instance.levelCheckpointLocations[index] - _player.transform.position;
-
-    nextCheckpointAngle = -Vector3.Angle(_player.transform.forward, delta);
-    //math.degrees(math.acos(dot / _player.transform.position.magnitude * target.magnitude));
-
-    //nextCheckpoint//Compas.transform.rotation = Quaternion.Euler(0, 0, nextCheckpointAngle);
-    //
-    /*
-    if (GameStateManager.Instance.UseDebug)
-    {
-      Debug.DrawRay(_player.transform.position, delta, Color.white);
-      debugStr = $"Dir to angle {nextCheckpointAngle} \nplayerYRot {playerYRot}";
-    }
-    */
-  }
 
   private void rotateSpeedometreLine()
   {
@@ -124,7 +103,8 @@ public class UIController : MonoBehaviour
     {
       // Basically just find out how far along the spedometer we are as a percent from 0-1
       // Then multiply the degree difference from 0km to 320km (right now the total diff is 194 degrees) by the percent
-      float spedometerPercent = GameStateManager.Player.VehiclePhysics.getSpeed() / maxSpeed;
+
+      float spedometerPercent = Mathf.Abs(GameStateManager.Player.VehiclePhysics.getSpeed()) / maxSpeed;
       float spedometerZRot = -rotationDif * spedometerPercent;
       _spedometerLinePivot.rotation = Quaternion.Euler(0, 0, spedometerZRot);
     }

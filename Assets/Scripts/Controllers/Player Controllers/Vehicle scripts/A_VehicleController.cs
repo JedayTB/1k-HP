@@ -164,16 +164,19 @@ public abstract class A_VehicleController : MonoBehaviour
   }
   protected void buildNitro()
   {
-    _nitroIncrementThresholdValue += _nitroIncreaseScaler * Time.deltaTime;
+        
+        
+            _nitroIncrementThresholdValue += (_nitroIncreaseScaler * Time.deltaTime) * Mathf.Max(Mathf.Abs(_turningInput), 0.25f);
+            _builtUpNitroAmount += _nitroIncrementThresholdValue;
+            Mathf.Clamp(_builtUpNitroAmount, 0, MaxNitroChargeAmounts);
 
-    _builtUpNitroAmount += _nitroIncrementThresholdValue;
-    Mathf.Clamp(_builtUpNitroAmount, 0, MaxNitroChargeAmounts);
-
-    if (_nitroIncrementThresholdValue > 1f)
-    {
-      addNitro();
-      _nitroIncrementThresholdValue = 0;
-    }
+            if (_nitroIncrementThresholdValue > 1f)
+            {
+                addNitro();
+                _nitroIncrementThresholdValue = 0;
+            }
+        
+   
   }
   //End of protected virtual methods
 
