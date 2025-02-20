@@ -8,6 +8,7 @@ public class MusicManager : MonoBehaviour
   public static readonly string mainMenuSceneName = "MainMenu";
   public static readonly string characterSelectSceneName = "CharacterSelect";
   public static readonly string levelSelectScenename = "LevelSelect";
+  public static readonly string loadingScreenName = "LoadingScreen";
 
   private static MusicManager instance;
 
@@ -46,7 +47,8 @@ public class MusicManager : MonoBehaviour
     // If need to debug.. Replaced scene never has a name (idfk either)
     if (isForMenuMusic)
     {
-      bool dontDestroySelf = next.name == mainMenuSceneName || next.name == characterSelectSceneName || next.name == levelSelectScenename;
+      bool dontDestroySelf = next.name == mainMenuSceneName || next.name == characterSelectSceneName
+        || next.name == levelSelectScenename || next.name == loadingScreenName;
 
       if (dontDestroySelf == true)
       {
