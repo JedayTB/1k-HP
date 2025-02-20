@@ -14,4 +14,10 @@ public class CursorController : MonoBehaviour
     Cursor.visible = false;
     Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
   }
+    public static void setDefaultCursorConfined()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
 }
