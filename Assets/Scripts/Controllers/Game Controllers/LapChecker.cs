@@ -82,7 +82,7 @@ public class LapChecker : MonoBehaviour
     if (vehicleFinished is PlayerVehicleController)
     {
       Debug.Log("Player finished a lap");
-      _lapTimer?.endLap();
+            _lapTimer?.endLap();
     }
 
     Debug.Log($"Finished lap: {lapsCompleted}");
