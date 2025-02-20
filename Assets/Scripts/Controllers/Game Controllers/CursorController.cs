@@ -7,7 +7,6 @@ public class CursorController : MonoBehaviour
     Cursor.lockState = CursorLockMode.Confined;
     Cursor.visible = true;
     Cursor.SetCursor(newCursor, Vector2.zero, CursorMode.ForceSoftware);
-    Debug.Log("Cursor changed to lightning cursor!!");
   }
   public static void setDefaultCursor()
   {
