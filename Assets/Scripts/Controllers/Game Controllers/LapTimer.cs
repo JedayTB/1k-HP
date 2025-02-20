@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LapTimer : MonoBehaviour
 {
-  public List<float> lapTimes;
+  public List<string> lapTimes;
   [SerializeField] private TextMeshProUGUI _timerText;
   private float _lapElapsedTime;
   private float _lapStartTime;
@@ -22,6 +22,14 @@ public class LapTimer : MonoBehaviour
   {
     _lapElapsedTime = (Time.time - _lapStartTime);
     setText();
+    if (Input.GetKeyDown(KeyCode.I))
+    {
+      Time.timeScale = 100f;
+    }
+    else if (Input.GetKeyDown(KeyCode.P))
+    {
+      Time.timeScale = 1f;
+    }
   }
   private void setText()
   {
@@ -33,7 +41,7 @@ public class LapTimer : MonoBehaviour
   }
   public void endLap()
   {
-    float temp = _lapElapsedTime;
+    string temp = $"{Mathf.FloorToInt(minute):00}:{seconds:00.0000}";
     lapTimes.Add(temp);
     _lapElapsedTime = 0;
     _lapStartTime = Time.time;

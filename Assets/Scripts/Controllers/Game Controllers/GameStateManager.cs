@@ -236,13 +236,13 @@ public class GameStateManager : MonoBehaviour
 
     _uiController.setPlayScreen(false);
 
-    List<float> lapTimes = _lapTimer.lapTimes;
+    List<string> lapTimes = _lapTimer.lapTimes;
     string lapTimesStr = "";
 
     //Because List's don't have a defined size?
     int count = 0;
 
-    foreach (float lapTime in lapTimes)
+    foreach (var lapTime in lapTimes)
     {
       lapTimesStr += $"Lap {count + 1} Time: {lapTime}\n";
       count++;
