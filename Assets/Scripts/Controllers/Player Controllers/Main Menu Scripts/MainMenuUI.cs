@@ -41,7 +41,7 @@ public class MainMenuUI : MonoBehaviour
   private void Start()
   {
     gameVersion.text = "ver " + Application.version;
-    //CursorController.setNewCursor(null);
+        CursorController.setDefaultCursorConfined();
     LoadAllSettings();
 
   }
