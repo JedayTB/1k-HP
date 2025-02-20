@@ -40,7 +40,7 @@ public class CustomCarPhysics : MonoBehaviour
   private static float driftTireWeightMultiplier = 0.35f;
   private static float tireGripWhileDrifting = 0.1f;
   [HideInInspector] public float horsePower;
-  [HideInInspector] public float currentTopSpeed;
+  public float currentTopSpeed;
 
   public static readonly float _terminalVelocity = 200f;
   public float TerminalVelocity { get => _terminalVelocity; }
@@ -97,7 +97,7 @@ public class CustomCarPhysics : MonoBehaviour
     currentGear = GearOne;
 
     horsePower = GearOne.HorsePower;
-
+    currentTopSpeed = GearOne.MaxSpeed;
     halfTireLength = wheels.Length / 2;
 
     foreach (var tire in wheels)
@@ -335,24 +335,24 @@ public class CustomCarPhysics : MonoBehaviour
 
     if (upDownDot < 0)
     {
-        if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
-        {
-            //Debug.Log("STOP NOW!");
-            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
+      if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
+      {
+        //Debug.Log("STOP NOW!");
+        //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
 
-            _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
-        }
-        else
-        {
-            //Debug.Log("WE ARE skidding");
-            //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
+        _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
+      }
+      else
+      {
+        //Debug.Log("WE ARE skidding");
+        //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
 
-            contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
+        contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
 
-            _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
-            //Debug.Log("applying force at " + contactPoint.point);
-            //
-        }
+        _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
+        //Debug.Log("applying force at " + contactPoint.point);
+        //
+      }
     }
   }
   #endregion
