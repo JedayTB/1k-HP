@@ -40,6 +40,7 @@ public class UIController : MonoBehaviour
   [SerializeField] private TextMeshProUGUI _countdownText;
   [SerializeField] private TextMeshProUGUI GearText;
   [SerializeField] private TextMeshProUGUI playerPlacementText;
+    [SerializeField] public TextMeshProUGUI currentLapText;
 
 
   // Misc
