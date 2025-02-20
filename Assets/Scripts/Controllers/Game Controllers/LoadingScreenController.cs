@@ -13,7 +13,7 @@ public class LoadingScreenController : MonoBehaviour
   public string levelToAsyncLoad;
   void Start()
   {
-    levelToAsyncLoad = ConstantLevelHolder.Instance.NextScenename;
+        levelToAsyncLoad = ConstantLevelHolder.NextScenename;
     StartCoroutine(LoadAsync());
   }
   IEnumerator LoadAsync()

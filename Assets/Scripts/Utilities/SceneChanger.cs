@@ -14,7 +14,7 @@ public class SceneChanger : MonoBehaviour
   {
     Time.timeScale = 1.0f;
     Debug.Log("we be clicking!!");
-    ConstantLevelHolder.Instance.NextScenename = sceneName;
+    ConstantLevelHolder.NextScenename = sceneName;
     SceneManager.LoadScene("LoadingScreen");
   }
   public static void QuiteGame()
