@@ -4922,7 +4922,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4549394882770466573, guid: eab4aecc5a6a28d40b48e30c3340ad1a, type: 3}
+  - {fileID: 2100000, guid: d60c51696c4e6d243bb50b25face09aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5843,7 +5843,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -4549394882770466573, guid: eab4aecc5a6a28d40b48e30c3340ad1a, type: 3}
+  - {fileID: 2100000, guid: d60c51696c4e6d243bb50b25face09aa, type: 2}
   - {fileID: -5296951483840481677, guid: eab4aecc5a6a28d40b48e30c3340ad1a, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -5985,6 +5985,7 @@ MonoBehaviour:
   - {fileID: 4549372954337799748}
   - {fileID: 5830625037910947587}
   - {fileID: 5441975785251570999}
+  colliderFront: {fileID: 0}
   minXAngle: -2
   maxXAngle: 2
   minZAngle: 0
@@ -5993,7 +5994,7 @@ MonoBehaviour:
   GearTwo: {fileID: 11400000, guid: 0c0cfc28f4c08d2c3ac839c1c680300e, type: 2}
   gearText: 1st Gear
   horsePower: 500
-  _terminalVelocity: 250
+  currentTopSpeed: 0
   momentumModifier: 0
   tireGripCurve:
     serializedVersion: 2
