@@ -20,14 +20,14 @@ public class PostProcessing : MonoBehaviour
 
   [Header("Chromatic Abberation Setup")]
   [SerializeField][Range(0, 1)] private float maxChromaticAberration = 1f;
-  private float chromaticAbberationSetAmount;
+  [SerializeField] private float chromaticAbberationSetAmount;
 
 
   [Header("Motion Blue Setup")]
   [SerializeField][Range(0, 1)] private float maxMotionBlur = 0.75f;
   [SerializeField][Range(0f, 0.2f)] private float motionBlurClamp = 0.05f;
 
-  private float motionBlurSetAmount;
+  [SerializeField] private float motionBlurSetAmount;
   public void init()
   {
     playerTerminalVelocity = GameStateManager.Player.VehiclePhysics.TerminalVelocity - 20f;
@@ -36,6 +36,9 @@ public class PostProcessing : MonoBehaviour
 
     volume.profile.TryGet(out motionBlur);
     volume.profile.TryGet(out chromaticAberration);
+
+    if (motionBlur == null) Debug.LogError("Motion Blur not Obtained");
+    if (chromaticAberration == null) Debug.LogError("Chromatic Aberration not obtained");
 
     motionBlur.intensity.max = 5f;
 
@@ -54,7 +57,7 @@ public class PostProcessing : MonoBehaviour
         // past threshold (lets say 80), the value is already above 0. 
         // So, to normalize the value, just add the minimum to get a lower value 
         normalizedPlayerSpeed = Mathf.Clamp01((thresholdForEffects - currentPlayerSpeed) / (thresholdForEffects - playerTerminalVelocity));
-//        Debug.Log($"Post processing progress {normalizedPlayerSpeed}");
+        //        Debug.Log($"Post processing progress {normalizedPlayerSpeed}");
         chromaticAbberationSetAmount = LerpAndEasings.ExponentialDecay(chromaticAbberationSetAmount, maxChromaticAberration * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
         motionBlurSetAmount = LerpAndEasings.ExponentialDecay(motionBlurSetAmount, maxMotionBlur * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
 
@@ -70,10 +73,11 @@ public class PostProcessing : MonoBehaviour
   }
   void OnDisable()
   {
-    if(isForGamePlay == true){
+    if (isForGamePlay == true)
+    {
       chromaticAberration.intensity.value = 0f;
       motionBlur.intensity.value = 0f;
     }
-   
+
   }
 }
