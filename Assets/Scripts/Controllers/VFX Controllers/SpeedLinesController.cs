@@ -17,10 +17,9 @@ public class SpeedLinesController : MonoBehaviour
 
   private Vector2 _XScaleRange;
   private Vector2 _YScaleRange;
-  [Header("Speed Thresholds")]
 
-  [SerializeField] private float _minSpeedThreshold = 100f;
-  [SerializeField] private float _maxSpeedThreshold = CustomCarPhysics._terminalVelocity;
+  private static float _minSpeedThreshold = 75f;
+  private static float _maxSpeedThreshold = CustomCarPhysics._terminalVelocity;
 
   [Header("Speed Line Spawn Rate")]
 

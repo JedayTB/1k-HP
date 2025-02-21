@@ -14,9 +14,8 @@ public class PostProcessing : MonoBehaviour
 
   [Header("Basic setup")]
   public Volume volume;
-  [SerializeField] private bool setThresholdInStart = true;
-  [SerializeField] private float thresholdForEffects;
-  [SerializeField] private float decaySpeed = 4f;
+  private static float thresholdForEffects = 65f;
+  private static float decaySpeed = 4f;
 
   [Header("Chromatic Abberation Setup")]
   [SerializeField][Range(0, 1)] private float maxChromaticAberration = 1f;
@@ -31,8 +30,6 @@ public class PostProcessing : MonoBehaviour
   public void init()
   {
     playerTerminalVelocity = GameStateManager.Player.VehiclePhysics.TerminalVelocity - 20f;
-    if (setThresholdInStart == true) thresholdForEffects = GameStateManager.Player.VehiclePhysics.GearOne.MaxSpeed - 15f;
-
 
     volume.profile.TryGet(out motionBlur);
     volume.profile.TryGet(out chromaticAberration);
