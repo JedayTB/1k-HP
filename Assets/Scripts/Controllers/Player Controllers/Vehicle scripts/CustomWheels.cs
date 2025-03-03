@@ -138,8 +138,8 @@ public class CustomWheels : MonoBehaviour
     // Start accelerating the same direction as input
     else
     {
-      forwardAccTime = calcForward ? forwardAccTime + Time.deltaTime : 0f;
-      backwardAccTime = calcBackward ? backwardAccTime + Time.deltaTime : 0f;
+      forwardAccTime = calcForward ? forwardAccTime + Time.deltaTime : forwardAccTime - Time.deltaTime;
+      backwardAccTime = calcBackward ? backwardAccTime + Time.deltaTime : backwardAccTime - Time.deltaTime;
     }
 
   }
