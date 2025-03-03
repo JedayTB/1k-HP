@@ -9,8 +9,9 @@ public class LightningController : A_Ability
   [SerializeField] private LineRenderer _lr;
   [SerializeField] private Collider selfCollider;
   [SerializeField] private LayerMask VehicleLayer;
+  private Ray aimRay;
+  public static float _maxLightningDistance = 50f;
 
-  [SerializeField] private float _maxLightningDistance = 50f;
   [SerializeField] private float cubeSize = 0.5f;
   [SerializeField] private float lightningFadeoutTime = 1.1f;
   [SerializeField] private float timeTillLightningHit = 0.05f;
@@ -20,7 +21,7 @@ public class LightningController : A_Ability
   [SerializeField] private A_VehicleController lightningTarget;
   [SerializeField] private int selfColliderID;
 
-  private Vector3 AimVec;
+  private Ray AimRay;
   private AbilityState state;
   // InputManager inputManager
   // Update is called once per frame
@@ -126,17 +127,28 @@ public class LightningController : A_Ability
       positionCrosshairOnTarget();
     }
   }
+  private void getAimDirection()
+  {
+    if (vehicle is PlayerVehicleController)
+    {
 
+      aimRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+    }
+    else
+    {
+      aimRay = new Ray(transform.position, vehicle.LightningAimDirection);
+    }
+
+  }
   private void getAbiliyTarget()
   {
     //Debug.LogWarning("Ability isn't configured to use Input Manager");
 
-    Ray aimray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    if (GameStateManager.Instance.UseDebug) Debug.DrawRay(aimray.origin, aimray.direction * _maxLightningDistance);
+    if (GameStateManager.Instance.UseDebug) Debug.DrawRay(aimRay.origin, aimRay.direction * _maxLightningDistance);
 
     RaycastHit hitInfo;
-    bool hitsomething = Physics.Raycast(aimray.origin, aimray.direction, out hitInfo, _maxLightningDistance, VehicleLayer);
+    bool hitsomething = Physics.Raycast(aimRay.origin, aimRay.direction, out hitInfo, _maxLightningDistance, VehicleLayer);
 
 
     if (hitsomething == true && hitInfo.collider.GetInstanceID() != selfColliderID)

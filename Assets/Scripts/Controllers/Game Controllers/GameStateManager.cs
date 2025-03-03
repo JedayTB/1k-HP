@@ -57,7 +57,7 @@ public class GameStateManager : MonoBehaviour
   // UI Stuff
   [SerializeField] private TextMeshProUGUI _lapTimesText;
 
-  private List<A_VehicleController> vehicles = new List<A_VehicleController>();
+  [HideInInspector] public List<A_VehicleController> vehicles = new List<A_VehicleController>();
   [HideInInspector] public Vector3[] levelCheckpointLocations;
 
   private void Awake()

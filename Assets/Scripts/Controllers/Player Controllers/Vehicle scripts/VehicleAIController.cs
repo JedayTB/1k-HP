@@ -1,13 +1,13 @@
 using System.Collections;
 using UnityEngine;
-
+using System;
 
 public class VehicleAIController : A_VehicleController
 {
 
   #region AI Variables 
   [Header("AI Basic setup")]
-  [HideInInspector] public aiState currentState = aiState.driving;
+  public aiState currentState = aiState.driving;
   public string dbgString;
   private Vector3 _steeringPosition = Vector3.zero;
   [SerializeField] protected float SteerPathingClock = 0.01f;
@@ -49,6 +49,9 @@ public class VehicleAIController : A_VehicleController
   private int amtFrontalChecks = 0;
   private float yAngleToTarget;
 
+  [Header("AI Abilities Specifics")]
+  A_VehicleController closestCurrentVehicle;
+  private static float lightningDotFOV = 0.7f;
   /*
   [Header("Steering Weights")]
   [SerializeField] private float _middleTrackWeight = 50f;
@@ -149,23 +152,31 @@ public class VehicleAIController : A_VehicleController
   {
     while (true)
     {
-      switch (currentState)
+      try
       {
+        switch (currentState)
+        {
 
-        case aiState.driving:
-          generalDrivingLogic();
-          break;
-        case aiState.usingNitro:
-          generalDrivingLogic();
-          break;
-        case aiState.bubbleAbility:
-          bubbleAbilityLogic();
-          break;
-        case aiState.LightningAbility:
-          lightningAbilityLogic();
-          break;
+          case aiState.driving:
+            generalDrivingLogic();
+            break;
+          case aiState.usingNitro:
+            generalDrivingLogic();
+            break;
+          case aiState.bubbleAbility:
+            bubbleAbilityLogic();
+            break;
+          case aiState.LightningAbility:
+            lightningAbilityLogic();
+            break;
+        }
+
+
       }
-
+      catch (Exception e)
+      {
+        Debug.LogError(e.Message);
+      }
       yield return new WaitForSeconds(waitTime);
     }
   }
@@ -208,7 +219,40 @@ public class VehicleAIController : A_VehicleController
 
   private void lightningAbilityLogic()
   {
-    generalDrivingLogic();
+    //generalDrivingLogic();
+    // Can be modified later. Aim to closest Vehicle
+    A_VehicleController clV = null;
+
+    float closestDistance = float.MaxValue;
+    for (int i = 0; i < GameStateManager.Instance.vehicles.Count; i++)
+    {
+      if (GameStateManager.Instance.vehicles[i] != this)
+      {
+
+        float dist = Vector3.Distance(transform.position, GameStateManager.Instance.vehicles[i].transform.position);
+        if (dist < closestDistance && dist < LightningController._maxLightningDistance)
+        {
+          closestDistance = dist;
+          clV = GameStateManager.Instance.vehicles[i];
+        }
+      }
+
+    }
+    if (clV != null)
+    {
+      Vector3 dir = clV.transform.position - transform.position;
+      float dot = Vector3.Dot(transform.forward.normalized, dir.normalized);
+      if (dot > lightningDotFOV)
+      {
+        LightningAimDirection = dir;
+      }
+      if (GameStateManager.Instance.UseDebug)
+      {
+        Color c = dot > lightningDotFOV ? Color.yellow : Color.red;
+        Debug.DrawRay(transform.position, dir * LightningController._maxLightningDistance, c);
+      }
+    }
+
   }
   #endregion
   #region General Driving Methods

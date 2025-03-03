@@ -70,9 +70,11 @@ public class AbilityCell : Collectables
         Debug.LogError("Your a dipshit and broke ability add system. to ethan arr (myself)");
         break;
     }
+
     vehicle.currentAbility = adAB;
     abilityObj.vehicle = vehicle;
     abilityObj.gameObject.SetActive(true);
+
     if (vehicle is PlayerVehicleController) GameStateManager.Instance._uiController.playerGotAbility(adAB);
     if (vehicle is VehicleAIController) vehicle.GetComponent<VehicleAIController>().addAbilityToVehicle(adAB);
   }

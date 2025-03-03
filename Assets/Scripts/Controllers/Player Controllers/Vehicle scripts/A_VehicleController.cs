@@ -61,10 +61,11 @@ public abstract class A_VehicleController : MonoBehaviour
   protected static float _nitroSpeedMultiplier = 2.5f;
   protected static float nitroAccelTimingMultiplier = 1.75f;
 
-  // Ability stuff
+  [Header("Ability Stuffs")]
+
   protected AbilityAction onAbilityUsed;
   [HideInInspector] public addedAbility currentAbility;
-  protected Vector3 LightningAim;
+  public Vector3 LightningAimDirection;
 
   #endregion
   public virtual void Init()
@@ -164,19 +165,19 @@ public abstract class A_VehicleController : MonoBehaviour
   }
   protected void buildNitro()
   {
-        
-        
-            _nitroIncrementThresholdValue += (_nitroIncreaseScaler * Time.deltaTime) * Mathf.Max(Mathf.Abs(_turningInput), 0.25f);
-            _builtUpNitroAmount += _nitroIncrementThresholdValue;
-            Mathf.Clamp(_builtUpNitroAmount, 0, MaxNitroChargeAmounts);
 
-            if (_nitroIncrementThresholdValue > 1f)
-            {
-                addNitro();
-                _nitroIncrementThresholdValue = 0;
-            }
-        
-   
+
+    _nitroIncrementThresholdValue += (_nitroIncreaseScaler * Time.deltaTime) * Mathf.Max(Mathf.Abs(_turningInput), 0.25f);
+    _builtUpNitroAmount += _nitroIncrementThresholdValue;
+    Mathf.Clamp(_builtUpNitroAmount, 0, MaxNitroChargeAmounts);
+
+    if (_nitroIncrementThresholdValue > 1f)
+    {
+      addNitro();
+      _nitroIncrementThresholdValue = 0;
+    }
+
+
   }
   //End of protected virtual methods
 
