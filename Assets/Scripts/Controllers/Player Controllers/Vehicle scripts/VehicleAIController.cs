@@ -49,9 +49,14 @@ public class VehicleAIController : A_VehicleController
   private int amtFrontalChecks = 0;
   private float yAngleToTarget;
 
-  [Header("AI Abilities Specifics")]
+  // Lightning Specifics 
   A_VehicleController closestCurrentVehicle;
+  A_VehicleController lastVehicle;
   private static float lightningDotFOV = 0.7f;
+  private bool targetChanged;
+  private static float TimeToFireLightning = 3f;
+  private float elapsedLockedOnTime = 0f;
+
   /*
   [Header("Steering Weights")]
   [SerializeField] private float _middleTrackWeight = 50f;
@@ -158,7 +163,7 @@ public class VehicleAIController : A_VehicleController
         {
 
           case aiState.driving:
-            generalDrivingLogic();
+            //generalDrivingLogic();
             break;
           case aiState.usingNitro:
             generalDrivingLogic();
@@ -170,7 +175,6 @@ public class VehicleAIController : A_VehicleController
             lightningAbilityLogic();
             break;
         }
-
 
       }
       catch (Exception e)
@@ -204,9 +208,12 @@ public class VehicleAIController : A_VehicleController
 
   public void switchToLightningState()
   {
+
+    // First use activates ability;
     useCharacterAbility();
     currentState = aiState.LightningAbility;
-    Debug.Log($"{this.name} has or tried to use Ability (Lightning)");
+    elapsedLockedOnTime = 0f;
+    Debug.Log($"{this.name} Picked up lightning ability.");
   }
 
   #endregion
@@ -219,10 +226,34 @@ public class VehicleAIController : A_VehicleController
 
   private void lightningAbilityLogic()
   {
-    //generalDrivingLogic();
+    generalDrivingLogic();
     // Can be modified later. Aim to closest Vehicle
-    A_VehicleController clV = null;
+    getLightningTarget();
+    lightningFireTiming();
+  }
 
+  private void lightningFireTiming()
+  {
+    if (targetChanged)
+    {
+      print("Reset lightning");
+      elapsedLockedOnTime = 0f;
+    }
+    else
+    {
+      elapsedLockedOnTime += Time.deltaTime;
+      if (elapsedLockedOnTime >= TimeToFireLightning)
+      {
+        useCharacterAbility();
+        print("fired lightning?");
+        currentState = aiState.driving;
+      }
+    }
+  }
+
+  private void getLightningTarget()
+  {
+    A_VehicleController clV = null;
     float closestDistance = float.MaxValue;
     for (int i = 0; i < GameStateManager.Instance.vehicles.Count; i++)
     {
@@ -236,15 +267,20 @@ public class VehicleAIController : A_VehicleController
           clV = GameStateManager.Instance.vehicles[i];
         }
       }
-
     }
     if (clV != null)
     {
+      if (clV != closestCurrentVehicle)
+      {
+        closestCurrentVehicle = clV;
+
+      }
       Vector3 dir = clV.transform.position - transform.position;
       float dot = Vector3.Dot(transform.forward.normalized, dir.normalized);
       if (dot > lightningDotFOV)
       {
         LightningAimDirection = dir;
+
       }
       if (GameStateManager.Instance.UseDebug)
       {
@@ -252,7 +288,10 @@ public class VehicleAIController : A_VehicleController
         Debug.DrawRay(transform.position, dir * LightningController._maxLightningDistance, c);
       }
     }
-
+    else
+    {
+      closestCurrentVehicle = null;
+    }
   }
   #endregion
   #region General Driving Methods

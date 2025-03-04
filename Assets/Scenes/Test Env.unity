@@ -682,7 +682,7 @@ PrefabInstance:
     - target: {fileID: 3097150923252005119, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3361125219029046106, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
@@ -701,8 +701,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
+      propertyPath: currentState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
+        type: 3}
       propertyPath: _driveVehicle
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
@@ -712,7 +717,7 @@ PrefabInstance:
     - target: {fileID: 5002868429707847814, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}
       propertyPath: _circuitedpath
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5010237841867270095, guid: 2d93fc48830bb0847a04224a12940ebb,
         type: 3}

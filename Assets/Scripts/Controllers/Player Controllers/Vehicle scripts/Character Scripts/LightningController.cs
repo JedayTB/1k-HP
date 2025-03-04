@@ -123,6 +123,7 @@ public class LightningController : A_Ability
   {
     if (_canUseAbility)
     {
+      getAimDirection();
       getAbiliyTarget();
       positionCrosshairOnTarget();
     }
@@ -131,25 +132,22 @@ public class LightningController : A_Ability
   {
     if (vehicle is PlayerVehicleController)
     {
-
       aimRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+      print("We is player");
     }
     else
     {
-      aimRay = new Ray(transform.position, vehicle.LightningAimDirection);
+      aimRay = new Ray(vehicle.transform.position, vehicle.LightningAimDirection);
     }
 
   }
   private void getAbiliyTarget()
   {
-    //Debug.LogWarning("Ability isn't configured to use Input Manager");
-
 
     if (GameStateManager.Instance.UseDebug) Debug.DrawRay(aimRay.origin, aimRay.direction * _maxLightningDistance);
 
     RaycastHit hitInfo;
     bool hitsomething = Physics.Raycast(aimRay.origin, aimRay.direction, out hitInfo, _maxLightningDistance, VehicleLayer);
-
 
     if (hitsomething == true && hitInfo.collider.GetInstanceID() != selfColliderID)
     {
