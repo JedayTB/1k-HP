@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public enum addedAbility
 {
@@ -6,20 +7,59 @@ public enum addedAbility
   Lightning = 1,
   fucked
 }
+
 public class AbilityCell : Collectables
 {
+  private static readonly int dissolveDistanceID = Shader.PropertyToID("_dissolveDistance");
+  private static readonly int dissolveHeightID = Shader.PropertyToID("_dissolveHeight");
+
+  private static readonly float minDissolveHeight = 0f;
+  private static readonly float maxDissolveHeight = 1f;
+
+
+  private static readonly float minDissolveDistance = 0f;
+  private static readonly float maxDissolveDistance = 1f;
 
   [SerializeField] private int _abilityAmount = 100;
   [SerializeField] private BoxCollider _boxCollider;
-
   [SerializeField] private AbilityCellType _AbilityCellType = AbilityCellType.RandomAbility;
 
-
+  private Material abilMat;
 
   void Start()
   {
     _boxCollider = GetComponent<BoxCollider>();
     _boxCollider.isTrigger = true;
+    // because I remember jordan telling me this makes a copy.
+    Destroy(abilMat);
+    abilMat = _renderer.material;
+  }
+
+  protected override IEnumerator respawnClock()
+  {
+    float count = 0f;
+
+    float progess = 0f;
+
+    float dissolveHeight;
+    //float dissolveDistance;
+    _collider.enabled = false;
+    while (count < _timeToRespawn)
+    {
+      count += Time.deltaTime;
+
+      progess = count / _timeToRespawn;
+
+      dissolveHeight = Mathf.Lerp(minDissolveHeight, maxDissolveHeight, progess);
+
+      abilMat.SetFloat(dissolveHeightID, dissolveHeight);
+      //dissolveDistance = Mathf.Lerp(minDissolveDistance, maxDissolveDistance, progess);
+      //abilMat.SetFloat(dissolveDistanceID, dissolveDistance);
+
+      yield return null;
+    }
+    _collider.enabled = true;
+    _renderer.enabled = true;
   }
 
   private A_Ability GetRandomAbiltiy(A_VehicleController vehicle, ref AbilityCellType typeAdded)

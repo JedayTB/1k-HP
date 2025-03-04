@@ -37,6 +37,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _DissolveByPos_33f00fdd232548499330165d3e7eebe0_BumpMap_1092177923_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveSub_84451877b0a14ec79e823878f340000d_BumpMap_4025596557_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 0e60e880203e26346a1eb942ccdbb9a0, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -57,6 +65,11 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _ScrollSpeed: 1.55
+    - _alphaclip: 0.039
+    - _dissolveDistance: 0
+    - _dissolveHeight: 0
+    - _edgethickness: 0.1
     m_Colors:
-    - _EmissionColor: {r: 11.269983, g: 11.269983, b: 11.269983, a: 1}
+    - _EmissionColor: {r: 30.09262, g: 17.904367, b: 26.838482, a: 1}
   m_BuildTextureStacks: []

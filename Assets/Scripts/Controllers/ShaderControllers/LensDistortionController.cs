@@ -9,6 +9,7 @@ public class LensDistortionController : MonoBehaviour
   private readonly float MinCircleClipSize = 2f;
   [SerializeField][Range(0, -.15f)] private float MinLensDistortionStrength = 0f;
   [SerializeField][Range(0, -.15f)] private float MaxLensDistortionStrength = -0.9f;
+
   #endregion
 
   private static float _maxDistortionSpeed = CustomCarPhysics._terminalVelocity;
