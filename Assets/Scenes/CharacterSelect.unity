@@ -1604,8 +1604,8 @@ MonoBehaviour:
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
-  _nitroSpeedMultiplier: 2.5
   currentAbility: 0
+  LightningAimDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &305504684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4323,6 +4323,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mimi
       objectReference: {fileID: 0}
+    - target: {fileID: 6498411773073124503, guid: 4ba8db1744ae2a34e871400b821199bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.665
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498411773073124503, guid: 4ba8db1744ae2a34e871400b821199bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 6498411773073124503, guid: 4ba8db1744ae2a34e871400b821199bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -28.292
+      objectReference: {fileID: 0}
     - target: {fileID: 6661961367856170526, guid: 4ba8db1744ae2a34e871400b821199bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4378,6 +4393,21 @@ PrefabInstance:
       propertyPath: driveTarget
       value: 
       objectReference: {fileID: 1897081125}
+    - target: {fileID: 9219431038666697297, guid: 4ba8db1744ae2a34e871400b821199bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.088
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219431038666697297, guid: 4ba8db1744ae2a34e871400b821199bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.433
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219431038666697297, guid: 4ba8db1744ae2a34e871400b821199bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -28.272
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4424,8 +4454,8 @@ MonoBehaviour:
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
-  _nitroSpeedMultiplier: 2.5
   currentAbility: 0
+  LightningAimDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &1418145332
 GameObject:
   m_ObjectHideFlags: 0
@@ -5445,8 +5475,8 @@ MonoBehaviour:
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
-  _nitroSpeedMultiplier: 2.5
   currentAbility: 0
+  LightningAimDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &1877039569
 GameObject:
   m_ObjectHideFlags: 0
