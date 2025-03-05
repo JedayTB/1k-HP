@@ -12,15 +12,14 @@ public class VehicleAIController : A_VehicleController
   private Vector3 _steeringPosition = Vector3.zero;
   [SerializeField] protected float SteerPathingClock = 0.01f;
   [SerializeField] private bool _singleTarget = false;
-  [SerializeField] private bool _driveVehicle = true;
+  [SerializeField] public bool _driveVehicle = true;
   [SerializeField] private bool _circuitedpath = true;
 
   [Header("Steering parametres")]
-  private waypointGizmos[] _NavigationTracks;
+  private waypointGizmos _NavigationTracks;
   private int waypointsArrayLength;
   [SerializeField] private float _reachedTargetDistance = 6f;
   [SerializeField] private float _reverseThreshold = 25f;
-  [SerializeField] private float _turningThreshold = 15;
 
   private int _currentWaypointIndex = 0;
   private int _respawnWaypointIndex = 0;
@@ -57,15 +56,6 @@ public class VehicleAIController : A_VehicleController
   private static float TimeToFireLightning = 3f;
   private float elapsedLockedOnTime = 0f;
 
-  /*
-  [Header("Steering Weights")]
-  [SerializeField] private float _middleTrackWeight = 50f;
-  [SerializeField] private float _optimalTrackWeight = 25f;
-  [SerializeField] private float _wideTrackWeight = 35f;
-
-  private float[] weights;
-  */
-
   private int _currentTrackOption;
 
   #endregion
@@ -84,21 +74,15 @@ public class VehicleAIController : A_VehicleController
     StartCoroutine(AILogic(SteerPathingClock));
   }
 
-  public void Init(waypointGizmos[] tracks)
+  public void Init(waypointGizmos track)
   {
-    _NavigationTracks = new waypointGizmos[tracks.Length];
+    _NavigationTracks = track;
 
-    for (int i = 0; i < tracks.Length; i++)
+    waypointsArrayLength = _NavigationTracks.getWaypoints().Length - 1;
+
+    if (waypointsArrayLength != 0)
     {
-      _NavigationTracks[i] = tracks[i];
-    }
-
-    waypointsArrayLength = _NavigationTracks[0].getWaypoints().Length - 1;
-
-    if (_NavigationTracks.Length != 0)
-    {
-      _steeringPosition = _NavigationTracks[0].getWaypoints()[0].position;
-
+      _steeringPosition = _NavigationTracks.getWaypoints()[1].position;
     }
 
     Init();
@@ -163,7 +147,7 @@ public class VehicleAIController : A_VehicleController
         {
 
           case aiState.driving:
-            //generalDrivingLogic();
+            generalDrivingLogic();
             break;
           case aiState.usingNitro:
             generalDrivingLogic();
@@ -208,7 +192,6 @@ public class VehicleAIController : A_VehicleController
 
   public void switchToLightningState()
   {
-
     // First use activates ability;
     useCharacterAbility();
     currentState = aiState.LightningAbility;
@@ -486,9 +469,21 @@ public class VehicleAIController : A_VehicleController
       // Reached target after reverse acctions
       updateTrackOption();
       updateWaypointIndex();
-      _steeringPosition = _NavigationTracks[_currentTrackOption].getWaypoints()[_currentWaypointIndex].position;
+      _steeringPosition = getPosInWaypoint(_NavigationTracks.getWaypoints()[_currentWaypointIndex].position);
     }
 
+  }
+  private Vector3 getPosInWaypoint(Vector3 pos)
+  {
+    Vector3 newPos = Vector3.zero;
+    float circleRadius = _NavigationTracks.SphereRadius;
+
+    Vector3 waypointPos = _NavigationTracks.getWaypoints()[_currentWaypointIndex].position;
+    Vector3 rndCircleOffset = UnityEngine.Random.insideUnitCircle * circleRadius;
+
+    newPos = new Vector3(rndCircleOffset.x + waypointPos.x, waypointPos.y, rndCircleOffset.z + waypointPos.z);
+
+    return newPos;
   }
   private void updateWaypointIndex()
   {
@@ -518,10 +513,10 @@ public class VehicleAIController : A_VehicleController
     int shortestAngleInd = int.MaxValue;
     float smallestYAngleDiff = float.MaxValue;
 
-    for (int i = 0; i < _NavigationTracks.Length - 1; i++)
+    for (int i = 0; i < waypointsArrayLength - 1; i++)
     {
 
-      Vector3 waypointPosition = _NavigationTracks[i].getWaypoints()[_currentWaypointIndex].position;
+      Vector3 waypointPosition = _NavigationTracks.getWaypoints()[_currentWaypointIndex].position;
       float yAngleToTarget = Vector3.SignedAngle(transform.forward, waypointPosition, Vector3.up);
 
       if (yAngleToTarget < smallestYAngleDiff)

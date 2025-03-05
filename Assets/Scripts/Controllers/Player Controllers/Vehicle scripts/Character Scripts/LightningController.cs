@@ -133,7 +133,6 @@ public class LightningController : A_Ability
     if (vehicle is PlayerVehicleController)
     {
       aimRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-      print("We is player");
     }
     else
     {

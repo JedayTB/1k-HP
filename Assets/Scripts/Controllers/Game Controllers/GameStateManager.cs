@@ -25,7 +25,7 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private CameraFollower3D cam;
   [SerializeField] public LapChecker _lapChecker;
   [SerializeField] private LapTimer _lapTimer;
-  [SerializeField] private waypointGizmos[] NavigationTracks;
+  [SerializeField] private waypointGizmos NavigationTrack;
   [SerializeField] public UIController _uiController;
   [SerializeField] private VehicleAIController[] _aiControllers;
   [SerializeField] private GameObject[] _playerVehicles;
@@ -95,10 +95,7 @@ public class GameStateManager : MonoBehaviour
     {
       if (_aiControllers[i].gameObject.activeSelf)
       {
-        if (NavigationTracks.Length > 0)
-        {
-          _aiControllers[i].Init(NavigationTracks);
-        }
+        _aiControllers[i].Init(NavigationTrack);
         vehicles.Add(_aiControllers[i]);
         vehiclesToPosition++;
         _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
@@ -267,7 +264,7 @@ public class GameStateManager : MonoBehaviour
       // Just to reset velocity calculations
       ai.VehiclePhysics.RigidBody.velocity = Vector3.zero;
       ai.VehiclePhysics.setInputs(0, 0);
-
+      ai._driveVehicle = true;
     }
   }
   public void spawnSkidParticles(Vector3 positionOfHit, Vector3 orientation, float velocityOfHit)

@@ -2,21 +2,20 @@ using UnityEngine;
 
 public class waypointGizmos : MonoBehaviour
 {
+  [Header("1K HP Settings")]
+
   [SerializeField] private bool DrawDebug = true;
   [Header("Waypoint Settings")]
   [SerializeField] private float waypointGizmoRadius = 0.25f;
   [SerializeField] private Color waypointColour = Color.yellow;
   [SerializeField] private bool showWaypoint = true;
-  [SerializeField] public float circleRadius = 6f;
 
   [Space(15)]
   [SerializeField] private bool autoRefreshWaypoints = true;
   [SerializeField] private bool circuit = true;
-
   [SerializeField] private Transform[] Waypoints;
-  [Header("Angle Settings")]
-  [SerializeField] private float[] angleBetweenWaypoints;
-  [SerializeField] private bool easyButtonHack = false;
+
+  public float SphereRadius = 5f;
 
   public Transform[] getWaypoints()
   {
@@ -28,26 +27,7 @@ public class waypointGizmos : MonoBehaviour
     RefreshWaypoints();
   }
 
-  private void calculateAnglesBetweenWaypoints()
-  {
-    //angleBetweenWaypoints = new float[Waypoints.Length];
-    for (int i = 0; i < angleBetweenWaypoints.Length; i++)
-    {
-      // If got to end of array, do angles between last and first waypoint 
-      Waypoints[i].rotation = Quaternion.identity;
-      int nextIndex = i + 1 == Waypoints.Length ? 0 : i + 1;
-      float angle = 0f;
-      //float angle = Vector3.SignedAngle(Waypoints[i].position, Waypoints[nextIndex].position, Vector3.up);
 
-
-      Vector3 delta = Waypoints[nextIndex].position - Waypoints[i].position;
-
-      angle = Vector3.Angle(Waypoints[i].forward, delta);
-      angleBetweenWaypoints[i] = angle;
-    }
-    //Debug.Log("Finished Calculating Angles");
-
-  }
   private void RefreshWaypoints()
   {
     Transform[] potentialWaypoints = GetComponentsInChildren<Transform>();
@@ -78,7 +58,8 @@ public class waypointGizmos : MonoBehaviour
       Transform temp = Waypoints[i];
 
       Gizmos.DrawSphere(temp.position, waypointGizmoRadius);
-      //Gizmos.DrawWireSphere(temp.position, circleRadius);
+      Gizmos.DrawWireSphere(temp.position, SphereRadius);
+
       temp.name = $"Waypoint {i + 1}";
       if (circuit)
       {
