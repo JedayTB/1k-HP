@@ -40,7 +40,7 @@ public class CharacterUI : MonoBehaviour
   {
     if (Input.GetKeyDown(_confirmKey) && _selectedCharacter != CharacterNames.None)
     {
-      
+            ConfirmButton();
     }
 
   }

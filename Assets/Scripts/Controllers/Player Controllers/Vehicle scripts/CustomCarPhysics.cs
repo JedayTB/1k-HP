@@ -332,12 +332,13 @@ public class CustomCarPhysics : MonoBehaviour
 
     Vector3 dirToCollisionPoint = (contactPoint.point - transform.position).normalized;
     float upDownDot = Vector3.Dot(-transform.up, dirToCollisionPoint);
+        float leftRightDot = Vector3.Dot(transform.right, dirToCollisionPoint);
 
     if (upDownDot < 0)
     {
       if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
       {
-        //Debug.Log("STOP NOW!");
+        Debug.Log("STOP NOW!");
         //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
 
         _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
@@ -347,9 +348,20 @@ public class CustomCarPhysics : MonoBehaviour
         //Debug.Log("WE ARE skidding");
         //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
 
-        contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
+        contactForce = Mathf.Clamp(contactForce, 10f, 500f);
+                print(contactForce);
 
-        _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
+        _rigidBody.AddForceAtPosition(transform.forward * contactForce/2, contactPoint.point, ForceMode.Acceleration);
+
+                if (leftRightDot >=0)
+                {
+                    _rigidBody.AddForceAtPosition(transform.right * contactForce / 20, contactPoint.point, ForceMode.Impulse);
+                }
+                else
+                {
+                    _rigidBody.AddForceAtPosition(-transform.right * contactForce / 10, contactPoint.point, ForceMode.Impulse);
+                }
+                
         //Debug.Log("applying force at " + contactPoint.point);
         //
       }
