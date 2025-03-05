@@ -324,6 +324,7 @@ MonoBehaviour:
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
   currentAbility: 0
+  LightningAimDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &3266831930664757789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -810,7 +811,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1940994988830831349}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: dbb4253f649893f4699758400039102e, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
