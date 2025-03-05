@@ -1440,6 +1440,7 @@ MonoBehaviour:
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
   currentAbility: 0
+  LightningAimDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &8404700184827373560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2219,6 +2220,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3592737505249724435}
     m_Modifications:
+    - target: {fileID: 469241908215410300, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2762703401612915582, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
         type: 3}
       propertyPath: m_Name

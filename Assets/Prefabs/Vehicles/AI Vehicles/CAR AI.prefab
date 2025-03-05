@@ -435,7 +435,6 @@ GameObject:
   - component: {fileID: 2118189843144686473}
   - component: {fileID: 2643251588687572955}
   - component: {fileID: 897513817591306491}
-  - component: {fileID: -9042668282969043113}
   m_Layer: 7
   m_Name: CAR AI
   m_TagString: PLAYER
@@ -496,9 +495,8 @@ MonoBehaviour:
   _nitroIncrementThresholdValue: 0
   _nitroIncreaseScaler: 0.75
   _nitroTimeLength: 1
-  _nitroSpeedMultiplier: 2.5
-  _canUseAbility: 0
   currentAbility: 0
+  LightningAimDirection: {x: 0, y: 0, z: 0}
   currentState: 0
   dbgString: 
   SteerPathingClock: 0.01
@@ -507,7 +505,6 @@ MonoBehaviour:
   _circuitedpath: 1
   _reachedTargetDistance: 15
   _reverseThreshold: 25
-  _turningThreshold: 15
   averagedSteerAwayDirection: 0
   isReversing: 0
   steeringOffwall: 0
@@ -548,6 +545,7 @@ MonoBehaviour:
   - {fileID: 5921485350325466169}
   - {fileID: 3753230268447649944}
   - {fileID: 1709498449036955898}
+  colliderFront: {fileID: 0}
   minXAngle: -10
   maxXAngle: 10
   minZAngle: -15
@@ -556,7 +554,7 @@ MonoBehaviour:
   GearTwo: {fileID: 11400000, guid: 7123d7238e809b1d2a6ba9d5cbc32395, type: 2}
   gearText: 1st Gear
   horsePower: 0
-  _terminalVelocity: 500
+  currentTopSpeed: 0
   momentumModifier: 0
   tireGripCurve:
     serializedVersion: 2
@@ -628,7 +626,7 @@ MonoBehaviour:
   - {fileID: 1693272113341390851}
   _trails: []
   driftParticles: []
-  blobProjector: {fileID: -9042668282969043113}
+  blobProjector: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -659,30 +657,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-9042668282969043113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3097150923252005119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 31d0dcc6f2dd4e4408d18036a2c93862, type: 2}
-  m_DrawDistance: 1000
-  m_FadeScale: 0.9
-  m_StartAngleFade: 180
-  m_EndAngleFade: 180
-  m_UVScale: {x: 1, y: 1}
-  m_UVBias: {x: 0, y: 0}
-  m_DecalLayerMask: 1
-  m_ScaleMode: 0
-  m_Offset: {x: -0.08914221, y: -4.61, z: 0.091868125}
-  m_Size: {x: 3.59, y: 1, z: 7.6}
-  m_FadeFactor: 1
 --- !u!1 &3359093535288046718
 GameObject:
   m_ObjectHideFlags: 0
