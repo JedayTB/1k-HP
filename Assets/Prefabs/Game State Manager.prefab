@@ -160,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lapTimes: []
   _timerText: {fileID: 6517763834600901825}
+  lapTimesNumbers: []
 --- !u!1 &3336646864296169901
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +332,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _lapTimesText: {fileID: 479738255098032104}
+  _totalTimeText: {fileID: 6091606978592646428}
   vehicles: []
   levelCheckpointLocations: []
 --- !u!1 &5758554554474994287
@@ -946,6 +948,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 782140631646644743}
     m_Modifications:
+    - target: {fileID: 519224140167626139, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 767105862153842608, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2104564228736380222, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: m_fontSize
@@ -960,6 +972,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3095490244916757666, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_Name
+      value: RankText
       objectReference: {fileID: 0}
     - target: {fileID: 4149619155983221476, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
@@ -1312,6 +1329,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5290047546877339051}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6091606978592646428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2153770049809334455, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5290047546877339051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6517763834600901825 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1376335238787672426, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,

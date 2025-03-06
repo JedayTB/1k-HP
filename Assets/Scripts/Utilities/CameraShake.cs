@@ -85,6 +85,11 @@ public class CameraShake : MonoBehaviour
         _timeWaitingToShake += Time.deltaTime;
     }
 
+    public void StartShake(float duration, float intensity, float harshness, bool hasFalloff, float falloffDuration)
+    {
+        StartCoroutine(Shake(duration, intensity, harshness, hasFalloff, falloffDuration));
+    }
+
     IEnumerator Shake(float duration, float intensity, float harshness, bool hasFalloff, float falloffDuration)
     {
         Vector3 originalPosition = transform.localPosition;
