@@ -79,12 +79,10 @@ MonoBehaviour:
   waypointGizmoRadius: 0.25
   waypointColour: {r: 1, g: 0.43520728, b: 0.015686274, a: 1}
   showWaypoint: 1
-  circleRadius: 7.65
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints: []
-  angleBetweenWaypoints: []
-  easyButtonHack: 0
+  SphereRadius: 5
 --- !u!1 &2854394896290099823
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,12 +239,10 @@ MonoBehaviour:
   waypointGizmoRadius: 0.25
   waypointColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   showWaypoint: 1
-  circleRadius: 7.65
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints: []
-  angleBetweenWaypoints: []
-  easyButtonHack: 0
+  SphereRadius: 5
 --- !u!1 &5599651362457546685
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,10 +308,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   _lapChecker: {fileID: 3082703977965361603}
   _lapTimer: {fileID: 1856795309123257200}
-  NavigationTracks:
-  - {fileID: 6479983322303168501}
-  - {fileID: 4518709569091089924}
-  - {fileID: 5536466240385908379}
+  NavigationTrack: {fileID: 0}
   _uiController: {fileID: 9128068339754363402}
   _aiControllers: []
   _playerVehicles:
@@ -338,6 +331,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _lapTimesText: {fileID: 479738255098032104}
+  vehicles: []
   levelCheckpointLocations: []
 --- !u!1 &5758554554474994287
 GameObject:
@@ -418,12 +412,10 @@ MonoBehaviour:
   waypointGizmoRadius: 0.25
   waypointColour: {r: 0.015686274, g: 0.5500759, b: 1, a: 1}
   showWaypoint: 1
-  circleRadius: 7.65
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints: []
-  angleBetweenWaypoints: []
-  easyButtonHack: 0
+  SphereRadius: 5
 --- !u!1 &8553772557839532733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1265,6 +1257,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 137.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303379873061599695, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8547144782615072313, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
