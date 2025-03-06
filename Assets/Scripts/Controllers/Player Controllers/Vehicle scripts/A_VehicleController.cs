@@ -120,11 +120,11 @@ public abstract class A_VehicleController : MonoBehaviour
   }
   public virtual void enlistAbilityAction(AbilityAction action)
   {
-    onAbilityUsed += action;
+    onAbilityUsed = action;
   }
   public virtual void delistAbilityAction(AbilityAction action)
   {
-    onAbilityUsed -= action;
+    onAbilityUsed = null;
   }
   public virtual void setNewRespawnPosition(Transform newRespawn)
   {
