@@ -169,28 +169,32 @@ public class LightningController : A_Ability
   }
   private void positionCrosshairOnTarget()
   {
-    if (lightningTarget != null)
+    if (vehicle is PlayerVehicleController)
     {
-      /*
-      Vector3 delta = lightningTarget.transform.position - transform.forward;
-      delta.Normalize();
-      float frontbackcheck = Vector3.Dot(transform.forward.normalized, delta);
+      if (lightningTarget != null)
+      {
+        /*
+        Vector3 delta = lightningTarget.transform.position - transform.forward;
+        delta.Normalize();
+        float frontbackcheck = Vector3.Dot(transform.forward.normalized, delta);
 
-      if (frontbackcheck < 0)
+        if (frontbackcheck < 0)
+        {
+          crosshair.gameObject.SetActive(false);
+          Debug.Log("target behind vehicle, disable crosshair");
+          return;
+        }
+        */
+        Vector2 UIMove = Camera.main.WorldToScreenPoint(lightningTarget.transform.position);
+        crosshair.transform.position = UIMove;
+        crosshair.gameObject.SetActive(true);
+      }
+      else if (lightningTarget == null)
       {
         crosshair.gameObject.SetActive(false);
-        Debug.Log("target behind vehicle, disable crosshair");
-        return;
       }
-      */
-      Vector2 UIMove = Camera.main.WorldToScreenPoint(lightningTarget.transform.position);
-      crosshair.transform.position = UIMove;
-      crosshair.gameObject.SetActive(true);
     }
-    else if (lightningTarget == null)
-    {
-      crosshair.gameObject.SetActive(false);
-    }
+
   }
   private void strikeLightning()
   {

@@ -30,7 +30,8 @@ public class CharacterUI : MonoBehaviour
   void Start()
   {
     string yuh = _selectedCharacter.ToString();
-        setSelectedCharacterText("Azure Ace");
+    setSelectedCharacterText("Azure Ace");
+    CursorController.setDefaultCursorConfined();
     //_selectedCharacterText.text = "Null";
     //_selectedCharacterText.gameObject.SetActive(false);
   }
@@ -40,7 +41,7 @@ public class CharacterUI : MonoBehaviour
   {
     if (Input.GetKeyDown(_confirmKey) && _selectedCharacter != CharacterNames.None)
     {
-            ConfirmButton();
+      ConfirmButton();
     }
 
   }
