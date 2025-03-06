@@ -7,6 +7,7 @@ public class LapTimer : MonoBehaviour
 {
   public List<string> lapTimes;
   [SerializeField] private TextMeshProUGUI _timerText;
+    public List<float> lapTimesNumbers;
   private float _lapElapsedTime;
   private float _lapStartTime;
 
@@ -50,6 +51,7 @@ public class LapTimer : MonoBehaviour
   {
     string temp = $"{Mathf.FloorToInt(minute):00}:{seconds:00.0000}";
     lapTimes.Add(temp);
+        lapTimesNumbers.Add(_lapElapsedTime);
     _lapElapsedTime = 0;
     _lapStartTime = Time.time;
   }

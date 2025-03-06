@@ -79,12 +79,10 @@ MonoBehaviour:
   waypointGizmoRadius: 0.25
   waypointColour: {r: 1, g: 0.43520728, b: 0.015686274, a: 1}
   showWaypoint: 1
-  circleRadius: 7.65
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints: []
-  angleBetweenWaypoints: []
-  easyButtonHack: 0
+  SphereRadius: 5
 --- !u!1 &2854394896290099823
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lapTimes: []
   _timerText: {fileID: 6517763834600901825}
+  lapTimesNumbers: []
 --- !u!1 &3336646864296169901
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,12 +240,10 @@ MonoBehaviour:
   waypointGizmoRadius: 0.25
   waypointColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   showWaypoint: 1
-  circleRadius: 7.65
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints: []
-  angleBetweenWaypoints: []
-  easyButtonHack: 0
+  SphereRadius: 5
 --- !u!1 &5599651362457546685
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,10 +309,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   _lapChecker: {fileID: 3082703977965361603}
   _lapTimer: {fileID: 1856795309123257200}
-  NavigationTracks:
-  - {fileID: 6479983322303168501}
-  - {fileID: 4518709569091089924}
-  - {fileID: 5536466240385908379}
+  NavigationTrack: {fileID: 0}
   _uiController: {fileID: 9128068339754363402}
   _aiControllers: []
   _playerVehicles:
@@ -338,6 +332,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _lapTimesText: {fileID: 479738255098032104}
+  _totalTimeText: {fileID: 6091606978592646428}
+  vehicles: []
   levelCheckpointLocations: []
 --- !u!1 &5758554554474994287
 GameObject:
@@ -418,12 +414,10 @@ MonoBehaviour:
   waypointGizmoRadius: 0.25
   waypointColour: {r: 0.015686274, g: 0.5500759, b: 1, a: 1}
   showWaypoint: 1
-  circleRadius: 7.65
   autoRefreshWaypoints: 1
   circuit: 1
   Waypoints: []
-  angleBetweenWaypoints: []
-  easyButtonHack: 0
+  SphereRadius: 5
 --- !u!1 &8553772557839532733
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,6 +948,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 782140631646644743}
     m_Modifications:
+    - target: {fileID: 519224140167626139, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 767105862153842608, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2104564228736380222, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: m_fontSize
@@ -968,6 +972,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3095490244916757666, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_Name
+      value: RankText
       objectReference: {fileID: 0}
     - target: {fileID: 4149619155983221476, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
@@ -1315,6 +1324,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5290047546877339051}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6091606978592646428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2153770049809334455, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5290047546877339051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6517763834600901825 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1376335238787672426, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
