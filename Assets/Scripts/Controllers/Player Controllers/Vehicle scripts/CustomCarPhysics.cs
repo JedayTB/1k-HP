@@ -314,6 +314,7 @@ public class CustomCarPhysics : MonoBehaviour
             ContactPoint cpoint = collision.GetContact(0);
 
             NewCollisionBump(cpoint);
+
         }
     }
 
@@ -333,6 +334,8 @@ public class CustomCarPhysics : MonoBehaviour
 
         Vector3 dirToCollisionPoint = (contactPoint.point - transform.position).normalized;
         float upDownDot = Vector3.Dot(-transform.up, dirToCollisionPoint);
+
+        
 
         if (upDownDot < 0)
         {

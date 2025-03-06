@@ -340,12 +340,12 @@ public class VehicleAIController : A_VehicleController
             isReversing = true;
             averagedSteerAwayDirection = 0f;
             reverseAction(newTurn);
-
             return;
         }
         else
         {
             isReversing = false;
+            steeringOffwall = false;
         }
 
         if (amtOfRaycastsHitting == 0) averagedSteerAwayDirection = 0f;
@@ -358,47 +358,45 @@ public class VehicleAIController : A_VehicleController
         averagedSteerAwayDirection = 0f;
         _throttleInput = -1;
 
-        if (true)
+        float rayLen = maxEffectiveDistanceForSteering * 1.5f;
+        // New steer pos var
+        float distanceAway = 0f;
+        // Remember to destroy to avoid memory leak during runtime
+        raycastDirTr.SetPositionAndRotation(transform.position, transform.rotation);
+        float ogYAngle = raycastDirTr.rotation.eulerAngles.y;
+
+        Vector3 newRotEul = raycastDirTr.rotation.eulerAngles;
+
+        for (int i = 0; i < 90; i++)
         {
-            float rayLen = maxEffectiveDistanceForSteering * 1.5f;
-            // New steer pos var
-            float distanceAway = 0f;
-            // Remember to destroy to avoid memory leak during runtime
-            raycastDirTr.SetPositionAndRotation(transform.position, transform.rotation);
-            float ogYAngle = raycastDirTr.rotation.eulerAngles.y;
-
-            Vector3 newRotEul = raycastDirTr.rotation.eulerAngles;
-
-            for (int i = 0; i < 90; i++)
+            // Goes both directions
+            int angleOffset = i % 2 == 0 ? i : -i;
+            newRotEul.y = ogYAngle + angleOffset;
+            raycastDirTr.rotation = Quaternion.Euler(newRotEul);
+            bool hitCollider = Physics.Raycast(transform.position, raycastDirTr.forward, out RaycastHit rayHit, rayLen, steerAwayFromLayers);
+            if (GameStateManager.Instance.UseDebug)
             {
-                // Goes both directions
-                int angleOffset = i % 2 == 0 ? i : -i;
-                newRotEul.y = ogYAngle + angleOffset;
-                raycastDirTr.rotation = Quaternion.Euler(newRotEul);
-                bool hitCollider = Physics.Raycast(transform.position, raycastDirTr.forward, out RaycastHit rayHit, rayLen, steerAwayFromLayers);
-                if (GameStateManager.Instance.UseDebug)
-                {
-                    Debug.DrawRay(transform.position, raycastDirTr.forward * rayLen, hitCollider ? Color.red : Color.green);
-                }
+                Debug.DrawRay(transform.position, raycastDirTr.forward * rayLen, hitCollider ? Color.red : Color.green);
+            }
 
-                if (hitCollider == true)
-                {
-                    distanceAway = Vector3.Distance(transform.position, rayHit.point);
-                }
-                else
-                {
-                    steeringOffwall = true;
-                    foundOffwallPos = true;
-                    previousSteeringPos = _steeringPosition;
+            if (hitCollider == true)
+            {
+                distanceAway = Vector3.Distance(transform.position, rayHit.point);
+            }
+            else
+            {
+                steeringOffwall = true;
+                foundOffwallPos = true;
+                previousSteeringPos = _steeringPosition;
 
-                    Vector3 newSteerPos = (raycastDirTr.forward.normalized * distanceAway) + transform.position;
-                    _steeringPosition = newSteerPos;
-                    break;
-                }
-
+                Vector3 newSteerPos = (raycastDirTr.forward.normalized * distanceAway) + transform.position;
+                _steeringPosition = newSteerPos;
+                break;
             }
 
         }
+
+
     }
     private float steerVehicleToDestination()
     {
@@ -475,12 +473,14 @@ public class VehicleAIController : A_VehicleController
 
         // If Nothing is happening, slowly move target towards next one
         // And not reversing
+        /*
         if (steeringOffwall == false)
         {
             int n = _NavigationTracks.getWaypoints().Length;
             Vector3 nextpos = _NavigationTracks.getWaypoints()[(_currentWaypointIndex + 1) % n].position;
             _steeringPosition = Vector3.Lerp(_steeringPosition, nextpos, Time.deltaTime);
         }
+        */
     }
     private Vector3 getPosInWaypoint(Vector3 pos)
     {
@@ -548,8 +548,15 @@ public class VehicleAIController : A_VehicleController
     // Misc
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(_steeringPosition, 1.5f);
+
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawSphere(_steeringPosition, 1.5f);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(_NavigationTracks.getWaypoints()[_currentWaypointIndex].position, 1.5f);
+        }
+
     }
     private void OnDisable()
     {
