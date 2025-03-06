@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+    public static CameraShake Instance;
     // Single instance shakes are ones that happen once (e.g. car being hit, being struck by something, explosion, etc.)
     [Header("Single Instance Settings")]
     [SerializeField][Tooltip("Length of the shake")] private float _shakeDuration;
@@ -33,7 +34,10 @@ public class CameraShake : MonoBehaviour
     private Vector3 _originalPosition;
     private bool _right; // trust;
     private float _timeWaitingToShake = 999f;
-
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.J) || doShake)
@@ -87,7 +91,9 @@ public class CameraShake : MonoBehaviour
 
     public void StartShake(float duration, float intensity, float harshness, bool hasFalloff, float falloffDuration)
     {
+        StopAllCoroutines();
         StartCoroutine(Shake(duration, intensity, harshness, hasFalloff, falloffDuration));
+        
     }
 
     IEnumerator Shake(float duration, float intensity, float harshness, bool hasFalloff, float falloffDuration)
@@ -177,7 +183,6 @@ public class CameraShake : MonoBehaviour
     IEnumerator FinishShake(Vector3 originalPosition, float duration)
     {
         LerpReset();
-        print("poo");
         _currentLerpDuration = 0.0001f;
 
         //float progress = 1 - Mathf.Pow(1 - (Time.time - _startTime - duration), 0.5f);

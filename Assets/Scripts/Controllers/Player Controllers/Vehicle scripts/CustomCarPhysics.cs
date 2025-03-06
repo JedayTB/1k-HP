@@ -335,15 +335,18 @@ public class CustomCarPhysics : MonoBehaviour
         Vector3 dirToCollisionPoint = (contactPoint.point - transform.position).normalized;
         float upDownDot = Vector3.Dot(-transform.up, dirToCollisionPoint);
 
-        
-
         if (upDownDot < 0)
         {
+            float ZEROTO1 = contactForce / 4000f;
+            float intensity = Mathf.Lerp(0f, 2f, ZEROTO1);
+            float harshness = Mathf.Lerp(0.5f, 1f, ZEROTO1);
+            float duration = Mathf.Lerp(float.Epsilon, 0.5f, ZEROTO1);
+            CameraShake.Instance.StartShake(duration, intensity, harshness, true, 0.5f);
+
             if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
             {
                 //Debug.Log("STOP NOW!");
                 //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.blue);
-
                 _rigidBody.AddForce(-transform.forward * contactForce, ForceMode.Impulse);
             }
             else
