@@ -504,7 +504,7 @@ MonoBehaviour:
   _driveVehicle: 1
   _circuitedpath: 1
   _reachedTargetDistance: 15
-  _reverseThreshold: 25
+  _reverseThreshold: 10
   averagedSteerAwayDirection: 0
   isReversing: 0
   steeringOffwall: 0
@@ -517,8 +517,8 @@ MonoBehaviour:
   - {fileID: 6025518097197516192}
   - {fileID: 1082913396668062539}
   - {fileID: 1069031442351962705}
-  maxEffectiveDistanceForSteering: 25
-  frontalRCDivisor: 0.5
+  maxEffectiveDistanceForSteering: 15
+  frontalRCDivisor: 0.3
   steerAwayFromLayers:
     serializedVersion: 2
     m_Bits: 264

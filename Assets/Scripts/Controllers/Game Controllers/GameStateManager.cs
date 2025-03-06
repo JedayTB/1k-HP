@@ -211,13 +211,14 @@ public class GameStateManager : MonoBehaviour
 
                     A_VehicleController vRef = distPlayerDict[progressions[i]];
 
-                    vRef.racePlacement = count;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"{e.Message} \nSomehow two vehicles had the same progression. Dumb. Stupid. Idiot");
-            }
+          vRef.racePlacement = count;
+        }
+      }
+      catch (Exception e)
+      {
+        //Debug.LogError($"{e.Message} \nSomehow two vehicles had the same progression. Dumb. Stupid. Idiot");
+        distPlayerDict.Clear();
+      }
 
 
             yield return new WaitForSeconds(RACEPLACEMENTSTICK);
