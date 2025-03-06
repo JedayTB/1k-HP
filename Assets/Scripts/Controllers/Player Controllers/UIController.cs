@@ -40,7 +40,7 @@ public class UIController : MonoBehaviour
   [SerializeField] private TextMeshProUGUI _countdownText;
   [SerializeField] private TextMeshProUGUI GearText;
   [SerializeField] private TextMeshProUGUI playerPlacementText;
-    [SerializeField] public TextMeshProUGUI currentLapText;
+  [SerializeField] public TextMeshProUGUI currentLapText;
 
 
   // Misc
@@ -230,6 +230,7 @@ public class UIController : MonoBehaviour
     _playMenu.alpha = 1;
     _countdownText.gameObject.SetActive(false);
     _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
+    GameStateManager.Instance.StartLapTimer();
     GameStateManager.Instance.UnfreezeAIs();
   }
 

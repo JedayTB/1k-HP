@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -11,26 +12,32 @@ public class LapTimer : MonoBehaviour
 
   private float minute;
   private float seconds;
-
-  void Awake()
+  public void StartTimingLaps()
+  {
+    StartCoroutine(updatetick());
+  }
+  IEnumerator updatetick()
   {
     _lapStartTime = Time.time;
     _lapElapsedTime = -GameStateManager.countdownTime;
+
+    while (true)
+    {
+      _lapElapsedTime = (Time.time - _lapStartTime);
+      setText();
+      if (Input.GetKeyDown(KeyCode.I))
+      {
+        Time.timeScale = 100f;
+      }
+      else if (Input.GetKeyDown(KeyCode.P))
+      {
+        Time.timeScale = 1f;
+      }
+      yield return null;
+    }
+
   }
 
-  void Update()
-  {
-    _lapElapsedTime = (Time.time - _lapStartTime);
-    setText();
-    if (Input.GetKeyDown(KeyCode.I))
-    {
-      Time.timeScale = 100f;
-    }
-    else if (Input.GetKeyDown(KeyCode.P))
-    {
-      Time.timeScale = 1f;
-    }
-  }
   private void setText()
   {
     minute = _lapElapsedTime / 60;
