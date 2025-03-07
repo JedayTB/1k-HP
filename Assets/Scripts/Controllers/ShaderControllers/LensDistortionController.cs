@@ -25,7 +25,7 @@ public class LensDistortionController : MonoBehaviour
   {
     lensDistortionMat.SetFloat(_lensSize, 2f);
     lensDistortionMat.SetFloat(_distortionIntensity, 0f);
-    _maxDistortionSpeed = GameStateManager.Player.VehiclePhysics.GearTwo.MaxSpeed;
+    _maxDistortionSpeed = GameStateManager.Player.VehiclePhysics.GearTwo.MaxSpeed - 20f;
     _minSpeedForDistortion = GameStateManager.Player.VehiclePhysics.GearOne.MaxSpeed - 15f;
   }
 

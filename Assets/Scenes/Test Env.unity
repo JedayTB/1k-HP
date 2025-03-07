@@ -1598,6 +1598,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Post Processing Body
       objectReference: {fileID: 0}
+    - target: {fileID: 9217414378779665301, guid: 52d206951c83d104f8d07cca9be623c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1975,7 +1980,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: c8ec358ff9a0a7c40a76d47350b81d31, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -2387,6 +2392,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1101720270544822904, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362272233738081386, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3779,6 +3789,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 113735246079279241, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 999688664473004955, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_Name
@@ -3814,6 +3829,11 @@ PrefabInstance:
       propertyPath: particleTexture
       value: 
       objectReference: {fileID: 2800000, guid: 6a7d95ad57eaf8e49a19eb7f687737c0, type: 3}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: playerIsInNitro
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: _maxSpeedThreshold
@@ -3876,6 +3896,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2557573246691894447, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2557573246691894447, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
       propertyPath: _maxDistortionSpeed
       value: 400
       objectReference: {fileID: 0}
@@ -3888,6 +3913,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxLensDistortionStrength
       value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2557573246691894447, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: MinLensDistortionStrength
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3760465749834173164, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}

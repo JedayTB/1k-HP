@@ -14,7 +14,7 @@ public class PostProcessing : MonoBehaviour
 
   [Header("Basic setup")]
   public Volume volume;
-  private static float thresholdForEffects = 65f;
+  private static float thresholdForEffects = 50f;
   private static float decaySpeed = 4f;
 
   [Header("Chromatic Abberation Setup")]
@@ -29,7 +29,7 @@ public class PostProcessing : MonoBehaviour
   [SerializeField] private float motionBlurSetAmount;
   public void init()
   {
-    playerTerminalVelocity = GameStateManager.Player.VehiclePhysics.TerminalVelocity - 20f;
+    playerTerminalVelocity = GameStateManager.Player.VehiclePhysics.GearTwo.MaxSpeed - 20f;
 
     volume.profile.TryGet(out motionBlur);
     volume.profile.TryGet(out chromaticAberration);
@@ -53,7 +53,8 @@ public class PostProcessing : MonoBehaviour
         // Extra bit at the end is cuz...
         // past threshold (lets say 80), the value is already above 0. 
         // So, to normalize the value, just add the minimum to get a lower value 
-        normalizedPlayerSpeed = Mathf.Clamp01((thresholdForEffects - currentPlayerSpeed) / (thresholdForEffects - playerTerminalVelocity));
+        //normalizedPlayerSpeed = Mathf.Clamp01((thresholdForEffects - currentPlayerSpeed) / (thresholdForEffects - playerTerminalVelocity));
+        normalizedPlayerSpeed = currentPlayerSpeed / 50f;
         //        Debug.Log($"Post processing progress {normalizedPlayerSpeed}");
         chromaticAbberationSetAmount = LerpAndEasings.ExponentialDecay(chromaticAbberationSetAmount, maxChromaticAberration * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);
         motionBlurSetAmount = LerpAndEasings.ExponentialDecay(motionBlurSetAmount, maxMotionBlur * normalizedPlayerSpeed, decaySpeed, Time.deltaTime);

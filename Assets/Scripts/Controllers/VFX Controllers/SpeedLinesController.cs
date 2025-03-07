@@ -18,8 +18,8 @@ public class SpeedLinesController : MonoBehaviour
   private Vector2 _XScaleRange;
   private Vector2 _YScaleRange;
 
-  private static float _minSpeedThreshold = 75f;
-  private static float _maxSpeedThreshold = CustomCarPhysics._terminalVelocity;
+  private static float _minSpeedThreshold = 45f;
+  private static float _maxSpeedThreshold = 100f;
 
   [Header("Speed Line Spawn Rate")]
 
@@ -43,8 +43,9 @@ public class SpeedLinesController : MonoBehaviour
   private float _currentSpawnRate;
 
   private float playerSpeed = 0f;
-  private bool playerIsInNitro = false;
+  public bool playerIsInNitro = false;
   private float lerpByValue = 0f;
+
   private void Awake()
   {
     _Radius = speedLinesOBJ.GetFloat(RadiusID);
@@ -55,7 +56,7 @@ public class SpeedLinesController : MonoBehaviour
 
     particleTexture = NormalTexture;
     particleTexture = speedLinesOBJ.GetTexture(ParticleTextureID);
-
+    _maxSpeedThreshold = GameStateManager.Player.VehiclePhysics.GearTwo.MaxSpeed - 20f;
   }
 
   private void OnDisable()

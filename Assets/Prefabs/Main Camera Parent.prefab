@@ -63,7 +63,6 @@ MonoBehaviour:
   _rearViewKey: 9
   _inverseCameraX: 0
   _inverseCameraY: 0
-  _boostFOV: 90
 --- !u!1 &1633354061867601568
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,8 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedLinesOBJ: {fileID: 3760465749834173164}
-  _minSpeedThreshold: 100
-  _maxSpeedThreshold: 250
   _minSpawnRate: 25
   _maxSpawnRate: 90
   _minRadiusSize: 1
@@ -286,6 +283,7 @@ MonoBehaviour:
   NitroTexture: {fileID: 2800000, guid: 044b5e74c3afd1c46b2232d30a36151d, type: 3}
   nitroSpawnRate: 80
   nitroRadiusSize: 2
+  playerIsInNitro: 0
 --- !u!2083052967 &3760465749834173164
 VisualEffect:
   m_ObjectHideFlags: 0

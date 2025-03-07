@@ -780,20 +780,35 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 113735246079279241, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 999688664473004955, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_Name
       value: Main Camera Parent
       objectReference: {fileID: 0}
+    - target: {fileID: 999688664473004955, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350928341286303621, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4623124840920390270, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -20.14
       objectReference: {fileID: 0}
     - target: {fileID: 4623124840920390270, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -49.07
       objectReference: {fileID: 0}
     - target: {fileID: 4623124840920390270, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
@@ -835,6 +850,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4819509837973485717, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4866048921694886275, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
       propertyPath: m_StopNaN
@@ -859,6 +879,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _desiredLocation
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718509820143519634, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7552254258717185739, guid: 3fd5a6ac2df161f44bddfa4499c1372b,
         type: 3}
@@ -32637,10 +32662,25 @@ PrefabInstance:
       propertyPath: isForGamePlay
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5242760645025887297, guid: 52d206951c83d104f8d07cca9be623c9,
+        type: 3}
+      propertyPath: maxMotionBlur
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242760645025887297, guid: 52d206951c83d104f8d07cca9be623c9,
+        type: 3}
+      propertyPath: maxChromaticAberration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9217414378779665301, guid: 52d206951c83d104f8d07cca9be623c9,
         type: 3}
       propertyPath: m_Name
       value: Post Processing Body
+      objectReference: {fileID: 0}
+    - target: {fileID: 9217414378779665301, guid: 52d206951c83d104f8d07cca9be623c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33070,6 +33110,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1362272233738081386, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1384104214912308007, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -33139,6 +33184,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718059055322894200, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5599651362457546685, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
