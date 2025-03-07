@@ -17,7 +17,7 @@ public class MusicManager : MonoBehaviour
   public bool isForMenuMusic = false;
 
 
-  [SerializeField] private AudioSource musicSource;
+  [SerializeField] public AudioSource musicSource;
   public float fadeInTime = 5f;
   public static float minVolumeForFadeIn = 0.0f;
 

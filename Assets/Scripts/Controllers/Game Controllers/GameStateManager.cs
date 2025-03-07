@@ -10,7 +10,7 @@ public class GameStateManager : MonoBehaviour
     // Every 0.25 seconds, calculate Race placements
     // RECALCULATE RACE PLACEMENTS AT END OF RACE
     private static readonly float RACEPLACEMENTSTICK = 0.15f;
-
+    private static readonly float MUSICCROSSFADETIME = 4f;
     [SerializeField] private PlayerVehicleController _player;
     public A_Ability[] Abilitieslist;
 
@@ -33,6 +33,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private Transform[] _startLocations;
     [SerializeField] private PostProcessing _postProcessing;
     [SerializeField] private MusicManager _musicManager;
+    [SerializeField] private MusicManager EndLevelMusic;
 
     [Header("Cursor Sprites")]
     public Texture2D lightningCursor;
@@ -266,9 +267,21 @@ public class GameStateManager : MonoBehaviour
         GrandPrixManager.SetRacePlacement(GrandPrixManager.CurrentLevelIndex, 1);
         GrandPrixManager.CurrentLevelIndex += isGP ? 1 : 0;
         _uiController.setWinScreen(true, isGP);
-
+        StartCoroutine(CrossFadeLevelAndEndMusic(MUSICCROSSFADETIME));
     }
-
+    private IEnumerator CrossFadeLevelAndEndMusic(float crossfadetime){
+        float count = 0f;
+        float currentmusicvolume = _musicManager.musicSource.volume;
+        float progress = 0f;
+        EndLevelMusic.musicSource.Play();
+        while(count < crossfadetime){
+            count += Time.deltaTime;
+            progress = count / crossfadetime;
+            _musicManager.musicSource.volume = Mathf.Lerp(currentmusicvolume, 0f, progress);
+            EndLevelMusic.musicSource.volume = Mathf.Lerp(0f, currentmusicvolume, progress);
+            yield return null;
+        }
+    }
     private void calculateEndTimeRank(float totalTime)
     {
         float minutes = totalTime / 60;
