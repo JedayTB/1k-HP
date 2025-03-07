@@ -320,7 +320,7 @@ public class GameStateManager : MonoBehaviour
             setText = "Bronze";
             setColor = BronzeMedalColor;
         }
-        else if (totalTime < StageMedalValues.WoodLapTime)
+        else        
         {
             setText = "Wood. Wow.";
             setColor = WoodColor;
