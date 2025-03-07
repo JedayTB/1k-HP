@@ -21,7 +21,7 @@ public class GameStateManager : MonoBehaviour
     [Header("Game Logic Values")]
     public int LapsToFinishRace = 3;
     public static float countdownTime = 3;
-
+    [SerializeField] private MedalValues StageMedalValues;
     [Header("Game Logic Objects")]
     [SerializeField] private CameraFollower3D cam;
     [SerializeField] public LapChecker _lapChecker;
@@ -42,6 +42,23 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] string[] vehicleDbgInfo;
     public int nextPlayerCheckpointPosition = 0;
 
+    [Header("Text Fields")]
+    // UI Stuff
+    [SerializeField] private TextMeshProUGUI _lapTimesText;
+    [SerializeField] private TextMeshProUGUI _totalTimeText;
+    [SerializeField] private TextMeshProUGUI _rankText;
+
+    [Header("Rank Colors")]
+    [SerializeField] private Color DevMedalColor;
+    [SerializeField] private Color PlatinumMedalColor;
+    [SerializeField] private Color GoldMedalColor;
+    [SerializeField] private Color SilverMedalColor;
+    [SerializeField] private Color BronzeMedalColor;
+    [SerializeField] private Color WoodColor;
+
+
+
+
 
     [Header("Misc")]
     [SerializeField] private VisualEffect SkidParticlesPrototype;
@@ -55,12 +72,7 @@ public class GameStateManager : MonoBehaviour
 
     public static int _newCharacter = 1;
 
-
-    // UI Stuff
-    [SerializeField] private TextMeshProUGUI _lapTimesText;
-    [SerializeField] private TextMeshProUGUI _totalTimeText;
-    [SerializeField] private TextMeshProUGUI _rankText;
-
+    // Hidden
     [HideInInspector] public List<A_VehicleController> vehicles = new List<A_VehicleController>();
     [HideInInspector] public Vector3[] levelCheckpointLocations;
 
@@ -267,20 +279,9 @@ public class GameStateManager : MonoBehaviour
         GrandPrixManager.SetRacePlacement(GrandPrixManager.CurrentLevelIndex, 1);
         GrandPrixManager.CurrentLevelIndex += isGP ? 1 : 0;
         _uiController.setWinScreen(true, isGP);
+
+
         StartCoroutine(CrossFadeLevelAndEndMusic(MUSICCROSSFADETIME));
-    }
-    private IEnumerator CrossFadeLevelAndEndMusic(float crossfadetime){
-        float count = 0f;
-        float currentmusicvolume = _musicManager.musicSource.volume;
-        float progress = 0f;
-        EndLevelMusic.musicSource.Play();
-        while(count < crossfadetime){
-            count += Time.deltaTime;
-            progress = count / crossfadetime;
-            _musicManager.musicSource.volume = Mathf.Lerp(currentmusicvolume, 0f, progress);
-            EndLevelMusic.musicSource.volume = Mathf.Lerp(0f, currentmusicvolume, progress);
-            yield return null;
-        }
     }
     private void calculateEndTimeRank(float totalTime)
     {
@@ -288,7 +289,61 @@ public class GameStateManager : MonoBehaviour
         float seconds = totalTime % 60;
 
         _totalTimeText.text = $"{Mathf.FloorToInt(minutes):00}:{seconds:00.00}";
+        SetRankText(totalTime);
     }
+    private void SetRankText(float totalTime)
+    {
+        string setText = "";
+        Color setColor = Color.white;
+        if (totalTime < StageMedalValues.DevLapTime)
+        {
+            setText = "Dev";
+            setColor = DevMedalColor;
+        }
+        else if (totalTime < StageMedalValues.PlatinumLapTime)
+        {
+            setText = "Platinum";
+            setColor = PlatinumMedalColor;
+        }
+        else if (totalTime < StageMedalValues.GoldLapTime)
+        {
+            setText = "Gold";
+            setColor = GoldMedalColor;
+        }
+        else if (totalTime < StageMedalValues.SilverLapTime)
+        {
+            setText = "Silver";
+            setColor = SilverMedalColor;
+        }
+        else if (totalTime < StageMedalValues.BronzeLapTime)
+        {
+            setText = "Bronze";
+            setColor = BronzeMedalColor;
+        }
+        else if (totalTime < StageMedalValues.WoodLapTime)
+        {
+            setText = "Wood. Wow.";
+            setColor = WoodColor;
+        }
+        _rankText.text = setText;
+        _rankText.color = setColor;
+    }
+    private IEnumerator CrossFadeLevelAndEndMusic(float crossfadetime)
+    {
+        float count = 0f;
+        float currentmusicvolume = _musicManager.musicSource.volume;
+        float progress = 0f;
+        EndLevelMusic.musicSource.Play();
+        while (count < crossfadetime)
+        {
+            count += Time.deltaTime;
+            progress = count / crossfadetime;
+            _musicManager.musicSource.volume = Mathf.Lerp(currentmusicvolume, 0f, progress);
+            EndLevelMusic.musicSource.volume = Mathf.Lerp(0f, currentmusicvolume, progress);
+            yield return null;
+        }
+    }
+
 
     public void UnfreezeAIs()
     {

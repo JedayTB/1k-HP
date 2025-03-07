@@ -306,6 +306,7 @@ MonoBehaviour:
   - {fileID: 5493923982055729215, guid: 88e316216ae01aebe873ae8e6619d3cc, type: 3}
   UseDebug: 0
   LapsToFinishRace: 3
+  StageMedalValues: {fileID: 0}
   cam: {fileID: 0}
   _lapChecker: {fileID: 3082703977965361603}
   _lapTimer: {fileID: 1856795309123257200}
@@ -327,14 +328,20 @@ MonoBehaviour:
   lightningCursor: {fileID: 2800000, guid: d935b665e7dfb38598ecf8e8b1c132a0, type: 3}
   vehicleDbgInfo: []
   nextPlayerCheckpointPosition: 0
+  _lapTimesText: {fileID: 479738255098032104}
+  _totalTimeText: {fileID: 6091606978592646428}
+  _rankText: {fileID: 3060922993090535094}
+  DevMedalColor: {r: 0.735849, g: 0, b: 0, a: 1}
+  PlatinumMedalColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+  GoldMedalColor: {r: 1, g: 0.9275984, b: 0.25943398, a: 1}
+  SilverMedalColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
+  BronzeMedalColor: {r: 0.8490566, g: 0.47990155, b: 0, a: 1}
+  WoodColor: {r: 0.3301887, g: 0.15718597, b: 0, a: 1}
   SkidParticlesPrototype: {fileID: 1499191319978285469, guid: 7863d32c30b09ce2c8828d2d1c91ecf2,
     type: 3}
   CarPhysicsLayer:
     serializedVersion: 2
     m_Bits: 8
-  _lapTimesText: {fileID: 479738255098032104}
-  _totalTimeText: {fileID: 6091606978592646428}
-  _rankText: {fileID: 0}
   vehicles: []
   levelCheckpointLocations: []
 --- !u!1 &5758554554474994287
@@ -950,6 +957,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 782140631646644743}
     m_Modifications:
+    - target: {fileID: 519224140167626139, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 767105862153842608, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: AccumulatedScoreText
@@ -1034,6 +1051,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ScoreAdditionGradient.m_NumColorKeys
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5489029620006112490, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 389.9
       objectReference: {fileID: 0}
     - target: {fileID: 6257373978762454745, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
@@ -1155,6 +1177,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8303379873061599695, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1178,6 +1205,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5290047546877339051}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3060922993090535094 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7138367080196242205, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5290047546877339051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6091606978592646428 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2153770049809334455, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
