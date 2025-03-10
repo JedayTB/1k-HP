@@ -70,7 +70,7 @@ public class GameStateManager : MonoBehaviour
 
   public static PlayerVehicleController Player; // Singleton var
 
-  public static int _newCharacter = 1;
+  public static int _newCharacter = 0;
 
   // Hidden
   [HideInInspector] public List<A_VehicleController> vehicles = new List<A_VehicleController>();
