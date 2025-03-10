@@ -59,6 +59,7 @@ public class SpeedLinesController : MonoBehaviour
     _maxSpeedThreshold = GameStateManager.Player.VehiclePhysics.GearTwo.MaxSpeed - 20f;
   }
 
+
   private void OnDisable()
   {
     speedLinesOBJ.SetFloat(RadiusID, 0f);
