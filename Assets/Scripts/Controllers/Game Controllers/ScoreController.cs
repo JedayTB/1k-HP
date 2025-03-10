@@ -27,10 +27,14 @@ public class ScoreController : MonoBehaviour
 
     [Header("Gradients")]
     [SerializeField] private Gradient ScoreAdditionGradient;
-
-    //
     CustomCarPhysics playerPhysRef;
 
+    [Header("Sizing")]
+    [SerializeField] private float LowestSize = 0.5f;
+    [SerializeField] private float HighestSize = 3f;
+
+    [Header("Text Shake")]
+    [SerializeField] private float lowestIntensity = 1f;
     void Start()
     {
         playerPhysRef = GameStateManager.Player.VehiclePhysics;
