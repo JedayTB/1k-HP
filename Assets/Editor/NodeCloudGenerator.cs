@@ -16,13 +16,10 @@ public class NodeCloudGenerator : Editor
   {
     base.OnInspectorGUI();
 
-    if (GUILayout.Button("Create Node Cloud"))
-    {
-      NCU.CreateNodeCloud();
-    }
-    if (GUILayout.Button("Delete Node Cloud"))
-    {
-      NCU.DeleteNodeCloud();
-    }
+    if (GUILayout.Button("Create Node Cloud")) NCU.CreateNodeCloud();
+
+    if (GUILayout.Button("Bake Info To Node Cloud")) NCU.StartBakeOfNodeCloud();
+
+    if (GUILayout.Button("Delete Node Cloud")) NCU.DeleteNodeCloud();
   }
 }
