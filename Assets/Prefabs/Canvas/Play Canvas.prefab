@@ -161,7 +161,7 @@ RectTransform:
   m_GameObject: {fileID: 328215402550497784}
   m_LocalRotation: {x: -0.000000018556566, y: -0.0000000123687105, z: -0.807167, w: -0.5903231}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.67298, y: 0.67298, z: 0.67298}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4871730053814600501}
@@ -374,7 +374,6 @@ RectTransform:
   m_Children:
   - {fileID: 2834649720132562375}
   - {fileID: 8139635301315531651}
-  - {fileID: 7785864640023946504}
   - {fileID: 7727897043480114334}
   - {fileID: 8981546599219573905}
   - {fileID: 7474643934798473482}
@@ -835,8 +834,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -700, y: -350}
+  m_AnchoredPosition: {x: 0.8554077, y: 0}
+  m_SizeDelta: {x: -698.2908, y: -350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &2745050096716413656
 CanvasGroup:
@@ -2338,12 +2337,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5569715577378990401}
+  m_Father: {fileID: 8139635301315531651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 181.79999, y: 3}
-  m_SizeDelta: {x: 260.96, y: 50}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 134.8, y: -95.7}
+  m_SizeDelta: {x: 270.3, y: 143.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &624302153236965124
 CanvasRenderer:
@@ -2421,7 +2420,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 2
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
@@ -2554,7 +2553,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 432.9, y: -61.2}
+  m_AnchoredPosition: {x: 389.9, y: -61.2}
   m_SizeDelta: {x: 461.76, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8603172034602403704
@@ -5583,6 +5582,7 @@ GameObject:
   - component: {fileID: 8139635301315531651}
   - component: {fileID: 4470075433043348586}
   - component: {fileID: 2255691846166979561}
+  - component: {fileID: 7593312699256395591}
   m_Layer: 5
   m_Name: Score Text
   m_TagString: Untagged
@@ -5601,7 +5601,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7785864640023946504}
   m_Father: {fileID: 5569715577378990401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
@@ -5709,6 +5710,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &7593312699256395591
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6698636696138673825}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6745050078614154636
 GameObject:
   m_ObjectHideFlags: 0
@@ -6393,24 +6406,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 2255691846166979561}
-  AccumulatedScoreText: {fileID: 0}
+  AccumulatedScoreText: {fileID: 2855583204886281874}
   CurrentScore: 0
   AccumulatedScore: 0
+  MaxAccumulatedScore: 250000
   NitroScoreDelta: 1000
   DriftingScoreDelta: 300
+  MaxSpeedScoreMultiplier: 5
   ScoreAdditionGradient:
     serializedVersion: 2
-    key0: {r: 0, g: 1, b: 0.013171911, a: 1}
-    key1: {r: 1, g: 0, b: 0, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
+    key0: {r: 0.9960785, g: 0.9803922, b: 0.9960785, a: 1}
+    key1: {r: 0.9568628, g: 0.37254903, b: 0.56078434, a: 1}
+    key2: {r: 1, g: 0.52156866, b: 0.8470589, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 65535
-    ctime2: 0
+    ctime1: 30455
+    ctime2: 65535
     ctime3: 0
     ctime4: 0
     ctime5: 0
@@ -6426,8 +6441,16 @@ MonoBehaviour:
     atime7: 0
     m_Mode: 2
     m_ColorSpace: -1
-    m_NumColorKeys: 2
+    m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  LowestSize: 0.5
+  HighestSize: 2.5
+  LowestIntensity: 0
+  HighestIntensity: 125
+  intensity: 0
+  _xInfluence: 1
+  _yInfluence: 1
+  _zInfluence: 1
 --- !u!1 &7480830424686636298
 GameObject:
   m_ObjectHideFlags: 0
