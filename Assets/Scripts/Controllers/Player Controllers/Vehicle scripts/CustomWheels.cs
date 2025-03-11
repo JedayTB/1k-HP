@@ -138,8 +138,13 @@ public class CustomWheels : MonoBehaviour
     // Start accelerating the same direction as input
     else
     {
-      forwardAccTime = calcForward ? forwardAccTime + Time.deltaTime : forwardAccTime - Time.deltaTime;
-      backwardAccTime = calcBackward ? backwardAccTime + Time.deltaTime : backwardAccTime - Time.deltaTime;
+      float modifier = GameStateManager.Player.VehiclePhysics.curGear == 0 ? 0.75f : 0.25f;
+      print(modifier);
+      forwardAccTime = calcForward ? forwardAccTime + (modifier * Time.deltaTime) : forwardAccTime - Time.deltaTime;
+      forwardAccTime = Mathf.Max(forwardAccTime, 0f);
+
+      backwardAccTime = calcBackward ? backwardAccTime + (modifier * Time.deltaTime) : backwardAccTime - Time.deltaTime;
+      backwardAccTime = Mathf.Max(backwardAccTime, 0f);
     }
 
   }
