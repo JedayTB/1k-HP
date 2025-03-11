@@ -168,12 +168,7 @@ public class UIController : MonoBehaviour
 
   public void resetPlayer()
   {
-    _player.respawn();
-
-    if (_menuIsOpen)
-    {
-      menuOpenClose();
-    }
+        Time.timeScale = 1f;
   }
 
   public void continueButton()

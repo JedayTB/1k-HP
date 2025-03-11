@@ -264,6 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lapTimes: []
   _timerText: {fileID: 6517763834600901825}
+  _totalTimerText: {fileID: 8225031993215703706}
   lapTimesNumbers: []
 --- !u!1 &3336646864296169901
 GameObject:
@@ -1171,126 +1172,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 782140631646644743}
     m_Modifications:
-    - target: {fileID: 519224140167626139, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 767105862153842608, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2010562328397366808, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: -698.2908
-      objectReference: {fileID: 0}
-    - target: {fileID: 2010562328397366808, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.8554077
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: AccumulatedScoreText
-      value: 
-      objectReference: {fileID: 7983501139123215161}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.ctime1
-      value: 30455
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.ctime2
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.ctime3
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key0.b
-      value: 0.9960785
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key0.g
-      value: 0.9803922
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key0.r
-      value: 0.9960785
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key1.b
-      value: 0.56078434
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key1.g
-      value: 0.37254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key1.r
-      value: 0.9568628
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key2.b
-      value: 0.8470589
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key2.g
-      value: 0.52156866
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key2.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key3.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key3.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.key3.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2655385844532555413, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: ScoreAdditionGradient.m_NumColorKeys
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4629751052652349106, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 800
-      objectReference: {fileID: 0}
-    - target: {fileID: 4629751052652349106, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 5489029620006112490, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 389.9
-      objectReference: {fileID: 0}
     - target: {fileID: 6257373978762454745, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1411,11 +1292,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8303379873061599695, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1478,6 +1354,18 @@ MonoBehaviour:
 --- !u!114 &7983501139123215161 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2855583204886281874, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5290047546877339051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8225031993215703706 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4273679867219066673, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
     type: 3}
   m_PrefabInstance: {fileID: 5290047546877339051}
   m_PrefabAsset: {fileID: 0}

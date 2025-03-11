@@ -15,7 +15,7 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] private float _raycastDistance = 1.5f;
   [SerializeField] private LayerMask _groundLayers;
   [SerializeField] private CustomWheels[] wheels;
-
+    [HideInInspector] public float normalizedSpeed;
   public CustomWheels[] WheelArray { get => wheels; }
   private int halfTireLength;
   private Rigidbody _rigidBody;
@@ -231,7 +231,7 @@ public class CustomCarPhysics : MonoBehaviour
   void FixedUpdate()
   {
     float carSpeed = Vector3.Dot(_transform.forward, _rigidBody.velocity);
-    float normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
+    normalizedSpeed = Mathf.Clamp01(Mathf.Abs(carSpeed) / _terminalVelocity);
 
     float tireGrip = tireGripCurve.Evaluate(normalizedSpeed);
     //To Resist turning at higher speeds

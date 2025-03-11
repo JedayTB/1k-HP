@@ -34,10 +34,12 @@ public class CameraShake : MonoBehaviour
     private Vector3 _originalPosition;
     private bool _right; // trust;
     private float _timeWaitingToShake = 999f;
+
     private void Awake()
     {
         Instance = this;
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.J) || doShake)
@@ -60,6 +62,7 @@ public class CameraShake : MonoBehaviour
         {
             transform.localPosition = Vector3.zero;
         }
+
     }
 
     private void ContinuousShake(float intensity, float harshness)
