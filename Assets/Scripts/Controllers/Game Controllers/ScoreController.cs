@@ -27,6 +27,8 @@ public class ScoreController : MonoBehaviour
     [SerializeField] private float DriftingScoreDelta = 300f;
 
     [SerializeField] private float MaxSpeedScoreMultiplier = 5f;
+    [SerializeField] float ScoreSpeedModifier;
+    [SerializeField]float NitroScoreModifier;
     [Header("Gradients")]
     [SerializeField] private Gradient ScoreAdditionGradient;
     CustomCarPhysics playerPhysRef;
@@ -105,8 +107,8 @@ public class ScoreController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float ScoreSpeedModifier = Mathf.Lerp(1f, MaxSpeedScoreMultiplier, playerPhysRef.normalizedSpeed);
-        float NitroScoreModifier = playerPhysRef.isUsingNitro == true ? 3f : 1f;
+         ScoreSpeedModifier = Mathf.Lerp(1f, MaxSpeedScoreMultiplier, playerPhysRef.normalizedSpeed);
+         NitroScoreModifier = playerPhysRef.isUsingNitro == true ? 3f : 1f;
 
         if (playerPhysRef.isUsingNitro) AddScore((NitroScoreDelta * Time.fixedDeltaTime) * NitroScoreModifier * ScoreSpeedModifier);
         else if (playerPhysRef.isDrifting)  AddScore((DriftingScoreDelta * Time.fixedDeltaTime) * NitroScoreModifier * ScoreSpeedModifier);
