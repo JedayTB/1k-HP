@@ -10,6 +10,7 @@ public enum TireType
 
 public class CustomWheels : MonoBehaviour
 {
+  private CustomCarPhysics ParentPhys;
   private float _turningInput = 0;
   private float _throttleInput = 0;
   public TireType tireType;
@@ -43,8 +44,9 @@ public class CustomWheels : MonoBehaviour
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
   #region Public Physic's unrelated
-  public void init(Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
+  public void init(CustomCarPhysics veh, Rigidbody rb,float leftTurnAngle, float rightTurnAngle)
   {
+    ParentPhys = veh;
     _vehicleRB = rb;
     _tireTransform = transform;
 
@@ -138,8 +140,8 @@ public class CustomWheels : MonoBehaviour
     // Start accelerating the same direction as input
     else
     {
-      float modifier = GameStateManager.Player.VehiclePhysics.curGear == 0 ? 0.75f : 0.25f;
-      print(modifier);
+      float modifier = ParentPhys.curGear == 0 ? 0.75f : 0.25f;
+      
       forwardAccTime = calcForward ? forwardAccTime + (modifier * Time.deltaTime) : forwardAccTime - Time.deltaTime;
       forwardAccTime = Mathf.Max(forwardAccTime, 0f);
 

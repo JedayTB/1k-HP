@@ -119,7 +119,7 @@ public class CustomCarPhysics : MonoBehaviour
           break;
       }
 
-      tire.init(_rigidBody, leftAckAngle, rightAckAngle);
+      tire.init(this, _rigidBody, leftAckAngle, rightAckAngle);
     }
   }
 
