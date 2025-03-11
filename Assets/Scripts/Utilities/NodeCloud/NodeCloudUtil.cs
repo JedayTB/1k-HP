@@ -111,8 +111,8 @@ public class NodeCloudUtil : MonoBehaviour
 
         Debug.Log("Clearing Past Values...");
 
-        AveragedDirList.Clear();
-        ClosestCheckpointDirList.Clear();
+        if(AveragedDirList != null) AveragedDirList.Clear();
+        if(ClosestCheckpointDirList != null) ClosestCheckpointDirList.Clear();
 
         for (int i = 0; i < NodeCloud.Count; i++)
         {
