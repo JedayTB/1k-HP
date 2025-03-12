@@ -6,14 +6,14 @@ public class MouseScale : MonoBehaviour
 {
     public void PointerEnter()
     {
-        transform.localScale = new Vector2(1.2f, 1.2f);
+        transform.localScale = new Vector2(5.626861f, 19.78189f);
     }
     public void PointerExit() 
     {
-        transform.localScale = new Vector2(1f, 1f);
+        transform.localScale = new Vector2(6f, 20f);
     }
     public void PointerClick()
     {
-        transform.localScale = new Vector2(0.8f, 0.8f);
+        transform.localScale = new Vector2(5.8f, 19.8f);
     }
 }
