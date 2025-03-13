@@ -9,9 +9,9 @@ public class LapTimer : MonoBehaviour
   [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _totalTimerText;
     public List<float> lapTimesNumbers;
-  private float _lapElapsedTime;
+  private float _totalElapsedTime;
   private float _lapStartTime;
-    private float _totalElapsedTime;
+    private float _lapElapsedTime;
     private float _totalStartTime;
 
   private float minute;
@@ -24,7 +24,7 @@ public class LapTimer : MonoBehaviour
   IEnumerator updatetick()
   {
     _lapStartTime = Time.time;
-    _lapElapsedTime = -GameStateManager.countdownTime;
+    _totalElapsedTime = -GameStateManager.countdownTime;
 
     while (true)
     {
@@ -46,15 +46,15 @@ public class LapTimer : MonoBehaviour
 
   private void setText()
   {
-    minute = _lapElapsedTime / 60;
-    seconds = _lapElapsedTime % 60;
+    minute = _totalElapsedTime / 60;
+    seconds = _totalElapsedTime % 60;
 
-    _totalTimerText.text = $"Lap Time:{Mathf.FloorToInt(minute):00}:{seconds:00.00}";
+    _totalTimerText.text = $"Time:{Mathf.FloorToInt(minute):00}:{seconds:00.00}";
 
-        minute = _totalElapsedTime / 60;
-        seconds = _totalElapsedTime % 60;
+        minute = _lapElapsedTime / 60;
+        seconds = _lapElapsedTime % 60;
 
-        _timerText.text = $"Time:{Mathf.FloorToInt(minute):00}:{seconds:00.00}";
+        _timerText.text = $"Lap Time:{Mathf.FloorToInt(minute):00}:{seconds:00.00}";
 
   }
   public void endLap()
