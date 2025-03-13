@@ -46,7 +46,7 @@ public class SpeedLinesController : MonoBehaviour
   public bool playerIsInNitro = false;
   private float lerpByValue = 0f;
 
-  private void Awake()
+  private void Start()
   {
     _Radius = speedLinesOBJ.GetFloat(RadiusID);
     _ParticleSpawnRate = speedLinesOBJ.GetFloat(ParticleSpawnRateID);
