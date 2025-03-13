@@ -9,7 +9,7 @@ public class ScoreController : MonoBehaviour
     public TextMeshProUGUI AccumulatedScoreText;
 
     private static float TimeToFadeAway = 5f;
-    public float CurrentScore = 0f;
+    public static float CurrentScore = 0f;
     public float AccumulatedScore = 0f;
 
     private bool isAccumulating = false;

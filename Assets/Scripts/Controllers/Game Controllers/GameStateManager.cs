@@ -46,7 +46,9 @@ public class GameStateManager : MonoBehaviour
     // UI Stuff
     [SerializeField] private TextMeshProUGUI _lapTimesText;
     [SerializeField] private TextMeshProUGUI _totalTimeText;
-    [SerializeField] private TextMeshProUGUI _rankText;
+    [SerializeField] private TextMeshProUGUI _timeRankText;
+    [SerializeField] private TextMeshProUGUI _scoreNumberText;
+    [SerializeField] private TextMeshProUGUI _scoreRankText;
 
     [Header("Rank Colors")]
     [SerializeField] private Color DevMedalColor;
@@ -286,6 +288,7 @@ public class GameStateManager : MonoBehaviour
         print(lapTimesStr);
 
         _lapTimesText.text = lapTimesStr;
+        _scoreNumberText.text = ScoreController.CurrentScore.ToString("0");
 
         bool isGP = GrandPrixManager.GameMode == 0 ? true : false;
         GrandPrixManager.SetRacePlacement(GrandPrixManager.CurrentLevelIndex, 1);
@@ -301,9 +304,9 @@ public class GameStateManager : MonoBehaviour
         float seconds = totalTime % 60;
 
         _totalTimeText.text = $"{Mathf.FloorToInt(minutes):00}:{seconds:00.00}";
-        SetRankText(totalTime);
+        SetRankText(totalTime, ScoreController.CurrentScore);
     }
-    private void SetRankText(float totalTime)
+    private void SetRankText(float totalTime, float totalScore)
     {
         string setText = "";
         Color setColor = Color.white;
@@ -337,8 +340,42 @@ public class GameStateManager : MonoBehaviour
             setText = "Wood. Wow.";
             setColor = WoodColor;
         }
-        _rankText.text = setText;
-        _rankText.color = setColor;
+        _timeRankText.text = setText;
+        _timeRankText.color = setColor;
+
+        if (totalScore >= StageMedalValues.DevScore)
+        {
+            setText = "Dev";
+            setColor = DevMedalColor;
+        }
+        else if (totalScore >= StageMedalValues.PlatinumScore)
+        {
+            setText = "Platinum";
+            setColor = PlatinumMedalColor;
+        }
+        else if (totalScore >= StageMedalValues.GoldScore)
+        {
+            setText = "Gold";
+            setColor = GoldMedalColor;
+        }
+        else if (totalScore >= StageMedalValues.SilverScore)
+        {
+            setText = "Silver";
+            setColor = SilverMedalColor;
+        }
+        else if (totalScore >= StageMedalValues.BronzeScore)
+        {
+            setText = "Bronze";
+            setColor = BronzeMedalColor;
+        }
+        else
+        {
+            setText = "Wood. Yikes.";
+            setColor = WoodColor;
+        }
+
+        _scoreRankText.text = setText;
+        _scoreRankText.color = setColor;
     }
     private IEnumerator CrossFadeLevelAndEndMusic(float crossfadetime)
     {
