@@ -1,31 +1,24 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class VehicleAIController : A_VehicleController
 {
 
   #region AI Variables 
   [Header("AI Basic setup")]
+  private List<NodePoint>[] NodeQuadrants;
   public aiState currentState = aiState.driving;
+  [SerializeField] List<NodePoint> NodeCloud;
+
+  public Vector3 aggregatedDirectionFromNodeCloud;
   public string dbgString;
   private Vector3 _steeringPosition = Vector3.zero;
   [SerializeField] protected float SteerPathingClock = 0.01f;
   [SerializeField] private bool _singleTarget = false;
   [SerializeField] public bool _driveVehicle = true;
   [SerializeField] private bool _circuitedpath = true;
-
-  [Header("Steering parametres")]
-  private waypointGizmos _NavigationTracks;
-  private int waypointsArrayLength;
-  [SerializeField] private float _reachedTargetDistance = 6f;
-  [SerializeField] private float _reverseThreshold = 25f;
-
-  private int _currentWaypointIndex = 0;
-  private int _respawnWaypointIndex = 0;
-
-  [Header("Advanced Steering Parametres")]
-  public float averagedSteerAwayDirection;
 
   Transform raycastDirTr;
   private Vector3 previousSteeringPos = Vector3.zero;
@@ -44,13 +37,12 @@ public class VehicleAIController : A_VehicleController
   [SerializeField] private float maxEffectiveDistanceForSteering = 25f;
   [SerializeField] private float frontalRCDivisor = 0.3f;
   [SerializeField] private LayerMask steerAwayFromLayers;
-
+  private float averagedSteerAwayDirection;
   private int amtFrontalChecks = 0;
   private float yAngleToTarget;
 
   // Lightning Specifics 
   A_VehicleController closestCurrentVehicle;
-  A_VehicleController lastVehicle;
   private static float lightningDotFOV = 0.7f;
   private bool targetChanged;
   private static float TimeToFireLightning = 3f;
@@ -73,21 +65,14 @@ public class VehicleAIController : A_VehicleController
     setRaycastVariables();
     StartCoroutine(AILogic(SteerPathingClock));
   }
-
-  public void Init(waypointGizmos track)
-  {
-    _NavigationTracks = track;
-
-    waypointsArrayLength = _NavigationTracks.getWaypoints().Length - 1;
-
-    if (waypointsArrayLength != 0)
+    public void Init(List<NodePoint>[] ncq)
     {
-      _steeringPosition = _NavigationTracks.getWaypoints()[0].position;
+      base.Init();
+      NodeQuadrants = ncq;
+      Debug.LogWarning("This probably doesn't work");
     }
 
-    Init();
-  }
-  private void setRaycastVariables()
+    private void setRaycastVariables()
   {
     rayHitStrength = 1f / raycastPositions.Length;
     raycastDirTr = new GameObject().transform;
@@ -106,13 +91,11 @@ public class VehicleAIController : A_VehicleController
   public override void respawn()
   {
     base.respawn();
-    _currentWaypointIndex = _respawnWaypointIndex;
   }
 
   public override void setNewRespawnPosition(Transform newTransform)
   {
     base.setNewRespawnPosition(newTransform);
-    _respawnWaypointIndex = _currentWaypointIndex;
   }
   public void changeAIState(aiState newState)
   {
@@ -280,17 +263,26 @@ public class VehicleAIController : A_VehicleController
   #region General Driving Methods
   private void generalDrivingLogic()
   {
-    if (_singleTarget == false) updateTarget();
-
     if (_driveVehicle)
     {
+
+      calculateAggregateDirectinoFromNodeCloud();
       float turnAmtToDriveTarget = steerVehicleToDestination();
       avoidCollisions(turnAmtToDriveTarget);
 
-      //float turningAmount = Mathf.Clamp(angleToTarget / threshold, -1, 1);
-
       _vehiclePhysics.setInputs(_throttleInput, _turningInput);
     }
+  }
+  private void calculateAggregateDirectinoFromNodeCloud()
+  {
+    int count = 0;
+    Vector3 newVal = Vector3.zero;
+    foreach (var np in NodeCloud)
+    {
+      count++;
+      newVal += np.OptimalDrivingDir;
+    }
+    aggregatedDirectionFromNodeCloud = (newVal / count).normalized;
   }
   private void avoidCollisions(float turnAmtToDriveTarget)
   {
@@ -322,7 +314,6 @@ public class VehicleAIController : A_VehicleController
           amtOfRaycastsHitting++;
           switch (raycastPositions[i].rcType)
           {
-
             case SteeringRaycastType.frontal:
               amtFrontalHit++;
               break;
@@ -345,10 +336,7 @@ public class VehicleAIController : A_VehicleController
       reverseAction(newTurn);
       return;
     }
-    else
-    {
-      isReversing = false;
-    }
+    
 
     if (amtOfRaycastsHitting == 0) averagedSteerAwayDirection = 0f;
     if (averagedSteerAwayDirection != 0f && isReversing == false) _turningInput = Mathf.Clamp(averagedSteerAwayDirection, -1, 1);
@@ -404,140 +392,37 @@ public class VehicleAIController : A_VehicleController
   }
   private float steerVehicleToDestination()
   {
+
     _throttleInput = 0f;
     _turningInput = 0f;
     yAngleToTarget = 0f;
+    Vector3 delta = transform.forward - aggregatedDirectionFromNodeCloud;
 
-    float distanceToTarget = Vector3.Distance(transform.position, _steeringPosition);
+    yAngleToTarget = Vector3.SignedAngle(transform.forward, delta, Vector3.up);
 
-    if (distanceToTarget > _reachedTargetDistance)
-    {
-      //Keep driving
-
-      Vector3 dirToTarget = (_steeringPosition - transform.position).normalized;
-      if (GameStateManager.Instance.UseDebug) Debug.DrawRay(transform.position, dirToTarget * distanceToTarget, Color.cyan);
-
-      //Calculates wether target is positive on local Z axis or negative
-      //Negative value is behind, pos is infront
-      float frontBackCheck = Vector3.Dot(transform.forward, dirToTarget);
-
-      if (frontBackCheck > 0)
-      {
-        _throttleInput = 1f;
-      }
-      else
-      {
-        //Go forward if the distance is further then reverse 
-        _throttleInput = distanceToTarget > _reverseThreshold ? 1 : -1;
-      }
-
-
-      yAngleToTarget = Vector3.SignedAngle(transform.forward, dirToTarget, Vector3.up);
-
-      // Set _turningInput Values below.
-      _turningInput = yAngleToTarget > 0 ? 1 : -1;
-    }
+    _turningInput = yAngleToTarget > 0 ? 1 : -1;
+    _throttleInput = Mathf.Clamp(delta.z, -1f, 1f);
+    
     return _turningInput;
   }
-  private void updateTarget()
+
+  protected override void OnTriggerEnter(Collider other)
   {
-    float distanceToTarget = Vector3.Distance(transform.position, _steeringPosition);
-
-
-    // Check if the target is behind self. Don't wanna reverse too much
-    /*
-    Vector3 dirToTarget = (_steeringPosition - transform.position).normalized;
-    float frontBackCheck = Vector3.Dot(transform.forward, dirToTarget);
-
-    if (frontBackCheck < 0 && isReversing == false)
+    base.OnTriggerEnter(other);
+    if (other.gameObject.TryGetComponent<NodePoint>(out var np))
     {
-        updateTrackOption();
-        updateWaypointIndex();
-        _steeringPosition = _NavigationTracks.getWaypoints()[_currentWaypointIndex].position;
-        return;
-    }
-    */
-    //Reached target
-
-    if (steeringOffwall == true && distanceToTarget < reachedSteerOffWallDistance)
-    {
-      _steeringPosition = previousSteeringPos;
-      steeringOffwall = false;
-      foundOffwallPos = false;
-    }
-    else if (steeringOffwall == false && distanceToTarget < _reachedTargetDistance)
-    {
-      // Reached target after reverse acctions
-      updateTrackOption();
-      updateWaypointIndex();
-      _steeringPosition = getPosInWaypoint(_NavigationTracks.getWaypoints()[_currentWaypointIndex].position);
-    }
-    /*
-    // If Nothing is happening, slowly move target towards next one
-    // And not reversing
-    int n = _NavigationTracks.getWaypoints().Length;
-    Vector3 nextpos = _NavigationTracks.getWaypoints()[(_currentWaypointIndex + 1) % n].position;
-
-    float scaler = steeringOffwall == false ? 0.3f : 0.01f;
-
-    _steeringPosition = Vector3.Lerp(_steeringPosition, nextpos, scaler * Time.deltaTime);
-    */
-  }
-  private Vector3 getPosInWaypoint(Vector3 pos)
-  {
-    Vector3 newPos = Vector3.zero;
-    float circleRadius = _NavigationTracks.SphereRadius;
-
-    Vector3 waypointPos = _NavigationTracks.getWaypoints()[_currentWaypointIndex].position;
-    Vector3 rndCircleOffset = UnityEngine.Random.insideUnitCircle * circleRadius;
-
-    newPos = new Vector3(rndCircleOffset.x + waypointPos.x, waypointPos.y, waypointPos.z);
-
-    return newPos;
-  }
-  private void updateWaypointIndex()
-  {
-    //  If got to the end of a path
-    //  Without a circuit
-    if ((_currentWaypointIndex + 1) == waypointsArrayLength && _circuitedpath == false)
-    {
-      _driveVehicle = false;
-      _steeringPosition = transform.position;
-      return;
-    }
-
-    //  If got to the end of a circuited path
-    if (_currentWaypointIndex == waypointsArrayLength && _circuitedpath == true)
-    {
-      _currentWaypointIndex = 0;
-    }
-    //  No condition. Just go to the next waypoint
-    else
-    {
-      _currentWaypointIndex++;
-      _currentWaypointIndex = Mathf.Clamp(_currentWaypointIndex, 0, waypointsArrayLength);
+      NodeCloud.Add(np);
     }
   }
-  private void updateTrackOption()
+  void OnTriggerExit(Collider other)
   {
-    int shortestAngleInd = int.MaxValue;
-    float smallestYAngleDiff = float.MaxValue;
-
-    for (int i = 0; i < waypointsArrayLength - 1; i++)
+    //Shouldn't need to check if it's in the array,
+    // All objects that have exited the collider have already entered.
+    if (other.gameObject.TryGetComponent<NodePoint>(out var np))
     {
-
-      Vector3 waypointPosition = _NavigationTracks.getWaypoints()[_currentWaypointIndex].position;
-      float yAngleToTarget = Vector3.SignedAngle(transform.forward, waypointPosition, Vector3.up);
-
-      if (yAngleToTarget < smallestYAngleDiff)
-      {
-        shortestAngleInd = i;
-        smallestYAngleDiff = yAngleToTarget;
-      }
+      NodeCloud.Remove(np);
     }
-    _currentTrackOption = shortestAngleInd;
   }
-
   #endregion
 
 

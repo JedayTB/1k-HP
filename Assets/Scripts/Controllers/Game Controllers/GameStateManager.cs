@@ -13,7 +13,7 @@ public class GameStateManager : MonoBehaviour
     private static readonly float MUSICCROSSFADETIME = 4f;
     [SerializeField] private PlayerVehicleController _player;
     public A_Ability[] Abilitieslist;
-
+    
     private static GameStateManager instance;
     public static GameStateManager Instance { get { return instance; } }
 
@@ -26,7 +26,6 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private CameraFollower3D cam;
     [SerializeField] public LapChecker _lapChecker;
     [SerializeField] private LapTimer _lapTimer;
-    [SerializeField] private waypointGizmos NavigationTrack;
     [SerializeField] public UIController _uiController;
     [SerializeField] private VehicleAIController[] _aiControllers;
     [SerializeField] private GameObject[] _playerVehicles;
@@ -34,7 +33,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private PostProcessing _postProcessing;
     [SerializeField] private MusicManager _musicManager;
     [SerializeField] private MusicManager EndLevelMusic;
-
+    [SerializeField] private NodeCloudUtil NodeCloud;
     [Header("Cursor Sprites")]
     public Texture2D lightningCursor;
 
@@ -55,10 +54,6 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private Color SilverMedalColor;
     [SerializeField] private Color BronzeMedalColor;
     [SerializeField] private Color WoodColor;
-
-
-
-
 
     [Header("Misc")]
     [SerializeField] private VisualEffect SkidParticlesPrototype;
@@ -116,9 +111,9 @@ public class GameStateManager : MonoBehaviour
         for (int i = 0; i < _aiControllers.Length; i++)
         {
             if (_aiControllers[i].gameObject.activeSelf)
-            {
-                _aiControllers[i].Init(NavigationTrack);
+            { 
                 vehicles.Add(_aiControllers[i]);
+                _aiControllers[i].Init();
                 vehiclesToPosition++;
                 _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
             }
@@ -194,7 +189,7 @@ public class GameStateManager : MonoBehaviour
 
                     int amtOfLapsPassed = vehicles[i].lapsPassed;
 
-                    float progression = (roundedProgression + particleProgression) + (float)amtOfLapsPassed;
+                    float progression = roundedProgression + particleProgression + amtOfLapsPassed;
 
 
                     if (UseDebug)
@@ -225,7 +220,7 @@ public class GameStateManager : MonoBehaviour
                     vRef.racePlacement = count;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Debug.LogError($"{e.Message} \nSomehow two vehicles had the same progression. Dumb. Stupid. Idiot");
                 distPlayerDict.Clear();
