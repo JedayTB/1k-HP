@@ -34,6 +34,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private MusicManager _musicManager;
     [SerializeField] private MusicManager EndLevelMusic;
     [SerializeField] private NodeCloudUtil NodeCloud;
+    [SerializeField] private ScoreController _scoreController;
     [Header("Cursor Sprites")]
     public Texture2D lightningCursor;
 
@@ -283,7 +284,7 @@ public class GameStateManager : MonoBehaviour
         print(lapTimesStr);
 
         _lapTimesText.text = lapTimesStr;
-        _scoreNumberText.text = ScoreController.CurrentScore.ToString("0");
+        _scoreNumberText.text = _scoreController.CurrentScore.ToString("0");
 
         bool isGP = GrandPrixManager.GameMode == 0 ? true : false;
         GrandPrixManager.SetRacePlacement(GrandPrixManager.CurrentLevelIndex, 1);
@@ -299,7 +300,7 @@ public class GameStateManager : MonoBehaviour
         float seconds = totalTime % 60;
 
         _totalTimeText.text = $"{Mathf.FloorToInt(minutes):00}:{seconds:00.00}";
-        SetRankText(totalTime, ScoreController.CurrentScore);
+        SetRankText(totalTime, _scoreController.CurrentScore);
     }
     private void SetRankText(float totalTime, float totalScore)
     {
