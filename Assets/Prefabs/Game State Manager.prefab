@@ -467,7 +467,6 @@ MonoBehaviour:
   cam: {fileID: 0}
   _lapChecker: {fileID: 3082703977965361603}
   _lapTimer: {fileID: 1856795309123257200}
-  NavigationTrack: {fileID: 0}
   _uiController: {fileID: 9128068339754363402}
   _aiControllers: []
   _playerVehicles:
@@ -482,6 +481,7 @@ MonoBehaviour:
   _postProcessing: {fileID: 0}
   _musicManager: {fileID: 0}
   EndLevelMusic: {fileID: 0}
+  NodeCloud: {fileID: 0}
   lightningCursor: {fileID: 2800000, guid: d935b665e7dfb38598ecf8e8b1c132a0, type: 3}
   vehicleDbgInfo: []
   nextPlayerCheckpointPosition: 0
@@ -1199,6 +1199,16 @@ PrefabInstance:
       propertyPath: m_text
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4019304327284821921, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: newLapAnimText
+      value: 
+      objectReference: {fileID: 1347537482033044575}
+    - target: {fileID: 4019304327284821921, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: newLapAnimator
+      value: 
+      objectReference: {fileID: 2330759018358041745}
     - target: {fileID: 6257373978762454745, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1341,9 +1351,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1347537482033044575 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6618439891943848436, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5290047546877339051}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2286894353351983986 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6257373978762454745, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5290047546877339051}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2330759018358041745 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7580264940851169594, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
     type: 3}
   m_PrefabInstance: {fileID: 5290047546877339051}
   m_PrefabAsset: {fileID: 0}

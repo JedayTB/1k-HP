@@ -91,6 +91,8 @@ public class LapChecker : MonoBehaviour
         {
             Debug.Log("Player finished a lap");
             _gsm._uiController.currentLapText.text = $"Lap: {lapsCompleted + 1}/{_gsm.LapsToFinishRace}";
+            _gsm._uiController.newLapAnimText.text = $"Lap: {lapsCompleted + 1}/{_gsm.LapsToFinishRace}";
+            _gsm._uiController.newLapAnimator.SetTrigger("NewLapPassed");
             _lapTimer?.endLap();
         }
 

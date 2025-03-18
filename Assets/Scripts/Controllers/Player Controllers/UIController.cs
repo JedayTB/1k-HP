@@ -41,6 +41,8 @@ public class UIController : MonoBehaviour
   [SerializeField] private TextMeshProUGUI GearText;
   [SerializeField] private TextMeshProUGUI playerPlacementText;
   [SerializeField] public TextMeshProUGUI currentLapText;
+    [SerializeField] public TextMeshProUGUI newLapAnimText;
+    [SerializeField] public Animator newLapAnimator;
 
 
   // Misc
