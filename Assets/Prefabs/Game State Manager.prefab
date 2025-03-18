@@ -491,6 +491,7 @@ MonoBehaviour:
   _timeRankText: {fileID: 3060922993090535094}
   _scoreNumberText: {fileID: 7495282655907670265}
   _scoreRankText: {fileID: 6542996603617563495}
+  AuthorLapColor: {r: 0.8195379, g: 0.1512549, b: 0.9716981, a: 1}
   DevMedalColor: {r: 0.735849, g: 0, b: 0, a: 1}
   PlatinumMedalColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   GoldMedalColor: {r: 1, g: 0.9275984, b: 0.25943398, a: 1}
@@ -1175,6 +1176,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 782140631646644743}
     m_Modifications:
+    - target: {fileID: 515977386722491478, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 515977386722491478, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 767105862153842608, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}
       propertyPath: m_IsActive
@@ -1194,6 +1205,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_margin.z
       value: 165.81972
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375193448106444642, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2409023286643592530, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
         type: 3}

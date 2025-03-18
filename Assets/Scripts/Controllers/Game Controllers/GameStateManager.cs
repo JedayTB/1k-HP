@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using System.Collections;
 using System;
-using UnityEngine.VFX;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -34,7 +34,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private MusicManager _musicManager;
     [SerializeField] private MusicManager EndLevelMusic;
     [SerializeField] private NodeCloudUtil NodeCloud;
-    [SerializeField] private ScoreController _scoreController;
+    [SerializeField] public ScoreController _scoreController;
     [Header("Cursor Sprites")]
     public Texture2D lightningCursor;
 
@@ -51,6 +51,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _scoreRankText;
 
     [Header("Rank Colors")]
+    [SerializeField] private Color AuthorLapColor;
     [SerializeField] private Color DevMedalColor;
     [SerializeField] private Color PlatinumMedalColor;
     [SerializeField] private Color GoldMedalColor;
@@ -284,7 +285,8 @@ public class GameStateManager : MonoBehaviour
         print(lapTimesStr);
 
         _lapTimesText.text = lapTimesStr;
-        _scoreNumberText.text = _scoreController.CurrentScore.ToString("0");
+        StartCoroutine(countUpScore(2, totalTime));
+        //_scoreNumberText.text = _scoreController.CurrentScore.ToString("0");
 
         bool isGP = GrandPrixManager.GameMode == 0 ? true : false;
         GrandPrixManager.SetRacePlacement(GrandPrixManager.CurrentLevelIndex, 1);
@@ -294,19 +296,58 @@ public class GameStateManager : MonoBehaviour
 
         StartCoroutine(CrossFadeLevelAndEndMusic(MUSICCROSSFADETIME));
     }
+
+    private IEnumerator countUpScore(float countUpTime, float totalTime) // this is a stupid fix
+    {
+        float startTime = Time.time;
+
+        while (Time.time - startTime <= countUpTime)
+        {
+            float progress = (Time.time - startTime) / countUpTime;
+            float currentScore = _scoreController.CurrentScore * progress;
+            _scoreNumberText.text = currentScore.ToString("0");
+
+            yield return null;
+        }
+
+        StartCoroutine(countUpTotalTime(2, totalTime));
+    }
+
+    private IEnumerator countUpTotalTime(float countUpTime, float totalTime)
+    {
+        float startTime = Time.time;
+
+        while (Time.time - startTime <= countUpTime)
+        {
+            float progress = (Time.time - startTime) / countUpTime;
+            float currentTime = totalTime * progress;
+            float minutes = currentTime / 60;
+            float seconds = currentTime % 60;
+
+            _totalTimeText.text = $"{Mathf.FloorToInt(minutes):00}:{seconds:00.00}";
+
+            yield return null;
+        }
+    }
+
     private void calculateEndTimeRank(float totalTime)
     {
-        float minutes = totalTime / 60;
+        /*float minutes = totalTime / 60;
         float seconds = totalTime % 60;
 
-        _totalTimeText.text = $"{Mathf.FloorToInt(minutes):00}:{seconds:00.00}";
+        _totalTimeText.text = $"{Mathf.FloorToInt(minutes):00}:{seconds:00.00}";*/
         SetRankText(totalTime, _scoreController.CurrentScore);
     }
     private void SetRankText(float totalTime, float totalScore)
     {
         string setText = "";
         Color setColor = Color.white;
-        if (totalTime < StageMedalValues.DevLapTime)
+        if (totalTime < StageMedalValues.AuthorLapTime)
+        {
+            setText = "Author";
+            setColor = AuthorLapColor;
+        }
+        else if (totalTime < StageMedalValues.DevLapTime)
         {
             setText = "Dev";
             setColor = DevMedalColor;
