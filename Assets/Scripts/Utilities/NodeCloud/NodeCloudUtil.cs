@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System;
+using System.Linq;
+using UnityEditor;
 
 public class NodeCloudUtil : MonoBehaviour
 {
@@ -31,8 +33,8 @@ public class NodeCloudUtil : MonoBehaviour
 
     [Header("Juicy Values")]
     [SerializeField] List<NodePoint> NodeCloud;
-    public List<NodePoint>[] nodeCloudQuadrants;
-    public List<NodePoint>[] NodeCloudQuandrants
+    [SerializeField] private List<NodePoint>[] nodeCloudQuadrants;
+    public List<NodePoint>[] NodeCloudQuadrants
     {
         get
         {
@@ -67,6 +69,7 @@ public class NodeCloudUtil : MonoBehaviour
     private bool proceedAfterGetttingDirectionToClosestCheckpoint = false;
     public void CreateNodeCloud()
     {
+        EditorUtility.SetDirty(this);
         Debug.ClearDeveloperConsole();
         BeginAndEndpointNote = txtAreatxt;
         Debug.Log("Console Cleared.");
@@ -115,10 +118,10 @@ public class NodeCloudUtil : MonoBehaviour
     }
     private IEnumerator BakeNodeCloudInformation()
     {
+        EditorUtility.SetDirty(this);
         Debug.ClearDeveloperConsole();
         BeginAndEndpointNote = txtAreatxt;
         Debug.Log("Console Cleared.");
-
         Debug.Log("Clearing Past Values...");
 
         if (AveragedDirList != null) AveragedDirList.Clear();
@@ -157,12 +160,24 @@ public class NodeCloudUtil : MonoBehaviour
     private List<NodePoint>[] bakeNodeQuadrants()
     {
         List<NodePoint>[] ncq = new List<NodePoint>[LapCheckRef.checkPointLocations.Length];
-        Vector3 RollingCheckpoint = LapCheckRef.checkPointLocations[0];
-        int quadrant = 0;
+        print(ncq.Length);
         for (int i = 0; i < ncq.Length; i++)
         {
-            if(NodeCloud[i].nearestCheckpointLocation != RollingCheckpoint) quadrant++;
+            ncq[i] = new List<NodePoint>();
+        }
+        Vector3 RollingCheckpoint = LapCheckRef.checkPointLocations[0];
+        int quadrant = 0;
+
+        for (int i = 0; i < NodeCloud.Count; i++)
+        {
+            if (NodeCloud[i].nearestCheckpointLocation != RollingCheckpoint)
+            {
+                quadrant++;
+                print(quadrant);
+            }
+
             ncq[quadrant].Add(NodeCloud[i]);
+
         }
         return ncq;
 
