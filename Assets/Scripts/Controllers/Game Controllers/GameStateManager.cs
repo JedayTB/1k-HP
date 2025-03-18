@@ -69,7 +69,7 @@ public class GameStateManager : MonoBehaviour
 
     public static PlayerVehicleController Player; // Singleton var
 
-    public static int _newCharacter = 0;
+    public static int _newCharacter = 1;
 
     // Hidden
     [HideInInspector] public List<A_VehicleController> vehicles = new List<A_VehicleController>();
@@ -117,7 +117,7 @@ public class GameStateManager : MonoBehaviour
             if (_aiControllers[i].gameObject.activeSelf)
             { 
                 vehicles.Add(_aiControllers[i]);
-                _aiControllers[i].Init();
+                _aiControllers[i].Init(NodeCloud.NodeCloudQuadrants);
                 vehiclesToPosition++;
                 _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
             }

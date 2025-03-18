@@ -10,7 +10,6 @@ public class VehicleAIController : A_VehicleController
   [Header("AI Basic setup")]
   private List<NodePoint>[] NodeQuadrants;
   public aiState currentState = aiState.driving;
-  [SerializeField] List<NodePoint> NodeCloud;
 
   public Vector3 aggregatedDirectionFromNodeCloud;
   public string dbgString;
@@ -30,6 +29,8 @@ public class VehicleAIController : A_VehicleController
   [SerializeField] private float reachedSteerOffWallDistance = 1f;
   [SerializeField] private SteeringRaycast[] raycastPositions;
 
+  private int quadrantIndex = 0;
+  private float effectiveNodeDistance = 15f;
   [Header("Raycast specifics")]
 
   private float rayHitStrength;
@@ -65,14 +66,15 @@ public class VehicleAIController : A_VehicleController
     setRaycastVariables();
     StartCoroutine(AILogic(SteerPathingClock));
   }
-    public void Init(List<NodePoint>[] ncq)
-    {
-      base.Init();
-      NodeQuadrants = ncq;
-      Debug.LogWarning("This probably doesn't work");
-    }
+  public void Init(List<NodePoint>[] ncq)
+  {
+    base.Init();
+    NodeQuadrants = ncq;
+    if(NodeQuadrants == null) Debug.LogError("FUCK SHIT SHIT ");
+    Debug.LogWarning("This probably doesn't work");
+  }
 
-    private void setRaycastVariables()
+  private void setRaycastVariables()
   {
     rayHitStrength = 1f / raycastPositions.Length;
     raycastDirTr = new GameObject().transform;
@@ -267,6 +269,7 @@ public class VehicleAIController : A_VehicleController
     {
 
       calculateAggregateDirectinoFromNodeCloud();
+      updateQuadrantIndex();
       float turnAmtToDriveTarget = steerVehicleToDestination();
       avoidCollisions(turnAmtToDriveTarget);
 
@@ -275,14 +278,27 @@ public class VehicleAIController : A_VehicleController
   }
   private void calculateAggregateDirectinoFromNodeCloud()
   {
-    int count = 0;
     Vector3 newVal = Vector3.zero;
-    foreach (var np in NodeCloud)
+    int amtNodesInQuadrant = NodeQuadrants[quadrantIndex].Count;
+    for (int i = 0; i < amtNodesInQuadrant; i++)
     {
-      count++;
-      newVal += np.OptimalDrivingDir;
+      if (Vector3.Distance(transform.position, NodeQuadrants[quadrantIndex][i].transform.position) < effectiveNodeDistance)
+      {
+        newVal += NodeQuadrants[quadrantIndex][i].transform.position - transform.position;
+      }
     }
-    aggregatedDirectionFromNodeCloud = (newVal / count).normalized;
+    aggregatedDirectionFromNodeCloud = (newVal / amtNodesInQuadrant).normalized;
+  }
+  private void updateQuadrantIndex()
+  {
+    int lastIndex = nextCheckpointIndex - 1;
+    if(lastIndex < 0) lastIndex = GameStateManager.Instance._lapChecker.checkPointLocations.Length;
+
+    float distanceToLastCheckpoint = Vector3.Distance(GameStateManager.Instance._lapChecker.checkPointLocations[lastIndex], transform.position);
+    float distanceToNextCheckpoint = Vector3.Distance(GameStateManager.Instance._lapChecker.checkPointLocations[nextCheckpointIndex], transform.position);
+
+    if(distanceToNextCheckpoint > distanceToLastCheckpoint) quadrantIndex++;
+
   }
   private void avoidCollisions(float turnAmtToDriveTarget)
   {
@@ -336,7 +352,7 @@ public class VehicleAIController : A_VehicleController
       reverseAction(newTurn);
       return;
     }
-    
+
 
     if (amtOfRaycastsHitting == 0) averagedSteerAwayDirection = 0f;
     if (averagedSteerAwayDirection != 0f && isReversing == false) _turningInput = Mathf.Clamp(averagedSteerAwayDirection, -1, 1);
@@ -402,27 +418,11 @@ public class VehicleAIController : A_VehicleController
 
     _turningInput = yAngleToTarget > 0 ? 1 : -1;
     _throttleInput = Mathf.Clamp(delta.z, -1f, 1f);
-    
+
     return _turningInput;
   }
 
-  protected override void OnTriggerEnter(Collider other)
-  {
-    base.OnTriggerEnter(other);
-    if (other.gameObject.TryGetComponent<NodePoint>(out var np))
-    {
-      NodeCloud.Add(np);
-    }
-  }
-  void OnTriggerExit(Collider other)
-  {
-    //Shouldn't need to check if it's in the array,
-    // All objects that have exited the collider have already entered.
-    if (other.gameObject.TryGetComponent<NodePoint>(out var np))
-    {
-      NodeCloud.Remove(np);
-    }
-  }
+ 
   #endregion
 
 
