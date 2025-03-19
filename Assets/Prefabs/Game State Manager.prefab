@@ -500,6 +500,7 @@ MonoBehaviour:
   WoodColor: {r: 0.3301887, g: 0.15718597, b: 0, a: 1}
   SkidParticlesPrototype: {fileID: 1499191319978285469, guid: 7863d32c30b09ce2c8828d2d1c91ecf2,
     type: 3}
+  winScreenAnimator: {fileID: 5272089692153356477}
   CarPhysicsLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -1404,6 +1405,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &5272089692153356477 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 18084299643307286, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 5290047546877339051}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6091606978592646428 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2153770049809334455, guid: 15c9f5acdb4358c4bb86bc5d781f35a7,

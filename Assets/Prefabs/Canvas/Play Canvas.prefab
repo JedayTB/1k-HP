@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 131, y: -35.5}
+  m_AnchoredPosition: {x: 506.20004, y: -35.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8492778003181220948
@@ -1714,13 +1714,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2010562328397366808}
   - component: {fileID: 2745050096716413656}
+  - component: {fileID: 18084299643307286}
   m_Layer: 5
   m_Name: Win HUD (Level Select)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2010562328397366808
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1765,6 +1766,27 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!95 &18084299643307286
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767105862153842608}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 53f20630dceb4934094305a32dbc27ed, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &905551369238651112
 GameObject:
   m_ObjectHideFlags: 0
@@ -3746,8 +3768,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4282226665
-  m_fontColor: {r: 0.9150943, g: 0.5931532, b: 0.23740657, a: 1}
+    rgba: 4036585
+  m_fontColor: {r: 0.9150943, g: 0.5931532, b: 0.23740657, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4621,7 +4643,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -240, y: 60.9}
+  m_AnchoredPosition: {x: -528.1, y: 60.9}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8766291579779378624
@@ -6086,7 +6108,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 449.1, y: -44.60001}
+  m_AnchoredPosition: {x: 824.30005, y: -44.60001}
   m_SizeDelta: {x: 461.76, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4354840830613061990
@@ -6472,8 +6494,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4282226665
-  m_fontColor: {r: 0.9150943, g: 0.5931532, b: 0.23740657, a: 1}
+    rgba: 4036585
+  m_fontColor: {r: 0.9150943, g: 0.5931532, b: 0.23740657, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8096,7 +8118,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -87.6, y: -4.8}
+  m_AnchoredPosition: {x: -375.69998, y: -4.8}
   m_SizeDelta: {x: 461.76, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1526247105810128727
@@ -8446,7 +8468,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 392, y: 50.899998}
+  m_AnchoredPosition: {x: 767.2001, y: 50.899998}
   m_SizeDelta: {x: 461.76, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8706823877648557638
@@ -9192,7 +9214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 100.8, y: 58.5}
+  m_AnchoredPosition: {x: 476, y: 58.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2274883418560604542

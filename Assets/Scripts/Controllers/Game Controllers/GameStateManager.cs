@@ -61,6 +61,7 @@ public class GameStateManager : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private VisualEffect SkidParticlesPrototype;
+    [SerializeField] private Animator winScreenAnimator;
     private static readonly string skidParticlesVelocityID = "Velocity";
     public LayerMask CarPhysicsLayer;
     public static readonly float musicVolumeLevel = 0.5f;
@@ -285,6 +286,7 @@ public class GameStateManager : MonoBehaviour
         print(lapTimesStr);
 
         _lapTimesText.text = lapTimesStr;
+        
         StartCoroutine(countUpScore(2, totalTime));
         //_scoreNumberText.text = _scoreController.CurrentScore.ToString("0");
 
@@ -292,6 +294,7 @@ public class GameStateManager : MonoBehaviour
         GrandPrixManager.SetRacePlacement(GrandPrixManager.CurrentLevelIndex, 1);
         GrandPrixManager.CurrentLevelIndex += isGP ? 1 : 0;
         _uiController.setWinScreen(true, isGP);
+        winScreenAnimator.SetTrigger("SetWinScreen");
 
 
         StartCoroutine(CrossFadeLevelAndEndMusic(MUSICCROSSFADETIME));
@@ -299,6 +302,8 @@ public class GameStateManager : MonoBehaviour
 
     private IEnumerator countUpScore(float countUpTime, float totalTime) // this is a stupid fix
     {
+        yield return new WaitForSeconds(2.08f); // i'm sorry
+
         float startTime = Time.time;
 
         while (Time.time - startTime <= countUpTime)
@@ -315,6 +320,8 @@ public class GameStateManager : MonoBehaviour
 
     private IEnumerator countUpTotalTime(float countUpTime, float totalTime)
     {
+        yield return new WaitForSeconds(1f); // these are just used to make the count up line up with the animation....
+
         float startTime = Time.time;
 
         while (Time.time - startTime <= countUpTime)
