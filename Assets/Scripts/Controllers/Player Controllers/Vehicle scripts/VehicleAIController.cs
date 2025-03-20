@@ -1,4 +1,5 @@
 using System.Collections;
+using TreeEditor;
 using UnityEngine;
 
 public class VehicleAIController : A_VehicleController
@@ -260,9 +261,9 @@ public class VehicleAIController : A_VehicleController
     {
 
       calculateAggregateDirectinoFromNodeCloud();
-      Debug.DrawRay(transform.position, transform.TransformDirection(aggregatedDirectionFromNodeCloud) * 5, Color.magenta);
+      Debug.DrawRay(transform.position, aggregatedDirectionFromNodeCloud * 5, Color.magenta);
 
-      Debug.DrawRay(transform.position, aggregatedDirectionFromNodeCloud * 5, Color.red);
+      //Debug.DrawRay(transform.position, aggregatedDirectionFromNodeCloud * 5, Color.red);
       float turnAmtToDriveTarget = steerVehicleToDestination();
       avoidCollisions(turnAmtToDriveTarget);
       _vehiclePhysics.setInputs(_throttleInput, _turningInput);
@@ -281,7 +282,6 @@ public class VehicleAIController : A_VehicleController
       }
     }
     aggregatedDirectionFromNodeCloud = (newVal / amtNodesInQuadrant).normalized;
-    aggregatedDirectionFromNodeCloud = transform.InverseTransformDirection(aggregatedDirectionFromNodeCloud);
   }
 
   private void avoidCollisions(float turnAmtToDriveTarget)
@@ -400,12 +400,10 @@ public class VehicleAIController : A_VehicleController
     yAngleToTarget = 0f;
 
     yAngleToTarget = Vector3.SignedAngle(transform.forward, aggregatedDirectionFromNodeCloud, Vector3.up);
+    _turningInput = Mathf.Clamp(yAngleToTarget, -1f, 1f);
 
-    _turningInput = yAngleToTarget > 0 ? -1 : 1;
-    if (yAngleToTarget == 0) _turningInput = 0f;
-
-    _throttleInput = Mathf.Clamp(aggregatedDirectionFromNodeCloud.z, -1f, 1f);
-
+    float dot =  Vector3.Dot(transform.forward, aggregatedDirectionFromNodeCloud);
+    _throttleInput = Mathf.Clamp(dot, -1, 1);
     return _turningInput;
   }
 

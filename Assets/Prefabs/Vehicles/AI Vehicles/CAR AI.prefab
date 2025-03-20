@@ -462,6 +462,7 @@ Transform:
   - {fileID: 3994551159839943361}
   - {fileID: 8590746558557260992}
   - {fileID: 3361125219029046106}
+  - {fileID: 4259345248431063016}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5002868429707847814
@@ -497,15 +498,14 @@ MonoBehaviour:
   _nitroTimeLength: 1
   currentAbility: 0
   LightningAimDirection: {x: 0, y: 0, z: 0}
+  nodeCloudRetriever: {fileID: 5213722803529527256}
   currentState: 0
+  aggregatedDirectionFromNodeCloud: {x: 0, y: 0, z: 0}
   dbgString: 
-  SteerPathingClock: 0.01
+  SteerPathingClock: 0
   _singleTarget: 0
-  _driveVehicle: 1
+  _driveVehicle: 0
   _circuitedpath: 1
-  _reachedTargetDistance: 15
-  _reverseThreshold: 10
-  averagedSteerAwayDirection: 0
   isReversing: 0
   steeringOffwall: 0
   foundOffwallPos: 0
@@ -545,6 +545,7 @@ MonoBehaviour:
   - {fileID: 5921485350325466169}
   - {fileID: 3753230268447649944}
   - {fileID: 1709498449036955898}
+  normalizedSpeed: 0
   colliderFront: {fileID: 0}
   minXAngle: -10
   maxXAngle: 10
@@ -555,6 +556,7 @@ MonoBehaviour:
   gearText: 1st Gear
   horsePower: 0
   currentTopSpeed: 0
+  curGear: 0
   momentumModifier: 0
   tireGripCurve:
     serializedVersion: 2
@@ -1190,6 +1192,73 @@ Transform:
   - {fileID: 7258383255824788479}
   m_Father: {fileID: 5204440868227184434}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1 &5251885573703868250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4259345248431063016}
+  - component: {fileID: 7445286773112131488}
+  - component: {fileID: 5213722803529527256}
+  m_Layer: 0
+  m_Name: NodeCloudRetriever
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4259345248431063016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5251885573703868250}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 30.935719, y: 30.935719, z: 30.935719}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5204440868227184434}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7445286773112131488
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5251885573703868250}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 1023
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5213722803529527256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5251885573703868250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 616112f42c7851243bf84b9b80dd8f30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentNodes: []
 --- !u!1 &5574228343680497104
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,12 +1765,12 @@ PrefabInstance:
     - target: {fileID: 4485815751126356312, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 4485815751126356312, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4485815751126356312, guid: 88e316216ae01aebe873ae8e6619d3cc,
         type: 3}
@@ -2104,7 +2173,7 @@ PrefabInstance:
     - target: {fileID: 2762703401612915582, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3764045809782818163, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
         type: 3}
@@ -2161,6 +2230,16 @@ PrefabInstance:
       propertyPath: vehicle
       value: 
       objectReference: {fileID: 5002868429707847814}
+    - target: {fileID: 4390524634779250500, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
+        type: 3}
+      propertyPath: _BubbleActiveTime
+      value: 9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4674353207615973788, guid: 1fa9f9a4b0176a0a9bdfafc26476758a,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
