@@ -1,7 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
 
 public class VehicleAIController : A_VehicleController
 {
@@ -122,26 +120,26 @@ public class VehicleAIController : A_VehicleController
   }
   IEnumerator AILogic(float waitTime)
   {
-    
+
     while (true)
     {
-      
-        switch (currentState)
-        {
 
-          case aiState.driving:
-            generalDrivingLogic();
-            break;
-          case aiState.usingNitro:
-            generalDrivingLogic();
-            break;
-          case aiState.bubbleAbility:
-            bubbleAbilityLogic();
-            break;
-          case aiState.LightningAbility:
-            lightningAbilityLogic();
-            break;
-        }
+      switch (currentState)
+      {
+
+        case aiState.driving:
+          generalDrivingLogic();
+          break;
+        case aiState.usingNitro:
+          generalDrivingLogic();
+          break;
+        case aiState.bubbleAbility:
+          bubbleAbilityLogic();
+          break;
+        case aiState.LightningAbility:
+          lightningAbilityLogic();
+          break;
+      }
       yield return new WaitForSeconds(waitTime);
     }
 
@@ -262,28 +260,30 @@ public class VehicleAIController : A_VehicleController
     {
 
       calculateAggregateDirectinoFromNodeCloud();
-      Debug.DrawRay(transform.position, aggregatedDirectionFromNodeCloud * 5, Color.magenta);
+      Debug.DrawRay(transform.position, transform.TransformDirection(aggregatedDirectionFromNodeCloud) * 5, Color.magenta);
+
+      Debug.DrawRay(transform.position, aggregatedDirectionFromNodeCloud * 5, Color.red);
       float turnAmtToDriveTarget = steerVehicleToDestination();
-     // avoidCollisions(turnAmtToDriveTarget);
+      avoidCollisions(turnAmtToDriveTarget);
       _vehiclePhysics.setInputs(_throttleInput, _turningInput);
     }
   }
   private void calculateAggregateDirectinoFromNodeCloud()
   {
-    
+
     Vector3 newVal = Vector3.zero;
     int amtNodesInQuadrant = nodeCloudRetriever.CurrentNodes.Count;
     for (int i = 0; i < amtNodesInQuadrant; i++)
     {
       if (Vector3.Distance(transform.position, nodeCloudRetriever.CurrentNodes[i].transform.position) < effectiveNodeDistance)
       {
-        newVal += nodeCloudRetriever.CurrentNodes[i].DirToNearestCheckpoint;
+        newVal += nodeCloudRetriever.CurrentNodes[i].OptimalDrivingDir;
       }
     }
     aggregatedDirectionFromNodeCloud = (newVal / amtNodesInQuadrant).normalized;
-    
+    aggregatedDirectionFromNodeCloud = transform.InverseTransformDirection(aggregatedDirectionFromNodeCloud);
   }
-  
+
   private void avoidCollisions(float turnAmtToDriveTarget)
   {
     Transform tempTransform;
@@ -328,6 +328,7 @@ public class VehicleAIController : A_VehicleController
     // If all frontal raycast hit,
     // We are hitting a wall!
     // reverse.
+    /*
     if (amtFrontalHit == amtFrontalChecks)
     {
       float newTurn = turnAmtToDriveTarget < 0 ? -1 : 1;
@@ -336,6 +337,7 @@ public class VehicleAIController : A_VehicleController
       reverseAction(newTurn);
       return;
     }
+    */
 
 
     if (amtOfRaycastsHitting == 0) averagedSteerAwayDirection = 0f;
@@ -396,17 +398,18 @@ public class VehicleAIController : A_VehicleController
     _throttleInput = 0f;
     _turningInput = 0f;
     yAngleToTarget = 0f;
-    Vector3 delta = transform.forward - aggregatedDirectionFromNodeCloud;
 
-    yAngleToTarget = Vector3.SignedAngle(transform.forward, delta, Vector3.up);
+    yAngleToTarget = Vector3.SignedAngle(transform.forward, aggregatedDirectionFromNodeCloud, Vector3.up);
 
     _turningInput = yAngleToTarget > 0 ? -1 : 1;
-    _throttleInput = Mathf.Clamp(delta.z, -1f, 1f);
+    if (yAngleToTarget == 0) _turningInput = 0f;
+
+    _throttleInput = Mathf.Clamp(aggregatedDirectionFromNodeCloud.z, -1f, 1f);
 
     return _turningInput;
   }
 
- 
+
   #endregion
 
 

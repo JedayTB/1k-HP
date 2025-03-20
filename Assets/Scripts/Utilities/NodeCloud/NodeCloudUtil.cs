@@ -1,317 +1,290 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using System;
-using System.Linq;
 using UnityEditor;
 using Unity.Mathematics;
 
 public class NodeCloudUtil : MonoBehaviour
 {
-    private static readonly string txtAreatxt = "DONT EDIT THIS TEXT\nBEGINNING POINT X AND Z VALUE MUST BE CLOSEST TO GLOBAL 0\nWhen Creating NodeCloud, Raycast will use the Y value of BeginningPoint";
-    [Header("Basic Functionality")]
-    [SerializeField] private LapChecker LapCheckRef;
-    [SerializeField] private Color BegginingAndEndpointColor = Color.red;
-    [SerializeField] private float BeginAndEndSize = 0.5f;
+  private static readonly string txtAreatxt = "DONT EDIT THIS TEXT\nBEGINNING POINT X AND Z VALUE MUST BE CLOSEST TO GLOBAL 0\nWhen Creating NodeCloud, Raycast will use the Y value of BeginningPoint";
+  [Header("Basic Functionality")]
+  [SerializeField] private LapChecker LapCheckRef;
+  [SerializeField] private Color BegginingAndEndpointColor = Color.red;
+  [SerializeField] private float BeginAndEndSize = 0.5f;
 
-    [SerializeField] private Transform NodeCloudContainer;
-    [SerializeField] private float NodePointSphereRadius = 5f;
-    [SerializeField] private Color NodePointColor = Color.white;
-    [SerializeField] private NodePoint NodepointProto;
+  [SerializeField] private Transform NodeCloudContainer;
+  [SerializeField] private float NodePointSphereRadius = 5f;
+  [SerializeField] private Color NodePointColor = Color.white;
+  [SerializeField] private NodePoint NodepointProto;
 
-    [SerializeField] private float RaycastVisualizationInSeconds = 0.5f;
-    [SerializeField] private Color MissedRoadRacyastVisualizationColor = Color.blue;
-    [SerializeField] private Color HitRoadRacyastVisualizationColor = Color.green;
+  [SerializeField] private float RaycastVisualizationInSeconds = 0.5f;
+  [SerializeField] private Color MissedRoadRacyastVisualizationColor = Color.blue;
+  [SerializeField] private Color HitRoadRacyastVisualizationColor = Color.green;
 
-    [SerializeField] private Color RaycastVisNextCheckpointColor = Color.white;
-    [SerializeField] private Color RaycastVisOptimalDirColor = Color.yellow;
-
-
-    [SerializeField] private bool DrawNodeCloudGizmos;
-    [SerializeField] private bool DrawNodePointNextCheckpoint = true;
-    [SerializeField] private bool DrawNodePointOptimalDir = true;
+  [SerializeField] private Color RaycastVisNextCheckpointColor = Color.white;
+  [SerializeField] private Color RaycastVisOptimalDirColor = Color.yellow;
 
 
-    [Header("Juicy Values")]
-    [SerializeField] List<NodePoint> NodeCloud;
+  [SerializeField] private bool DrawNodeCloudGizmos;
+  [SerializeField] private bool DrawNodePointNextCheckpoint = true;
+  [SerializeField] private bool DrawNodePointOptimalDir = true;
 
-    [SerializeField] bool NCQIsNull = false;
 
-    [Header("Node Creation Settings")]
+  [Header("Juicy Values")]
+  [SerializeField] List<NodePoint> NodeCloud;
 
-    [SerializeField] private LayerMask drivableLayers;
-    [SerializeField] private LayerMask boundaryCollisionLayers;
-    [TextArea]
-    public string BeginAndEndpointNote = "DONT EDIT THIS TEXT\nBEGINNING POINT X AND Z VALUE MUST BE CLOSEST TO GLOBAL 0\nWhen Creating NodeCloud, Raycast will use the Y value of BeginningPoint ";
-    [SerializeField] private Transform BeginningPoint;
+  [SerializeField] bool NCQIsNull = false;
 
-    [SerializeField] private Transform Endpoint;
+  [Header("Node Creation Settings")]
 
-    [Tooltip("The distance Before creating another node on X axis from BeginingPoint to Endpoint")]
-    [SerializeField] private float XOffset = 0.5f;
+  [SerializeField] private LayerMask drivableLayers;
+  [SerializeField] private LayerMask boundaryCollisionLayers;
+  [TextArea]
+  public string BeginAndEndpointNote = "DONT EDIT THIS TEXT\nBEGINNING POINT X AND Z VALUE MUST BE CLOSEST TO GLOBAL 0\nWhen Creating NodeCloud, Raycast will use the Y value of BeginningPoint ";
+  [SerializeField] private Transform BeginningPoint;
 
-    [Tooltip("The distance Before creating another node on Z axis from BeginingPoint to Endpoint")]
-    [SerializeField] private float ZOffset = 0.5f;
-    [Tooltip("The Height the node will float above ground if it collides.")]
-    [SerializeField] private float HeightAboveCollidedGround = 2.5f;
-    [Header("Node Baking Settings")]
-    [SerializeField] private float AngleBetweenRaycastsInDegrees = 25f;
-    [SerializeField] private float BoundaryLayerCheckDistance = 2f;
-    [SerializeField] private float DirToNearestCheckpointEffectMultiplier = 2f;
+  [SerializeField] private Transform Endpoint;
 
-    private List<Vector3> AveragedDirList;
-    private List<Vector3> ClosestCheckpointDirList;
-    private bool proceedAfterRaycastingInCircleRouting = false;
-    private bool proceedAfterGetttingDirectionToClosestCheckpoint = false;
-    public void CreateNodeCloud()
+  [Tooltip("The distance Before creating another node on X axis from BeginingPoint to Endpoint")]
+  [SerializeField] private float XOffset = 0.5f;
+
+  [Tooltip("The distance Before creating another node on Z axis from BeginingPoint to Endpoint")]
+  [SerializeField] private float ZOffset = 0.5f;
+  [Tooltip("The Height the node will float above ground if it collides.")]
+  [SerializeField] private float HeightAboveCollidedGround = 2.5f;
+  [Header("Node Baking Settings")]
+  [SerializeField] private float AngleBetweenRaycastsInDegrees = 25f;
+  [SerializeField] private float BoundaryLayerCheckDistance = 2f;
+  [SerializeField] private float DirToNearestCheckpointEffectMultiplier = 2f;
+
+  private List<Vector3> AveragedDirList;
+  private List<Vector3> ClosestCheckpointDirList;
+  private bool proceedAfterRaycastingInCircleRouting = false;
+  private bool proceedAfterGetttingDirectionToClosestCheckpoint = false;
+  public void CreateNodeCloud()
+  {
+    EditorUtility.SetDirty(this);
+    Debug.ClearDeveloperConsole();
+    BeginAndEndpointNote = txtAreatxt;
+    Debug.Log("Console Cleared.");
+    DeleteNodeCloud();
+    Debug.Log("Beginning Node Cloud Creation");
+    var id = StartCoroutine(NodeCloudRaycast());
+  }
+  private IEnumerator NodeCloudRaycast()
+  {
+    Debug.Log("Starting Racyast's");
+
+    Vector3 AccumulatedPosition = BeginningPoint.position;
+    AccumulatedPosition.y = 0;
+
+    float RaycastYPos = BeginningPoint.position.y;
+    AccumulatedPosition.y = RaycastYPos;
+
+    Vector3 setPosition = Vector3.zero;
+    //EditorApplication.update;
+    for (; AccumulatedPosition.x <= Endpoint.position.x; AccumulatedPosition.x += XOffset)
     {
-        EditorUtility.SetDirty(this);
-        Debug.ClearDeveloperConsole();
-        BeginAndEndpointNote = txtAreatxt;
-        Debug.Log("Console Cleared.");
-        DeleteNodeCloud();
-        Debug.Log("Beginning Node Cloud Creation");
-        var id = StartCoroutine(NodeCloudRaycast());
-    }
-    private IEnumerator NodeCloudRaycast()
-    {
-        Debug.Log("Starting Racyast's");
-
-        Vector3 AccumulatedPosition = BeginningPoint.position;
-        AccumulatedPosition.y = 0;
-
-        float RaycastYPos = BeginningPoint.position.y;
-        AccumulatedPosition.y = RaycastYPos;
-
-        Vector3 setPosition = Vector3.zero;
-        //EditorApplication.update;
-        for (; AccumulatedPosition.x <= Endpoint.position.x; AccumulatedPosition.x += XOffset)
+      for (; AccumulatedPosition.z <= Endpoint.position.z; AccumulatedPosition.z += ZOffset)
+      {
+        bool hitDrivableRoad = Physics.Raycast(AccumulatedPosition, Vector3.down, out RaycastHit hit, 1000f, drivableLayers);
+        Color c = hitDrivableRoad == true ? HitRoadRacyastVisualizationColor : MissedRoadRacyastVisualizationColor;
+        Debug.DrawRay(AccumulatedPosition, Vector3.down * 1000f, c, RaycastVisualizationInSeconds);
+        if (hitDrivableRoad)
         {
-            for (; AccumulatedPosition.z <= Endpoint.position.z; AccumulatedPosition.z += ZOffset)
-            {
-                bool hitDrivableRoad = Physics.Raycast(AccumulatedPosition, Vector3.down, out RaycastHit hit, 1000f, drivableLayers);
-                Color c = hitDrivableRoad == true ? HitRoadRacyastVisualizationColor : MissedRoadRacyastVisualizationColor;
-                Debug.DrawRay(AccumulatedPosition, Vector3.down * 1000f, c, RaycastVisualizationInSeconds);
-                if (hitDrivableRoad)
-                {
-                    var NC = GameObject.Instantiate(NodepointProto);
-                    setPosition = AccumulatedPosition;
-                    setPosition.y = hit.point.y + HeightAboveCollidedGround;
-                    NC.transform.position = setPosition;
-                    NC.transform.SetParent(NodeCloudContainer);
-                    NodeCloud.Add(NC);
-                }
-            }
-            AccumulatedPosition.z = BeginningPoint.position.z;
-            yield return null;
+          var NC = GameObject.Instantiate(NodepointProto);
+          setPosition = AccumulatedPosition;
+          setPosition.y = hit.point.y + HeightAboveCollidedGround;
+          NC.transform.position = setPosition;
+          NC.transform.SetParent(NodeCloudContainer);
+          NodeCloud.Add(NC);
         }
-        Debug.Log("Node Cloud Created! please bake directions");
-
+      }
+      AccumulatedPosition.z = BeginningPoint.position.z;
+      yield return null;
     }
-    public void StartBakeOfNodeCloud()
+    Debug.Log("Node Cloud Created! please bake directions");
+
+  }
+  public void StartBakeOfNodeCloud()
+  {
+    var BNCIid = StartCoroutine(BakeNodeCloudInformation());
+  }
+  private IEnumerator BakeNodeCloudInformation()
+  {
+    EditorUtility.SetDirty(this);
+    Debug.ClearDeveloperConsole();
+    BeginAndEndpointNote = txtAreatxt;
+    Debug.Log("Console Cleared.");
+    Debug.Log("Clearing Past Values...");
+
+    if (AveragedDirList != null) AveragedDirList.Clear();
+    if (ClosestCheckpointDirList != null) ClosestCheckpointDirList.Clear();
+
+    for (int i = 0; i < NodeCloud.Count; i++)
     {
-        var BNCIid = StartCoroutine(BakeNodeCloudInformation());
+      NodeCloud[i].DirToNearestCheckpoint = Vector3.zero;
+      NodeCloud[i].OptimalDrivingDir = Vector3.zero;
     }
-    private IEnumerator BakeNodeCloudInformation()
+
+    AveragedDirList = new List<Vector3>();
+    ClosestCheckpointDirList = new List<Vector3>();
+
+
+    proceedAfterRaycastingInCircleRouting = false;
+    proceedAfterGetttingDirectionToClosestCheckpoint = false;
+
+    Debug.Log("Starting Node Cloud Baking Process...");
+
+    var GDCCHPid = StartCoroutine(GetDirToClosestCheckpointAllNodePoints());
+    // Pauses here until processis finished
+    while (proceedAfterGetttingDirectionToClosestCheckpoint == false) { yield return null; }
+
+    var rccId = StartCoroutine(RCInCircleCoroutine());
+    // Pauses here as well
+    while (proceedAfterRaycastingInCircleRouting == false) { yield return null; }
+
+    Debug.Log("Setting Averaged Direction Vectors to Node Points...");
+    var sdvID = StartCoroutine(SetDirectionVectors());
+    Debug.Log("Node Cloud Baking Process finished.");
+  }
+
+  private IEnumerator SetDirectionVectors()
+  {
+    if (AveragedDirList != null || ClosestCheckpointDirList != null)
     {
-        EditorUtility.SetDirty(this);
-        Debug.ClearDeveloperConsole();
-        BeginAndEndpointNote = txtAreatxt;
-        Debug.Log("Console Cleared.");
-        Debug.Log("Clearing Past Values...");
-
-        if (AveragedDirList != null) AveragedDirList.Clear();
-        if (ClosestCheckpointDirList != null) ClosestCheckpointDirList.Clear();
-
-        for (int i = 0; i < NodeCloud.Count; i++)
-        {
-            NodeCloud[i].DirToNearestCheckpoint = Vector3.zero;
-            NodeCloud[i].OptimalDrivingDir = Vector3.zero;
-        }
-
-        AveragedDirList = new List<Vector3>();
-        ClosestCheckpointDirList = new List<Vector3>();
-
-
-        proceedAfterRaycastingInCircleRouting = false;
-        proceedAfterGetttingDirectionToClosestCheckpoint = false;
-
-        Debug.Log("Starting Node Cloud Baking Process...");
-
-        var GDCCHPid = StartCoroutine(GetDirToClosestCheckpointAllNodePoints());
-        // Pauses here until processis finished
-        while (proceedAfterGetttingDirectionToClosestCheckpoint == false) { yield return null; }
-
-        var rccId = StartCoroutine(RCInCircleCoroutine());
-        // Pauses here as well
-        while (proceedAfterRaycastingInCircleRouting == false) { yield return null; }
-
-        Debug.Log("Setting Averaged Direction Vectors to Node Points...");
-        var sdvID = StartCoroutine(SetDirectionVectors());
-        Debug.Log("Node Cloud Baking Process finished.");
+      for (int i = 0; i < NodeCloud.Count; i++)
+      {
+        if (AveragedDirList[i] != Vector3.zero) NodeCloud[i].OptimalDrivingDir = AveragedDirList[i];
+        if (ClosestCheckpointDirList[i] != Vector3.zero) NodeCloud[i].DirToNearestCheckpoint = ClosestCheckpointDirList[i];
+        yield return null;
+      }
     }
-    private List<List<NodePoint>> bakeNodeQuadrants()
+
+    Debug.Log("Vectors Set.");
+  }
+  private IEnumerator RCInCircleCoroutine()
+  {
+    Debug.Log("Raycasting to look for Boundary collisions.");
+    for (int i = 0; i < NodeCloud.Count; i++)
     {
-        int amtOfCheckpoints = LapCheckRef.checkPointLocations.Length;
-
-        List<List<NodePoint>> ncq = new();
-
-        for (int i = 0; i < amtOfCheckpoints; i++)
-        {
-            ncq.Add(new List<NodePoint>());
-        }
-
-        Vector3 RollingCheckpoint = LapCheckRef.checkPointLocations[0];
-
-        print(LapCheckRef.checkPointLocations.Length);
-
-        int quadrant = 0;
-
-        for (int i = 0; i < NodeCloud.Count; i++)
-        {
-
-            if (NodeCloud[i].nearestCheckpointLocation != RollingCheckpoint)
-            {
-                quadrant = math.clamp(quadrant + 1, 0, LapCheckRef.checkPointLocations.Length - 1);
-
-                RollingCheckpoint = NodeCloud[i].nearestCheckpointLocation;
-                print($"Quadrant Incremented: Val {quadrant}: i value {i}:  ");
-            }
-
-            ncq[quadrant].Add(NodeCloud[i]);
-        }
-        return ncq;
+      Vector3 retVal = RaycastInCircleFromNode(NodeCloud[i]);
+      retVal += NodeCloud[i].DirToNearestCheckpoint * DirToNearestCheckpointEffectMultiplier;
+      AveragedDirList.Add(retVal);
+      yield return null;
     }
-    private IEnumerator SetDirectionVectors()
+    proceedAfterRaycastingInCircleRouting = true;
+    Debug.Log("Boundary Collison Process Finished");
+
+  }
+  private Vector3 RaycastInCircleFromNode(NodePoint np)
+  {
+    int NumOfIterations = Mathf.FloorToInt(360f / AngleBetweenRaycastsInDegrees);
+    Vector3 SummedDirection = Vector3.zero;
+    Quaternion baserot = np.transform.rotation;
+    Vector3 CurrentRotInDeg = np.transform.rotation.eulerAngles;
+
+    Color c;
+    Quaternion setrot = baserot;
+
+    int hitRaycastsCount = 0;
+
+    for (int i = 0; i < NumOfIterations; i++)
     {
-        if (AveragedDirList != null || ClosestCheckpointDirList != null)
-        {
-            for (int i = 0; i < NodeCloud.Count; i++)
-            {
-                if (AveragedDirList[i] != Vector3.zero) NodeCloud[i].OptimalDrivingDir = AveragedDirList[i];
-                if (ClosestCheckpointDirList[i] != Vector3.zero) NodeCloud[i].DirToNearestCheckpoint = ClosestCheckpointDirList[i];
-                yield return null;
-            }
-        }
+      CurrentRotInDeg.y += AngleBetweenRaycastsInDegrees;
+      setrot = Quaternion.Euler(CurrentRotInDeg);
+      np.transform.rotation = setrot;
 
-        Debug.Log("Vectors Set.");
+      bool hitBoundary = Physics.Raycast(np.transform.position, np.transform.forward, out RaycastHit hit, BoundaryLayerCheckDistance, boundaryCollisionLayers);
+      if (hitBoundary) hitRaycastsCount++;
+      c = hitBoundary ? MissedRoadRacyastVisualizationColor : HitRoadRacyastVisualizationColor;
+      Debug.DrawRay(np.transform.position, np.transform.forward * BoundaryLayerCheckDistance, c, RaycastVisualizationInSeconds);
+
+      SummedDirection += hitBoundary == false ? np.transform.forward : np.transform.forward * -1;
     }
-    private IEnumerator RCInCircleCoroutine()
+    np.transform.rotation = baserot;
+    SummedDirection /= NumOfIterations;
+    if (hitRaycastsCount == 0) SummedDirection = np.transform.forward;
+    return SummedDirection.normalized;
+  }
+  private IEnumerator GetDirToClosestCheckpointAllNodePoints()
+  {
+    Debug.Log("Calculating Direction to nearest Checkpoint from each node in NodeCloud");
+
+    for (int i = 0; i < NodeCloud.Count; i++)
     {
-        Debug.Log("Raycasting to look for Boundary collisions.");
-        for (int i = 0; i < NodeCloud.Count; i++)
-        {
-            Vector3 retVal = RaycastInCircleFromNode(NodeCloud[i]);
-            retVal += NodeCloud[i].DirToNearestCheckpoint * DirToNearestCheckpointEffectMultiplier;
-            AveragedDirList.Add(retVal);
-            yield return null;
-        }
-        proceedAfterRaycastingInCircleRouting = true;
-        Debug.Log("Boundary Collison Process Finished");
-
+      ClosestCheckpointDirList.Add(GetClosestCheckpointFromNode(NodeCloud[i], LapCheckRef.chkPointLoc));
+      yield return null;
     }
-    private Vector3 RaycastInCircleFromNode(NodePoint np)
+    proceedAfterGetttingDirectionToClosestCheckpoint = true;
+    Debug.Log("Finished Calculating Nearest Checkpoints.");
+  }
+  private Vector3 GetClosestCheckpointFromNode(NodePoint np, Vector3[] checkpoints)
+  {
+    float closestDistance = float.MaxValue;
+    int indAtClosestDistance = 0;
+
+    for (int i = 0; i < checkpoints.Length; i++)
     {
-        int NumOfIterations = Mathf.FloorToInt(360f / AngleBetweenRaycastsInDegrees);
-        Vector3 SummedDirection = Vector3.zero;
-        Quaternion baserot = Quaternion.identity;
-        Vector3 CurrentRotInDeg = np.transform.rotation.eulerAngles;
-
-        Color c;
-        Quaternion setrot = baserot;
-
-        for (int i = 0; i < NumOfIterations; i++)
-        {
-            CurrentRotInDeg.y += AngleBetweenRaycastsInDegrees;
-            setrot = Quaternion.Euler(CurrentRotInDeg);
-            np.transform.rotation = setrot;
-
-            bool hitBoundary = Physics.Raycast(np.transform.position, np.transform.forward, out RaycastHit hit, BoundaryLayerCheckDistance, boundaryCollisionLayers);
-            c = hitBoundary ? MissedRoadRacyastVisualizationColor : HitRoadRacyastVisualizationColor;
-            Debug.DrawRay(np.transform.position, np.transform.forward * BoundaryLayerCheckDistance, c, RaycastVisualizationInSeconds);
-
-            SummedDirection += hitBoundary == true ? np.transform.forward * -1 : np.transform.forward;
-        }
-        np.transform.rotation = baserot;
-        SummedDirection /= NumOfIterations;
-        return SummedDirection.normalized;
+      float dist = Vector3.Distance(np.transform.position, checkpoints[i]);
+      if (dist < closestDistance)
+      {
+        closestDistance = dist;
+        indAtClosestDistance = i;
+      }
+      Debug.DrawRay(np.transform.position, checkpoints[i] - np.transform.position, Color.white, RaycastVisualizationInSeconds / 2);
     }
-    private IEnumerator GetDirToClosestCheckpointAllNodePoints()
+    np.nearestCheckpointLocation = checkpoints[indAtClosestDistance];
+    np.NearestCheckpointIndex = indAtClosestDistance;
+    np.transform.rotation = LapCheckRef._checkpoints[indAtClosestDistance].transform.rotation;
+    Debug.DrawRay(np.transform.position, checkpoints[indAtClosestDistance] - np.transform.position, Color.green, RaycastVisualizationInSeconds);
+    Vector3 dirToClosestCheckpoint = (checkpoints[indAtClosestDistance] - np.transform.position).normalized;
+    return dirToClosestCheckpoint;
+  }
+
+
+
+  public void DeleteNodeCloud()
+  {
+    Debug.Log("Deleting Current Node Cloud");
+    if (NodeCloud == null) return;
+    for (int i = 0; i < NodeCloud.Count; i++)
     {
-        Debug.Log("Calculating Direction to nearest Checkpoint from each node in NodeCloud");
-
-        for (int i = 0; i < NodeCloud.Count; i++)
-        {
-            ClosestCheckpointDirList.Add(GetClosestCheckpointFromNode(NodeCloud[i], LapCheckRef.chkPointLoc));
-            yield return null;
-        }
-        proceedAfterGetttingDirectionToClosestCheckpoint = true;
-        Debug.Log("Finished Calculating Nearest Checkpoints.");
+      DestroyImmediate(NodeCloud[i].gameObject);
     }
-    private Vector3 GetClosestCheckpointFromNode(NodePoint np, Vector3[] checkpoints)
+    NodeCloud.Clear();
+  }
+
+  public void OnDrawGizmos()
+  {
+    DrawBeginAndEndPoint();
+    DrawNodeCloud();
+  }
+  void DrawNodeCloud()
+  {
+    if (DrawNodeCloudGizmos == false) return;
+    Gizmos.color = NodePointColor;
+    for (int i = 0; i < NodeCloud.Count; i++)
     {
-        float closestDistance = float.MaxValue;
-        int indAtClosestDistance = 0;
-
-        for (int i = 0; i < checkpoints.Length; i++)
-        {
-            float dist = Vector3.Distance(np.transform.position, checkpoints[i]);
-            if (dist < closestDistance)
-            {
-                closestDistance = dist;
-                indAtClosestDistance = i;
-            }
-            Debug.DrawRay(np.transform.position, checkpoints[i] - np.transform.position, Color.white, RaycastVisualizationInSeconds / 2);
-        }
-        np.nearestCheckpointLocation = checkpoints[indAtClosestDistance];
-        Debug.DrawRay(np.transform.position, checkpoints[indAtClosestDistance] - np.transform.position, Color.green, RaycastVisualizationInSeconds);
-        Vector3 dirToClosestCheckpoint = (checkpoints[indAtClosestDistance] - np.transform.position).normalized;
-        return dirToClosestCheckpoint;
+      if (NodeCloud[i] != null)
+      {
+        Gizmos.DrawSphere(NodeCloud[i].transform.position, NodePointSphereRadius);
+        DrawNodePointVectors(NodeCloud[i]);
+      }
     }
+  }
+  void DrawNodePointVectors(NodePoint np)
+  {
+    if (DrawNodePointOptimalDir && np.OptimalDrivingDir != Vector3.zero) Debug.DrawRay(np.transform.position, np.OptimalDrivingDir * BoundaryLayerCheckDistance, RaycastVisOptimalDirColor);
+    if (DrawNodePointNextCheckpoint && np.DirToNearestCheckpoint != Vector3.zero) Debug.DrawRay(np.transform.position, np.DirToNearestCheckpoint * BoundaryLayerCheckDistance, RaycastVisNextCheckpointColor);
+  }
+  void DrawBeginAndEndPoint()
+  {
+    Gizmos.color = BegginingAndEndpointColor;
 
+    Vector3 beginandendvec = new(BeginAndEndSize, BeginAndEndSize, BeginAndEndSize);
+    if (BeginningPoint != null) Gizmos.DrawCube(BeginningPoint.position, beginandendvec);
+    if (Endpoint != null) Gizmos.DrawCube(Endpoint.position, beginandendvec);
 
-
-    public void DeleteNodeCloud()
-    {
-        Debug.Log("Deleting Current Node Cloud");
-        if (NodeCloud == null) return;
-        for (int i = 0; i < NodeCloud.Count; i++)
-        {
-            DestroyImmediate(NodeCloud[i].gameObject);
-        }
-        NodeCloud.Clear();
-    }
-
-    public void OnDrawGizmos()
-    {
-        DrawBeginAndEndPoint();
-        DrawNodeCloud();
-    }
-    void DrawNodeCloud()
-    {
-        if (DrawNodeCloudGizmos == false) return;
-        Gizmos.color = NodePointColor;
-        for (int i = 0; i < NodeCloud.Count; i++)
-        {
-            if (NodeCloud[i] != null)
-            {
-                Gizmos.DrawSphere(NodeCloud[i].transform.position, NodePointSphereRadius);
-                DrawNodePointVectors(NodeCloud[i]);
-            }
-        }
-    }
-    void DrawNodePointVectors(NodePoint np)
-    {
-        if (DrawNodePointOptimalDir && np.OptimalDrivingDir != Vector3.zero) Debug.DrawRay(np.transform.position, np.OptimalDrivingDir * BoundaryLayerCheckDistance, RaycastVisOptimalDirColor);
-        if (DrawNodePointNextCheckpoint && np.DirToNearestCheckpoint != Vector3.zero) Debug.DrawRay(np.transform.position, np.DirToNearestCheckpoint * BoundaryLayerCheckDistance, RaycastVisNextCheckpointColor);
-    }
-    void DrawBeginAndEndPoint()
-    {
-        Gizmos.color = BegginingAndEndpointColor;
-
-        Vector3 beginandendvec = new(BeginAndEndSize, BeginAndEndSize, BeginAndEndSize);
-        if (BeginningPoint != null) Gizmos.DrawCube(BeginningPoint.position, beginandendvec);
-        if (Endpoint != null) Gizmos.DrawCube(Endpoint.position, beginandendvec);
-
-    }
+  }
 }

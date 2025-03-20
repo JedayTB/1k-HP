@@ -8,8 +8,9 @@ public delegate void AbilityAction();
 /// </summary>
 public abstract class A_VehicleController : MonoBehaviour
 {
-  //Cache transform to avoid extern calls
   #region Variables
+
+  [Header("I_VehicleController member's")]
   protected CarVisualController _vehicleVisualController;
   protected CustomCarPhysics _vehiclePhysics;
 
@@ -34,7 +35,6 @@ public abstract class A_VehicleController : MonoBehaviour
   //
   [HideInInspector] public bool isDrifting;
 
-  [Header("I_VehicleController member's")]
   [SerializeField] protected bool _isDebuging = true;
   [SerializeField] protected float _raycastDistance = 5f;
 
