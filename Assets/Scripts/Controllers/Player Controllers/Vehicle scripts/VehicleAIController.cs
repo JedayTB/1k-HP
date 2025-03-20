@@ -8,7 +8,7 @@ public class VehicleAIController : A_VehicleController
 
   #region AI Variables 
   [Header("AI Basic setup")]
-  private List<NodePoint>[] NodeQuadrants;
+  [SerializeField] NodeCloudRetriever nodeCloudRetriever;
   public aiState currentState = aiState.driving;
 
   public Vector3 aggregatedDirectionFromNodeCloud;
@@ -66,11 +66,9 @@ public class VehicleAIController : A_VehicleController
     setRaycastVariables();
     StartCoroutine(AILogic(SteerPathingClock));
   }
-  public void Init(List<NodePoint>[] ncq)
+  public void Init(NodeCloudUtil nodeCloud)
   {
     base.Init();
-    NodeQuadrants = ncq;
-    if(NodeQuadrants == null) Debug.LogError("FUCK SHIT SHIT ");
     Debug.LogWarning("This probably doesn't work");
   }
 
@@ -124,10 +122,10 @@ public class VehicleAIController : A_VehicleController
   }
   IEnumerator AILogic(float waitTime)
   {
+    
     while (true)
     {
-      try
-      {
+      
         switch (currentState)
         {
 
@@ -144,14 +142,9 @@ public class VehicleAIController : A_VehicleController
             lightningAbilityLogic();
             break;
         }
-
-      }
-      catch (Exception e)
-      {
-        Debug.LogError(e.Message);
-      }
       yield return new WaitForSeconds(waitTime);
     }
+
   }
   #region Switch State Logic
   public void addAbilityToVehicle(addedAbility newAbility)
@@ -269,37 +262,28 @@ public class VehicleAIController : A_VehicleController
     {
 
       calculateAggregateDirectinoFromNodeCloud();
-      updateQuadrantIndex();
+      Debug.DrawRay(transform.position, aggregatedDirectionFromNodeCloud * 5, Color.magenta);
       float turnAmtToDriveTarget = steerVehicleToDestination();
-      avoidCollisions(turnAmtToDriveTarget);
-
+     // avoidCollisions(turnAmtToDriveTarget);
       _vehiclePhysics.setInputs(_throttleInput, _turningInput);
     }
   }
   private void calculateAggregateDirectinoFromNodeCloud()
   {
+    
     Vector3 newVal = Vector3.zero;
-    int amtNodesInQuadrant = NodeQuadrants[quadrantIndex].Count;
+    int amtNodesInQuadrant = nodeCloudRetriever.CurrentNodes.Count;
     for (int i = 0; i < amtNodesInQuadrant; i++)
     {
-      if (Vector3.Distance(transform.position, NodeQuadrants[quadrantIndex][i].transform.position) < effectiveNodeDistance)
+      if (Vector3.Distance(transform.position, nodeCloudRetriever.CurrentNodes[i].transform.position) < effectiveNodeDistance)
       {
-        newVal += NodeQuadrants[quadrantIndex][i].transform.position - transform.position;
+        newVal += nodeCloudRetriever.CurrentNodes[i].DirToNearestCheckpoint;
       }
     }
     aggregatedDirectionFromNodeCloud = (newVal / amtNodesInQuadrant).normalized;
+    
   }
-  private void updateQuadrantIndex()
-  {
-    int lastIndex = nextCheckpointIndex - 1;
-    if(lastIndex < 0) lastIndex = GameStateManager.Instance._lapChecker.checkPointLocations.Length;
-
-    float distanceToLastCheckpoint = Vector3.Distance(GameStateManager.Instance._lapChecker.checkPointLocations[lastIndex], transform.position);
-    float distanceToNextCheckpoint = Vector3.Distance(GameStateManager.Instance._lapChecker.checkPointLocations[nextCheckpointIndex], transform.position);
-
-    if(distanceToNextCheckpoint > distanceToLastCheckpoint) quadrantIndex++;
-
-  }
+  
   private void avoidCollisions(float turnAmtToDriveTarget)
   {
     Transform tempTransform;
@@ -416,7 +400,7 @@ public class VehicleAIController : A_VehicleController
 
     yAngleToTarget = Vector3.SignedAngle(transform.forward, delta, Vector3.up);
 
-    _turningInput = yAngleToTarget > 0 ? 1 : -1;
+    _turningInput = yAngleToTarget > 0 ? -1 : 1;
     _throttleInput = Mathf.Clamp(delta.z, -1f, 1f);
 
     return _turningInput;

@@ -90,7 +90,7 @@ public class UIController : MonoBehaviour
             GameStateManager.Instance.onPlayerWin();
         }
 
-        if (_player.isDrifting) _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
+        
 
 
     //if (GameStateManager.Instance.levelCheckpointLocations.Length != 0) AdjustAngleToCheckpoint();

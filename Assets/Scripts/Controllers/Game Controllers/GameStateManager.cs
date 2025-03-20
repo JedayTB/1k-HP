@@ -109,16 +109,12 @@ public class GameStateManager : MonoBehaviour
 
         _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
 
-        if (_aiControllers.Length == 0)
-        {
-            VehicleAIController[] ais = FindObjectsByType<VehicleAIController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        }
         for (int i = 0; i < _aiControllers.Length; i++)
         {
             if (_aiControllers[i].gameObject.activeSelf)
             { 
                 vehicles.Add(_aiControllers[i]);
-                _aiControllers[i].Init(NodeCloud.NodeCloudQuadrants);
+                _aiControllers[i].Init(); 
                 vehiclesToPosition++;
                 _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
             }

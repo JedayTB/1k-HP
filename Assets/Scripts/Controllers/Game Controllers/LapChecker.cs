@@ -23,10 +23,7 @@ public class LapChecker : MonoBehaviour
 
         _checkpoints = GetComponentsInChildren<lapCheckpoint>();
         _lapTimer = FindObjectOfType<LapTimer>();
-        if (_lapTimer != null)
-        {
-            Debug.Log("Found Lap timer");
-        }
+        
         for (int i = 0; i < _checkpoints.Length; i++)
         {
             _checkpoints[i].Init(i);
