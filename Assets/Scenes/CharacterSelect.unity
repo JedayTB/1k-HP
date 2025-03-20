@@ -1157,6 +1157,58 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 8
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 185553510}
+          m_TargetAssemblyTypeName: CharacterUI, Assembly-CSharp
+          m_MethodName: SelectCharacter
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Mimi
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2066903058}
+          m_TargetAssemblyTypeName: DynamicCameraManager, Assembly-CSharp
+          m_MethodName: MoveToLocation
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1666759923}
+          m_TargetAssemblyTypeName: CharacterStatsController, Assembly-CSharp
+          m_MethodName: changeAllSliderValues
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Mimi
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 185553510}
+          m_TargetAssemblyTypeName: CharacterUI, Assembly-CSharp
+          m_MethodName: setSelectedCharacterText
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Azure Ace
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &63365496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2288,6 +2340,58 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 8
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 185553510}
+          m_TargetAssemblyTypeName: CharacterUI, Assembly-CSharp
+          m_MethodName: SelectCharacter
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Hoku
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2066903058}
+          m_TargetAssemblyTypeName: DynamicCameraManager, Assembly-CSharp
+          m_MethodName: MoveToLocation
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 1
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1666759923}
+          m_TargetAssemblyTypeName: CharacterStatsController, Assembly-CSharp
+          m_MethodName: changeAllSliderValues
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Hoku
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 185553510}
+          m_TargetAssemblyTypeName: CharacterUI, Assembly-CSharp
+          m_MethodName: setSelectedCharacterText
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Chopper
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &222339728
@@ -4532,7 +4636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 63365490}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &532436777
@@ -14775,6 +14879,58 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 8
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 185553510}
+          m_TargetAssemblyTypeName: CharacterUI, Assembly-CSharp
+          m_MethodName: SelectCharacter
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Ethan
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2066903058}
+          m_TargetAssemblyTypeName: DynamicCameraManager, Assembly-CSharp
+          m_MethodName: MoveToLocation
+          m_Mode: 3
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 2
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1666759923}
+          m_TargetAssemblyTypeName: CharacterStatsController, Assembly-CSharp
+          m_MethodName: changeAllSliderValues
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Ethan
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 185553510}
+          m_TargetAssemblyTypeName: CharacterUI, Assembly-CSharp
+          m_MethodName: setSelectedCharacterText
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Sun Scorch
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &1877039575
