@@ -36,7 +36,9 @@ public class MainMenuUI : MonoBehaviour
   [SerializeField]
   private Slider musicVolumeSlider,
       sfxVolumeSlider;
-  #endregion
+
+    [SerializeField] private InputManager inputManager;
+  #endregion 
 
   private void Start()
   {
