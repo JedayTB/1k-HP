@@ -61,6 +61,7 @@ public class NodeCloudUtil : MonoBehaviour
   private List<Vector3> ClosestCheckpointDirList;
   private bool proceedAfterRaycastingInCircleRouting = false;
   private bool proceedAfterGetttingDirectionToClosestCheckpoint = false;
+  private bool proceedAfterNextCheckpoint = false;
   public void CreateNodeCloud()
   {
     EditorUtility.SetDirty(this);
@@ -144,8 +145,14 @@ public class NodeCloudUtil : MonoBehaviour
     // Pauses here as well
     while (proceedAfterRaycastingInCircleRouting == false) { yield return null; }
 
+    Debug.Log("Baking Next Checkpoint direction");
+    var ncdID = StartCoroutine(SetNextCheckpointCoroutine());
+    while (proceedAfterNextCheckpoint == false) { yield return null; }
+
     Debug.Log("Setting Averaged Direction Vectors to Node Points...");
     var sdvID = StartCoroutine(SetDirectionVectors());
+
+
     Debug.Log("Node Cloud Baking Process finished.");
   }
 
@@ -157,11 +164,36 @@ public class NodeCloudUtil : MonoBehaviour
       {
         if (AveragedDirList[i] != Vector3.zero) NodeCloud[i].OptimalDrivingDir = AveragedDirList[i];
         if (ClosestCheckpointDirList[i] != Vector3.zero) NodeCloud[i].DirToNearestCheckpoint = ClosestCheckpointDirList[i];
+        if (ClosestCheckpointDirList[i] != Vector3.zero && AveragedDirList[i] != Vector3.zero)
+        {
+          NodeCloud[i].OptimalDrivingDir = (NodeCloud[i].OptimalDrivingDir + NodeCloud[i].nextCheckpointDir) / 2;
+          NodeCloud[i].OptimalDrivingDir.Normalize(); 
+
+        }
         yield return null;
       }
     }
 
     Debug.Log("Vectors Set.");
+  }
+  private IEnumerator SetNextCheckpointCoroutine()
+  {
+    for (int i = 0; i < NodeCloud.Count; i++)
+    {
+      SetNextCheckpoint(NodeCloud[i]);
+      yield return null;
+    }
+    proceedAfterNextCheckpoint = true;
+  }
+  private void SetNextCheckpoint(NodePoint np)
+  {
+    int nextIndex = (np.NearestCheckpointIndex + 1) % LapCheckRef._checkpoints.Length;
+    Vector3 nextCheckDelt = LapCheckRef.checkPointLocations[nextIndex] - np.transform.position;
+
+    float nearestDot = Vector3.Dot(np.transform.forward, np.DirToNearestCheckpoint);
+    float nextCheckDot = Vector3.Dot(np.transform.forward, nextCheckDelt);
+
+    np.nextCheckpointDir = nearestDot > nextCheckDot ? np.DirToNearestCheckpoint : nextCheckDelt;
   }
   private IEnumerator RCInCircleCoroutine()
   {
