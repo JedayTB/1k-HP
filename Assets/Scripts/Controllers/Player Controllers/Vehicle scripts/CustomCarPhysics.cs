@@ -316,7 +316,7 @@ public class CustomCarPhysics : MonoBehaviour
     {
       ContactPoint cpoint = collision.GetContact(0);
 
-      NewCollisionBump(cpoint);
+      //NewCollisionBump(cpoint);
 
     }
   }
@@ -358,7 +358,7 @@ public class CustomCarPhysics : MonoBehaviour
         //Debug.Log("WE ARE skidding");
         //Debug.DrawRay(transform.position, transform.forward * collisionRayDistance, Color.red);
 
-        contactForce = Mathf.Clamp(contactForce, 1000f, 5000f);
+        contactForce = Mathf.Clamp(contactForce, 10f, 500f);
 
         _rigidBody.AddForceAtPosition(transform.forward * contactForce, contactPoint.point, ForceMode.Impulse);
         //Debug.Log("applying force at " + contactPoint.point);
