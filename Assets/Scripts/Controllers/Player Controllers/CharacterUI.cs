@@ -89,7 +89,7 @@ public class CharacterUI : MonoBehaviour
     }
     if (GrandPrixManager.GameMode == 1)
     {
-      _sceneChanger.LoadLevelWithTransition("LevelSelect");
+      _sceneChanger.LoadLevelWithTransition("CityLevel");
     }
 
   }
