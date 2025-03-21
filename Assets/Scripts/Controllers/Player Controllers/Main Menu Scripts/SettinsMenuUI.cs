@@ -1,15 +1,14 @@
+using System.Runtime.Serialization.Formatters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuUI : MonoBehaviour
+public class SettingsUIController : MonoBehaviour
 {
   #region Variables
-  [SerializeField]
-  private Animator animator;
 
-  [SerializeField]
-  private TMP_Text gameVersion;
+
+  public TMP_Text gameVersion;
 
   [Header("General Settings Config")]
   [SerializeField]
@@ -36,31 +35,18 @@ public class MainMenuUI : MonoBehaviour
   [SerializeField]
   private Slider musicVolumeSlider,
       sfxVolumeSlider;
-
-    [SerializeField] private InputManager inputManager;
   #endregion 
 
   private void Start()
   {
-    gameVersion.text = "ver " + Application.version;
-        CursorController.setDefaultCursorConfined();
+    if(gameVersion != null) gameVersion.text = "ver " + Application.version;
+    CursorController.setDefaultCursorConfined();
     LoadAllSettings();
-
-  }
-
-  public void StartButton()
-  {
-    animator.SetBool("MenuIsOpen", true);
   }
 
   public void ExitButton()
   {
     Application.Quit();
-  }
-
-  public void CancelButton()
-  {
-    animator.SetBool("MenuIsOpen", false);
   }
 
   private void SaveAllSettings()
@@ -146,50 +132,31 @@ public class MainMenuUI : MonoBehaviour
   }
 
   #region General Menu
-
-  public void selectSettingsButton(int index)
+  public void openSettingsPrepage()
   {
-    switch (index)
-    {
-      case 0: // video settings
-        {
-          pagePreMenu.SetActive(false);
-          pageVideoSettings.SetActive(true);
-          pageAudioSettings.SetActive(false);
-          return;
-        }
-      case 1: // audio settings
-        {
-          pagePreMenu.SetActive(false);
-          pageVideoSettings.SetActive(false);
-          pageAudioSettings.SetActive(true);
-          return;
-        }
-      case 2: // back button
-        {
-          pageMainMenu.SetActive(true);
-          pagePreMenu.SetActive(false);
-          pageVideoSettings.SetActive(false);
-          pageAudioSettings.SetActive(false);
-          return;
-        }
-      case 3: // main menu settings button to pre-page
-        {
-          pageMainMenu.SetActive(false);
-          pagePreMenu.SetActive(true);
-          pageVideoSettings.SetActive(false);
-          pageAudioSettings.SetActive(false);
-          return;
-        }
-      case 4: // audo/video settings menu to pre-page
-        {
-          pageMainMenu.SetActive(false);
-          pagePreMenu.SetActive(true);
-          pageVideoSettings.SetActive(false);
-          pageAudioSettings.SetActive(false);
-          return;
-        }
-    }
+    pageMainMenu.SetActive(false);
+    pagePreMenu.SetActive(true);
+    pageVideoSettings.SetActive(false);
+    pageAudioSettings.SetActive(false);
+  }
+  public void openVideoSettings()
+  {
+    pagePreMenu.SetActive(false);
+    pageVideoSettings.SetActive(true);
+    pageAudioSettings.SetActive(false);
+  }
+  public void openAudioSettings()
+  {
+    pagePreMenu.SetActive(false);
+    pageVideoSettings.SetActive(false);
+    pageAudioSettings.SetActive(true);
+  }
+  public void backToMain()
+  {
+    pageMainMenu.SetActive(true);
+    pagePreMenu.SetActive(false);
+    pageVideoSettings.SetActive(false);
+    pageAudioSettings.SetActive(false);
   }
 
   #endregion

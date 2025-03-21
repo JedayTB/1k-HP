@@ -14,7 +14,7 @@ public class UIController : MonoBehaviour
   [SerializeField] private CanvasGroup _playMenu;
   [SerializeField] private CanvasGroup _winMenuGP;
   [SerializeField] private CanvasGroup _winMenuLS;
-
+  [SerializeField] private SettingsUIController settingsMenu;
 
   [Header("Rect Transforms")]
   [SerializeField] private RectTransform _spedometerLinePivot;
@@ -75,6 +75,10 @@ public class UIController : MonoBehaviour
     PreRaceCamera.cutSceneIsHappening = true;
     StartCoroutine(CountDown(GameStateManager.countdownTime));
   }
+  public void switchToSettingsFromPause()
+  {
+
+  }
   void Update()
   {
     if (Input.GetKeyUp(_pauseMenuKey))
@@ -84,6 +88,7 @@ public class UIController : MonoBehaviour
     if (Input.GetKeyDown(KeyCode.Space) && GameStateManager.Instance.UseDebug)
     {
       counter = 0;
+      
     }
     if (Input.GetKeyDown(KeyCode.L))
     {
@@ -149,6 +154,7 @@ public class UIController : MonoBehaviour
 
     if (_menuIsOpen == true)
     {
+      settingsMenu.backToMain();
       _pauseMenu.SetActive(false);
       Time.timeScale = 1f;
       Cursor.lockState = CursorLockMode.Locked;
