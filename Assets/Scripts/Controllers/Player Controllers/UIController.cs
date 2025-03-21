@@ -41,8 +41,8 @@ public class UIController : MonoBehaviour
   [SerializeField] private TextMeshProUGUI GearText;
   [SerializeField] private TextMeshProUGUI playerPlacementText;
   [SerializeField] public TextMeshProUGUI currentLapText;
-    [SerializeField] public TextMeshProUGUI newLapAnimText;
-    [SerializeField] public Animator newLapAnimator;
+  [SerializeField] public TextMeshProUGUI newLapAnimText;
+  [SerializeField] public Animator newLapAnimator;
 
 
   // Misc
@@ -80,24 +80,22 @@ public class UIController : MonoBehaviour
     if (Input.GetKeyUp(_pauseMenuKey))
     {
       menuOpenClose();
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && GameStateManager.Instance.UseDebug)
-        {
-            counter = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            GameStateManager.Instance.onPlayerWin();
-        }
-
-        
-
+    }
+    if (Input.GetKeyDown(KeyCode.Space) && GameStateManager.Instance.UseDebug)
+    {
+      counter = 0;
+    }
+    if (Input.GetKeyDown(KeyCode.L))
+    {
+      GameStateManager.Instance.onPlayerWin();
+    }
 
     //if (GameStateManager.Instance.levelCheckpointLocations.Length != 0) AdjustAngleToCheckpoint();
 
     rotateSpeedometreLine();
 
     _builtUpNitroSlider.gameObject.SetActive(_player.isDrifting);
+    if (_player.isDrifting) _builtUpNitroSlider.value = _player._nitroIncrementThresholdValue;
     _playerNitroSlider.value = LerpAndEasings.ExponentialDecay(_playerNitroSlider.value, _player._nitroChargeAmounts, _sliderLerpSpeed, Time.deltaTime);
     GearText.text = _player.VehiclePhysics.gearText;
     playerPlacementText.text = $"{_player.racePlacement}";
@@ -170,7 +168,7 @@ public class UIController : MonoBehaviour
 
   public void resetPlayer()
   {
-        Time.timeScale = 1f;
+    Time.timeScale = 1f;
   }
 
   public void continueButton()

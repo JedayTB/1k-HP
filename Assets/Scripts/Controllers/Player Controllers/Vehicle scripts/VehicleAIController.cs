@@ -1,5 +1,4 @@
 using System.Collections;
-using TreeEditor;
 using UnityEngine;
 
 public class VehicleAIController : A_VehicleController
@@ -328,7 +327,7 @@ public class VehicleAIController : A_VehicleController
     // If all frontal raycast hit,
     // We are hitting a wall!
     // reverse.
-    /*
+
     if (amtFrontalHit == amtFrontalChecks)
     {
       float newTurn = turnAmtToDriveTarget < 0 ? -1 : 1;
@@ -337,7 +336,7 @@ public class VehicleAIController : A_VehicleController
       reverseAction(newTurn);
       return;
     }
-    */
+
 
 
     if (amtOfRaycastsHitting == 0) averagedSteerAwayDirection = 0f;
@@ -402,7 +401,7 @@ public class VehicleAIController : A_VehicleController
     yAngleToTarget = Vector3.SignedAngle(transform.forward, aggregatedDirectionFromNodeCloud, Vector3.up);
     _turningInput = Mathf.Clamp(yAngleToTarget, -1f, 1f);
 
-    float dot =  Vector3.Dot(transform.forward, aggregatedDirectionFromNodeCloud);
+    float dot = Vector3.Dot(transform.forward, aggregatedDirectionFromNodeCloud);
     _throttleInput = Mathf.Clamp(dot, -1, 1);
     return _turningInput;
   }
