@@ -23,7 +23,7 @@ public class InputManager : MonoBehaviour
   public bool usedAbility;
   public bool isUsingNitro;
 
-  public float ShiftGearInput;
+  public bool ShiftGearInput;
   [SerializeField] private string debugginString;
   public void Init()
   {
@@ -66,7 +66,7 @@ public class InputManager : MonoBehaviour
     usedAbility = _Ability.IsPressed();
     isUsingNitro = _Nitro.IsPressed();
 
-    ShiftGearInput = _GearShift.ReadValue<float>();
+    ShiftGearInput = _GearShift.WasPerformedThisFrame();
 
     debugginString = $"Throttle: {PlayerThrottleInput}\tTurning: {PlayerTurningInput}\n" +
                 $"Drifting: {isDrifting}\n" +

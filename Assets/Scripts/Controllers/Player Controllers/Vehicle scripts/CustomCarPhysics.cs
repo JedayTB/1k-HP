@@ -15,7 +15,7 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] private float _raycastDistance = 1.5f;
   [SerializeField] private LayerMask _groundLayers;
   [SerializeField] private CustomWheels[] wheels;
-    [HideInInspector] public float normalizedSpeed;
+  [HideInInspector] public float normalizedSpeed;
   public CustomWheels[] WheelArray { get => wheels; }
   private int halfTireLength;
   private Rigidbody _rigidBody;
@@ -34,6 +34,7 @@ public class CustomCarPhysics : MonoBehaviour
   [SerializeField] public VehicleGearSpecs GearTwo;
   // Only for UI display
   [HideInInspector] public string gearText = "Low";
+  private bool lowGear = true;
 
   [Header("Acceleration setup")]
 
@@ -128,23 +129,23 @@ public class CustomCarPhysics : MonoBehaviour
     _throttleInput = throttleAmt;
     _turningInput = turningAmt;
   }
-  public void ShiftGears(float delta)
+  public void ShiftGears()
   {
-    if (delta != 0)
+    lowGear = !lowGear;
+    currentGear = lowGear == false ? GearTwo : GearOne;
+    gearText = lowGear == false ? "High" : "Low";
+    curGear = lowGear == false ? 1 : 0;
+
+    horsePower = currentGear.HorsePower;
+    currentTopSpeed = currentGear.MaxSpeed;
+    foreach (var wheel in wheels)
     {
-      currentGear = delta > 0 ? GearTwo : GearOne;
-      gearText = delta > 0 ? "High" : "Low";
-      curGear = delta > 0 ? 1 : 0;
-
-      horsePower = currentGear.HorsePower;
-      currentTopSpeed = currentGear.MaxSpeed;
-      foreach (var wheel in wheels)
-      {
-        wheel.setTimings(0.25f, 0.25f);
-      }
+      wheel.setTimings(0.25f, 0.25f);
     }
-
   }
+
+
+
   public float getSpeed()
   {
     return Vector3.Dot(_transform.forward, _rigidBody.velocity);

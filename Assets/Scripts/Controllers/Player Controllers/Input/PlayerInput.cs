@@ -74,7 +74,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""GearShift"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""a088340c-0d0e-4a3a-9efe-cfbd09b93177"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -282,70 +282,26 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""GamePad"",
-                    ""id"": ""2da3eb1d-7cf2-4d11-84ec-3684ccf67f1f"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""GearShift"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""76180ff5-1636-4d5b-8396-7b0ebfb61fa4"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""name"": """",
+                    ""id"": ""462ab8e5-ca52-4909-bc6e-fa2eb1c2b76e"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""GearShift"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""9b641a96-284f-4649-887f-e0168959bcd6"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""GearShift"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Keyboard"",
-                    ""id"": ""3c82b5b5-f57a-42ae-ba8f-e21e724c9551"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""GearShift"",
-                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""d79e8df8-035b-41fb-b821-e6327f77f02a"",
+                    ""name"": """",
+                    ""id"": ""15654bf0-8ae7-4327-9952-f56a6837297d"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""GearShift"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""0e28f517-a59e-4c01-ab13-04166c8b09c3"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""GearShift"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         },

@@ -30,7 +30,7 @@ public class PlayerVehicleController : A_VehicleController
     isUsingNitro = inputManager.isUsingNitro && _nitroChargeAmounts > 0;
 
     isUsingDrift = inputManager.isDrifting;
-    float gearShiftInput = inputManager.ShiftGearInput;
+    bool gearShiftInput = inputManager.ShiftGearInput;
     bool endedDrift = inputManager.endedDrifting;
 
     if (isUsingNitro && canNitroAgain)
@@ -43,7 +43,7 @@ public class PlayerVehicleController : A_VehicleController
     {
       useCharacterAbility();
     }
-    if (gearShiftInput != 0) _vehiclePhysics.ShiftGears(gearShiftInput);
+    if (gearShiftInput) _vehiclePhysics.ShiftGears();
 
     _vehiclePhysics.driftVehicle(isUsingDrift);
     _vehiclePhysics.endedDrifting(endedDrift);
