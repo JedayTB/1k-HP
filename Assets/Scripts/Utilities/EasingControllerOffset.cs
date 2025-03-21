@@ -1,18 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EasingControllerOffset : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+  [SerializeField] private float minimumTimeOffset = 0f;
+  [SerializeField] private float maximumTimeOffset = 0.75f;
 
-    // Update is called once per frame
-    void Update()
+  [SerializeField] private float minLerpTime = 5f;
+  [SerializeField] private float maxLerpTime = 15f;
+
+  EasingController eas;
+  void Awake()
+  {
+    eas = GetComponent<EasingController>();
+    eas.enabled = false;
+
+    eas.durationInSeconds = Random.Range(minLerpTime, maxLerpTime);
+    StartCoroutine(countDown());
+  }
+  IEnumerator countDown()
+  {
+    float count = 0f;
+
+    float waitTime = Random.Range(minimumTimeOffset, maximumTimeOffset);
+
+    while (count < waitTime)
     {
-        
+      count += Time.deltaTime;
+      yield return null;
     }
+    eas.enabled = true;
+  }
 }

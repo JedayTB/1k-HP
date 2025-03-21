@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7041121998361551845}
   - component: {fileID: 3815607575875099881}
+  - component: {fileID: -1466600736269021179}
   m_Layer: 0
   m_Name: Building 4
   m_TagString: Untagged
@@ -47,12 +48,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 3
-  durationInSeconds: 5
+  durationInSeconds: 8
   startPosition: {x: 0, y: 0, z: 0}
   endPosition: {x: 0, y: 20, z: 0}
   useCurrentPositionAsStart: 1
   relativeEndPosition: 1
   pingPong: 1
+--- !u!114 &-1466600736269021179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3615616697982205606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c6fde4e6de65c11b8fdb13da2003cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimumTimeOffset: 0
+  maximumTimeOffset: 5
 --- !u!1001 &2217046496330690648
 PrefabInstance:
   m_ObjectHideFlags: 0
