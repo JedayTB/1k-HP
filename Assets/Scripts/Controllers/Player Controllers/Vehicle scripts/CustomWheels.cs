@@ -44,7 +44,7 @@ public class CustomWheels : MonoBehaviour
   public float RightAckermanAngle { get => _rightAckermanAngle; }
 
   #region Public Physic's unrelated
-  public void init(CustomCarPhysics veh, Rigidbody rb,float leftTurnAngle, float rightTurnAngle)
+  public void init(CustomCarPhysics veh, Rigidbody rb, float leftTurnAngle, float rightTurnAngle)
   {
     ParentPhys = veh;
     _vehicleRB = rb;
@@ -133,15 +133,15 @@ public class CustomWheels : MonoBehaviour
 
     if (SameAccelAsVelocity == false)
     {
-      forwardAccTime = calcForward ? 1f : 0f;
-      backwardAccTime = calcBackward ? 1f : 0f;
+      forwardAccTime = calcForward ? 1f : forwardAccTime - Time.deltaTime;
+      backwardAccTime = calcBackward ? 1f : backwardAccTime - Time.deltaTime;
     }
     // Must find a way to set back to 0 once out
     // Start accelerating the same direction as input
     else
     {
       float modifier = ParentPhys.curGear == 0 ? 0.75f : 0.25f;
-      
+
       forwardAccTime = calcForward ? forwardAccTime + (modifier * Time.deltaTime) : forwardAccTime - Time.deltaTime;
       forwardAccTime = Mathf.Max(forwardAccTime, 0f);
 
