@@ -138,18 +138,26 @@ public class SettingsUIController : MonoBehaviour
     pagePreMenu.SetActive(true);
     pageVideoSettings.SetActive(false);
     pageAudioSettings.SetActive(false);
+    ApplyAllSettings();
+    SaveAllSettings();
   }
   public void openVideoSettings()
   {
     pagePreMenu.SetActive(false);
     pageVideoSettings.SetActive(true);
     pageAudioSettings.SetActive(false);
+    ApplyAllSettings();
+    SaveAllSettings();
   }
   public void openAudioSettings()
   {
     pagePreMenu.SetActive(false);
     pageVideoSettings.SetActive(false);
     pageAudioSettings.SetActive(true);
+
+    ApplyAllSettings();
+    
+    SaveAllSettings();
   }
   public void backToMain()
   {
@@ -157,6 +165,8 @@ public class SettingsUIController : MonoBehaviour
     pagePreMenu.SetActive(false);
     pageVideoSettings.SetActive(false);
     pageAudioSettings.SetActive(false);
+    ApplyAllSettings();
+    SaveAllSettings();
   }
 
   #endregion

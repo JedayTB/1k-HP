@@ -54,11 +54,12 @@ public class LightningController : A_Ability
         lightningTarget = null;
         _canUseAbility = false;
 
-        if(crosshair.gameObject != null){
-crosshair.transform.position = Camera.main.WorldToScreenPoint(Vector3.zero);
-        CursorController.setDefaultCursor();
-        crosshair.gameObject.SetActive(false);
-        } 
+        if (crosshair.gameObject != null)
+        {
+            crosshair.transform.position = Camera.main.WorldToScreenPoint(Vector3.zero);
+            CursorController.setDefaultCursor();
+            crosshair.gameObject.SetActive(false);
+        }
     }
 
     /// OnAbility
