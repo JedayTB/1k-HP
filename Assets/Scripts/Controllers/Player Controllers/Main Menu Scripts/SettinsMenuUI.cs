@@ -129,6 +129,9 @@ public class SettingsUIController : MonoBehaviour
     QualitySettings.SetQualityLevel(presetDropdown.value, true);
 
     Application.targetFrameRate = fpsLevels[fpsDropdown.value];
+
+        GameStateManager.musicVolumeLevel = masterVolumeSlider.value;
+        GameStateManager.Instance.UpdateMusicVolume(); // only kind of works but i'm too lazy rn to make it correct
   }
 
   #region General Menu

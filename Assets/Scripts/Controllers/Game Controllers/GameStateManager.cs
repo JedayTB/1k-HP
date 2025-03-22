@@ -64,7 +64,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private Animator winScreenAnimator;
     private static readonly string skidParticlesVelocityID = "Velocity";
     public LayerMask CarPhysicsLayer;
-    public static readonly float musicVolumeLevel = 0.5f;
+    public static float musicVolumeLevel = 0.5f;
 
     private InputManager inputManager;
 
@@ -454,5 +454,10 @@ public class GameStateManager : MonoBehaviour
         skidparticles.transform.SetPositionAndRotation(positionOfHit, newRot);
 
         skidparticles.SetFloat(skidParticlesVelocityID, velocityOfHit);
+    }
+
+    public void UpdateMusicVolume()
+    {
+        _musicManager.musicSource.volume = musicVolumeLevel;
     }
 }

@@ -740,7 +740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5227166514408403835
 Transform:
   m_ObjectHideFlags: 0
@@ -2177,6 +2177,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: hitboxPLEASE
+      objectReference: {fileID: 0}
+    - target: {fileID: 809365173543837978, guid: fc85e1b59b7ab12408e33c4ad5edda43,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1169683724594872527, guid: fc85e1b59b7ab12408e33c4ad5edda43,
         type: 3}

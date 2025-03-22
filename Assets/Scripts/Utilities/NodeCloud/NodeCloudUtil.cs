@@ -72,7 +72,7 @@ public class NodeCloudUtil : MonoBehaviour
   private bool proceedAfterNextCheckpoint = false;
   public void CreateNodeCloud()
   {
-    EditorUtility.SetDirty(this);
+    //EditorUtility.SetDirty(this);
     Debug.ClearDeveloperConsole();
     BeginAndEndpointNote = txtAreatxt;
     Debug.Log("Console Cleared.");
@@ -121,7 +121,7 @@ public class NodeCloudUtil : MonoBehaviour
   }
   private IEnumerator BakeNodeCloudInformation()
   {
-    EditorUtility.SetDirty(this);
+    //EditorUtility.SetDirty(this);
     Debug.ClearDeveloperConsole();
     BeginAndEndpointNote = txtAreatxt;
     Debug.Log("Console Cleared.");
