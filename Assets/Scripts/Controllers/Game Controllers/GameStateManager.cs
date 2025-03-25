@@ -140,7 +140,7 @@ public class GameStateManager : MonoBehaviour
             vehicles[i].setNewRespawnPosition(_startLocations[i]);
         }
         _postProcessing?.init();
-        StartCoroutine(calculateVehiclePlacements());
+        //StartCoroutine(calculateVehiclePlacements());
         Debug.Log("GSM has Finished Intializing!");
     }
     private void Start()
