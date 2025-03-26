@@ -2,6 +2,7 @@ using System.Runtime.Serialization.Formatters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class SettingsUIController : MonoBehaviour
 {
@@ -38,6 +39,13 @@ public class SettingsUIController : MonoBehaviour
 
     private bool deepMenuOpen = false;
     private bool prePageOpen = false;
+
+    [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private GameObject prepageSelected;
+    [SerializeField] private GameObject videoSelected;
+    [SerializeField] private GameObject audioSelected;
+    [SerializeField] private GameObject mainSelected;
+    [SerializeField] private bool isGameplay = false;
     #endregion
 
     private void Start()
@@ -51,7 +59,7 @@ public class SettingsUIController : MonoBehaviour
 
     private void Update()
     {
-        /*if (playerInput.pressedDeny)
+        if (playerInput.pressedDeny && (prePageOpen || deepMenuOpen))
         {
             if (deepMenuOpen)
             {
@@ -61,7 +69,7 @@ public class SettingsUIController : MonoBehaviour
             {
                 backToMain();
             }
-        }*/
+        }
     }
 
     public void ExitButton()
@@ -151,7 +159,7 @@ public class SettingsUIController : MonoBehaviour
         Application.targetFrameRate = fpsLevels[fpsDropdown.value];
 
         GameStateManager.musicVolumeLevel = masterVolumeSlider.value;
-        GameStateManager.Instance.UpdateMusicVolume(); // only kind of works but i'm too lazy rn to make it correct
+        GameStateManager.Instance?.UpdateMusicVolume(); // only kind of works but i'm too lazy rn to make it correct
     }
 
     #region General Menu
@@ -163,6 +171,7 @@ public class SettingsUIController : MonoBehaviour
         pagePreMenu.SetActive(true);
         pageVideoSettings.SetActive(false);
         pageAudioSettings.SetActive(false);
+        eventSystem.SetSelectedGameObject(prepageSelected);
         ApplyAllSettings();
         SaveAllSettings();
     }
@@ -173,6 +182,7 @@ public class SettingsUIController : MonoBehaviour
         pagePreMenu.SetActive(false);
         pageVideoSettings.SetActive(true);
         pageAudioSettings.SetActive(false);
+        eventSystem.SetSelectedGameObject(videoSelected);
         ApplyAllSettings();
         SaveAllSettings();
     }
@@ -183,6 +193,7 @@ public class SettingsUIController : MonoBehaviour
         pagePreMenu.SetActive(false);
         pageVideoSettings.SetActive(false);
         pageAudioSettings.SetActive(true);
+        eventSystem.SetSelectedGameObject(audioSelected);
 
         ApplyAllSettings();
 
@@ -191,11 +202,12 @@ public class SettingsUIController : MonoBehaviour
     public void backToMain()
     {
         deepMenuOpen = false;
-        prePageOpen = true;
+        prePageOpen = false;
         pageMainMenu.SetActive(true);
         pagePreMenu.SetActive(false);
         pageVideoSettings.SetActive(false);
         pageAudioSettings.SetActive(false);
+        eventSystem.SetSelectedGameObject(mainSelected);
         ApplyAllSettings();
         SaveAllSettings();
     }

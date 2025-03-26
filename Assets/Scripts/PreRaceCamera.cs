@@ -28,7 +28,7 @@ public class PreRaceCamera : MonoBehaviour
     {
         if (!isLevelSelect)
         {
-            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && cutSceneIsHappening)
+            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetButtonDown("Submit")) && cutSceneIsHappening)
             {
                 StopAllCoroutines();
                 cutSceneIsHappening = false;

@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -52,7 +53,7 @@ public class UIController : MonoBehaviour
   [SerializeField] private float abilityCircleAnimTime = 0.75f;
 
   private float nextCheckpointAngle;
-  private bool _menuIsOpen = false;
+  [SerializeField] private bool _menuIsOpen = false;
 
   public Image lightningCrossHair;
   public Image HookshotCrosshair;
@@ -62,10 +63,15 @@ public class UIController : MonoBehaviour
   private static float rotationDif = 220;
 
   private float counter = 3f;
+    private InputManager playerInput;
+    [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private GameObject firstSelected;
+    [SerializeField] private GameObject onWinSelected;
 
-  public void init(PlayerVehicleController PLAYER)
+  public void init(PlayerVehicleController PLAYER, InputManager inputManager)
   {
     _player = PLAYER;
+        playerInput = inputManager;
     _playerNitroSlider.maxValue = _player.MaxNitroChargeAmounts;
     _builtUpNitroSlider.maxValue = 1f;
     cachedLocation = _player.transform.position;
@@ -81,7 +87,7 @@ public class UIController : MonoBehaviour
   }
   void Update()
   {
-    if (Input.GetKeyUp(_pauseMenuKey))
+    if (playerInput.pressedPause)
     {
       menuOpenClose();
     }
@@ -150,11 +156,11 @@ public class UIController : MonoBehaviour
 
   private void menuOpenClose()
   {
-    Debug.LogWarning("Configure Menu to use Input System instead of keycode");
 
     if (_menuIsOpen == true)
     {
-      settingsMenu.backToMain();
+            print("PEEPEEPOOPOO???");
+      //settingsMenu.backToMain();
       _pauseMenu.SetActive(false);
       Time.timeScale = 1f;
       Cursor.lockState = CursorLockMode.Locked;
@@ -163,6 +169,7 @@ public class UIController : MonoBehaviour
     else if (_menuIsOpen == false)
     {
       _pauseMenu.SetActive(true);
+            eventSystem.SetSelectedGameObject(firstSelected);
       Time.timeScale = 0f;
 
       Cursor.lockState = CursorLockMode.None;
@@ -179,6 +186,7 @@ public class UIController : MonoBehaviour
 
   public void continueButton()
   {
+        print("HELLO????");
     menuOpenClose(); // pretty sure this will always close and never cause problems
   }
 
@@ -187,6 +195,7 @@ public class UIController : MonoBehaviour
   {
     float count = 0;
     winScreen.gameObject.SetActive(true);
+        eventSystem.SetSelectedGameObject(onWinSelected);
     winScreen.alpha = 0;
 
 

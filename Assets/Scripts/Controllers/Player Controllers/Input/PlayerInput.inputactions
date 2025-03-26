@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "PauseGame",
+                    "type": "Button",
+                    "id": "23f209d4-29dc-4a4b-a695-be5172c56cf5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -108,7 +117,7 @@
                 {
                     "name": "negative",
                     "id": "56ad243e-d7fb-43f6-830c-d7659ec863e7",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -119,7 +128,7 @@
                 {
                     "name": "positive",
                     "id": "4c5f7b64-bee4-45e7-b5ea-295a837cdf3f",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -280,6 +289,28 @@
                     "action": "GearShift",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "296de33e-cf36-4ce2-8d04-557e613d53ef",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fcce2695-e300-4266-9f0c-5bc281f81a96",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -321,7 +352,7 @@
                 {
                     "name": "",
                     "id": "6b2a49f7-583c-4904-aac9-80416b8c87ed",
-                    "path": "<XInputController>/buttonEast",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -343,7 +374,7 @@
                 {
                     "name": "",
                     "id": "03438060-ca4c-429a-bec3-b6905ee3e9eb",
-                    "path": "<XInputController>/buttonSouth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

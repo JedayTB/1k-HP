@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
   private InputAction _GearShift;
     private InputAction _Confirm;
     private InputAction _Deny;
+    private InputAction _PauseGame;
   //1D Axes. (Floats)
   public float PlayerThrottleInput;
   public float PlayerTurningInput;
@@ -26,6 +27,7 @@ public class InputManager : MonoBehaviour
   public bool isUsingNitro;
     public bool pressedConfirm;
     public bool pressedDeny;
+    public bool pressedPause;
 
   public bool ShiftGearInput;
   [SerializeField] private string debugginString;
@@ -43,6 +45,7 @@ public class InputManager : MonoBehaviour
     _Nitro = _inputActions.Driving.Nitro;
         _Confirm = _inputActions.Menu.Confirm;
         _Deny = _inputActions.Menu.Deny;
+        _PauseGame = _inputActions.Driving.PauseGame;
 
     InputUser.onChange += InputUser_onChange;
   }
@@ -74,8 +77,10 @@ public class InputManager : MonoBehaviour
 
     ShiftGearInput = _GearShift.WasPerformedThisFrame();
 
-        pressedConfirm = _Confirm.IsPressed();
-        pressedDeny = _Deny.IsPressed();
+        pressedConfirm = _Confirm.WasPerformedThisFrame();
+        pressedDeny = _Deny.WasPerformedThisFrame();
+
+        pressedPause = _PauseGame.WasPerformedThisFrame();
 
     debugginString = $"Throttle: {PlayerThrottleInput}\tTurning: {PlayerTurningInput}\n" +
                 $"Drifting: {isDrifting}\n" +

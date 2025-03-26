@@ -44,6 +44,11 @@ public class CharacterUI : MonoBehaviour
       ConfirmButton();
     }
 
+        if (Input.GetButtonDown("Cancel"))
+        {
+            _sceneChanger.LoadLevelWithTransition("MainMenu");
+        }
+
   }
   public void setSelectedCharacterText(string characterName)
   {

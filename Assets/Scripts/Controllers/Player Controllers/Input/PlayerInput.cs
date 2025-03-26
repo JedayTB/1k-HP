@@ -80,6 +80,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""23f209d4-29dc-4a4b-a695-be5172c56cf5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -130,7 +139,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""56ad243e-d7fb-43f6-830c-d7659ec863e7"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -141,7 +150,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""4c5f7b64-bee4-45e7-b5ea-295a837cdf3f"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -302,6 +311,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""GearShift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""296de33e-cf36-4ce2-8d04-557e613d53ef"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcce2695-e300-4266-9f0c-5bc281f81a96"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -343,7 +374,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6b2a49f7-583c-4904-aac9-80416b8c87ed"",
-                    ""path"": ""<XInputController>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -365,7 +396,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""03438060-ca4c-429a-bec3-b6905ee3e9eb"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -386,6 +417,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Driving_Ability = m_Driving.FindAction("Ability", throwIfNotFound: true);
         m_Driving_Drift = m_Driving.FindAction("Drift", throwIfNotFound: true);
         m_Driving_GearShift = m_Driving.FindAction("GearShift", throwIfNotFound: true);
+        m_Driving_PauseGame = m_Driving.FindAction("PauseGame", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Confirm = m_Menu.FindAction("Confirm", throwIfNotFound: true);
@@ -457,6 +489,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Ability;
     private readonly InputAction m_Driving_Drift;
     private readonly InputAction m_Driving_GearShift;
+    private readonly InputAction m_Driving_PauseGame;
     public struct DrivingActions
     {
         private @PlayerInput m_Wrapper;
@@ -467,6 +500,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Ability => m_Wrapper.m_Driving_Ability;
         public InputAction @Drift => m_Wrapper.m_Driving_Drift;
         public InputAction @GearShift => m_Wrapper.m_Driving_GearShift;
+        public InputAction @PauseGame => m_Wrapper.m_Driving_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Driving; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -494,6 +528,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @GearShift.started += instance.OnGearShift;
             @GearShift.performed += instance.OnGearShift;
             @GearShift.canceled += instance.OnGearShift;
+            @PauseGame.started += instance.OnPauseGame;
+            @PauseGame.performed += instance.OnPauseGame;
+            @PauseGame.canceled += instance.OnPauseGame;
         }
 
         private void UnregisterCallbacks(IDrivingActions instance)
@@ -516,6 +553,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @GearShift.started -= instance.OnGearShift;
             @GearShift.performed -= instance.OnGearShift;
             @GearShift.canceled -= instance.OnGearShift;
+            @PauseGame.started -= instance.OnPauseGame;
+            @PauseGame.performed -= instance.OnPauseGame;
+            @PauseGame.canceled -= instance.OnPauseGame;
         }
 
         public void RemoveCallbacks(IDrivingActions instance)
@@ -595,6 +635,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnAbility(InputAction.CallbackContext context);
         void OnDrift(InputAction.CallbackContext context);
         void OnGearShift(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

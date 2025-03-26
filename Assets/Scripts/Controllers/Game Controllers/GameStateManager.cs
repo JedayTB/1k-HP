@@ -97,7 +97,7 @@ public class GameStateManager : MonoBehaviour
         inputManager.Init();
 
         _lapChecker?.Init(this);
-        _uiController?.init(_player);
+        _uiController?.init(_player, inputManager);
         cam = Camera.main.gameObject.GetComponentInParent<CameraFollower3D>();
         cam?.Init(inputManager);
 
