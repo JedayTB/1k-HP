@@ -13,7 +13,7 @@ public class GameStateManager : MonoBehaviour
     private static readonly float MUSICCROSSFADETIME = 4f;
     [SerializeField] private PlayerVehicleController _player;
     public A_Ability[] Abilitieslist;
-    
+
     private static GameStateManager instance;
     public static GameStateManager Instance { get { return instance; } }
 
@@ -72,6 +72,7 @@ public class GameStateManager : MonoBehaviour
 
     public static int _newCharacter = 1;
 
+
     // Hidden
     [HideInInspector] public List<A_VehicleController> vehicles = new List<A_VehicleController>();
     [HideInInspector]
@@ -103,18 +104,19 @@ public class GameStateManager : MonoBehaviour
         // breaks at this one for some reason, had to move everything else up to stop them from not being called
         _player?.Init(inputManager);
 
+        _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
+        _player.VehiclePhysics.RigidBody.freezeRotation = true;
         vehicles.Add(_player);
 
         int vehiclesToPosition = 1;
 
-        _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
 
         for (int i = 0; i < _aiControllers.Length; i++)
         {
             if (_aiControllers[i].gameObject.activeSelf)
-            { 
+            {
                 vehicles.Add(_aiControllers[i]);
-                _aiControllers[i].Init(); 
+                _aiControllers[i].Init();
                 vehiclesToPosition++;
                 _aiControllers[i].VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.FreezePosition;
             }
@@ -282,7 +284,7 @@ public class GameStateManager : MonoBehaviour
         print(lapTimesStr);
 
         _lapTimesText.text = lapTimesStr;
-        
+
         StartCoroutine(countUpScore(2, totalTime));
         //_scoreNumberText.text = _scoreController.CurrentScore.ToString("0");
 
@@ -436,6 +438,8 @@ public class GameStateManager : MonoBehaviour
 
     public void UnfreezeAIs()
     {
+        _player.VehiclePhysics.RigidBody.constraints = RigidbodyConstraints.None;
+        _player.VehiclePhysics.RigidBody.freezeRotation = false;
 
         foreach (VehicleAIController ai in _aiControllers)
         {
