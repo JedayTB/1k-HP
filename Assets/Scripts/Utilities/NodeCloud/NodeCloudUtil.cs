@@ -72,7 +72,7 @@ public class NodeCloudUtil : MonoBehaviour
   private bool proceedAfterNextCheckpoint = false;
   public void CreateNodeCloud()
   {
-    //EditorUtility.SetDirty(this);
+    //EditorUtility.SetDirty(this);    these not being commented makes the game unable to build lol???
     Debug.ClearDeveloperConsole();
     BeginAndEndpointNote = txtAreatxt;
     Debug.Log("Console Cleared.");
