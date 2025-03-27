@@ -3,11 +3,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEditorInternal;
 
 public class SettingsUIController : MonoBehaviour
 {
     #region Variables
-    private InputManager playerInput;
+    public InputManager playerInput;
 
     public TMP_Text gameVersion;
 
@@ -52,7 +53,9 @@ public class SettingsUIController : MonoBehaviour
     {
         if (gameVersion != null) gameVersion.text = "ver " + Application.version;
         CursorController.setDefaultCursorConfined();
-        LoadAllSettings();
+        //LoadAllSettings();
+        print("ib");
+        
         playerInput = gameObject.AddComponent<InputManager>();
         playerInput.Init();
     }
