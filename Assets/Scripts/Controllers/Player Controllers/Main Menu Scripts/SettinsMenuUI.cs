@@ -52,7 +52,7 @@ public class SettingsUIController : MonoBehaviour
     {
         if (gameVersion != null) gameVersion.text = "ver " + Application.version;
         CursorController.setDefaultCursorConfined();
-        LoadAllSettings();
+        //LoadAllSettings();
         playerInput = gameObject.AddComponent<InputManager>();
         playerInput.Init();
     }

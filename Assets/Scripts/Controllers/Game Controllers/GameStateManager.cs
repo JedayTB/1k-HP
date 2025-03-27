@@ -285,6 +285,8 @@ public class GameStateManager : MonoBehaviour
 
         _lapTimesText.text = lapTimesStr;
 
+        setPlayerPrefs(totalTime);
+
         StartCoroutine(countUpScore(2, totalTime));
         //_scoreNumberText.text = _scoreController.CurrentScore.ToString("0");
 
@@ -296,6 +298,70 @@ public class GameStateManager : MonoBehaviour
 
 
         StartCoroutine(CrossFadeLevelAndEndMusic(MUSICCROSSFADETIME));
+    }
+
+    private void setPlayerPrefs(float totalTime)
+    {
+        float[] savedTimes = new float[7];
+        float[] savedScores = new float[7];
+
+        bool timeSaved = false;
+        bool scoreSaved = false;
+
+        for (int i = 0; i <= 6; i++)
+        {
+            savedTimes[i] = PlayerPrefs.GetFloat($"BestTime{i + 1}");
+        }
+
+        for (int i = 6; i >= 0; i--)
+        {
+            savedScores[i] = PlayerPrefs.GetInt($"HighScore{i + 1}");
+        }
+
+        for (int i = 0; i <= 6; i++)
+        {
+            if (_scoreController.CurrentScore > savedScores[i] && !scoreSaved)
+            {
+                //PlayerPrefs.SetFloat($"HighScore{6}", _scoreController.CurrentScore);
+                savedScores[6] = _scoreController.CurrentScore;
+                print("hello????????");
+                SortingAlgorithms.QuickSort(savedScores, 0, 6);
+                scoreSaved = true;
+            }
+            if (savedTimes[i] == 0 && !timeSaved)
+            {
+                savedTimes[6] = totalTime;
+                SortingAlgorithms.QuickSort(savedTimes, 0, 6);
+
+
+                print("IT EQUALED 0 SO WE DOING IT");
+
+                timeSaved = true;
+            }
+            else if (totalTime < savedTimes[i] && !timeSaved)
+            {
+                //PlayerPrefs.SetFloat($"BestTime{6}", totalTime);
+                savedTimes[6] = totalTime;
+                print(totalTime);
+                SortingAlgorithms.QuickSort(savedTimes, 0, 6);
+
+                timeSaved = true;
+            }
+        }
+
+        for (int i = 0; i <= 6; i++)
+        {
+            PlayerPrefs.SetFloat($"BestTime{i + 1}", savedTimes[i]);
+            //print(i);
+            //print(savedTimes[i]);
+        }
+
+        for (int i = 6; i >= 0; i--)
+        {
+            PlayerPrefs.SetInt($"HighScore{i + 1}", (int)savedScores[i]);
+            //print(i);
+            //print(savedScores[i]);
+        }
     }
 
     private IEnumerator countUpScore(float countUpTime, float totalTime) // this is a stupid fix
@@ -463,5 +529,14 @@ public class GameStateManager : MonoBehaviour
     public void UpdateMusicVolume()
     {
         _musicManager.musicSource.volume = musicVolumeLevel;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log($"High Score = {PlayerPrefs.GetFloat("HighScore")}");
+            Debug.Log($"Best Time = {PlayerPrefs.GetFloat("BestTime")}");
+        }
     }
 }

@@ -9,7 +9,7 @@ public class LapTimer : MonoBehaviour
   [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _totalTimerText;
     public List<float> lapTimesNumbers;
-  private float _totalElapsedTime;
+  public float _totalElapsedTime;
   private float _lapStartTime;
     private float _lapElapsedTime;
     private float _totalStartTime;
