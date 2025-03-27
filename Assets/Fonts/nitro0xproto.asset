@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: 0xProtoNerdFontMono-Regular SDF
+  m_Name: nitro0xproto
   m_EditorClassIdentifier: 
-  hashCode: 802099285
+  hashCode: 258842928
   material: {fileID: 8293298759691343319}
-  materialHashCode: 1100800085
+  materialHashCode: -1773557488
   m_Version: 1.1.0
   m_SourceFontFileGUID: 255dce6904b34e35aa01144f8719c7dc
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 255dce6904b34e35aa01144f8719c7dc,
@@ -2736,7 +2736,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 68e6db2ebdc24f95958faec2be5558d6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - GLOW_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -2784,10 +2785,10 @@ Material:
     - _FaceDilate: 0
     - _FaceUVSpeedX: 0
     - _FaceUVSpeedY: 0
-    - _GlowInner: 0.05
+    - _GlowInner: 0.276
     - _GlowOffset: 0
-    - _GlowOuter: 0.05
-    - _GlowPower: 0.97
+    - _GlowOuter: 0
+    - _GlowPower: 0.461
     - _GradientScale: 6
     - _LightAngle: 3.1416
     - _MaskSoftnessX: 0

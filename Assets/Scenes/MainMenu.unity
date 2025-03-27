@@ -1852,7 +1852,6 @@ RectTransform:
   - {fileID: 517087904}
   - {fileID: 1424806417}
   - {fileID: 1709646218}
-  - {fileID: 981504832}
   m_Father: {fileID: 384758048}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3810,7 +3809,7 @@ RectTransform:
   - {fileID: 214552344}
   - {fileID: 2024622842}
   - {fileID: 887257498}
-  - {fileID: 1297994122}
+  - {fileID: 981504832}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -18419,7 +18418,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 214552344}
+    m_TransformParent: {fileID: 384758048}
     m_Modifications:
     - target: {fileID: 41219349698096887, guid: 1d979d4f4a87653479ca4e2226488c8a,
         type: 3}
@@ -18439,12 +18438,12 @@ PrefabInstance:
     - target: {fileID: 41219349698096887, guid: 1d979d4f4a87653479ca4e2226488c8a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -23.41731
+      value: -23.4173
       objectReference: {fileID: 0}
     - target: {fileID: 41219349698096887, guid: 1d979d4f4a87653479ca4e2226488c8a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.914614
+      value: 4.9146185
       objectReference: {fileID: 0}
     - target: {fileID: 41219349698096887, guid: 1d979d4f4a87653479ca4e2226488c8a,
         type: 3}
@@ -18499,7 +18498,7 @@ PrefabInstance:
     - target: {fileID: 3927766063190910522, guid: 1d979d4f4a87653479ca4e2226488c8a,
         type: 3}
       propertyPath: _canvasElements.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3927766063190910522, guid: 1d979d4f4a87653479ca4e2226488c8a,
         type: 3}
@@ -18526,6 +18525,11 @@ PrefabInstance:
       propertyPath: _canvasElements.Array.data[4]
       value: 
       objectReference: {fileID: 1709646217}
+    - target: {fileID: 3927766063190910522, guid: 1d979d4f4a87653479ca4e2226488c8a,
+        type: 3}
+      propertyPath: _canvasElements.Array.data[5]
+      value: 
+      objectReference: {fileID: 384758044}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

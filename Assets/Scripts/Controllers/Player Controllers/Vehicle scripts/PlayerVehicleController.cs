@@ -51,7 +51,12 @@ public class PlayerVehicleController : A_VehicleController
     _vehiclePhysics.setInputs(_throttleInput, _turningInput);
 
   }
-  public override void useCharacterAbility()
+    public override void addNitro()
+    {
+        base.addNitro();
+        GameStateManager.Instance._uiController.playerGotNitro();
+    }
+    public override void useCharacterAbility()
   {
     if (onAbilityUsed != null)
     {

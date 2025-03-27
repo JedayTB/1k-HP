@@ -261,15 +261,32 @@ public class CustomCarPhysics : MonoBehaviour
         }
       }
     }
-    cachedLocalVelocity = _rigidBody.velocity;
-    cachedLocalVelocity.z = Mathf.Clamp(cachedLocalVelocity.z, -currentTopSpeed, currentTopSpeed);
-    cachedLocalVelocity.y = Mathf.Clamp(cachedLocalVelocity.y, -currentTopSpeed, currentTopSpeed);
-    cachedLocalVelocity.x = Mathf.Clamp(cachedLocalVelocity.x, -currentTopSpeed, currentTopSpeed);
-
-    _rigidBody.velocity = cachedLocalVelocity;
+    clampVelocity();
 
     stickToGround();
     ClampLocalRotation();
+  }
+  private void clampVelocity()
+  {
+    cachedLocalVelocity = _rigidBody.velocity;
+
+    float zSign = Mathf.Sign(cachedLocalVelocity.z);
+    float xSign = Mathf.Sign(cachedLocalVelocity.x);
+    //print($"{currentTopSpeed} Z signed {currentTopSpeed * zSign}: zSpeed {cachedLocalVelocity.z} X signed {currentTopSpeed * xSign} X speed {cachedLocalVelocity.z}");
+    if (Mathf.Abs(cachedLocalVelocity.z) > currentTopSpeed) cachedLocalVelocity.z = LerpAndEasings.ExponentialDecay(cachedLocalVelocity.z, currentTopSpeed * zSign, 5f, Time.fixedDeltaTime);
+    if (Mathf.Abs(cachedLocalVelocity.x) > currentTopSpeed) cachedLocalVelocity.x = LerpAndEasings.ExponentialDecay(cachedLocalVelocity.x, currentTopSpeed * xSign, 5f, Time.fixedDeltaTime);
+
+    //float ySign = Mathf.Sign(cachedLocalVelocity.y); 
+    //if(cachedLocalVelocity.y > currentTopSpeed * ySign) cachedLocalVelocity.y = LerpAndEasings.ExponentialDecay(cachedLocalVelocity.z, currentTopSpeed, 5f, Time.fixedDeltaTime);
+
+    /*
+    cachedLocalVelocity.z = Mathf.Clamp(cachedLocalVelocity.z, -currentTopSpeed, currentTopSpeed);
+    cachedLocalVelocity.y = Mathf.Clamp(cachedLocalVelocity.y, -currentTopSpeed, currentTopSpeed);
+    cachedLocalVelocity.x = Mathf.Clamp(cachedLocalVelocity.x, -currentTopSpeed, currentTopSpeed);
+    */
+
+    _rigidBody.velocity = cachedLocalVelocity;
+
   }
   private void ClampLocalRotation()
   {

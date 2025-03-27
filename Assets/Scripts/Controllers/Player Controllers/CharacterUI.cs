@@ -24,14 +24,16 @@ public class CharacterUI : MonoBehaviour
   [SerializeField] private AnimationClip[] _animations;
   [SerializeField] private SceneChanger _sceneChanger;
 
-
+  InputManager inputManager;
 
   // Start is called before the first frame update
-  void Start()
+  void Awake()
   {
     string yuh = _selectedCharacter.ToString();
     setSelectedCharacterText("Azure Ace");
     CursorController.setDefaultCursorConfined();
+    inputManager = GetComponent<InputManager>();
+
     //_selectedCharacterText.text = "Null";
     //_selectedCharacterText.gameObject.SetActive(false);
   }
@@ -44,10 +46,10 @@ public class CharacterUI : MonoBehaviour
       ConfirmButton();
     }
 
-        if (Input.GetButtonDown("Cancel"))
-        {
-            _sceneChanger.LoadLevelWithTransition("MainMenu");
-        }
+    if (inputManager.pressedDeny)
+    {
+      _sceneChanger.LoadLevelWithTransition("MainMenu");
+    }
 
   }
   public void setSelectedCharacterText(string characterName)
