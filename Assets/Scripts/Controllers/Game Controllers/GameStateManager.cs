@@ -66,7 +66,7 @@ public class GameStateManager : MonoBehaviour
     public LayerMask CarPhysicsLayer;
     public static float musicVolumeLevel = 0.5f;
 
-    private InputManager inputManager;
+    public InputManager inputManager;
 
     public static PlayerVehicleController Player; // Singleton var
 
@@ -93,7 +93,8 @@ public class GameStateManager : MonoBehaviour
         }
         Player = _player;
 
-        inputManager = this.gameObject.AddComponent<InputManager>();
+        //inputManager = this.gameObject.AddComponent<InputManager>();
+        inputManager = GetComponent<InputManager>();
         inputManager.Init();
 
         _lapChecker?.Init(this);
