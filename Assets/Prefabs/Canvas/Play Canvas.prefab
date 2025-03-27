@@ -5466,6 +5466,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5754067245470893510
@@ -6324,8 +6325,8 @@ RectTransform:
   m_LocalScale: {x: 0.7873706, y: 0.7873706, z: 0.7873706}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1925501127775104890}
   - {fileID: 1577297600326262971}
+  - {fileID: 1925501127775104890}
   m_Father: {fileID: 5569715577378990401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -6508,11 +6509,12 @@ MonoBehaviour:
   _pauseMenuKey: 27
   abilityCircleAnimTime: 0.75
   _menuIsOpen: 0
+  _menuIsOpen: 0
   lightningCrossHair: {fileID: 6919680012484667943}
   HookshotCrosshair: {fileID: 6919680012484667943}
   eventSystem: {fileID: 0}
-  firstSelected: {fileID: 6038708240894057506}
-  onWinSelected: {fileID: 7695953899997954486}
+  firstSelected: {fileID: 0}
+  onWinSelected: {fileID: 0}
 --- !u!223 &4321895603370381152
 Canvas:
   m_ObjectHideFlags: 0
