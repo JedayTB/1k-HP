@@ -13,10 +13,13 @@ public class EasingControllerOffset : MonoBehaviour
   void Awake()
   {
     eas = GetComponent<EasingController>();
-    eas.enabled = false;
+    if (eas != null)
+    {
+      eas.enabled = false;
+      eas.durationInSeconds = Random.Range(minLerpTime, maxLerpTime);
+      StartCoroutine(countDown());
 
-    eas.durationInSeconds = Random.Range(minLerpTime, maxLerpTime);
-    StartCoroutine(countDown());
+    }
   }
   IEnumerator countDown()
   {
