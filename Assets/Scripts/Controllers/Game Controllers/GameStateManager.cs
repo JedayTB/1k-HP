@@ -312,6 +312,11 @@ public class GameStateManager : MonoBehaviour
         for (int i = 0; i <= 6; i++)
         {
             savedTimes[i] = PlayerPrefs.GetFloat($"BestTime{i + 1}");
+
+            if (savedTimes[i] == 0)
+            {
+                savedTimes[i] = 99999999f;
+            }
         }
 
         for (int i = 6; i >= 0; i--)
@@ -359,7 +364,7 @@ public class GameStateManager : MonoBehaviour
 
         for (int i = 6; i >= 0; i--)
         {
-            PlayerPrefs.SetInt($"HighScore{i + 1}", (int)savedScores[i]);
+            PlayerPrefs.SetInt($"HighScore{7 - i}", (int)savedScores[i]);
             //print(i);
             //print(savedScores[i]);
         }
