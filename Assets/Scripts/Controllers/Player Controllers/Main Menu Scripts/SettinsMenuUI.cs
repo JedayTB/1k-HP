@@ -1,9 +1,7 @@
-using System.Runtime.Serialization.Formatters;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEditorInternal;
 
 public class SettingsUIController : MonoBehaviour
 {

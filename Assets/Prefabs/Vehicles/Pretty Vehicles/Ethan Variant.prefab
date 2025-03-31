@@ -1774,9 +1774,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   engineAudioSource: {fileID: 2891036422592669555}
-  minPitch: 0.8
-  maxPitch: 1.5
-  maxSpeed: 100
 --- !u!82 &2891036422592669555
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1789,7 +1786,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 466eba2ed7883e744b5d4de16dbcfdf0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0

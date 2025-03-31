@@ -117,6 +117,10 @@ public abstract class A_VehicleController : MonoBehaviour
 
     _vehiclePhysics.setRigidBodyVelocity(Vector3.zero);
     _vehiclePhysics.RigidBody.angularVelocity = Vector3.zero;
+    foreach (var w in _vehiclePhysics.WheelArray)
+    {
+      w.setTimings(0f, 0f);
+    }
   }
   public virtual void enlistAbilityAction(AbilityAction action)
   {

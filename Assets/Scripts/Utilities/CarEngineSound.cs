@@ -2,25 +2,26 @@ using UnityEngine;
 
 public class CarEngineSound : MonoBehaviour
 {
-    public AudioSource engineAudioSource; 
-    public float minPitch = 0.8f;         
-    public float maxPitch = 2.0f;         
-    public float maxSpeed = 200f;         
+  public AudioSource engineAudioSource;
+  static float minPitch = 0.3f;
+  static float maxPitch = 2.25f;
+  static float maxSpeed = 200f;
 
-    private Rigidbody carRigidbody;
+  private CustomCarPhysics carPhys;
 
-    void Start()
-    {
-        carRigidbody = GetComponent<Rigidbody>();
-    }
+  void Start()
+  {
+    carPhys = GetComponent<CustomCarPhysics>();
+    maxSpeed = carPhys.GearTwo.MaxSpeed;
+  }
 
-    void Update()
-    {
-        float carSpeed = carRigidbody.velocity.magnitude;
+  void Update()
+  {
+    float carSpeed = carPhys.getSpeed();
 
-        float pitch = Mathf.Lerp(minPitch, maxPitch, carSpeed / maxSpeed);
+    float pitch = Mathf.Lerp(minPitch, maxPitch, carSpeed / maxSpeed);
 
-        engineAudioSource.pitch = pitch;
-    }
+    engineAudioSource.pitch = LerpAndEasings.ExponentialDecay(engineAudioSource.pitch, pitch, 5f, Time.deltaTime);
+  }
 }
 
