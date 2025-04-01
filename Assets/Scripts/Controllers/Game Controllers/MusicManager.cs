@@ -20,6 +20,8 @@ public class MusicManager : MonoBehaviour
   [SerializeField] public AudioSource musicSource;
   public float fadeInTime = 5f;
   public static float minVolumeForFadeIn = 0.0f;
+    public static float musicVolume = 0.5f;
+    public static float sfxVolume = 0.5f;
 
   public void startMusic()
   {
@@ -33,7 +35,7 @@ public class MusicManager : MonoBehaviour
 
       SceneManager.activeSceneChanged += sceneChangedLogic;
       musicSource.loop = true;
-      StartCoroutine(fadeInVolume(fadeInTime, GameStateManager.musicVolumeLevel));
+      StartCoroutine(fadeInVolume(fadeInTime, musicVolume));
     }
     else
     {

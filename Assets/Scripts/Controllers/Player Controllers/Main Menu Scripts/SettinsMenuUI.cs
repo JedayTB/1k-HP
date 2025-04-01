@@ -71,6 +71,11 @@ public class SettingsUIController : MonoBehaviour
                 backToMain();
             }
         }
+
+        if (Input.GetMouseButtonDown(0) || playerInput.pressedConfirm)
+        {
+            SaveAllSettings();
+        }
     }
 
     public void ExitButton()
@@ -90,6 +95,7 @@ public class SettingsUIController : MonoBehaviour
         PlayerPrefs.SetFloat("S-A-Master", masterVolumeSlider.value);
         PlayerPrefs.SetFloat("S-A-Music", musicVolumeSlider.value);
         PlayerPrefs.SetFloat("S-A-SFX", sfxVolumeSlider.value);
+        MusicManager.musicVolume = musicVolumeSlider.value;
 
         ApplyAllSettings();
     }
