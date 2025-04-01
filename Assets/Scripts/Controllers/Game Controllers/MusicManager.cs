@@ -11,6 +11,7 @@ public class MusicManager : MonoBehaviour
   public static readonly string loadingScreenName = "LoadingScreen";
 
   private static MusicManager instance;
+    public static MusicManager Instance { get { return instance; } }
 
   public bool startMusicInAwake = false;
   public bool startMusicInStartFunction = false;
@@ -22,6 +23,8 @@ public class MusicManager : MonoBehaviour
   public static float minVolumeForFadeIn = 0.0f;
     public static float musicVolume = 0.5f;
     public static float sfxVolume = 0.5f;
+    public bool doingTheFadeIn = true;
+
 
   public void startMusic()
   {
@@ -82,17 +85,25 @@ public class MusicManager : MonoBehaviour
 
   IEnumerator fadeInVolume(float fadeInTime, float maxFadeInVolume)
   {
+        doingTheFadeIn = true;
     float count = 0f;
     float progress = 0f;
 
     musicSource.volume = minVolumeForFadeIn;
     musicSource.Play();
-    while (musicSource.volume < maxFadeInVolume)
-    {
-      count += Time.deltaTime;
-      progress = count / fadeInTime;
-      musicSource.volume = Mathf.Lerp(minVolumeForFadeIn, maxFadeInVolume, progress);
-      yield return null;
+        while (musicSource.volume < maxFadeInVolume)
+        {
+            count += Time.deltaTime;
+            progress = count / fadeInTime;
+            musicSource.volume = Mathf.Lerp(minVolumeForFadeIn, maxFadeInVolume, progress);
+            yield return null;
+        }
+        doingTheFadeIn = false;
     }
-  }
+
+    public void UpdateMusicVolume(float newVolume)
+    {
+        musicSource.volume = newVolume;
+        musicVolume = newVolume;
+    }
 }

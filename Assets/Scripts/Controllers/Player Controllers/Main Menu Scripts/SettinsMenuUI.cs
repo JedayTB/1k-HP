@@ -45,13 +45,14 @@ public class SettingsUIController : MonoBehaviour
     [SerializeField] private GameObject audioSelected;
     [SerializeField] private GameObject mainSelected;
     [SerializeField] private bool isGameplay = false;
+    private float cachedVolume;
     #endregion
 
     private void Start()
     {
         if (gameVersion != null) gameVersion.text = "ver " + Application.version;
         CursorController.setDefaultCursorConfined();
-        //LoadAllSettings();
+        LoadAllSettings();
         print("ib");
         
         playerInput = gameObject.AddComponent<InputManager>();
@@ -72,9 +73,10 @@ public class SettingsUIController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) || playerInput.pressedConfirm)
+        if (musicVolumeSlider.value != cachedVolume && !MusicManager.Instance.doingTheFadeIn) // this is stupid but i don't really care anymore
         {
-            SaveAllSettings();
+            MusicManager.Instance.UpdateMusicVolume(musicVolumeSlider.value);
+            cachedVolume = musicVolumeSlider.value;
         }
     }
 
@@ -92,9 +94,7 @@ public class SettingsUIController : MonoBehaviour
         PlayerPrefs.SetInt("S-V-VFX", vfxDropdown.value);
 
         // Audio
-        PlayerPrefs.SetFloat("S-A-Master", masterVolumeSlider.value);
         PlayerPrefs.SetFloat("S-A-Music", musicVolumeSlider.value);
-        PlayerPrefs.SetFloat("S-A-SFX", sfxVolumeSlider.value);
         MusicManager.musicVolume = musicVolumeSlider.value;
 
         ApplyAllSettings();
@@ -166,7 +166,6 @@ public class SettingsUIController : MonoBehaviour
         Application.targetFrameRate = fpsLevels[fpsDropdown.value];
 
         GameStateManager.musicVolumeLevel = masterVolumeSlider.value;
-        GameStateManager.Instance?.UpdateMusicVolume(); // only kind of works but i'm too lazy rn to make it correct
     }
 
     #region General Menu

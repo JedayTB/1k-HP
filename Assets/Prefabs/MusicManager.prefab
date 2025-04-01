@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d324cec246720268a8aafc3e615e3a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startMusicInAwake: 1
+  startMusicInStartFunction: 0
+  isForMenuMusic: 0
   musicSource: {fileID: 4052248900315456695}
   fadeInTime: 3
-  startMusicInAwake: 1
-  isForMenuMusic: 0
+  doingTheFadeIn: 1
 --- !u!82 &4052248900315456695
 AudioSource:
   m_ObjectHideFlags: 0
@@ -61,7 +63,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
