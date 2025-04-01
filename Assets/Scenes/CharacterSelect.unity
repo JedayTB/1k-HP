@@ -3039,6 +3039,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 585525951760198500, guid: e162fc698889fc24fa2990eff4e010f7,
+        type: 3}
+      propertyPath: handlingValueUseInStatCalc
+      value: 0.85
+      objectReference: {fileID: 0}
     - target: {fileID: 3243898267841413393, guid: e162fc698889fc24fa2990eff4e010f7,
         type: 3}
       propertyPath: m_Name
@@ -3650,7 +3655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &347691490
 Transform:
   m_ObjectHideFlags: 0
@@ -3660,7 +3665,7 @@ Transform:
   m_GameObject: {fileID: 347691489}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4501.01, y: -6.2, z: -24.4}
+  m_LocalPosition: {x: 4501.01, y: -6.2, z: -26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12526,6 +12531,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mimi
       objectReference: {fileID: 0}
+    - target: {fileID: 1804962004739877365, guid: 4ba8db1744ae2a34e871400b821199bf,
+        type: 3}
+      propertyPath: handlingValueUseInStatCalc
+      value: 0.35
+      objectReference: {fileID: 0}
     - target: {fileID: 6498411773073124503, guid: 4ba8db1744ae2a34e871400b821199bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15902,6 +15912,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ethan
+      objectReference: {fileID: 0}
+    - target: {fileID: 4228072580300864033, guid: 617403f686e31d34888ad9cf5696dc4d,
+        type: 3}
+      propertyPath: handlingValueUseInStatCalc
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 4892146343762420581, guid: 617403f686e31d34888ad9cf5696dc4d,
         type: 3}

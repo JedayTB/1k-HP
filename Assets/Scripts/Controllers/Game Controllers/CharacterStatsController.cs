@@ -22,7 +22,7 @@ public class CharacterStatsController : MonoBehaviour
   [SerializeField] Slider handlingSlider;
 
   private float highestMaxSpeed = float.MinValue;
-  private float highestHandling = float.MinValue;
+  private float highestHandling = 1f;
   private float highestNitroChargeAmounts = int.MinValue;
   [SerializeField] private AnimationCurve SliderAnimCurve;
   [SerializeField] private float sliderAnimTime = 0.75f;
@@ -42,14 +42,15 @@ public class CharacterStatsController : MonoBehaviour
 
     for (int i = 0; i < CharactersList.Length; i++)
     {
-      float handlingAverage = CharactersList[i].VehiclePhysics.WheelArray[0].LeftAckermanAngle +
+            float handlingAverage = CharactersList[i].VehiclePhysics.handlingValueUseInStatCalc;
+                /*= CharactersList[i].VehiclePhysics.WheelArray[0].LeftAckermanAngle +
                               CharactersList[i].VehiclePhysics.WheelArray[0].RightAckermanAngle +
                               CharactersList[i].VehiclePhysics.WheelArray[1].LeftAckermanAngle +
                               CharactersList[i].VehiclePhysics.WheelArray[1].RightAckermanAngle;
-      handlingAverage /= 4;
+      handlingAverage /= 4;*/
 
       if (CharactersList[i].VehiclePhysics.GearTwo.MaxSpeed > highestMaxSpeed) highestMaxSpeed = CharactersList[i].VehiclePhysics.GearTwo.MaxSpeed;
-      if (handlingAverage > highestHandling) highestHandling = handlingAverage;
+      
       if (CharactersList[i].MaxNitroChargeAmounts > highestNitroChargeAmounts) highestNitroChargeAmounts = CharactersList[i].MaxNitroChargeAmounts;
       //
       //
