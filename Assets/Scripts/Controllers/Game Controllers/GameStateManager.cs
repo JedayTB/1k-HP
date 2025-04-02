@@ -52,6 +52,7 @@ public class GameStateManager : MonoBehaviour
 
     [Header("Rank Colors")]
     [SerializeField] private Color AuthorLapColor;
+    [SerializeField] private Color SubtwoMinuteColor;
     [SerializeField] private Color DevMedalColor;
     [SerializeField] private Color PlatinumMedalColor;
     [SerializeField] private Color GoldMedalColor;
@@ -423,6 +424,11 @@ public class GameStateManager : MonoBehaviour
         {
             setText = "Author";
             setColor = AuthorLapColor;
+        }
+        else if(totalTime < StageMedalValues.subtwominute)
+        {
+            setText = "Legend";
+            setColor = SubtwoMinuteColor;
         }
         else if (totalTime < StageMedalValues.DevLapTime)
         {

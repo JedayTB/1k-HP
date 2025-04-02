@@ -3,6 +3,7 @@ using UnityEngine;
 public class MedalValues : ScriptableObject 
 {
     public float AuthorLapTime = 0;
+    public float subtwominute = 2 * 60;
    public float DevLapTime = 2.5f * 60f;
    public float PlatinumLapTime = 3f * 60f;
    public float GoldLapTime = 3.5f * 60f;
