@@ -192,7 +192,7 @@ public class UIController : MonoBehaviour
 
         if (_menuIsOpen == true)
         {
-            //print("PEEPEEPOOPOO???");
+            print("PEEPEEPOOPOO???");
             //settingsMenu.backToMain();
             _pauseMenu.SetActive(false);
             Time.timeScale = 1f;

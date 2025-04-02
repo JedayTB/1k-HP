@@ -43428,7 +43428,7 @@ PrefabInstance:
     - target: {fileID: 6061337614786055964, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
       propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6061337614786055964, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
@@ -43507,8 +43507,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
+      propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
       propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
@@ -43527,6 +43537,16 @@ PrefabInstance:
       objectReference: {fileID: 2141303213}
     - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
+      propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1427627029}
+    - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
       propertyPath: m_Delegates.Array.data[3].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: PointerExit
       objectReference: {fileID: 0}
@@ -43542,8 +43562,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
+      propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: LoadLevelWithTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
       propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SceneChanger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: CityLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062285214112860188, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[5].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8204899664854785878, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
@@ -43704,7 +43744,7 @@ PrefabInstance:
         type: 3}
       propertyPath: firstSelected
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5248651148399816799}
     - target: {fileID: 9128068339754363402, guid: 0a9c4c6acacef064ca4b2c86ea9babae,
         type: 3}
       propertyPath: onWinSelected
