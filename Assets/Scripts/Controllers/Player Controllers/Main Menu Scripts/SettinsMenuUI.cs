@@ -5,234 +5,240 @@ using UnityEngine.EventSystems;
 
 public class SettingsUIController : MonoBehaviour
 {
-    #region Variables
-    public InputManager playerInput;
+  #region Variables
+  public InputManager playerInput;
 
-    public TMP_Text gameVersion;
+  public TMP_Text gameVersion;
 
-    [Header("General Settings Config")]
-    [SerializeField]
-    private GameObject pagePreMenu;
+  [Header("General Settings Config")]
+  [SerializeField]
+  private GameObject pagePreMenu;
 
-    [SerializeField]
-    private GameObject pageMainMenu,
-        pageVideoSettings,
-        pageAudioSettings;
+  [SerializeField]
+  private GameObject pageMainMenu,
+      pageVideoSettings,
+      pageAudioSettings;
 
-    [Header("Video Settings")]
-    [SerializeField]
-    private TMP_Dropdown presetDropdown;
+  [Header("Video Settings")]
+  [SerializeField]
+  private TMP_Dropdown presetDropdown;
 
-    [SerializeField]
-    private TMP_Dropdown aaDropdown,
-        fpsDropdown,
-        vfxDropdown;
+  [SerializeField]
+  private TMP_Dropdown aaDropdown,
+      fpsDropdown,
+      vfxDropdown;
 
-    [Header("Audio Settings")]
-    [SerializeField]
-    private Slider masterVolumeSlider;
+  [Header("Audio Settings")]
+  [SerializeField]
+  private Slider masterVolumeSlider;
 
-    [SerializeField]
-    private Slider musicVolumeSlider,
-        sfxVolumeSlider;
+  [SerializeField]
+  private Slider musicVolumeSlider,
+      sfxVolumeSlider;
 
-    private bool deepMenuOpen = false;
-    private bool prePageOpen = false;
+  private bool deepMenuOpen = false;
+  private bool prePageOpen = false;
 
-    [SerializeField] private EventSystem eventSystem;
-    [SerializeField] private GameObject prepageSelected;
-    [SerializeField] private GameObject videoSelected;
-    [SerializeField] private GameObject audioSelected;
-    [SerializeField] private GameObject mainSelected;
-    [SerializeField] private bool isGameplay = false;
-    #endregion
+  [SerializeField] private EventSystem eventSystem;
+  [SerializeField] private GameObject prepageSelected;
+  [SerializeField] private GameObject videoSelected;
+  [SerializeField] private GameObject audioSelected;
+  [SerializeField] private GameObject mainSelected;
+  [SerializeField] private bool isGameplay = false;
+  private float cachedVolume;
+  #endregion
 
-    private void Start()
+  private void Start()
+  {
+    if (gameVersion != null) gameVersion.text = "ver " + Application.version;
+    CursorController.setDefaultCursorConfined();
+    //PlayerPrefs.Save();
+    LoadAllSettings();
+    //print("ib");
+
+    playerInput = gameObject.AddComponent<InputManager>();
+    playerInput.Init();
+  }
+
+  private void Update()
+  {
+    if (playerInput.pressedDeny && (prePageOpen || deepMenuOpen))
     {
-        if (gameVersion != null) gameVersion.text = "ver " + Application.version;
-        CursorController.setDefaultCursorConfined();
-        //LoadAllSettings();
-        print("ib");
-        
-        playerInput = gameObject.AddComponent<InputManager>();
-        playerInput.Init();
+      if (deepMenuOpen)
+      {
+        openSettingsPrepage();
+      }
+      if (prePageOpen)
+      {
+        backToMain();
+      }
     }
 
-    private void Update()
+    if (musicVolumeSlider.value != cachedVolume && !MusicManager.Instance.doingTheFadeIn) // this is stupid but i don't really care anymore
     {
-        if (playerInput.pressedDeny && (prePageOpen || deepMenuOpen))
-        {
-            if (deepMenuOpen)
-            {
-                openSettingsPrepage();
-            }
-            if (prePageOpen)
-            {
-                backToMain();
-            }
-        }
+      MusicManager.Instance.UpdateMusicVolume(musicVolumeSlider.value);
+      cachedVolume = musicVolumeSlider.value;
+    }
+  }
+
+  public void ExitButton()
+  {
+    Application.Quit();
+  }
+
+  private void SaveAllSettings()
+  {
+    // Video
+    PlayerPrefs.SetInt("S-V-Preset", presetDropdown.value);
+    PlayerPrefs.SetInt("S-V-AA", aaDropdown.value);
+    PlayerPrefs.SetInt("S-V-FPS", fpsDropdown.value);
+    PlayerPrefs.SetInt("S-V-VFX", vfxDropdown.value);
+
+    // Audio
+    PlayerPrefs.SetFloat("S-A-Music", musicVolumeSlider.value);
+    MusicManager.musicVolume = musicVolumeSlider.value;
+
+    ApplyAllSettings();
+  }
+
+  private void LoadAllSettings()
+  {
+    if (
+        !PlayerPrefs.HasKey("S-V-Preset")
+        || !PlayerPrefs.HasKey("S-V-AA")
+        || !PlayerPrefs.HasKey("S-V-FPS")
+        || !PlayerPrefs.HasKey("S-V-VFX")
+        || !PlayerPrefs.HasKey("S-A-Master")
+        || !PlayerPrefs.HasKey("S-A-Music")
+        || !PlayerPrefs.HasKey("S-A-SFX")
+    )
+    {
+      // Video
+      PlayerPrefs.SetInt("S-V-Preset", 3);
+      PlayerPrefs.SetInt("S-V-AA", 1);
+      PlayerPrefs.SetInt("S-V-FPS", 6);
+      PlayerPrefs.SetInt("S-V-VFX", 0);
+
+      // Audio
+      PlayerPrefs.SetFloat("S-A-Master", 1f);
+      PlayerPrefs.SetFloat("S-A-Music", 1f);
+      PlayerPrefs.SetFloat("S-A-SFX", 1f);
     }
 
-    public void ExitButton()
-    {
-        Application.Quit();
-    }
+    var preset = PlayerPrefs.GetInt("S-V-Preset");
+    var aa = PlayerPrefs.GetInt("S-V-AA");
+    var fps = PlayerPrefs.GetInt("S-V-FPS");
+    var vfx = PlayerPrefs.GetInt("S-V-VFX");
 
-    private void SaveAllSettings()
-    {
-        // Video
-        PlayerPrefs.SetInt("S-V-Preset", presetDropdown.value);
-        PlayerPrefs.SetInt("S-V-AA", aaDropdown.value);
-        PlayerPrefs.SetInt("S-V-FPS", fpsDropdown.value);
-        PlayerPrefs.SetInt("S-V-VFX", vfxDropdown.value);
+    var masterVolume = PlayerPrefs.GetFloat("S-A-Master");
+    var musicVolume = PlayerPrefs.GetFloat("S-A-Music");
+    var sfxVolume = PlayerPrefs.GetFloat("S-A-SFX");
 
-        // Audio
-        PlayerPrefs.SetFloat("S-A-Master", masterVolumeSlider.value);
-        PlayerPrefs.SetFloat("S-A-Music", musicVolumeSlider.value);
-        PlayerPrefs.SetFloat("S-A-SFX", sfxVolumeSlider.value);
+    // Video
+    presetDropdown.value = preset;
+    aaDropdown.value = aa;
+    fpsDropdown.value = fps;
+    vfxDropdown.value = vfx;
 
-        ApplyAllSettings();
-    }
+    // Audio
+    masterVolumeSlider.value = masterVolume;
+    musicVolumeSlider.value = musicVolume;
+    sfxVolumeSlider.value = sfxVolume;
 
-    private void LoadAllSettings()
-    {
-        if (
-            !PlayerPrefs.HasKey("S-V-Preset")
-            || !PlayerPrefs.HasKey("S-V-AA")
-            || !PlayerPrefs.HasKey("S-V-FPS")
-            || !PlayerPrefs.HasKey("S-V-VFX")
-            || !PlayerPrefs.HasKey("S-A-Master")
-            || !PlayerPrefs.HasKey("S-A-Music")
-            || !PlayerPrefs.HasKey("S-A-SFX")
-        )
-        {
-            // Video
-            PlayerPrefs.SetInt("S-V-Preset", 3);
-            PlayerPrefs.SetInt("S-V-AA", 1);
-            PlayerPrefs.SetInt("S-V-FPS", 6);
-            PlayerPrefs.SetInt("S-V-VFX", 0);
+    int[] aaLevels = { 0, 2, 4, 8 };
+    int[] fpsLevels = { 30, 60, 120, 144, 240, 0 };
 
-            // Audio
-            PlayerPrefs.SetFloat("S-A-Master", 1f);
-            PlayerPrefs.SetFloat("S-A-Music", 1f);
-            PlayerPrefs.SetFloat("S-A-SFX", 1f);
-        }
+    QualitySettings.antiAliasing = aaLevels[aa];
 
-        var preset = PlayerPrefs.GetInt("S-V-Preset");
-        var aa = PlayerPrefs.GetInt("S-V-AA");
-        var fps = PlayerPrefs.GetInt("S-V-FPS");
-        var vfx = PlayerPrefs.GetInt("S-V-VFX");
+    QualitySettings.SetQualityLevel(preset, true);
 
-        var masterVolume = PlayerPrefs.GetFloat("S-A-Master");
-        var musicVolume = PlayerPrefs.GetFloat("S-A-Music");
-        var sfxVolume = PlayerPrefs.GetFloat("S-A-SFX");
+    Application.targetFrameRate = fpsLevels[fps];
+  }
 
-        // Video
-        presetDropdown.value = preset;
-        aaDropdown.value = aa;
-        fpsDropdown.value = fps;
-        vfxDropdown.value = vfx;
+  public void ApplyAllSettings()
+  {
+    int[] aaLevels = { 0, 2, 4, 8 };
+    int[] fpsLevels = { 30, 60, 120, 144, 240, 0 };
 
-        // Audio
-        masterVolumeSlider.value = masterVolume;
-        musicVolumeSlider.value = musicVolume;
-        sfxVolumeSlider.value = sfxVolume;
+    QualitySettings.antiAliasing = aaLevels[aaDropdown.value];
 
-        int[] aaLevels = { 0, 2, 4, 8 };
-        int[] fpsLevels = { 30, 60, 120, 144, 240, 0 };
+    QualitySettings.SetQualityLevel(presetDropdown.value, true);
 
-        QualitySettings.antiAliasing = aaLevels[aa];
+    Application.targetFrameRate = fpsLevels[fpsDropdown.value];
 
-        QualitySettings.SetQualityLevel(preset, true);
+    GameStateManager.musicVolumeLevel = masterVolumeSlider.value;
+  }
 
-        Application.targetFrameRate = fpsLevels[fps];
-    }
+  #region General Menu
+  public void openSettingsPrepage()
+  {
+    prePageOpen = true;
+    deepMenuOpen = false;
+    pageMainMenu.SetActive(false);
+    pagePreMenu.SetActive(true);
+    pageVideoSettings.SetActive(false);
+    pageAudioSettings.SetActive(false);
+    eventSystem.SetSelectedGameObject(prepageSelected);
+    ApplyAllSettings();
+    SaveAllSettings();
+  }
+  public void openVideoSettings()
+  {
+    deepMenuOpen = true;
+    prePageOpen = false;
+    pagePreMenu.SetActive(false);
+    pageVideoSettings.SetActive(true);
+    pageAudioSettings.SetActive(false);
+    eventSystem.SetSelectedGameObject(videoSelected);
+    ApplyAllSettings();
+    SaveAllSettings();
+  }
+  public void openAudioSettings()
+  {
+    deepMenuOpen = true;
+    prePageOpen = false;
+    pagePreMenu.SetActive(false);
+    pageVideoSettings.SetActive(false);
+    pageAudioSettings.SetActive(true);
+    eventSystem.SetSelectedGameObject(audioSelected);
 
-    public void ApplyAllSettings()
-    {
-        int[] aaLevels = { 0, 2, 4, 8 };
-        int[] fpsLevels = { 30, 60, 120, 144, 240, 0 };
+    ApplyAllSettings();
 
-        QualitySettings.antiAliasing = aaLevels[aaDropdown.value];
+    SaveAllSettings();
+  }
+  public void backToMain()
+  {
+    deepMenuOpen = false;
+    prePageOpen = false;
+    pageMainMenu.SetActive(true);
+    pagePreMenu.SetActive(false);
+    pageVideoSettings.SetActive(false);
+    pageAudioSettings.SetActive(false);
+    eventSystem.SetSelectedGameObject(mainSelected);
+    ApplyAllSettings();
+    SaveAllSettings();
+  }
 
-        QualitySettings.SetQualityLevel(presetDropdown.value, true);
+  #endregion
 
-        Application.targetFrameRate = fpsLevels[fpsDropdown.value];
+  #region Video Settings
 
-        GameStateManager.musicVolumeLevel = masterVolumeSlider.value;
-        GameStateManager.Instance?.UpdateMusicVolume(); // only kind of works but i'm too lazy rn to make it correct
-    }
+  public void ChangeDropdown()
+  {
+    SaveAllSettings();
+  }
 
-    #region General Menu
-    public void openSettingsPrepage()
-    {
-        prePageOpen = true;
-        deepMenuOpen = false;
-        pageMainMenu.SetActive(false);
-        pagePreMenu.SetActive(true);
-        pageVideoSettings.SetActive(false);
-        pageAudioSettings.SetActive(false);
-        eventSystem.SetSelectedGameObject(prepageSelected);
-        ApplyAllSettings();
-        SaveAllSettings();
-    }
-    public void openVideoSettings()
-    {
-        deepMenuOpen = true;
-        prePageOpen = false;
-        pagePreMenu.SetActive(false);
-        pageVideoSettings.SetActive(true);
-        pageAudioSettings.SetActive(false);
-        eventSystem.SetSelectedGameObject(videoSelected);
-        ApplyAllSettings();
-        SaveAllSettings();
-    }
-    public void openAudioSettings()
-    {
-        deepMenuOpen = true;
-        prePageOpen = false;
-        pagePreMenu.SetActive(false);
-        pageVideoSettings.SetActive(false);
-        pageAudioSettings.SetActive(true);
-        eventSystem.SetSelectedGameObject(audioSelected);
+  public void ChangeVFX() { }
 
-        ApplyAllSettings();
+  #endregion
 
-        SaveAllSettings();
-    }
-    public void backToMain()
-    {
-        deepMenuOpen = false;
-        prePageOpen = false;
-        pageMainMenu.SetActive(true);
-        pagePreMenu.SetActive(false);
-        pageVideoSettings.SetActive(false);
-        pageAudioSettings.SetActive(false);
-        eventSystem.SetSelectedGameObject(mainSelected);
-        ApplyAllSettings();
-        SaveAllSettings();
-    }
+  #region Audio Settings
 
-    #endregion
+  public void ChangeMainVolume() { }
 
-    #region Video Settings
+  public void ChangeMusicVolume() { }
 
-    public void ChangeDropdown()
-    {
-        SaveAllSettings();
-    }
+  public void ChangeSFXVolume() { }
 
-    public void ChangeVFX() { }
-
-    #endregion
-
-    #region Audio Settings
-
-    public void ChangeMainVolume() { }
-
-    public void ChangeMusicVolume() { }
-
-    public void ChangeSFXVolume() { }
-
-    #endregion
+  #endregion
 }

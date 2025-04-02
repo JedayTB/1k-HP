@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class MouseScale : MonoBehaviour
 {
+    Vector3 baseScale = Vector3.one; 
+
+    private void Start()
+    {
+        baseScale = transform.localScale;
+    }
     public void PointerEnter()
     {
-        transform.localScale = new Vector2(1.2f, 1.2f);
+        transform.localScale = baseScale * 1.2f;
     }
     public void PointerExit() 
     {
-        transform.localScale = new Vector2(1f, 1f);
+        transform.localScale = baseScale;
     }
     public void PointerClick()
     {
-        transform.localScale = new Vector2(0.8f, 0.8f);
+        transform.localScale = baseScale * 0.8f;
     }
 }
