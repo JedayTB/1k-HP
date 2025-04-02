@@ -12,6 +12,7 @@ public class PlayerRecordsController : MonoBehaviour
     [Header("Rank Colors")]
     [SerializeField] private MedalValues medalValues;
     [SerializeField] private Color authorColor;
+    [SerializeField] private Color LegendColor;
     [SerializeField] private Color devColor;
     [SerializeField] private Color platinumColor;
     [SerializeField] private Color goldColor;
@@ -70,6 +71,9 @@ public class PlayerRecordsController : MonoBehaviour
         if (time < medalValues.AuthorLapTime)
         {
             return authorColor;
+        }
+        else if(time < medalValues.subtwominute){
+            return LegendColor;
         }
         else if (time < medalValues.DevLapTime)
         {
