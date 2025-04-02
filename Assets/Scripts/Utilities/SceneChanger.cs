@@ -13,7 +13,7 @@ public class SceneChanger : MonoBehaviour
   public static void ChangeSceneTo(string sceneName)
   {
     Time.timeScale = 1.0f;
-    Debug.Log("we be clicking!!");
+ //   Debug.Log("we be clicking!!");
     ConstantLevelHolder.NextScenename = sceneName;
     SceneManager.LoadScene("LoadingScreen");
   }

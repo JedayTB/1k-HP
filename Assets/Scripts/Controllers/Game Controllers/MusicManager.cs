@@ -11,7 +11,7 @@ public class MusicManager : MonoBehaviour
   public static readonly string loadingScreenName = "LoadingScreen";
 
   private static MusicManager instance;
-    public static MusicManager Instance { get { return instance; } }
+  public static MusicManager Instance { get { return instance; } }
 
   public bool startMusicInAwake = false;
   public bool startMusicInStartFunction = false;
@@ -21,16 +21,26 @@ public class MusicManager : MonoBehaviour
   [SerializeField] public AudioSource musicSource;
   public float fadeInTime = 5f;
   public static float minVolumeForFadeIn = 0.0f;
-    public static float musicVolume = 0.5f;
-    public static float sfxVolume = 0.5f;
-    public bool doingTheFadeIn = true;
+  public static float musicVolume = 0.5f;
+  public static float sfxVolume = 0.5f;
+  public bool doingTheFadeIn = true;
 
+  private void Start()
+  {
+    if (startMusicInStartFunction) startMusic();
+  }
+  private void Awake()
+  {
+    if (startMusicInAwake) startMusic();
+  }
 
   public void startMusic()
   {
+    print(instance != null);
     if (instance == null)
     {
       instance = this;
+      this.name = "Main Menu Music Oney doney";
       if (isForMenuMusic)
       {
         DontDestroyOnLoad(this.gameObject);
@@ -68,42 +78,36 @@ public class MusicManager : MonoBehaviour
   }
   private void OnDisable()
   {
-    instance = null;
   }
-  private void Start()
-  {
-    if (startMusicInStartFunction) startMusic();
-  }
-  private void Awake()
-  {
-    if (startMusicInAwake) startMusic();
-  }
+
   private void OnDestroy()
   {
+    SceneManager.activeSceneChanged -= sceneChangedLogic;
+    print($"{this.name} set dstatic instance destroyed ");
     SceneManager.activeSceneChanged -= sceneChangedLogic;
   }
 
   IEnumerator fadeInVolume(float fadeInTime, float maxFadeInVolume)
   {
-        doingTheFadeIn = true;
+    doingTheFadeIn = true;
     float count = 0f;
     float progress = 0f;
 
     musicSource.volume = minVolumeForFadeIn;
     musicSource.Play();
-        while (musicSource.volume < maxFadeInVolume)
-        {
-            count += Time.deltaTime;
-            progress = count / fadeInTime;
-            musicSource.volume = Mathf.Lerp(minVolumeForFadeIn, maxFadeInVolume, progress);
-            yield return null;
-        }
-        doingTheFadeIn = false;
-    }
-
-    public void UpdateMusicVolume(float newVolume)
+    while (musicSource.volume < maxFadeInVolume)
     {
-        musicSource.volume = newVolume;
-        musicVolume = newVolume;
+      count += Time.deltaTime;
+      progress = count / fadeInTime;
+      musicSource.volume = Mathf.Lerp(minVolumeForFadeIn, maxFadeInVolume, progress);
+      yield return null;
     }
+    doingTheFadeIn = false;
+  }
+
+  public void UpdateMusicVolume(float newVolume)
+  {
+    musicSource.volume = newVolume;
+    musicVolume = newVolume;
+  }
 }
