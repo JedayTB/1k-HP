@@ -53,7 +53,7 @@ public class SettingsUIController : MonoBehaviour
     if (gameVersion != null) gameVersion.text = "ver " + Application.version;
     CursorController.setDefaultCursorConfined();
     //PlayerPrefs.Save();
-    //LoadAllSettings();
+    LoadAllSettings();
     //print("ib");
 
     playerInput = gameObject.AddComponent<InputManager>();

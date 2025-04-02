@@ -70,7 +70,7 @@ public class SceneChanger : MonoBehaviour
 
     ChangeSceneTo(sceneName);
 
-    StartCoroutine(EndSceneTransition());
+    if(gameObject.activeSelf) StartCoroutine(EndSceneTransition());
   }
   IEnumerator EndSceneTransition()
   {
