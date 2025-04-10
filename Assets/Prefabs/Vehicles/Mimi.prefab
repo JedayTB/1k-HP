@@ -1569,7 +1569,7 @@ MonoBehaviour:
   tireTurnModifier: 1
   minimumModifier: 0.25
   wheelbase: 2
-  turnRadius: 12
+  turnRadius: 10.5
   rearTrack: 2
   minimumAngularDrag: 0.05
   maximumAngularDrag: 0.5
@@ -2321,6 +2321,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809365173543837978, guid: fc85e1b59b7ab12408e33c4ad5edda43,
+        type: 3}
+      propertyPath: m_TagString
+      value: PLAYER
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

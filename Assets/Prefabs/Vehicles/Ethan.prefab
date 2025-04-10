@@ -2013,7 +2013,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   tireTurnModifier: 1
   minimumModifier: 0.25
-  wheelbase: 1
+  wheelbase: 1.3
   turnRadius: 7.5
   rearTrack: 2
   minimumAngularDrag: 0.05
@@ -13708,6 +13708,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 809365173543837978, guid: fc85e1b59b7ab12408e33c4ad5edda43,
+        type: 3}
+      propertyPath: m_TagString
+      value: PLAYER
       objectReference: {fileID: 0}
     - target: {fileID: 1169683724594872527, guid: fc85e1b59b7ab12408e33c4ad5edda43,
         type: 3}

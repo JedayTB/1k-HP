@@ -1,10 +1,11 @@
 using System.Collections;
-using System.Xml;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CustomCarPhysics : MonoBehaviour
 {
+  static float collisionAngularDragTime = 1.5f;
+  Coroutine angDragRoutine;
   #region Variables
   private float _throttleInput;
   private float _turningInput;
@@ -175,9 +176,9 @@ public class CustomCarPhysics : MonoBehaviour
     float count = 0f;
     float pastTopSpeed = currentGear.MaxSpeed;
     float nitroMult = Mathf.Min(2 - (getSpeed() / TerminalVelocity), 1.25f);
+    //float nitroMult = 10f;
     horsePower = currentGear.HorsePower * nitroMult;
     isUsingNitro = true;
-
     currentTopSpeed *= nitroMaxSpeedMultiplier;
     foreach (var w in WheelArray)
     {
@@ -337,11 +338,24 @@ public class CustomCarPhysics : MonoBehaviour
     {
       ContactPoint cpoint = collision.GetContact(0);
 
-      //NewCollisionBump(cpoint);
+      NewCollisionBump(cpoint);
 
     }
   }
 
+  IEnumerator AngularDragLerp()
+  {
+    float count = 0f;
+    float progess = 0f;
+    float baseAngDrag = _rigidBody.angularDrag;
+    while (count < collisionAngularDragTime)
+    {
+      count += Time.deltaTime;
+      progess = count / collisionAngularDragTime;
+      _rigidBody.angularDrag = Mathf.Lerp(3f, baseAngDrag, progess);
+      yield return null;
+    }
+  }
   private void NewCollisionBump(ContactPoint contactPoint)
   {
     RaycastHit hit;
@@ -367,7 +381,8 @@ public class CustomCarPhysics : MonoBehaviour
 
     if (upDownDot < 0)
     {
-
+      if (angDragRoutine != null) StopCoroutine(angDragRoutine);
+      angDragRoutine = StartCoroutine(AngularDragLerp());
       if (hit.collider != null && !hit.collider.gameObject.CompareTag("Vehicle"))
       {
         //Debug.Log("STOP NOW!");
