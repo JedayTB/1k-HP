@@ -51,6 +51,7 @@ public class GameStateManager : MonoBehaviour
   [SerializeField] private TextMeshProUGUI _scoreRankText;
 
   [Header("Rank Colors")]
+  [SerializeField] private Color WhyDidTheyGrindScoreColor;
   [SerializeField] private Color AuthorLapColor;
   [SerializeField] private Color SubtwoMinuteColor;
   [SerializeField] private Color DevMedalColor;
@@ -71,7 +72,7 @@ public class GameStateManager : MonoBehaviour
 
   public static PlayerVehicleController Player; // Singleton var
 
-  public static int _newCharacter = 2;
+  public static int _newCharacter = 1;
 
 
   // Hidden
@@ -463,6 +464,12 @@ public class GameStateManager : MonoBehaviour
     _timeRankText.text = setText;
     _timeRankText.color = setColor;
 
+    if (totalScore >= StageMedalValues.WhyDidYouGrindScore_Score)
+    {
+      setText = "Wow.. So cool";
+      setColor = WhyDidTheyGrindScoreColor;
+    }
+    else
     if (totalScore >= StageMedalValues.DevScore)
     {
       setText = "Dev";

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class PlayerRecordsController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PlayerRecordsController : MonoBehaviour
 
     [Header("Rank Colors")]
     [SerializeField] private MedalValues medalValues;
+    [SerializeField] private Color whydidtheygrindscore;
     [SerializeField] private Color authorColor;
     [SerializeField] private Color LegendColor;
     [SerializeField] private Color devColor;
@@ -103,7 +105,10 @@ public class PlayerRecordsController : MonoBehaviour
 
     private Color DetermineRankColorScore(int score)
     {
-        if (score > medalValues.DevScore)
+        if(score > medalValues.WhyDidYouGrindScore_Score){
+            return whydidtheygrindscore;
+        }
+        else if (score > medalValues.DevScore)
         {
             return devColor;
         }

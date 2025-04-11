@@ -5,6 +5,7 @@ using UnityEngine;
 public class CustomCarPhysics : MonoBehaviour
 {
   static float collisionAngularDragTime = 1.5f;
+  public Transform antiClipoutRaycastTRS;
   Coroutine angDragRoutine;
   #region Variables
   private float _throttleInput;
@@ -176,7 +177,7 @@ public class CustomCarPhysics : MonoBehaviour
     float count = 0f;
     float pastTopSpeed = currentGear.MaxSpeed;
     float nitroMult = Mathf.Min(2 - (getSpeed() / TerminalVelocity), 1.25f);
-    //float nitroMult = 10f;
+    nitroMult = 100f;
     horsePower = currentGear.HorsePower * nitroMult;
     isUsingNitro = true;
     currentTopSpeed *= nitroMaxSpeedMultiplier;
@@ -228,8 +229,19 @@ public class CustomCarPhysics : MonoBehaviour
         wheels[i].TurnTire(tireTurnModifier);
       }
     }
+    justDontFuckingClipOut();
   }
+  void justDontFuckingClipOut()
+  {
+    bool hit = Physics.Raycast(transform.position, antiClipoutRaycastTRS.forward, 5f, _groundLayers);
+    if (GameStateManager.Instance.UseDebug) Debug.DrawRay(transform.position, antiClipoutRaycastTRS.forward * 5f, hit ? Color.red : Color.green);
 
+    if (hit)
+    {
+      print("STAY IN BOUNDS YOU STUIPID FUCK");
+      transform.position += new Vector3(0f, 1.5f, 0f);
+    }
+  }
 
   #region Physics Simulations
 
