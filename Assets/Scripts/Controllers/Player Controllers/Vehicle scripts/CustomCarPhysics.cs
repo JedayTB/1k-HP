@@ -177,7 +177,7 @@ public class CustomCarPhysics : MonoBehaviour
     float count = 0f;
     float pastTopSpeed = currentGear.MaxSpeed;
     float nitroMult = Mathf.Min(2 - (getSpeed() / TerminalVelocity), 1.25f);
-    nitroMult = 100f;
+    nitroMult = 1f;
     horsePower = currentGear.HorsePower * nitroMult;
     isUsingNitro = true;
     currentTopSpeed *= nitroMaxSpeedMultiplier;
