@@ -8,6 +8,8 @@
 <br/>
 </div>
 <div>
+<h3> Download </h3>
+<li><span>Official Downloads for 1K HP can be found at <a href = https://jedaytb.itch.io/1k-hp> The Itch Page</a></li>
 <h3>Getting Started</h3>
   <ol>
    <li><a href="https://store.epicgames.com/en-US/download">Download the Unity Launcher</a></li>
